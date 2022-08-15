@@ -18,7 +18,6 @@ const user_service_1 = require("./user.service");
 const shortid = require("shortid");
 const fs = require('fs');
 const resolve = require('path').resolve;
-const searchedDiplayIds = require('../../shared/searches/searched_displayids.json');
 const app_root = require("app-root-path");
 const _ = require("lodash");
 const connect_service_1 = require("../connect/connect.service");

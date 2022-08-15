@@ -28,7 +28,7 @@ let S3Service = class S3Service {
         this.loggerService.error('Data', { key, contentType });
         this.loggerService.error({ kio: this.keys, mio: this.secrets });
         let url = this.s3.getSignedUrl('putObject', {
-            Bucket: 'mmm-user-image',
+            Bucket: 'mma-image',
             Key: key,
             Expires: 300,
             ACL: 'public-read',
@@ -39,7 +39,7 @@ let S3Service = class S3Service {
     async uploadDirectlyToS3(key, file) {
         const buffer = file.buffer;
         var params = {
-            Bucket: 'mmm-user-image',
+            Bucket: 'mma-image',
             Key: key,
             ContentEncoding: 'base64',
             ContentDisposition: 'inline',
