@@ -102,6 +102,14 @@ let AuthService = class AuthService {
     }
     async verifyOtp(verifyOtpDto) {
         if (verifyOtpDto.type == miscellaneous_enum_1.OtpType.Registration) {
+            const sentOtp = await this.userService.getOtpForVerification(verifyOtpDto.phoneNumber, null);
+            if (!sentOtp) {
+                throw new common_1.HttpException('Try again.', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
+            if (sentOtp.otp != verifyOtpDto.otp ||
+                new Date() > new Date(sentOtp.validTill)) {
+                throw new common_1.HttpException('Invalid OTP. Try again.', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
             this.userService.updateOtpStatus(verifyOtpDto.phoneNumber, verifyOtpDto.email, verifyOtpDto.otp);
             return {
                 userId: null,
@@ -110,6 +118,14 @@ let AuthService = class AuthService {
             };
         }
         else if (verifyOtpDto.type == miscellaneous_enum_1.OtpType.Login) {
+            const sentOtp = await this.userService.getOtpForVerification(verifyOtpDto.phoneNumber, null);
+            if (!sentOtp) {
+                throw new common_1.HttpException('Try again.', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
+            if (sentOtp.otp != verifyOtpDto.otp ||
+                new Date() > new Date(sentOtp.validTill)) {
+                throw new common_1.HttpException('Invalid OTP. Try again.', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
             const userBasic = await this.userService.getUserBasicByPhone(verifyOtpDto.phoneNumber);
             this.userService.updateOtpStatus(verifyOtpDto.phoneNumber, verifyOtpDto.email, verifyOtpDto.otp);
             const requiredLoginDetails = await this.userService.getRequiredLoginDetails(userBasic.id);

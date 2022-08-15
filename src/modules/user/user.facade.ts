@@ -23,7 +23,7 @@ import { UserService } from './user.service';
 import * as shortid from 'shortid';
 const fs = require('fs');
 const resolve = require('path').resolve;
-const searchedDiplayIds = require('../../shared/searches/searched_displayids.json');
+// const searchedDiplayIds = require('../../shared/searches/searched_displayids.json');
 import * as app_root from 'app-root-path';
 import * as _ from 'lodash';
 import { UserFilterDto } from './dtos/user-filter.dto';
