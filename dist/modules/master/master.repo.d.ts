@@ -1,0 +1,60 @@
+import { Repository } from 'typeorm';
+import { Connect } from './entities/connect.entity';
+import { Coupon } from './entities/coupon.entity';
+import { Referral } from './entities/referral.entity';
+export declare class MasterRepo {
+    private readonly connectRepo;
+    private readonly couponRepo;
+    private readonly referralRepo;
+    constructor(connectRepo: Repository<Connect>, couponRepo: Repository<Coupon>, referralRepo: Repository<Referral>);
+    getCountries(): Promise<any>;
+    getStates(countryId: number): Promise<any>;
+    getCities(stateId: number): Promise<any>;
+    getCountry(countryId: number): Promise<any>;
+    getState(stateId: number): Promise<any>;
+    getCity(cityId: number): Promise<any>;
+    getConnectById(id: string): Promise<Connect>;
+    getReferralById(id: string): Promise<Referral>;
+    getCouponById(id: string): Promise<Coupon>;
+    createConnect(connectObj: Connect): Promise<Connect>;
+    createCoupon(couponObj: Coupon): Promise<Coupon>;
+    createReferral(referralObj: Referral): Promise<Referral>;
+    updateConnect(connectObj: Connect): Promise<{
+        connectPrice: number;
+        discountType: import("../../shared/enums/miscellaneous.enum").DiscountType;
+        discount: number;
+        discountedPrice: number;
+        firstTimeBenifitMins: number;
+        secondTimeBenifitMins: number;
+        id: string;
+        createdAt: string;
+        createdBy: string;
+        updatedAt: string;
+        updatedBy: string;
+        isActive: boolean;
+    } & Connect>;
+    updateCoupon(couponObj: Coupon): Promise<{
+        couponCode: string;
+        discountType: import("../../shared/enums/miscellaneous.enum").DiscountType;
+        validTill: string;
+        discount: number;
+        id: string;
+        createdAt: string;
+        createdBy: string;
+        updatedAt: string;
+        updatedBy: string;
+        isActive: boolean;
+    } & Coupon>;
+    getReferrals(): Promise<Referral[]>;
+    getConnects(): Promise<Connect[]>;
+    getCoupons(): Promise<Coupon[]>;
+    getCoupon(couponCode: string): Promise<Coupon>;
+    updateReferral(referralObj: Referral): Promise<{
+        id: string;
+        createdAt: string;
+        createdBy: string;
+        updatedAt: string;
+        updatedBy: string;
+        isActive: boolean;
+    } & Referral>;
+}

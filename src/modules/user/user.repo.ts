@@ -1,0 +1,466 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ta } from 'date-fns/locale';
+import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
+import { getManager, Repository } from 'typeorm';
+import { AdminUser } from './entities/admin-user.entity';
+import { Otp } from './entities/otp.entity';
+import { UserAbout } from './entities/user-about.entity';
+import { UserBasic } from './entities/user-basic.entity';
+import { UserBio } from './entities/user-bio.entity';
+import { UserCareer } from './entities/user-career.entity';
+import { UserFamilyBackground } from './entities/user-family-background.entity';
+import { UserFamilyDetail } from './entities/user-family-detail.entity';
+import { UserHabit } from './entities/user-habit.entity';
+import { UserImage } from './entities/user-image.entity';
+import { UserLogin } from './entities/user-login.entity';
+import { UserPreference } from './entities/user-preference.entity';
+import { UserReligion } from './entities/user-religion.entity';
+import { ProfileVisit } from './entities/user.profile.visit';
+import { UserService } from './user.service';
+
+@Injectable()
+export class UserRepo {
+  constructor(
+    @InjectRepository(UserBasic)
+    private readonly userBasicRepo: Repository<UserBasic>,
+    @InjectRepository(UserAbout)
+    private readonly userAboutRepo: Repository<UserAbout>,
+    @InjectRepository(UserHabit)
+    private readonly userHabitRepo: Repository<UserHabit>,
+    @InjectRepository(UserReligion)
+    private readonly userReligionRepo: Repository<UserReligion>,
+    @InjectRepository(UserCareer)
+    private readonly userCareerRepo: Repository<UserCareer>,
+    @InjectRepository(UserFamilyBackground)
+    private readonly userFamilyBackgroundRepo: Repository<UserFamilyBackground>,
+    @InjectRepository(UserFamilyDetail)
+    private readonly userFamilyDetailRepo: Repository<UserFamilyDetail>,
+    @InjectRepository(UserImage)
+    private readonly userImageRepo: Repository<UserImage>,
+    @InjectRepository(UserBio)
+    private readonly userBioRepo: Repository<UserBio>,
+    @InjectRepository(Otp)
+    private readonly otpRepo: Repository<Otp>,
+    @InjectRepository(UserLogin)
+    private readonly userLoginRepo: Repository<UserLogin>,
+    @InjectRepository(AdminUser)
+    private readonly adminUserRepo: Repository<AdminUser>,
+    @InjectRepository(UserPreference)
+    private readonly userPreferenceRepo: Repository<UserPreference>,
+    @InjectRepository(ProfileVisit)
+    private readonly userProfileVisitRepo: Repository<ProfileVisit>,
+  ) { }
+
+  async getAllUsers(skip: string, take: string) {
+    return await this.userBasicRepo.find({
+      relations: [
+        'userBios',
+        'userAbouts',
+        // 'userHabits',
+        // 'userReligions',
+        // 'userCareers',
+        // 'userFamilyBackgrounds',
+        // 'userFamilyDetails',
+        // 'userImages',
+        // 'userLogins'
+      ],
+    });
+  }
+
+  async getUsersByIds(userBasicIds: string[]) {
+    let tempQuery = `SELECT * FROM users_view_admin au WHERE au.id IN (`;
+    userBasicIds.forEach(u => {
+      tempQuery += `'${u}',`
+    })
+    let query = tempQuery.slice(0, -1)
+    query += `);`
+    const entityManager = getManager();
+    const users = await entityManager.query(query);
+    return users;
+  }
+
+  async createUserBasic(userBasic: UserBasic) {
+    return await this.userBasicRepo.save(userBasic);
+  }
+
+  async updateUserBasic(userBasic: UserBasic) {
+    return await this.userBasicRepo.save({ ...userBasic });
+  }
+
+  async getUserBasicById(userBasicId: string) {
+    return await this.userBasicRepo.findOne(userBasicId);
+  }
+
+  async createUserAbout(userAbout: UserAbout) {
+    const existingPending = await this.userAboutRepo.findOne({
+      where: {
+        userBasic: userAbout.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userAboutRepo.save({ ...existingPending });
+    }
+    return await this.userAboutRepo.save(userAbout);
+  }
+
+  async updateUserAbout(userAbout: UserAbout) {
+    return await this.userAboutRepo.save({ ...userAbout });
+  }
+
+  async createUserHabit(userHabit: UserHabit) {
+    const existingPending = await this.userHabitRepo.findOne({
+      where: {
+        userBasic: userHabit.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userHabitRepo.save({ ...existingPending });
+    }
+    return await this.userHabitRepo.save(userHabit);
+  }
+
+  async updateUserHabit(userHabit: UserHabit) {
+    return await this.userHabitRepo.save({ ...userHabit });
+  }
+
+  async createUserFamilyDetail(ufd: UserFamilyDetail) {
+    const existingPending = await this.userFamilyDetailRepo.findOne({
+      where: {
+        userBasic: ufd.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userFamilyDetailRepo.save({ ...existingPending });
+    }
+    return await this.userFamilyDetailRepo.save(ufd);
+  }
+
+  async updateUserFamilyDetail(ufd: UserFamilyDetail) {
+    return await this.userFamilyDetailRepo.save({ ...ufd });
+  }
+
+  async createUserFamilyBackground(ufbg: UserFamilyBackground) {
+    const existingPending = await this.userFamilyBackgroundRepo.findOne({
+      where: {
+        userBasic: ufbg.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userFamilyBackgroundRepo.save({ ...existingPending });
+    }
+    return await this.userFamilyBackgroundRepo.save(ufbg);
+  }
+
+  async updateUserFamilyBackground(ufbg: UserFamilyBackground) {
+    return await this.userFamilyBackgroundRepo.save({ ...ufbg });
+  }
+
+  async createUserCareer(userCareer: UserCareer) {
+    const existingPending = await this.userCareerRepo.findOne({
+      where: {
+        userBasic: userCareer.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userCareerRepo.save({ ...existingPending });
+    }
+    return await this.userCareerRepo.save(userCareer);
+  }
+
+  async updateUserCareer(userCareer: UserCareer) {
+    return await this.userCareerRepo.save({ ...userCareer });
+  }
+
+  async createUserReligion(userReligion: UserReligion) {
+    const existingPending = await this.userReligionRepo.findOne({
+      where: {
+        userBasic: userReligion.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userReligionRepo.save({ ...existingPending });
+    }
+    return await this.userReligionRepo.save(userReligion);
+  }
+
+  async updateUserReligion(userReligion: UserReligion) {
+    return await this.userReligionRepo.save({ ...userReligion });
+  }
+
+  async createUserBio(userBio: UserBio) {
+    const existingPending = await this.userBioRepo.findOne({
+      where: {
+        userBasic: userBio.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userBioRepo.save({ ...existingPending });
+    }
+    return await this.userBioRepo.save(userBio);
+  }
+
+  async updateUserBio(userBio: UserBio) {
+    return await this.userBioRepo.save({ ...userBio });
+  }
+
+  async createUserImages(userImages: UserImage[]) {
+    return await this.userImageRepo.save(userImages);
+  }
+
+  async updateUserImages(userImages: UserImage[]) {
+    return await this.userImageRepo.save({ ...userImages });
+  }
+
+  async getUserBasicByEmail(email: string) {
+    return await this.userBasicRepo.findOne({ where: { email: email } });
+  }
+
+  // This it to get user details including all the child irrespective of their status.
+  async getUserById(userBasicId: string) {
+    return await this.userBasicRepo.findOne({
+      where: {
+        id: userBasicId,
+      },
+      relations: [
+        'userBios',
+        'userAbouts',
+        'userHabits',
+        'userReligions',
+        'userCareers',
+        'userFamilyBackgrounds',
+        'userFamilyDetails',
+        'userImages',
+      ],
+    });
+  }
+
+  async getUserBasicByPhone(phoneNumber: string) {
+    const res = await this.userBasicRepo.findOne({
+      where: { phoneNumber: phoneNumber },
+    });
+    return res;
+  }
+
+  async createUserLoginRecord(userLogin: UserLogin) {
+    const userLoginObj = await this.userLoginRepo.findOne({
+      where: {
+        userBasic: userLogin.userBasic,
+        isActive: true,
+      },
+    });
+    if (userLoginObj) {
+      userLoginObj.deactivate();
+      this.userLoginRepo.save({ ...userLoginObj });
+    } else return await this.userLoginRepo.save(userLogin);
+  }
+  async createOtp(otpObj: Otp) {
+    const otp = await this.otpRepo.findOne({
+      where: {
+        phoneNumber: otpObj.phoneNumber,
+        isActive: true,
+      },
+    });
+    if (otp) {
+      otp.deactivate();
+      this.otpRepo.save({ ...otp });
+    }
+    return await this.otpRepo.save(otpObj);
+  }
+  async updateOtpStatus(otpObj: Otp) {
+    return await this.otpRepo.save({ ...otpObj });
+  }
+
+  async getOtpForVerification(phoneNumber: string, email: string) {
+    if (phoneNumber != null) {
+      const otp = await this.otpRepo.findOne({
+        where: {
+          phoneNumber: phoneNumber,
+          isActive: true,
+        },
+      });
+      return otp;
+    } else {
+      const otp = await this.otpRepo.findOne({
+        where: {
+          email: email,
+          isActive: true,
+        },
+      });
+      return otp;
+    }
+  }
+
+  async getUserGenderById(userBasicId: string) {
+    const entityManager = getManager();
+    const rawQuery = `SELECT id,
+                      gender FROM user_basics ub
+                      WHERE ub.id = '${userBasicId}';`;
+    const user = await entityManager.query(rawQuery);
+    return user[0].gender;
+  }
+
+  async getUserGenderAndPreference(userBasicId: string) {
+    const entityManager = getManager();
+    const rawQuery = `SELECT up.userBasicId,
+                      ub.gender,
+                      up.minAge,
+                      up.maxAge,
+                      up.minHeight,
+                      up.maxHeight,
+                      up.maritalStatus,
+                      up.country,
+                      up.state,
+                      up.city,
+                      up.religion,
+                      up.caste,
+                      up.motherTongue,
+                      up.highestEducation,
+                      up.occupation,
+                      up.dietaryHabits,
+                      up.drinkingHabits,
+                      up.smokingHabits,
+                      up.challenged,
+                      up.maxIncome,
+                      up.minIncome,
+                      ub.activationStatus
+                      from user_basics ub
+                      left join user_preferences up
+                      on up.userBasicId = ub.id
+                      WHERE up.userBasicId = '${userBasicId}'`;
+    const users = await entityManager.query(rawQuery);
+    return users[0];
+  }
+
+  async getAppUsersForAdmin(queryString: string) {
+    const entityManager = getManager();
+    // const rawQuery = `SELECT * FROM users_view uv ORDER BY uv.createdAt DESC;`;
+    const users = await entityManager.query(queryString);
+    return users;
+  }
+
+  async getProfilesByPreference(queryString: string) {
+    const entityManager = getManager();
+    const profiles = await entityManager.query(queryString);
+    return profiles;
+  }
+
+  async createAdminUser(adminUser: AdminUser) {
+    return this.adminUserRepo.save(adminUser);
+  }
+  async getAdminUsers() {
+    return this.adminUserRepo.find({
+      where: {
+        isActive: true,
+      },
+    });
+  }
+
+  async getAdminUserByEmail(email: string) {
+    return this.adminUserRepo.findOne({
+      where: {
+        email: email,
+      },
+    });
+  }
+
+  async createUserPreference(userPreference: UserPreference) {
+    return await this.userPreferenceRepo.save(userPreference);
+  }
+
+  async visitedProfile(visitedBy: UserBasic, visitedTo: UserBasic) {
+    const profileVisit = ProfileVisit.createVisit(visitedBy, visitedTo)
+    return await this.userProfileVisitRepo.save(profileVisit);
+  }
+
+  async getAllUserDetailsById(userBasicId: string) {
+    return await this.userBasicRepo.findOne({
+      where: {
+        id: userBasicId,
+      },
+      relations: [
+        'userBios',
+        'userAbouts',
+        'userHabits',
+        'userReligions',
+        'userCareers',
+        'userFamilyBackgrounds',
+        'userFamilyDetails',
+        'userImages',
+      ],
+    });
+  }
+
+  async getRequiredLoginDetails(userBasicId: string) {
+    const entityManager = getManager();
+    const rawQuery = `SELECT uv.relationship,
+                      uv.dateOfBirth,
+                      uv.height,
+                      uv.maritalStatus,
+                      uv.careerCountry,
+                      uv.careerCountryId,
+                      uv.religion,
+                      uv.abilityStatus,
+                      uv.motherTongue 
+                      FROM users_view_admin uv
+                      WHERE uv.id = '${userBasicId}';`;
+    const userDet = await entityManager.query(rawQuery);
+    return userDet;
+  }
+
+  async getRecentViews(userBasicId: string) {
+    // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
+    // return result;
+    // const result = await this.userBasicRepo.find()
+    const entityManager = getManager();
+    const rawQuery = `select pv.id        as visitId,
+    uva.*,
+    pv.createdAt as visitedAt
+from profile_visit pv
+      left join users_view_admin uva on
+ pv.visitedById = uva.id
+WHERE pv.isActive
+and pv.visitedToId = '${userBasicId}'
+group by pv.visitedById;`;
+    const userDet = await entityManager.query(rawQuery);
+    return userDet;
+  }
+
+  async getProifleVisitedBy(userBasicId: string) {
+    // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
+    // return result;
+    const entityManager = getManager();
+    const rawQuery = `select pv.id        as visitId,
+    uva.*,
+    pv.createdAt as visitedAt
+from profile_visit pv
+      left join users_view_admin uva on
+ pv.visitedToId = uva.id
+WHERE pv.isActive
+and pv.visitedById = '${userBasicId}'
+group by pv.visitedToId`;
+    const userDet = await entityManager.query(rawQuery);
+    return userDet;
+  }
+}

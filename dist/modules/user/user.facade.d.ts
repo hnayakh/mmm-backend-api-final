@@ -1,0 +1,58 @@
+import { S3Service } from 'src/shared/services/s3.service';
+import { MasterService } from '../master/master.service';
+import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
+import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
+import { CreateUserAboutDto } from './dtos/create-user-about.dto';
+import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
+import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserCareerDto } from './dtos/create-user-career.dto';
+import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
+import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
+import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
+import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
+import { UserBasic } from './entities/user-basic.entity';
+import { UserService } from './user.service';
+import { UserFilterDto } from './dtos/user-filter.dto';
+import { ConnectService } from '../connect/connect.service';
+export declare class UserFacade {
+    private readonly userService;
+    private readonly masterService;
+    private readonly s3Service;
+    private readonly connectService;
+    constructor(userService: UserService, masterService: MasterService, s3Service: S3Service, connectService: ConnectService);
+    getAllUsers(skip: string, take: string, isVerified: string): Promise<UserBasic[]>;
+    createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
+    createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<import("./entities/user-about.entity").UserAbout>;
+    createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<import("./entities/user-habit.entity").UserHabit>;
+    createUserReligion(createUserReligionDto: CreateUserReligionDto): Promise<import("./entities/user-religion.entity").UserReligion>;
+    createUserCareer(createUserCareerDto: CreateUserCareerDto): Promise<import("./entities/user-career.entity").UserCareer>;
+    createUserFamilyBackground(createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<import("./entities/user-family-background.entity").UserFamilyBackground>;
+    createUserFamilyDetail(createUserFamilyDDto: CreateUserFamilyDDto): Promise<import("./entities/user-family-detail.entity").UserFamilyDetail>;
+    uploadUserImages(userId: string, files: any): Promise<any[]>;
+    createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto): Promise<import("./entities/user-bio.entity").UserBio>;
+    rejectUserByAdmin(userBasicId: string): Promise<void>;
+    verifyUserByAdmin(userBasicId: string): Promise<void>;
+    private updateChildStatusesAfterAdminVerification;
+    getUserFromDisplayId(userBasicId: string, displayId: string): Promise<any[]>;
+    getProfilesByPreference(userBasicId: string, queryObj: any): Promise<any[]>;
+    getFilteredUsers(userFilterDto: UserFilterDto): Promise<any[]>;
+    getPresignedUrl(userBasicId: string, fileKey: string, contentType: string): Promise<string>;
+    getAdminUsers(): Promise<import("./entities/admin-user.entity").AdminUser[]>;
+    createAdminUser(createAdminUserDto: CreateAdminUserDto): Promise<import("./entities/admin-user.entity").AdminUser>;
+    createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto): Promise<import("./entities/user-preference.entity").UserPreference>;
+    getUserDeatailById(userBasicId: string): Promise<UserBasic>;
+    getAppUsersForAdmin(filterObj: any): Promise<{
+        users: any[];
+        count: number;
+        lastSearchedIds: any[];
+    }>;
+    private updateSearchedResults;
+    validateEmail(email: string): Promise<{
+        isEmailAvailable: boolean;
+    }>;
+    getMatchPercentage(otherUserBasicId: string): Promise<number>;
+    visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
+    recentProfileViews(userBasicId: string): Promise<any>;
+    getProifleVisitedBy(userBasicId: string): Promise<any>;
+    getPremiumMembers(userBasicId: string): Promise<void>;
+}
