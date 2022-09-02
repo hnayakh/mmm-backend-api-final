@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const miscellaneous_enum_1 = require("../../shared/enums/miscellaneous.enum");
 const typeorm_2 = require("typeorm");
+const jwt_1 = require("@nestjs/jwt");
 const admin_user_entity_1 = require("./entities/admin-user.entity");
 const otp_entity_1 = require("./entities/otp.entity");
 const user_about_entity_1 = require("./entities/user-about.entity");
@@ -32,7 +33,8 @@ const user_preference_entity_1 = require("./entities/user-preference.entity");
 const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_profile_visit_1 = require("./entities/user.profile.visit");
 let UserRepo = class UserRepo {
-    constructor(userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo) {
+    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo) {
+        this.jwtstategy = jwtstategy;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
         this.userHabitRepo = userHabitRepo;
@@ -363,6 +365,7 @@ let UserRepo = class UserRepo {
     async getRequiredLoginDetails(userBasicId) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `SELECT uv.relationship,
+                      uv.name,
                       uv.dateOfBirth,
                       uv.height,
                       uv.maritalStatus,
@@ -374,6 +377,8 @@ let UserRepo = class UserRepo {
                       FROM users_view_admin uv
                       WHERE uv.id = '${userBasicId}';`;
         const userDet = await entityManager.query(rawQuery);
+        const jwtToken = this.jwtstategy.sign({ username: userDet.name, sub: userBasicId });
+        userDet.jwt = jwtToken;
         return userDet;
     }
     async getRecentViews(userBasicId) {
@@ -407,21 +412,22 @@ group by pv.visitedToId`;
 };
 UserRepo = __decorate([
     common_1.Injectable(),
-    __param(0, typeorm_1.InjectRepository(user_basic_entity_1.UserBasic)),
-    __param(1, typeorm_1.InjectRepository(user_about_entity_1.UserAbout)),
-    __param(2, typeorm_1.InjectRepository(user_habit_entity_1.UserHabit)),
-    __param(3, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
-    __param(4, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
-    __param(5, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
-    __param(6, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
-    __param(7, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
-    __param(8, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
-    __param(9, typeorm_1.InjectRepository(otp_entity_1.Otp)),
-    __param(10, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
-    __param(11, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
-    __param(12, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
-    __param(13, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
+    __param(1, typeorm_1.InjectRepository(user_basic_entity_1.UserBasic)),
+    __param(2, typeorm_1.InjectRepository(user_about_entity_1.UserAbout)),
+    __param(3, typeorm_1.InjectRepository(user_habit_entity_1.UserHabit)),
+    __param(4, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
+    __param(5, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
+    __param(6, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
+    __param(7, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
+    __param(8, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
+    __param(9, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
+    __param(10, typeorm_1.InjectRepository(otp_entity_1.Otp)),
+    __param(11, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
+    __param(12, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
+    __param(13, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
+    __param(14, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

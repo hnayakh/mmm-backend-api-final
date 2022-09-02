@@ -28,7 +28,7 @@ import { UserFacade } from './user.facade';
 @ApiTags('User')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userFacade: UserFacade) { }
+  constructor(private readonly userFacade: UserFacade) {}
 
   @ApiQuery({ name: 'skip', required: false })
   @ApiQuery({ name: 'take', required: false })
@@ -278,8 +278,15 @@ export class UserController {
 
   @ApiQuery({ name: 'diplayId', required: true })
   @Get('user_serach/:userBasicId')
-  async getUserFromDisplayId(@Query('diplayId') diplayId: string, @Param('userBasicId') userBasicId: string,) {
-    const response = await this.userFacade.getUserFromDisplayId(userBasicId, diplayId);
+  async getUserFromDisplayId(
+    @Query('diplayId') diplayId: string,
+    @Param('userBasicId') userBasicId: string,
+  ) {
+    console.log('display id', diplayId);
+    const response = await this.userFacade.getUserFromDisplayId(
+      userBasicId,
+      diplayId,
+    );
     return { data: response, message: 'Response received successfully.' };
   }
 
@@ -344,8 +351,14 @@ export class UserController {
   @ApiQuery({ name: 'visitedBy', required: true })
   @ApiQuery({ name: 'visitedTo', required: true })
   @Post('visit_profile')
-  async visitedProfile(@Query('visitedBy') visitedBy: string, @Query('visitedTo') visitedTo: string) {
-    const response = await this.userFacade.visistedProfile(visitedBy, visitedTo);
+  async visitedProfile(
+    @Query('visitedBy') visitedBy: string,
+    @Query('visitedTo') visitedTo: string,
+  ) {
+    const response = await this.userFacade.visistedProfile(
+      visitedBy,
+      visitedTo,
+    );
     return { data: response, message: 'Visited profile updated.' };
   }
 
@@ -353,24 +366,26 @@ export class UserController {
   async recentProfileViews(@Param('userBasicId') userBasicId: string) {
     const response = await this.userFacade.recentProfileViews(userBasicId);
     return {
-      data: response, message: 'Rencely Visited Profiles.'
-    }
+      data: response,
+      message: 'Rencely Visited Profiles.',
+    };
   }
-
 
   @Get('profile_visited_by/:userBasicId')
   async getProifleVisitedBy(@Param('userBasicId') userBasicId: string) {
     const response = await this.userFacade.getProifleVisitedBy(userBasicId);
     return {
-      data: response, message: 'Rencely Visited Profiles.'
-    }
+      data: response,
+      message: 'Rencely Visited Profiles.',
+    };
   }
 
   @Get('premium_members/:userBasicId')
   async getPremiumMembers(@Param('userBasicId') userBasicId: string) {
     const response = await this.userFacade.getPremiumMembers(userBasicId);
     return {
-      data: response, message: ' Premium members profiles fetched.'
-    }
+      data: response,
+      message: ' Premium members profiles fetched.',
+    };
   }
 }

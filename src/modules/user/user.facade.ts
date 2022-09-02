@@ -221,7 +221,8 @@ export class UserFacade {
     );
   }
   async getUserFromDisplayId(userBasicId: string, displayId: string) {
-    let queryString = `SELECT * FROM users_view_admin uv WHERE uv.diplayId = ${displayId}`;
+    // let queryString = `SELECT * FROM users_view_admin uv WHERE uv.diplayId = ${displayId}`;
+    let queryString = `SELECT * FROM users_view_admin as uv WHERE uv.displayId = '${displayId}'`;
     const result = await this.userService.getProfilesByPreference(queryString);
     let uniqueUsers = [];
     result.forEach((r: { id: any }) => {

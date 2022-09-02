@@ -153,6 +153,7 @@ let UserController = class UserController {
         return { data: response, message: 'Respnse received successfully.' };
     }
     async getUserFromDisplayId(diplayId, userBasicId) {
+        console.log('display id', diplayId);
         const response = await this.userFacade.getUserFromDisplayId(userBasicId, diplayId);
         return { data: response, message: 'Response received successfully.' };
     }
@@ -188,19 +189,22 @@ let UserController = class UserController {
     async recentProfileViews(userBasicId) {
         const response = await this.userFacade.recentProfileViews(userBasicId);
         return {
-            data: response, message: 'Rencely Visited Profiles.'
+            data: response,
+            message: 'Rencely Visited Profiles.',
         };
     }
     async getProifleVisitedBy(userBasicId) {
         const response = await this.userFacade.getProifleVisitedBy(userBasicId);
         return {
-            data: response, message: 'Rencely Visited Profiles.'
+            data: response,
+            message: 'Rencely Visited Profiles.',
         };
     }
     async getPremiumMembers(userBasicId) {
         const response = await this.userFacade.getPremiumMembers(userBasicId);
         return {
-            data: response, message: ' Premium members profiles fetched.'
+            data: response,
+            message: ' Premium members profiles fetched.',
         };
     }
 };

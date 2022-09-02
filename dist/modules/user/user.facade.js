@@ -115,7 +115,7 @@ let UserFacade = class UserFacade {
         await this.userService.updateUserImageStatus(userImages, miscellaneous_enum_1.ProfileUpdationStatus.Current);
     }
     async getUserFromDisplayId(userBasicId, displayId) {
-        let queryString = `SELECT * FROM users_view_admin uv WHERE uv.diplayId = ${displayId}`;
+        let queryString = `SELECT * FROM users_view_admin as uv WHERE uv.displayId = '${displayId}'`;
         const result = await this.userService.getProfilesByPreference(queryString);
         let uniqueUsers = [];
         result.forEach((r) => {

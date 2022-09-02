@@ -1,4 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SharedModule } from 'src/shared/shared.module';
 import { ConnectModule } from '../connect/connect.module';
@@ -36,6 +37,10 @@ import { UserService } from './user.service';
     forwardRef(() => MasterModule),
     forwardRef(() => SharedModule),
     forwardRef(() => ConnectModule),
+    JwtModule.register({
+      secret: "MakeyMyMarry123####",
+      signOptions: {expiresIn: '1800s'}
+    }),
     TypeOrmModule.forFeature([
       UserBasic,
       UserAbout,
@@ -62,6 +67,6 @@ import { UserService } from './user.service';
   ],
   controllers: [UserController],
   providers: [UserFacade, UserService, UserRepo, ConnectService, ConnectRepo],
-  exports: [UserService],
+  exports: [UserService ],
 })
 export class UserModule { }

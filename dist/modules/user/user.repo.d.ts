@@ -1,5 +1,6 @@
 import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
 import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { AdminUser } from './entities/admin-user.entity';
 import { Otp } from './entities/otp.entity';
 import { UserAbout } from './entities/user-about.entity';
@@ -15,6 +16,7 @@ import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 export declare class UserRepo {
+    private readonly jwtstategy;
     private readonly userBasicRepo;
     private readonly userAboutRepo;
     private readonly userHabitRepo;
@@ -29,7 +31,7 @@ export declare class UserRepo {
     private readonly adminUserRepo;
     private readonly userPreferenceRepo;
     private readonly userProfileVisitRepo;
-    constructor(userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>);
+    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;

@@ -47,7 +47,7 @@ let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.Abstarct
         userBasic.lifecycleStatus = miscellaneous_enum_1.LifecycleStatus.Active;
         userBasic.registrationStep = miscellaneous_enum_1.RegistrationSteps.About;
         userBasic.relationship = relationship;
-        userBasic.displayId = shortid.generate();
+        userBasic.displayId = "MM" + shortid.generate();
         return userBasic;
     }
     updateRegistrationStep(registrationStep) {

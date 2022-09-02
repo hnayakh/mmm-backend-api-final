@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ta } from 'date-fns/locale';
 import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
 import { getManager, Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 import { AdminUser } from './entities/admin-user.entity';
 import { Otp } from './entities/otp.entity';
 import { UserAbout } from './entities/user-about.entity';
@@ -22,6 +23,8 @@ import { UserService } from './user.service';
 @Injectable()
 export class UserRepo {
   constructor(
+    // @Inject(JwtService)
+    private readonly jwtstategy: JwtService,
     @InjectRepository(UserBasic)
     private readonly userBasicRepo: Repository<UserBasic>,
     @InjectRepository(UserAbout)
@@ -50,6 +53,7 @@ export class UserRepo {
     private readonly userPreferenceRepo: Repository<UserPreference>,
     @InjectRepository(ProfileVisit)
     private readonly userProfileVisitRepo: Repository<ProfileVisit>,
+    
   ) { }
 
   async getAllUsers(skip: string, take: string) {
@@ -415,6 +419,7 @@ export class UserRepo {
   async getRequiredLoginDetails(userBasicId: string) {
     const entityManager = getManager();
     const rawQuery = `SELECT uv.relationship,
+                      uv.name,
                       uv.dateOfBirth,
                       uv.height,
                       uv.maritalStatus,
@@ -426,6 +431,8 @@ export class UserRepo {
                       FROM users_view_admin uv
                       WHERE uv.id = '${userBasicId}';`;
     const userDet = await entityManager.query(rawQuery);
+    const jwtToken = this.jwtstategy.sign({username:userDet.name , sub: userBasicId});
+    userDet.jwt = jwtToken;
     return userDet;
   }
 

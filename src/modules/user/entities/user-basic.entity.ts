@@ -142,7 +142,7 @@ export class UserBasic extends AbstarctEntity {
     userBasic.lifecycleStatus = LifecycleStatus.Active;
     userBasic.registrationStep = RegistrationSteps.About;
     userBasic.relationship = relationship;
-    userBasic.displayId = shortid.generate();
+    userBasic.displayId = "MM"+shortid.generate();
     return userBasic;
   }
 

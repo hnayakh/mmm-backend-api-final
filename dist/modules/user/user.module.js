@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_1 = require("@nestjs/jwt");
 const typeorm_1 = require("@nestjs/typeorm");
 const shared_module_1 = require("../../shared/shared.module");
 const connect_module_1 = require("../connect/connect.module");
@@ -47,6 +48,10 @@ UserModule = __decorate([
             common_1.forwardRef(() => master_module_1.MasterModule),
             common_1.forwardRef(() => shared_module_1.SharedModule),
             common_1.forwardRef(() => connect_module_1.ConnectModule),
+            jwt_1.JwtModule.register({
+                secret: "MakeyMyMarry123####",
+                signOptions: { expiresIn: '1800s' }
+            }),
             typeorm_1.TypeOrmModule.forFeature([
                 user_basic_entity_1.UserBasic,
                 user_about_entity_1.UserAbout,
