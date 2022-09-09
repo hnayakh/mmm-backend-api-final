@@ -480,8 +480,7 @@ export class UserRepo {
     let differentFields = [];
     let userPreference = await this.getUserPreferenceByUserId(userBasicId);
     let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-    console.log("userDetails",userPreference);
-    console.log("otherUserDetails",otherUserPreference);
+    
     let excludedFields = ['createdAt','updatedAt','isActive', 'createdBy','updatedBy', 'id']
     Object.keys(userPreference)
     .filter(x=>excludedFields.indexOf(x)==-1)
