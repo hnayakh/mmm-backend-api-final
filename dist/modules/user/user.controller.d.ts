@@ -91,8 +91,12 @@ export declare class UserController {
         };
         message: string;
     }>;
-    getMatchPercentage(otherUserBasicId: string): Promise<{
-        data: number;
+    getMatchPercentage(otherUserBasicId: string, userBasicId: string): Promise<{
+        data: {
+            matchingFields: any[];
+            differentFields: any[];
+            match_percentage: string;
+        };
         message: string;
     }>;
     getUserFromDisplayId(diplayId: string, userBasicId: string): Promise<{

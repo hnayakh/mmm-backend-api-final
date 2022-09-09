@@ -271,8 +271,9 @@ export class UserController {
   @Get('match_percentage/:userBasicId')
   async getMatchPercentage(
     @Query('otherUserBasicId') otherUserBasicId: string,
+    @Param('userBasicId') userBasicId: string,
   ) {
-    const response = await this.userFacade.getMatchPercentage(otherUserBasicId);
+    const response = await this.userFacade.getMatchPercentage(userBasicId,otherUserBasicId);
     return { data: response, message: 'Respnse received successfully.' };
   }
 

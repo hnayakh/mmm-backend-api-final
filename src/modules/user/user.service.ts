@@ -416,6 +416,9 @@ export class UserService {
     const userVisitedTo = await this.getUserById(visitedTo);
     return await this.userRepo.visitedProfile(userVisitedBy, userVisitedTo);
   }
+ async getMatchPercentage (userBasicId:String,otherUserBasicId:String){
+  return await this.userRepo.getMatchPercentage(userBasicId,otherUserBasicId);
+ }
   async recentProfileViews(userBasicId: string) {
     return await this.userRepo.getRecentViews(userBasicId);
   }

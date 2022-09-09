@@ -53,8 +53,7 @@ export class UserRepo {
     private readonly userPreferenceRepo: Repository<UserPreference>,
     @InjectRepository(ProfileVisit)
     private readonly userProfileVisitRepo: Repository<ProfileVisit>,
-    
-  ) { }
+  ) {}
 
   async getAllUsers(skip: string, take: string) {
     return await this.userBasicRepo.find({
@@ -74,11 +73,11 @@ export class UserRepo {
 
   async getUsersByIds(userBasicIds: string[]) {
     let tempQuery = `SELECT * FROM users_view_admin au WHERE au.id IN (`;
-    userBasicIds.forEach(u => {
-      tempQuery += `'${u}',`
-    })
-    let query = tempQuery.slice(0, -1)
-    query += `);`
+    userBasicIds.forEach((u) => {
+      tempQuery += `'${u}',`;
+    });
+    let query = tempQuery.slice(0, -1);
+    query += `);`;
     const entityManager = getManager();
     const users = await entityManager.query(query);
     return users;
@@ -394,7 +393,7 @@ export class UserRepo {
   }
 
   async visitedProfile(visitedBy: UserBasic, visitedTo: UserBasic) {
-    const profileVisit = ProfileVisit.createVisit(visitedBy, visitedTo)
+    const profileVisit = ProfileVisit.createVisit(visitedBy, visitedTo);
     return await this.userProfileVisitRepo.save(profileVisit);
   }
 
@@ -431,7 +430,10 @@ export class UserRepo {
                       FROM users_view_admin uv
                       WHERE uv.id = '${userBasicId}';`;
     const userDet = await entityManager.query(rawQuery);
-    const jwtToken = this.jwtstategy.sign({username:userDet.name , sub: userBasicId});
+    const jwtToken = this.jwtstategy.sign({
+      username: userDet.name,
+      sub: userBasicId,
+    });
     userDet.jwt = jwtToken;
     return userDet;
   }
@@ -441,17 +443,63 @@ export class UserRepo {
     // return result;
     // const result = await this.userBasicRepo.find()
     const entityManager = getManager();
-    const rawQuery = `select pv.id        as visitId,
+    const rawQuery = `select pv.id as visitId,
     uva.*,
     pv.createdAt as visitedAt
-from profile_visit pv
-      left join users_view_admin uva on
- pv.visitedById = uva.id
-WHERE pv.isActive
-and pv.visitedToId = '${userBasicId}'
-group by pv.visitedById;`;
+    from profile_visit pv
+    left join users_view_admin uva on
+    pv.visitedById = uva.id
+    WHERE pv.isActive
+    and pv.visitedToId = '${userBasicId}'
+    group by pv.visitedById;`;
     const userDet = await entityManager.query(rawQuery);
     return userDet;
+  }
+  async getUserPreferenceByUserId(userBasicId: string) {
+    return await this.userPreferenceRepo.findOne({
+      where: {
+        userBasic: userBasicId,
+      },
+    });
+    // // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
+    // // return result;
+    // // const result = await this.userBasicRepo.find()
+    // const entityManager = getManager();
+    // const rawQuery = `select *
+    // from user_preferences 
+    // WHERE isActive=1
+    // and userBasicId = '${userBasicId}'`;
+    // const userDet = await entityManager.query(rawQuery);
+    // return userDet;
+  }
+
+
+
+  async getMatchPercentage(userBasicId, otherUserBasicId) {
+    let matchingFields = [];
+    let differentFields = [];
+    let userPreference = await this.getUserPreferenceByUserId(userBasicId);
+    let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
+    console.log("userDetails",userPreference);
+    console.log("otherUserDetails",otherUserPreference);
+    let excludedFields = ['createdAt','updatedAt','isActive', 'createdBy','updatedBy', 'id']
+    Object.keys(userPreference)
+    .filter(x=>excludedFields.indexOf(x)==-1)
+    .forEach((filed) => {
+      if (userPreference[filed] ) {
+        if (userPreference[filed] == otherUserPreference[filed]) {  
+          matchingFields.push(filed);
+        } else {
+          differentFields.push(filed);
+        }
+      }
+    });
+    let match_percentage= (matchingFields.length/(matchingFields.length+differentFields.length)*100).toFixed(0)
+    return {
+      matchingFields:matchingFields,
+      differentFields:differentFields,
+      match_percentage:match_percentage
+    }
   }
 
   async getProifleVisitedBy(userBasicId: string) {
@@ -461,8 +509,8 @@ group by pv.visitedById;`;
     const rawQuery = `select pv.id        as visitId,
     uva.*,
     pv.createdAt as visitedAt
-from profile_visit pv
-      left join users_view_admin uva on
+    from profile_visit pv
+    left join users_view_admin uva on
  pv.visitedToId = uva.id
 WHERE pv.isActive
 and pv.visitedById = '${userBasicId}'

@@ -196,6 +196,9 @@ let UserService = class UserService {
         const userVisitedTo = await this.getUserById(visitedTo);
         return await this.userRepo.visitedProfile(userVisitedBy, userVisitedTo);
     }
+    async getMatchPercentage(userBasicId, otherUserBasicId) {
+        return await this.userRepo.getMatchPercentage(userBasicId, otherUserBasicId);
+    }
     async recentProfileViews(userBasicId) {
         return await this.userRepo.getRecentViews(userBasicId);
     }

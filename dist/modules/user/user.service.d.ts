@@ -174,6 +174,11 @@ export declare class UserService {
     getRequiredLoginDetails(userBasicId: string): Promise<any>;
     getAppUsersForAdmin(quesryString: string): Promise<any>;
     visitedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
+    getMatchPercentage(userBasicId: String, otherUserBasicId: String): Promise<{
+        matchingFields: any[];
+        differentFields: any[];
+        match_percentage: string;
+    }>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getPremiumMembers(userBaicId: string): Promise<void>;

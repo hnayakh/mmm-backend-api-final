@@ -480,8 +480,8 @@ let UserFacade = class UserFacade {
             obj.isEmailAvailable = false;
         return obj;
     }
-    async getMatchPercentage(otherUserBasicId) {
-        return Math.floor(Math.random() * 100);
+    async getMatchPercentage(userBasicId, otherUserBasicId) {
+        return this.userService.getMatchPercentage(userBasicId, otherUserBasicId);
     }
     async visistedProfile(visitedBy, visitedTo) {
         return this.userService.visitedProfile(visitedBy, visitedTo);

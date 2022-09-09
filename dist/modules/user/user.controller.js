@@ -148,8 +148,8 @@ let UserController = class UserController {
             message: response.isEmailAvailable ? 'Proceed' : 'Email already exist.',
         };
     }
-    async getMatchPercentage(otherUserBasicId) {
-        const response = await this.userFacade.getMatchPercentage(otherUserBasicId);
+    async getMatchPercentage(otherUserBasicId, userBasicId) {
+        const response = await this.userFacade.getMatchPercentage(userBasicId, otherUserBasicId);
         return { data: response, message: 'Respnse received successfully.' };
     }
     async getUserFromDisplayId(diplayId, userBasicId) {
@@ -390,8 +390,9 @@ __decorate([
     swagger_1.ApiQuery({ name: 'otherUserBasicId', required: true }),
     common_1.Get('match_percentage/:userBasicId'),
     __param(0, common_1.Query('otherUserBasicId')),
+    __param(1, common_1.Param('userBasicId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getMatchPercentage", null);
 __decorate([

@@ -677,8 +677,9 @@ export class UserFacade {
     return obj;
   }
 
-  async getMatchPercentage(otherUserBasicId: string) {
-    return Math.floor(Math.random() * 100);
+  async getMatchPercentage(userBasicId,otherUserBasicId: string) {
+    return this.userService.getMatchPercentage(userBasicId,otherUserBasicId)
+    //Math.floor(Math.random() * 100);
   }
 
   async visistedProfile(visitedBy: string, visitedTo: string) {

@@ -215,5 +215,11 @@ export declare class UserRepo {
     getAllUserDetailsById(userBasicId: string): Promise<UserBasic>;
     getRequiredLoginDetails(userBasicId: string): Promise<any>;
     getRecentViews(userBasicId: string): Promise<any>;
+    getUserPreferenceByUserId(userBasicId: string): Promise<UserPreference>;
+    getMatchPercentage(userBasicId: any, otherUserBasicId: any): Promise<{
+        matchingFields: any[];
+        differentFields: any[];
+        match_percentage: string;
+    }>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
 }

@@ -60,7 +60,7 @@ let UserRepo = class UserRepo {
     }
     async getUsersByIds(userBasicIds) {
         let tempQuery = `SELECT * FROM users_view_admin au WHERE au.id IN (`;
-        userBasicIds.forEach(u => {
+        userBasicIds.forEach((u) => {
             tempQuery += `'${u}',`;
         });
         let query = tempQuery.slice(0, -1);
@@ -377,31 +377,68 @@ let UserRepo = class UserRepo {
                       FROM users_view_admin uv
                       WHERE uv.id = '${userBasicId}';`;
         const userDet = await entityManager.query(rawQuery);
-        const jwtToken = this.jwtstategy.sign({ username: userDet.name, sub: userBasicId });
+        const jwtToken = this.jwtstategy.sign({
+            username: userDet.name,
+            sub: userBasicId,
+        });
         userDet.jwt = jwtToken;
         return userDet;
     }
     async getRecentViews(userBasicId) {
         const entityManager = typeorm_2.getManager();
-        const rawQuery = `select pv.id        as visitId,
+        const rawQuery = `select pv.id as visitId,
     uva.*,
     pv.createdAt as visitedAt
-from profile_visit pv
-      left join users_view_admin uva on
- pv.visitedById = uva.id
-WHERE pv.isActive
-and pv.visitedToId = '${userBasicId}'
-group by pv.visitedById;`;
+    from profile_visit pv
+    left join users_view_admin uva on
+    pv.visitedById = uva.id
+    WHERE pv.isActive
+    and pv.visitedToId = '${userBasicId}'
+    group by pv.visitedById;`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
+    }
+    async getUserPreferenceByUserId(userBasicId) {
+        return await this.userPreferenceRepo.findOne({
+            where: {
+                userBasic: userBasicId,
+            },
+        });
+    }
+    async getMatchPercentage(userBasicId, otherUserBasicId) {
+        let matchingFields = [];
+        let differentFields = [];
+        let userPreference = await this.getUserPreferenceByUserId(userBasicId);
+        let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
+        console.log("userDetails", userPreference);
+        console.log("otherUserDetails", otherUserPreference);
+        let excludedFields = ['createdAt', 'updatedAt', 'isActive', 'createdBy', 'updatedBy', 'id'];
+        Object.keys(userPreference)
+            .filter(x => excludedFields.indexOf(x) == -1)
+            .forEach((filed) => {
+            if (userPreference[filed]) {
+                if (userPreference[filed] == otherUserPreference[filed]) {
+                    matchingFields.push(filed);
+                }
+                else {
+                    differentFields.push(filed);
+                }
+            }
+        });
+        let match_percentage = (matchingFields.length / (matchingFields.length + differentFields.length) * 100).toFixed(0);
+        return {
+            matchingFields: matchingFields,
+            differentFields: differentFields,
+            match_percentage: match_percentage
+        };
     }
     async getProifleVisitedBy(userBasicId) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `select pv.id        as visitId,
     uva.*,
     pv.createdAt as visitedAt
-from profile_visit pv
-      left join users_view_admin uva on
+    from profile_visit pv
+    left join users_view_admin uva on
  pv.visitedToId = uva.id
 WHERE pv.isActive
 and pv.visitedById = '${userBasicId}'

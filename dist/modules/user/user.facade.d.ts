@@ -50,7 +50,11 @@ export declare class UserFacade {
     validateEmail(email: string): Promise<{
         isEmailAvailable: boolean;
     }>;
-    getMatchPercentage(otherUserBasicId: string): Promise<number>;
+    getMatchPercentage(userBasicId: any, otherUserBasicId: string): Promise<{
+        matchingFields: any[];
+        differentFields: any[];
+        match_percentage: string;
+    }>;
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
