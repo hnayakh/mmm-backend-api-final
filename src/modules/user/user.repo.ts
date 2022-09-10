@@ -485,11 +485,12 @@ export class UserRepo {
     Object.keys(userPreference)
     .filter(x=>excludedFields.indexOf(x)==-1)
     .forEach((filed) => {
-      if (userPreference[filed] ) {
-        if (userPreference[filed] == otherUserPreference[filed]) {  
-          matchingFields.push(filed);
+      if (userPreference[filed]) {
+        if (userPreference[filed] === otherUserPreference[filed]) {  
+          console.log("fdfdfddf", userPreference);
+          matchingFields.push({filed, value:userPreference[filed]});
         } else {
-          differentFields.push(filed);
+          differentFields.push({filed, value:userPreference[filed]});
         }
       }
     });
