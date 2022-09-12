@@ -399,11 +399,39 @@ let UserRepo = class UserRepo {
         return userDet;
     }
     async getUserPreferenceByUserId(userBasicId) {
-        return await this.userPreferenceRepo.findOne({
-            where: {
-                userBasic: userBasicId,
-            },
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
+    s.name as state,ums.name as maritalStatus ,c.name as country,
+    up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
+    occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
+    FROM user_preferences up
+    inner join states s ON REGEXP_LIKE(up.state, s.id)
+    inner join user_marital_status ums on REGEXP_LIKE(up.maritalStatus, ums.id)
+    inner join  countries c ON REGEXP_LIKE(up.country, c.id)
+    where up.userBasicId= '${userBasicId}'`;
+        const userDet = await entityManager.query(rawQuery);
+        console.log("userDet", userDet);
+        let userPreferenc = new user_preference_entity_1.UserPreference();
+        userDet.forEach(record => {
+            console.log("record", Object.keys(record));
+            Object.keys(record).forEach((key) => {
+                console.log("key", key);
+                let recordValue = record[key].toString().indexOf('[') == 0 ? String(JSON.parse(record[key])) : record[key];
+                console.log("recordValue", recordValue);
+                if (key != "userBasicId" && (userPreferenc[key] != recordValue)) {
+                    if (userPreferenc[key]) {
+                        if (userPreferenc[key].length && userPreferenc[key].split(",").indexOf(recordValue) == -1) {
+                            userPreferenc[key] = userPreferenc[key] + "," + recordValue;
+                        }
+                    }
+                    else {
+                        userPreferenc[key] = recordValue;
+                    }
+                }
+            });
         });
+        console.log('userDet', userDet);
+        return userPreferenc;
     }
     async getMatchPercentage(userBasicId, otherUserBasicId) {
         let matchingFields = [];

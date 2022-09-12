@@ -19,6 +19,7 @@ import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 import { UserService } from './user.service';
+import { isArray } from 'lodash';
 
 @Injectable()
 export class UserRepo {
@@ -456,11 +457,11 @@ export class UserRepo {
     return userDet;
   }
   async getUserPreferenceByUserId(userBasicId: string) {
-    return await this.userPreferenceRepo.findOne({
-      where: {
-        userBasic: userBasicId,
-      },
-    });
+    // return await this.userPreferenceRepo.findOne({
+    //   where: {
+    //     userBasic: userBasicId,
+    //   },
+    // });
     // // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
     // // return result;
     // // const result = await this.userBasicRepo.find()
@@ -471,6 +472,42 @@ export class UserRepo {
     // and userBasicId = '${userBasicId}'`;
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
+    const entityManager = getManager();
+    const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
+    s.name as state,ums.name as maritalStatus ,c.name as country,
+    up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
+    occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
+    FROM user_preferences up
+    inner join states s ON REGEXP_LIKE(up.state, s.id)
+    inner join user_marital_status ums on REGEXP_LIKE(up.maritalStatus, ums.id)
+    inner join  countries c ON REGEXP_LIKE(up.country, c.id)
+    where up.userBasicId= '${userBasicId}'`;
+
+    const userDet = await entityManager.query(rawQuery);
+
+    console.log("userDet",userDet);
+    let userPreferenc:UserPreference= new UserPreference();
+    userDet.forEach(record=>{
+      console.log("record", Object.keys(record))
+       Object.keys(record).forEach((key)=>{
+        console.log("key", key)
+        let recordValue= record[key].toString().indexOf('[')==0?String(JSON.parse(record[key])):record[key] ;
+            console.log("recordValue", recordValue);
+        if(key !="userBasicId" &&  (userPreferenc[key]!=recordValue)){
+          if(userPreferenc[key]){
+            if(userPreferenc[key].length&& userPreferenc[key].split(",").indexOf(recordValue)==-1){
+            
+          userPreferenc[key]=userPreferenc[key]+","+recordValue
+            }
+          }
+          else{
+            userPreferenc[key]=recordValue;
+          }
+        }
+       })
+    })
+  console.log('userDet',userDet);
+    return userPreferenc;
   }
 
 
