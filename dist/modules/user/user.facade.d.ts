@@ -21,6 +21,7 @@ export declare class UserFacade {
     private readonly connectService;
     constructor(userService: UserService, masterService: MasterService, s3Service: S3Service, connectService: ConnectService);
     getAllUsers(skip: string, take: string, isVerified: string): Promise<UserBasic[]>;
+    updateUserRegistrationStep(userBasicId: any, step: any): Promise<void>;
     createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<import("./entities/user-about.entity").UserAbout>;
     createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<import("./entities/user-habit.entity").UserHabit>;

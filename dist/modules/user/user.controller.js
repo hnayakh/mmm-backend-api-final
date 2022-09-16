@@ -182,6 +182,10 @@ let UserController = class UserController {
         const filteredUsers = await this.userFacade.getFilteredUsers(userFilterDto);
         return { data: filteredUsers, message: 'Users fetched successfully.' };
     }
+    async updateRegistrationStep(userBasicId, step) {
+        await this.userFacade.updateUserRegistrationStep(userBasicId, step);
+        return { data: {}, message: 'Registration step updated successfully.' };
+    }
     async visitedProfile(visitedBy, visitedTo) {
         const response = await this.userFacade.visistedProfile(visitedBy, visitedTo);
         return { data: response, message: 'Visited profile updated.' };
@@ -445,6 +449,14 @@ __decorate([
     __metadata("design:paramtypes", [user_filter_dto_1.UserFilterDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getFilteredUsers", null);
+__decorate([
+    common_1.Post('app/users/updateRegistrationStep/:userBasicId/:step'),
+    __param(0, common_1.Param('userBasicId')),
+    __param(1, common_1.Param('userBasicId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateRegistrationStep", null);
 __decorate([
     swagger_1.ApiQuery({ name: 'visitedBy', required: true }),
     swagger_1.ApiQuery({ name: 'visitedTo', required: true }),
