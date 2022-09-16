@@ -115,6 +115,10 @@ export declare class UserController {
         data: any[];
         message: string;
     }>;
+    updateRegistrationStep(userBasicId: string, step: number): Promise<{
+        data: {};
+        message: string;
+    }>;
     visitedProfile(visitedBy: string, visitedTo: string): Promise<{
         data: import("./entities/user.profile.visit").ProfileVisit;
         message: string;

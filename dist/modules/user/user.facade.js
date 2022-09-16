@@ -37,6 +37,11 @@ let UserFacade = class UserFacade {
             return users;
         }
     }
+    async updateUserRegistrationStep(userBasicId, step) {
+        const user = await this.userService.getUserById(userBasicId);
+        user.updateRegistrationStep(step);
+        await this.userService.updateUserBasic(user);
+    }
     async createUserBasic(createUserBasicDto) {
         const user = await this.userService.getUserBasicByEmail(createUserBasicDto.email);
         if (!_.isEmpty(user)) {

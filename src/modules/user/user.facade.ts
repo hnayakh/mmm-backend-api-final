@@ -48,7 +48,11 @@ export class UserFacade {
       return users;
     }
   }
-
+async updateUserRegistrationStep(userBasicId, step){
+  const user = await this.userService.getUserById(userBasicId);
+  user.updateRegistrationStep(step);
+  await this.userService.updateUserBasic(user);
+}
   async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
     const user = await this.userService.getUserBasicByEmail(
       createUserBasicDto.email,

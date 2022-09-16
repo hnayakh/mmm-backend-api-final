@@ -11,7 +11,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
@@ -349,6 +349,11 @@ export class UserController {
     return { data: filteredUsers, message: 'Users fetched successfully.' };
   }
 
+  @Post('app/users/updateRegistrationStep/:userBasicId/:step')
+  async updateRegistrationStep(@Param('userBasicId') userBasicId: string,@Param('userBasicId') step: number) {
+       await this.userFacade.updateUserRegistrationStep(userBasicId,step);
+    return { data: {}, message: 'Registration step updated successfully.' };
+  }
   @ApiQuery({ name: 'visitedBy', required: true })
   @ApiQuery({ name: 'visitedTo', required: true })
   @Post('visit_profile')
