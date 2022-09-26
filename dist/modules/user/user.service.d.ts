@@ -181,5 +181,5 @@ export declare class UserService {
     }>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
-    getPremiumMembers(userBaicId: string): Promise<void>;
+    getPremiumMembers(userBaicId: string): Promise<any>;
 }

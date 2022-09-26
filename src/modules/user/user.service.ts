@@ -427,6 +427,6 @@ export class UserService {
   }
 
   async getPremiumMembers(userBaicId: string) {
-    // const mostRequestUser = await this.userRepo.getMostRequestedUser()
+    return  await this.userRepo.getPremiumMembers(userBaicId)
   }
 }

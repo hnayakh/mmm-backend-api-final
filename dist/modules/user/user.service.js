@@ -206,6 +206,7 @@ let UserService = class UserService {
         return await this.userRepo.getProifleVisitedBy(userBasicId);
     }
     async getPremiumMembers(userBaicId) {
+        return await this.userRepo.getPremiumMembers(userBaicId);
     }
 };
 UserService = __decorate([

@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Console } from 'console';
 import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
@@ -389,6 +390,7 @@ export class UserController {
   @Get('premium_members/:userBasicId')
   async getPremiumMembers(@Param('userBasicId') userBasicId: string) {
     const response = await this.userFacade.getPremiumMembers(userBasicId);
+    console.log("response",response);
     return {
       data: response,
       message: ' Premium members profiles fetched.',

@@ -206,6 +206,7 @@ let UserController = class UserController {
     }
     async getPremiumMembers(userBasicId) {
         const response = await this.userFacade.getPremiumMembers(userBasicId);
+        console.log("response", response);
         return {
             data: response,
             message: ' Premium members profiles fetched.',

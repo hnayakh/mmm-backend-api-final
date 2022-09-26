@@ -222,4 +222,5 @@ export declare class UserRepo {
         match_percentage: string;
     }>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
+    getPremiumMembers(userBasicId: string): Promise<any>;
 }

@@ -473,6 +473,27 @@ group by pv.visitedToId`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
+    async getPremiumMembers(userBasicId) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `select  ucl.userBasicId, ui.imageURL,ua.name,ua.dateOfBirth,up.religion , ufb.city,ufb.state from user_connect_logs ucl 
+    join user_preferences up   on ucl.userBasicId =  up.userBasicId
+    join user_images ui on ui.userBasicId = ucl.userBasicId
+    join user_abouts ua on ua.userBasicId = ucl.userBasicId
+    join user_family_backgrounds ufb on ufb.userBasicId = ucl.userBasicId
+     WHERE  ucl.updatedBy < NOW() - INTERVAL (select value  from settings where name = 'PremiumMemberConnectrequestMonthDuration' ) MONTH
+     AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' );`;
+        const requiredConnectionData = await entityManager.query(rawQuery);
+        console.log("requiredConnectionData", requiredConnectionData);
+        const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
+        let requiredReligionData = await entityManager.query(userReligionQuery);
+        console.log("requiredReligionData", requiredReligionData);
+        let userReligions = [].concat(...requiredReligionData.map(x => JSON.parse(x.religion)));
+        console.log("userReligions", userReligions);
+        let result = requiredConnectionData
+            .filter(c => userReligions.some(r => c.religion.indexOf(r) > -1));
+        console.log("result", result);
+        return result;
+    }
 };
 UserRepo = __decorate([
     common_1.Injectable(),

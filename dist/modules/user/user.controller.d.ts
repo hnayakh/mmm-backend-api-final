@@ -132,7 +132,7 @@ export declare class UserController {
         message: string;
     }>;
     getPremiumMembers(userBasicId: string): Promise<{
-        data: void;
+        data: any;
         message: string;
     }>;
 }

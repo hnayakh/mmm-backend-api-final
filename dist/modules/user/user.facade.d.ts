@@ -59,5 +59,5 @@ export declare class UserFacade {
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
-    getPremiumMembers(userBasicId: string): Promise<void>;
+    getPremiumMembers(userBasicId: string): Promise<any>;
 }
