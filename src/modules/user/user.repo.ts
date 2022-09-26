@@ -558,7 +558,7 @@ group by pv.visitedToId`;
 
   async getPremiumMembers(userBasicId:string){
     const entityManager = getManager();
-    const rawQuery = `select  ucl.userBasicId, s.name as state,c.name as city, ui.imageURL,ua.name,ua.dateOfBirth,up.religion  from user_connect_logs ucl 
+    const rawQuery = `select  distinct(ucl.userBasicId), s.name as state,c.name as city, ui.imageURL,ua.name,ua.dateOfBirth,up.religion  from user_connect_logs ucl 
     join user_preferences up   on ucl.userBasicId =  up.userBasicId
     join user_images ui on ui.userBasicId = ucl.userBasicId
     join user_abouts ua on ua.userBasicId = ucl.userBasicId
