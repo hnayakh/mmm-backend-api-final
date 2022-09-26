@@ -558,11 +558,13 @@ group by pv.visitedToId`;
 
   async getPremiumMembers(userBasicId:string){
     const entityManager = getManager();
-    const rawQuery = `select  ucl.userBasicId, ui.imageURL,ua.name,ua.dateOfBirth,up.religion , ufb.city,ufb.state from user_connect_logs ucl 
+    const rawQuery = `select  ucl.userBasicId, s.name as state,c.name as city, ui.imageURL,ua.name,ua.dateOfBirth,up.religion  from user_connect_logs ucl 
     join user_preferences up   on ucl.userBasicId =  up.userBasicId
     join user_images ui on ui.userBasicId = ucl.userBasicId
     join user_abouts ua on ua.userBasicId = ucl.userBasicId
     join user_family_backgrounds ufb on ufb.userBasicId = ucl.userBasicId
+    join states s on s.id=ufb.state
+    join cities c on c.id = ufb.city
      WHERE  ucl.updatedBy < NOW() - INTERVAL (select value  from settings where name = 'PremiumMemberConnectrequestMonthDuration' ) MONTH
      AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' );`;
      const requiredConnectionData=  await entityManager.query(rawQuery);
