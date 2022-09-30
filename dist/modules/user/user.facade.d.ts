@@ -55,6 +55,7 @@ export declare class UserFacade {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        userImage: import("./entities/user-image.entity").UserImage;
     }>;
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
     recentProfileViews(userBasicId: string): Promise<any>;

@@ -51,7 +51,7 @@ export declare class MasterFacade {
     getConnectById(id: string): Promise<import("./entities/connect.entity").Connect>;
     getReferralById(id: string): Promise<import("./entities/referral.entity").Referral>;
     getCouponById(id: string): Promise<import("./entities/coupon.entity").Coupon>;
-    getCoupons(): Promise<void>;
+    getCoupons(): Promise<import("./entities/coupon.entity").Coupon[]>;
     getCoupon(couponCode: string): Promise<import("./entities/coupon.entity").Coupon>;
     getReferrals(): Promise<import("./entities/referral.entity").Referral[]>;
     getConnects(): Promise<import("./entities/connect.entity").Connect[]>;

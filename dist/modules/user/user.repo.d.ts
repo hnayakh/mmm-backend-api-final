@@ -219,6 +219,7 @@ export declare class UserRepo {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        userImage: UserImage;
     }>;
     getRecentViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;

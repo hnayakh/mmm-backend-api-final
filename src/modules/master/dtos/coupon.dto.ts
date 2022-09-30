@@ -4,7 +4,7 @@ import { DiscountType } from 'src/shared/enums/miscellaneous.enum';
 import { Manglik } from 'src/shared/enums/user-profile.enum';
 
 export class CouponDto {
-  @IsNotEmpty({ message: 'couponId can not be empty.' })
+  // @IsNotEmpty({ message: 'couponId can not be empty.' })
   @ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' })
   couponId: string;
 

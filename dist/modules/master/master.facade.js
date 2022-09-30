@@ -64,6 +64,7 @@ let MasterFacade = class MasterFacade {
     }
     async getCoupons() {
         let coupons = await this.masterService.getCoupons();
+        return coupons;
     }
     async getCoupon(couponCode) {
         const coupon = await this.masterService.getCoupon(couponCode);

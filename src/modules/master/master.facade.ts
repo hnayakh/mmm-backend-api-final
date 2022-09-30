@@ -72,6 +72,7 @@ export class MasterFacade {
 
   async getCoupons() {
     let coupons = await this.masterService.getCoupons();
+    return coupons;
   }
 
   async getCoupon(couponCode: string) {

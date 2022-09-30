@@ -96,6 +96,7 @@ export declare class UserController {
             matchingFields: any[];
             differentFields: any[];
             match_percentage: string;
+            userImage: import("./entities/user-image.entity").UserImage;
         };
         message: string;
     }>;

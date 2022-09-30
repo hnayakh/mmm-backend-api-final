@@ -70,7 +70,7 @@ export declare class MasterController {
         message: string;
     }>;
     getCoupons(): Promise<{
-        data: void;
+        data: import("./entities/coupon.entity").Coupon[];
         message: string;
     }>;
     getCoupon(couponCode: string): Promise<{

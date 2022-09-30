@@ -425,8 +425,10 @@ let UserRepo = class UserRepo {
     async getMatchPercentage(userBasicId, otherUserBasicId) {
         let matchingFields = [];
         let differentFields = [];
+        let userDetails = await this.getAllUserDetailsById(userBasicId);
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
+        console.log('userDetails', userDetails.userImages[0]);
         let excludedFields = [
             'createdAt',
             'updatedAt',
@@ -455,6 +457,7 @@ let UserRepo = class UserRepo {
             matchingFields: matchingFields,
             differentFields: differentFields,
             match_percentage: match_percentage,
+            userImage: userDetails.userImages[0]
         };
     }
     async getRecentViews(userBasicId) {
@@ -502,7 +505,9 @@ let UserRepo = class UserRepo {
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
         console.log('requiredReligionData', requiredReligionData);
-        let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)).filter(y => y != null));
+        let userReligions = [].concat(...requiredReligionData
+            .map((x) => JSON.parse(x.religion))
+            .filter((y) => y != null));
         console.log('userReligions', userReligions);
         let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
         return result;

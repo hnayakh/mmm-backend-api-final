@@ -178,6 +178,7 @@ export declare class UserService {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        userImage: UserImage;
     }>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
