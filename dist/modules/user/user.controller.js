@@ -201,7 +201,14 @@ let UserController = class UserController {
         const response = await this.userFacade.getProifleVisitedBy(userBasicId);
         return {
             data: response,
-            message: 'Rencely Visited Profiles.',
+            message: 'Rencely Profile Visited By .',
+        };
+    }
+    async getOnlineMembers(userBasicId) {
+        const response = await this.userFacade.getOnlineMembers(userBasicId);
+        return {
+            data: response,
+            message: 'Online Members .',
         };
     }
     async getPremiumMembers(userBasicId) {
@@ -482,6 +489,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getProifleVisitedBy", null);
+__decorate([
+    common_1.Get('online_members/:userBasicId'),
+    __param(0, common_1.Param('userBasicId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getOnlineMembers", null);
 __decorate([
     common_1.Get('premium_members/:userBasicId'),
     __param(0, common_1.Param('userBasicId')),

@@ -497,6 +497,9 @@ let UserFacade = class UserFacade {
     async getProifleVisitedBy(userBasicId) {
         return this.userService.getProifleVisitedBy(userBasicId);
     }
+    async getOnlineMembers(userBasicId) {
+        return this.userService.getOnlineMembers(userBasicId);
+    }
     async getPremiumMembers(userBasicId) {
         return this.userService.getPremiumMembers(userBasicId);
     }

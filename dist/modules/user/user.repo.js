@@ -384,20 +384,6 @@ let UserRepo = class UserRepo {
         userDet.jwt = jwtToken;
         return userDet;
     }
-    async getRecentViews(userBasicId) {
-        const entityManager = typeorm_2.getManager();
-        const rawQuery = `select pv.id as visitId,
-    uva.*,
-    pv.createdAt as visitedAt
-    from profile_visit pv
-    left join users_view_admin uva on
-    pv.visitedById = uva.id
-    WHERE pv.isActive
-    and pv.visitedToId = '${userBasicId}'
-    group by pv.visitedById;`;
-        const userDet = await entityManager.query(rawQuery);
-        return userDet;
-    }
     async getUserPreferenceByUserId(userBasicId) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
@@ -410,18 +396,21 @@ let UserRepo = class UserRepo {
     inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);
-        console.log("userDet", userDet);
+        console.log('userDet', userDet);
         let userPreferenc = new user_preference_entity_1.UserPreference();
-        userDet.forEach(record => {
-            console.log("record", Object.keys(record));
+        userDet.forEach((record) => {
+            console.log('record', Object.keys(record));
             Object.keys(record).forEach((key) => {
-                console.log("key", key);
-                let recordValue = record[key].toString().indexOf('[') == 0 ? String(JSON.parse(record[key])) : record[key];
-                console.log("recordValue", recordValue);
-                if (key != "userBasicId" && (userPreferenc[key] != recordValue)) {
+                console.log('key', key);
+                let recordValue = record[key].toString().indexOf('[') == 0
+                    ? String(JSON.parse(record[key]))
+                    : record[key];
+                console.log('recordValue', recordValue);
+                if (key != 'userBasicId' && userPreferenc[key] != recordValue) {
                     if (userPreferenc[key]) {
-                        if (userPreferenc[key].length && userPreferenc[key].split(",").indexOf(recordValue) == -1) {
-                            userPreferenc[key] = userPreferenc[key] + "," + recordValue;
+                        if (userPreferenc[key].length &&
+                            userPreferenc[key].split(',').indexOf(recordValue) == -1) {
+                            userPreferenc[key] = userPreferenc[key] + ',' + recordValue;
                         }
                     }
                     else {
@@ -438,13 +427,20 @@ let UserRepo = class UserRepo {
         let differentFields = [];
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-        let excludedFields = ['createdAt', 'updatedAt', 'isActive', 'createdBy', 'updatedBy', 'id'];
+        let excludedFields = [
+            'createdAt',
+            'updatedAt',
+            'isActive',
+            'createdBy',
+            'updatedBy',
+            'id',
+        ];
         Object.keys(userPreference)
-            .filter(x => excludedFields.indexOf(x) == -1)
+            .filter((x) => excludedFields.indexOf(x) == -1)
             .forEach((filed) => {
             if (userPreference[filed]) {
                 if (userPreference[filed] === otherUserPreference[filed]) {
-                    console.log("fdfdfddf", userPreference);
+                    console.log('fdfdfddf', userPreference);
                     matchingFields.push({ filed, value: userPreference[filed] });
                 }
                 else {
@@ -452,26 +448,64 @@ let UserRepo = class UserRepo {
                 }
             }
         });
-        let match_percentage = (matchingFields.length / (matchingFields.length + differentFields.length) * 100).toFixed(0);
+        let match_percentage = ((matchingFields.length /
+            (matchingFields.length + differentFields.length)) *
+            100).toFixed(0);
         return {
             matchingFields: matchingFields,
             differentFields: differentFields,
-            match_percentage: match_percentage
+            match_percentage: match_percentage,
         };
+    }
+    async getRecentViews(userBasicId) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `select pv.id as userBasicId,
+    uva.*,
+    pv.updatedAt as visitedAt
+    from profile_visit pv
+     join users_view_admin uva on
+    pv.visitedById = uva.id
+    and pv.visitedToId = '${userBasicId}'
+    and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
+    group by pv.visitedById;`;
+        const userDet = await entityManager.query(rawQuery);
+        return userDet;
     }
     async getProifleVisitedBy(userBasicId) {
         const entityManager = typeorm_2.getManager();
-        const rawQuery = `select pv.id        as visitId,
+        const rawQuery = `select pv.id as visitId,
     uva.*,
-    pv.createdAt as visitedAt
+    pv.updatedAt as visitedAt
     from profile_visit pv
-    left join users_view_admin uva on
- pv.visitedToId = uva.id
-WHERE pv.isActive
-and pv.visitedById = '${userBasicId}'
-group by pv.visitedToId`;
+     join users_view_admin uva on
+    pv.visitedToId = uva.id
+    WHERE pv.isActive
+    and pv.visitedById = '${userBasicId}'
+    and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
+    group by pv.visitedToId`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
+    }
+    async getOnlineMembers(userBasicId) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+    pv.createdAt as visitedAt
+    from users_view pv
+    join users_view uv
+    WHERE uv.id = '${userBasicId}'
+    and pv.isActive = 1
+    and pv.id != '${userBasicId}'
+    and pv.gender != uv.gender
+`;
+        const userDet = await entityManager.query(rawQuery);
+        console.log('requiredConnectionData', userDet);
+        const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
+        let requiredReligionData = await entityManager.query(userReligionQuery);
+        console.log('requiredReligionData', requiredReligionData);
+        let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)).filter(y => y != null));
+        console.log('userReligions', userReligions);
+        let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
+        return result;
     }
     async getPremiumMembers(userBasicId) {
         const entityManager = typeorm_2.getManager();
@@ -485,15 +519,14 @@ group by pv.visitedToId`;
      WHERE  ucl.updatedBy < NOW() - INTERVAL (select value  from settings where name = 'PremiumMemberConnectrequestMonthDuration' ) MONTH
      AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' );`;
         const requiredConnectionData = await entityManager.query(rawQuery);
-        console.log("requiredConnectionData", requiredConnectionData);
+        console.log('requiredConnectionData', requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log("requiredReligionData", requiredReligionData);
-        let userReligions = [].concat(...requiredReligionData.map(x => JSON.parse(x.religion)));
-        console.log("userReligions", userReligions);
-        let result = requiredConnectionData
-            .filter(c => userReligions.some(r => c.religion.indexOf(r) > -1));
-        console.log("result", result);
+        console.log('requiredReligionData', requiredReligionData);
+        let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)));
+        console.log('userReligions', userReligions);
+        let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
+        console.log('result', result);
         return result;
     }
 };

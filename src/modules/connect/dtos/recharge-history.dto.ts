@@ -3,11 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PaymentStatus } from 'src/shared/enums/miscellaneous.enum';
 
 export class RechargeHistoryDto {
-  @IsNotEmpty({ message: 'Amount can not be empty.' })
+  @IsNotEmpty({ message: 'actualAmount can not be empty.' })
   @ApiProperty({ example: 100 })
   actualAmount: number;
 
-  @IsNotEmpty({ message: 'Amount can not be empty.' })
+  @IsNotEmpty({ message: 'discountedAmount can not be empty.' })
   @ApiProperty({ example: 100 })
   discountedAmount: number;
 

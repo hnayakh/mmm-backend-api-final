@@ -383,7 +383,15 @@ export class UserController {
     const response = await this.userFacade.getProifleVisitedBy(userBasicId);
     return {
       data: response,
-      message: 'Rencely Visited Profiles.',
+      message: 'Rencely Profile Visited By .',
+    };
+  }
+  @Get('online_members/:userBasicId')
+  async getOnlineMembers(@Param('userBasicId') userBasicId: string) {
+    const response = await this.userFacade.getOnlineMembers(userBasicId);
+    return {
+      data: response,
+      message: 'Online Members .',
     };
   }
 

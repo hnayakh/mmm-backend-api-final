@@ -16,12 +16,12 @@ const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum")
 class RechargeHistoryDto {
 }
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Amount can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'actualAmount can not be empty.' }),
     swagger_1.ApiProperty({ example: 100 }),
     __metadata("design:type", Number)
 ], RechargeHistoryDto.prototype, "actualAmount", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Amount can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'discountedAmount can not be empty.' }),
     swagger_1.ApiProperty({ example: 100 }),
     __metadata("design:type", Number)
 ], RechargeHistoryDto.prototype, "discountedAmount", void 0);

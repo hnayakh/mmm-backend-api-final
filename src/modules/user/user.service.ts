@@ -425,6 +425,9 @@ export class UserService {
   async getProifleVisitedBy(userBasicId: string) {
     return await this.userRepo.getProifleVisitedBy(userBasicId);
   }
+  async getOnlineMembers(userBasicId: string) {
+    return await this.userRepo.getOnlineMembers(userBasicId);
+  }
 
   async getPremiumMembers(userBaicId: string) {
     return  await this.userRepo.getPremiumMembers(userBaicId)

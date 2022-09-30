@@ -695,6 +695,9 @@ async updateUserRegistrationStep(userBasicId, step){
   async getProifleVisitedBy(userBasicId: string) {
     return this.userService.getProifleVisitedBy(userBasicId);
   }
+  async getOnlineMembers(userBasicId: string) {
+    return this.userService.getOnlineMembers(userBasicId);
+  }
 
   async getPremiumMembers(userBasicId: string) {
     return this.userService.getPremiumMembers(userBasicId);
