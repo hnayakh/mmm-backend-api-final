@@ -65,6 +65,11 @@ export class MasterController {
     const result = await this.masterFacade.getConnects();
     return { data: result, message: 'Results fetched successfully.' };
   }
+  @Get('connect/:connectid')
+  async getConnectById(@Param('connectid') connectid:string) {
+    const result = await this.masterFacade.getConnectById(connectid);
+    return { data: result, message: 'Results fetched successfully.' };
+  }
 
   @Get('coupons')
   async getCoupons() {

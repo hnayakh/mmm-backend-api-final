@@ -3,7 +3,7 @@ import { IsNotEmpty } from 'class-validator';
 import { DiscountType } from 'src/shared/enums/miscellaneous.enum';
 
 export class ConnectDto {
-  @IsNotEmpty({ message: 'connectId can not be empty.' })
+  // @IsNotEmpty({ message: 'connectId can not be empty.' })
   @ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' })
   connectId: string;
 
