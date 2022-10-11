@@ -11,12 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
-const class_validator_1 = require("class-validator");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 class ConnectDto {
 }
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'connectId can not be empty.' }),
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
 ], ConnectDto.prototype, "connectId", void 0);
