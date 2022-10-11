@@ -13,6 +13,10 @@ export declare class ConnectController {
         data: import("./entities/recharge-history.entity").RechargeHistory[];
         message: string;
     }>;
+    getAllRecharge(): Promise<{
+        data: import("./entities/recharge-history.entity").RechargeHistory[];
+        message: string;
+    }>;
     getUserConnect(userBasicId: string): Promise<{
         data: import("./entities/user-connect.entity").UserConnect;
         message: string;

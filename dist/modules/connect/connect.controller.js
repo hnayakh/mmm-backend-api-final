@@ -34,6 +34,13 @@ let ConnectController = class ConnectController {
             message: 'Recharge history fetched successfully!',
         };
     }
+    async getAllRecharge() {
+        const rechargeHistory = await this.connectFacade.getAllRechargeHistory();
+        return {
+            data: rechargeHistory,
+            message: 'Recharge history fetched successfully!',
+        };
+    }
     async getUserConnect(userBasicId) {
         const rechargeHistory = await this.connectFacade.getUserConnect(userBasicId);
         return {
@@ -87,7 +94,7 @@ let ConnectController = class ConnectController {
         const connectTransactions = await this.connectFacade.getalluserConnectTransactions();
         return {
             data: connectTransactions,
-            message: 'Transactions  hbgghgh successfully!',
+            message: 'Transactions  fetched successfully!',
         };
     }
 };
@@ -105,6 +112,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ConnectController.prototype, "getRechargeHistory", null);
+__decorate([
+    common_1.Get('all_recharge'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ConnectController.prototype, "getAllRecharge", null);
 __decorate([
     common_1.Get('user_connect/:userBasicId'),
     __param(0, common_1.Param('userBasicId')),

@@ -42,6 +42,9 @@ let ConnectService = class ConnectService {
     async getRechargeHistory(userBasic) {
         return await this.connectRepo.getRechargeHistory(userBasic);
     }
+    async getAllRechargeHistory() {
+        return await this.connectRepo.getAllRechargeHistory();
+    }
     async getUserConnect(userBasic) {
         return await this.connectRepo.getUserConnectByUserBasic(userBasic);
     }
