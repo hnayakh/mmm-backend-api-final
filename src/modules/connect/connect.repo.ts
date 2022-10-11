@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRequestState, UserRequestStatus } from 'src/shared/enums/miscellaneous.enum';
+import {
+  UserRequestState,
+  UserRequestStatus,
+} from 'src/shared/enums/miscellaneous.enum';
 import { getManager, Repository } from 'typeorm';
 import { UserBasic } from '../user/entities/user-basic.entity';
 import { ConnectTransactionEntity } from './entities/connect-transaction-entity';
@@ -13,7 +16,6 @@ import { UserRequest } from './entities/user-request.entity';
 
 @Injectable()
 export class ConnectRepo {
-
   constructor(
     @InjectRepository(UserConnect)
     private readonly userConnectRepo: Repository<UserConnect>,
@@ -28,8 +30,8 @@ export class ConnectRepo {
     @InjectRepository(UserConnectDurationLog)
     private readonly userConnectDurationLogRepo: Repository<UserConnectDurationLog>,
     @InjectRepository(ConnectTransactionEntity)
-    private readonly connectTransactionRepo: Repository<ConnectTransactionEntity>
-  ) { }
+    private readonly connectTransactionRepo: Repository<ConnectTransactionEntity>,
+  ) {}
   async createUserConnect(userConnect: UserConnect) {
     return await this.userConnectRepo.save(userConnect);
   }
@@ -46,8 +48,16 @@ export class ConnectRepo {
     });
   }
 
-  async addConnectTransaction(userBasic: UserBasic, operation: number, externalId?: string) {
-    const connectTransaction = ConnectTransactionEntity.create(userBasic, operation, externalId);
+  async addConnectTransaction(
+    userBasic: UserBasic,
+    operation: number,
+    externalId?: string,
+  ) {
+    const connectTransaction = ConnectTransactionEntity.create(
+      userBasic,
+      operation,
+      externalId,
+    );
     return await this.connectTransactionRepo.save(connectTransaction);
   }
 
@@ -162,17 +172,18 @@ export class ConnectRepo {
   }
 
   async getConnectDurationById(userConnectDurationId: string) {
-    return await this.userConnectDurationRepo.findOne(
-      {
-        where: {
-          id: userConnectDurationId
-        },
-        relations: ['userConnectDurationLogs']
-      }
-    )
+    return await this.userConnectDurationRepo.findOne({
+      where: {
+        id: userConnectDurationId,
+      },
+      relations: ['userConnectDurationLogs'],
+    });
   }
 
-  async getUserConnectDurationByUserIds(userOneBasicId: string, userTwoBasicId: string) {
+  async getUserConnectDurationByUserIds(
+    userOneBasicId: string,
+    userTwoBasicId: string,
+  ) {
     return await this.userConnectDurationRepo.find({
       where: [
         {
@@ -192,28 +203,31 @@ export class ConnectRepo {
       where: [
         {
           userOneBasicId: userBasicId,
-          isActive: true
+          isActive: true,
         },
         {
           userTwoBasicId: userBasicId,
-          isActive: true
+          isActive: true,
         },
       ],
     });
   }
 
-  async getUserConnectDurationByUserIdsActive(userOneBasicId: string, userTwoBasicId: string) {
+  async getUserConnectDurationByUserIdsActive(
+    userOneBasicId: string,
+    userTwoBasicId: string,
+  ) {
     return await this.userConnectDurationRepo.find({
       where: [
         {
           userOneBasicId: userOneBasicId,
           userTwoBasicId: userTwoBasicId,
-          isActive: true
+          isActive: true,
         },
         {
           userTwoBasicId: userOneBasicId,
           userOneBasicId: userTwoBasicId,
-          isActive: true
+          isActive: true,
         },
       ],
     });
@@ -226,9 +240,9 @@ export class ConnectRepo {
   async getUserConnectRequestById(userConnectRequestId: string) {
     return await this.userConnectDurationRepo.findOne({
       where: {
-        id: userConnectRequestId
-      }
-    })
+        id: userConnectRequestId,
+      },
+    });
   }
 
   async getUserConnectDurationAllUserActive(userBasicId: string) {
@@ -249,7 +263,6 @@ AND (ucd.userOneBasicId = '${userBasicId}'
  OR ucd.userTwoBasicId = '${userBasicId}');`;
     const userDet = await entityManager.query(rawQuery);
     return userDet;
-
   }
 
   async getmyTransactions(userBasicId: string) {
@@ -271,4 +284,25 @@ where ctl.userBasicId = '${userBasicId}';`;
     const transactions = await entityManager.query(rawQuery);
     return transactions;
   }
+  async getAllTransactions() {
+    const entityManager = getManager();
+    const rawQuery = `select ctl.id as transactionId,
+    ctl.updatedAt as updatedAt,
+    ctl.operation as transactionType,
+    uva.id        as userId,
+    uva.displayId,
+    uva.activationStatus,
+    uva.name,
+    uva.imageURL,
+    uva.thumbnailURL
+from connect_transaction_log ctl
+       join users_view_admin uva on
+ ctl.external_id = uva.id;`;
+    console.log('here');
+    const transactions = await entityManager.query(rawQuery);
+    console.log(transactions);
+    return transactions;
+  }
+  
+  
 }

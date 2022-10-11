@@ -52,4 +52,8 @@ export declare class ConnectController {
         data: any;
         message: string;
     }>;
+    getalluserConnectTransactions(): Promise<{
+        data: any;
+        message: string;
+    }>;
 }

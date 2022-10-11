@@ -146,9 +146,9 @@ let ConnectRepo = class ConnectRepo {
     async getConnectDurationById(userConnectDurationId) {
         return await this.userConnectDurationRepo.findOne({
             where: {
-                id: userConnectDurationId
+                id: userConnectDurationId,
             },
-            relations: ['userConnectDurationLogs']
+            relations: ['userConnectDurationLogs'],
         });
     }
     async getUserConnectDurationByUserIds(userOneBasicId, userTwoBasicId) {
@@ -170,11 +170,11 @@ let ConnectRepo = class ConnectRepo {
             where: [
                 {
                     userOneBasicId: userBasicId,
-                    isActive: true
+                    isActive: true,
                 },
                 {
                     userTwoBasicId: userBasicId,
-                    isActive: true
+                    isActive: true,
                 },
             ],
         });
@@ -185,12 +185,12 @@ let ConnectRepo = class ConnectRepo {
                 {
                     userOneBasicId: userOneBasicId,
                     userTwoBasicId: userTwoBasicId,
-                    isActive: true
+                    isActive: true,
                 },
                 {
                     userTwoBasicId: userOneBasicId,
                     userOneBasicId: userTwoBasicId,
-                    isActive: true
+                    isActive: true,
                 },
             ],
         });
@@ -201,8 +201,8 @@ let ConnectRepo = class ConnectRepo {
     async getUserConnectRequestById(userConnectRequestId) {
         return await this.userConnectDurationRepo.findOne({
             where: {
-                id: userConnectRequestId
-            }
+                id: userConnectRequestId,
+            },
         });
     }
     async getUserConnectDurationAllUserActive(userBasicId) {
@@ -240,6 +240,25 @@ from connect_transaction_log ctl
  ctl.external_id = uva.id
 where ctl.userBasicId = '${userBasicId}';`;
         const transactions = await entityManager.query(rawQuery);
+        return transactions;
+    }
+    async getAllTransactions() {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `select ctl.id as transactionId,
+    ctl.updatedAt as updatedAt,
+    ctl.operation as transactionType,
+    uva.id        as userId,
+    uva.displayId,
+    uva.activationStatus,
+    uva.name,
+    uva.imageURL,
+    uva.thumbnailURL
+from connect_transaction_log ctl
+       join users_view_admin uva on
+ ctl.external_id = uva.id;`;
+        console.log('here');
+        const transactions = await entityManager.query(rawQuery);
+        console.log(transactions);
         return transactions;
     }
 };

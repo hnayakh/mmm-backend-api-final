@@ -190,6 +190,9 @@ let ConnectFacade = class ConnectFacade {
     async getConnectTransaction(userBasicId) {
         return await this.connectService.getConnectTransactions(userBasicId);
     }
+    async getalluserConnectTransactions() {
+        return await this.connectService.getalluserConnectTransactions();
+    }
 };
 ConnectFacade = __decorate([
     common_1.Injectable(),

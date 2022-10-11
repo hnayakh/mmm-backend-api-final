@@ -161,6 +161,10 @@ let ConnectService = class ConnectService {
         const transactions = await this.connectRepo.getmyTransactions(userBasicId);
         return transactions;
     }
+    async getalluserConnectTransactions() {
+        const transactions = await this.connectRepo.getAllTransactions();
+        return transactions;
+    }
 };
 ConnectService = __decorate([
     common_1.Injectable(),

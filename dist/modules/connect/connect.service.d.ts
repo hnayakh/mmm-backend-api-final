@@ -72,4 +72,5 @@ export declare class ConnectService {
     getUserConnectRequestsByUserId(userBasicId: string): Promise<UserConnectDuration[]>;
     getUserConnectDurationAllUserActive(userOneBasicId: string): Promise<any>;
     getConnectTransactions(userBasicId: string): Promise<any>;
+    getalluserConnectTransactions(): Promise<any>;
 }

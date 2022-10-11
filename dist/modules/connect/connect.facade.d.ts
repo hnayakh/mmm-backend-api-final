@@ -26,4 +26,5 @@ export declare class ConnectFacade {
     }>;
     getAllUserConnectDuration(userBasicId: any): Promise<any>;
     getConnectTransaction(userBasicId: string): Promise<any>;
+    getalluserConnectTransactions(): Promise<any>;
 }

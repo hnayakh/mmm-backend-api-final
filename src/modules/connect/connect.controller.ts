@@ -2,13 +2,16 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ConnectFacade } from './connect.facade';
 import { RechargeHistoryDto } from './dtos/recharge-history.dto';
-import { UserConnectDurationDto, UserConnectRequestDto } from './dtos/user-connect-duration.dto';
+import {
+  UserConnectDurationDto,
+  UserConnectRequestDto,
+} from './dtos/user-connect-duration.dto';
 import { UserRequestDto } from './dtos/user-request.dto';
 
 @ApiTags('Connect')
 @Controller('connects')
 export class ConnectController {
-  constructor(private readonly connectFacade: ConnectFacade) { }
+  constructor(private readonly connectFacade: ConnectFacade) {}
 
   @Post('recharge')
   async createRechargeHistory(@Body() rechargeHistoryDto: RechargeHistoryDto) {
@@ -23,6 +26,15 @@ export class ConnectController {
     const rechargeHistory = await this.connectFacade.getRechargeHistory(
       userBasicId,
     );
+    return {
+      data: rechargeHistory,
+      message: 'Recharge history fetched successfully!',
+    };
+  }
+
+  @Get('all_recharge')
+  async getAllRecharge(){
+    const rechargeHistory = await this.connectFacade.getAllRechargeHistory();
     return {
       data: rechargeHistory,
       message: 'Recharge history fetched successfully!',
@@ -53,11 +65,16 @@ export class ConnectController {
     const userRequestDetails = await this.connectFacade.getUserRequestDetails(
       userBasicId,
     );
-    return { data: userRequestDetails, message: 'Operation successfully completed.' };
+    return {
+      data: userRequestDetails,
+      message: 'Operation successfully completed.',
+    };
   }
 
   @Post('user_connect_request')
-  async createOrUpdateUserConnectRequest(@Body() userConnectRequestDto: UserConnectRequestDto) {
+  async createOrUpdateUserConnectRequest(
+    @Body() userConnectRequestDto: UserConnectRequestDto,
+  ) {
     const resp = await this.connectFacade.createOrUpdateUserConnectRequest(
       userConnectRequestDto,
     );
@@ -65,7 +82,9 @@ export class ConnectController {
   }
 
   @Post('user_connect_duration')
-  async createOrUpdateUserConnectDuration(@Body() userConnectDurationDto: UserConnectDurationDto) {
+  async createOrUpdateUserConnectDuration(
+    @Body() userConnectDurationDto: UserConnectDurationDto,
+  ) {
     const resp = await this.connectFacade.createOrUpdateUserConnectDuration(
       userConnectDurationDto,
     );
@@ -75,12 +94,14 @@ export class ConnectController {
   @ApiQuery({ name: 'userOneBasicId', required: false })
   @ApiQuery({ name: 'userTwoBasicId', required: false })
   @Get('user_connect_duration')
-  async getUserConnectDuration(@Query('userOneBasicId') userOneBasicId: string,
-    @Query('userTwoBasicId') userTwoBasicId: string) {
+  async getUserConnectDuration(
+    @Query('userOneBasicId') userOneBasicId: string,
+    @Query('userTwoBasicId') userTwoBasicId: string,
+  ) {
     let userConnectDurationDto = {
       userOneBasicId,
-      userTwoBasicId
-    }
+      userTwoBasicId,
+    };
     const resp = await this.connectFacade.getUserConnectDuration(
       userConnectDurationDto,
     );
@@ -90,9 +111,8 @@ export class ConnectController {
   // ###################################################Aruni############################
   @Get('user_allconnect/:userBasicId')
   async getUserallConnect(@Param('userBasicId') userBasicId: string) {
-    const connectDurationHistory = await this.connectFacade.getAllUserConnectDuration(
-      userBasicId
-    );
+    const connectDurationHistory =
+      await this.connectFacade.getAllUserConnectDuration(userBasicId);
     return {
       data: connectDurationHistory,
       message: 'User connect fetched successfully!',
@@ -101,11 +121,22 @@ export class ConnectController {
 
   @Get('connect_transaction/:userBasicId')
   async getuserConnectTransactions(@Param('userBasicId') userBasicId: string) {
-    const connectTransactions = await this.connectFacade.getConnectTransaction(userBasicId);
+    const connectTransactions = await this.connectFacade.getConnectTransaction(
+      userBasicId,
+    );
     return {
       data: connectTransactions,
       message: 'Transactions fetched successfully!',
-    }
+    };
   }
-
+  @Get('all_connect_transaction')
+  async getalluserConnectTransactions() {
+    console.log("getalluserConnectTransactions")
+    const connectTransactions =
+      await this.connectFacade.getalluserConnectTransactions();
+    return {
+      data: connectTransactions,
+      message: 'Transactions  fetched successfully!',
+    };
+  }
 }

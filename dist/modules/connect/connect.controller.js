@@ -47,7 +47,10 @@ let ConnectController = class ConnectController {
     }
     async getUserRequestDetails(userBasicId) {
         const userRequestDetails = await this.connectFacade.getUserRequestDetails(userBasicId);
-        return { data: userRequestDetails, message: 'Operation successfully completed.' };
+        return {
+            data: userRequestDetails,
+            message: 'Operation successfully completed.',
+        };
     }
     async createOrUpdateUserConnectRequest(userConnectRequestDto) {
         const resp = await this.connectFacade.createOrUpdateUserConnectRequest(userConnectRequestDto);
@@ -60,7 +63,7 @@ let ConnectController = class ConnectController {
     async getUserConnectDuration(userOneBasicId, userTwoBasicId) {
         let userConnectDurationDto = {
             userOneBasicId,
-            userTwoBasicId
+            userTwoBasicId,
         };
         const resp = await this.connectFacade.getUserConnectDuration(userConnectDurationDto);
         return { data: resp, message: 'Operation successfully completed.' };
@@ -77,6 +80,14 @@ let ConnectController = class ConnectController {
         return {
             data: connectTransactions,
             message: 'Transactions fetched successfully!',
+        };
+    }
+    async getalluserConnectTransactions() {
+        console.log("getalluserConnectTransactions");
+        const connectTransactions = await this.connectFacade.getalluserConnectTransactions();
+        return {
+            data: connectTransactions,
+            message: 'Transactions  hbgghgh successfully!',
         };
     }
 };
@@ -153,6 +164,12 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ConnectController.prototype, "getuserConnectTransactions", null);
+__decorate([
+    common_1.Get('all_connect_transaction'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ConnectController.prototype, "getalluserConnectTransactions", null);
 ConnectController = __decorate([
     swagger_1.ApiTags('Connect'),
     common_1.Controller('connects'),
