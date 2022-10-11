@@ -42,6 +42,8 @@ const user_connect_duration_log_1 = require("./modules/connect/entities/user-con
 const user_connect_duration_entity_1 = require("./modules/connect/entities/user-connect-duration.entity");
 const user_profile_visit_1 = require("./modules/user/entities/user.profile.visit");
 const connect_transaction_entity_1 = require("./modules/connect/entities/connect-transaction-entity");
+const cms_module_1 = require("./modules/cms/cms.module");
+const faq_entity_1 = require("./modules/cms/entities/faq.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -80,6 +82,7 @@ AppModule = __decorate([
                     user_connect_log_entity_1.UserConnectLog,
                     user_request_entity_1.UserRequest,
                     recharge_history_entity_1.RechargeHistory,
+                    faq_entity_1.faq,
                     user_connect_duration_log_1.UserConnectDurationLog,
                     user_connect_duration_entity_1.UserConnectDuration,
                     connect_transaction_entity_1.ConnectTransactionEntity,
@@ -91,6 +94,7 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             master_module_1.MasterModule,
             connect_module_1.ConnectModule,
+            cms_module_1.CmsModule
         ],
         providers: [
             {

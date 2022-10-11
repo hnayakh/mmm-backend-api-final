@@ -30,7 +30,6 @@ export class ConnectRepo {
     @InjectRepository(ConnectTransactionEntity)
     private readonly connectTransactionRepo: Repository<ConnectTransactionEntity>
   ) { }
-
   async createUserConnect(userConnect: UserConnect) {
     return await this.userConnectRepo.save(userConnect);
   }

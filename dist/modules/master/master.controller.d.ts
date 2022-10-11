@@ -69,6 +69,10 @@ export declare class MasterController {
         data: import("./entities/connect.entity").Connect[];
         message: string;
     }>;
+    getConnectById(connectid: string): Promise<{
+        data: import("./entities/connect.entity").Connect;
+        message: string;
+    }>;
     getCoupons(): Promise<{
         data: import("./entities/coupon.entity").Coupon[];
         message: string;

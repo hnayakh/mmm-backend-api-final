@@ -54,6 +54,10 @@ let MasterController = class MasterController {
         const result = await this.masterFacade.getConnects();
         return { data: result, message: 'Results fetched successfully.' };
     }
+    async getConnectById(connectid) {
+        const result = await this.masterFacade.getConnectById(connectid);
+        return { data: result, message: 'Results fetched successfully.' };
+    }
     async getCoupons() {
         const result = await this.masterFacade.getCoupons();
         return { data: result, message: 'Results fetched successfully.' };
@@ -125,6 +129,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], MasterController.prototype, "getConnects", null);
+__decorate([
+    common_1.Get('connect/:connectid'),
+    __param(0, common_1.Param('connectid')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], MasterController.prototype, "getConnectById", null);
 __decorate([
     common_1.Get('coupons'),
     __metadata("design:type", Function),
