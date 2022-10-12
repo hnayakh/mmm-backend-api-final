@@ -42,13 +42,6 @@ let ConnectController = class ConnectController {
             message: 'Recharge history fetched successfully!',
         };
     }
-    async getAllRecharge() {
-        const rechargeHistory = await this.connectFacade.getAllRechargeHistory();
-        return {
-            data: rechargeHistory,
-            message: 'Recharge history fetched successfully!',
-        };
-    }
     async getUserConnect(userBasicId) {
         const rechargeHistory = await this.connectFacade.getUserConnect(userBasicId);
         return {
