@@ -28,9 +28,10 @@ export class ResponseInterceptor implements NestInterceptor {
     let res1 = new ResponseService();
     return next.handle().pipe(
       map((data) => ({
-        data:data.data,
         status: context.switchToHttp().getResponse().statusCode,
-        message: data.message
+        message: data.message,
+        data:data.data,
+        
       }))
       // map((resObj) => {
              

@@ -24,9 +24,9 @@ let ResponseInterceptor = class ResponseInterceptor {
         const responseMessage = (_a = this.reflector.get(response_decorator_1.ResponseMessageKey, context.getHandler())) !== null && _a !== void 0 ? _a : '';
         let res1 = new response_service_1.ResponseService();
         return next.handle().pipe(operators_1.map((data) => ({
-            data: data.data,
             status: context.switchToHttp().getResponse().statusCode,
-            message: data.message
+            message: data.message,
+            data: data.data,
         })));
     }
 };
