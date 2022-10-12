@@ -28,83 +28,77 @@ let ConnectFacade = class ConnectFacade {
         const activeInvites = await this.connectService.getActiveInvites(userBasicId);
         const activeconnections = await this.connectService.getActiveConnections(userBasicId);
         let userBasicIds = [];
-        activeSent.forEach(input => {
+        activeSent.forEach((input) => {
             userBasicIds.push(input.requestedUserBasicId);
             userBasicIds.push(input.requestingUserBasicId);
         });
-        activeInvites.forEach(input => {
+        activeInvites.forEach((input) => {
             userBasicIds.push(input.requestedUserBasicId);
             userBasicIds.push(input.requestingUserBasicId);
         });
-        activeconnections.forEach(input => {
+        activeconnections.forEach((input) => {
             userBasicIds.push(input.requestedUserBasicId);
             userBasicIds.push(input.requestingUserBasicId);
         });
         const users = await this.userService.getUsersByIds(userBasicIds);
         const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
-        activeSent.forEach(input => {
-            input["user"] = users.find(x => x.id == input["requestedUserBasicId"]);
+        activeSent.forEach((input) => {
+            input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
             let tempObj = {
                 isConnected: false,
-                id: null
+                id: null,
             };
-            let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == input["requestedUserBasicId"]);
+            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
             if (isConnectOne != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectOne.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
             }
-            let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == input["requestedUserBasicId"]);
+            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
             if (isConnectTwo != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectTwo.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             }
-            input["user"]['connectStatus'] = tempObj;
+            input['user']['connectStatus'] = tempObj;
         });
-        activeInvites.forEach(input => {
-            input["user"] = users.find(x => x.id == input["requestingUserBasicId"]);
+        activeInvites.forEach((input) => {
+            input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
             let tempObj = {
                 isConnected: false,
-                id: null
+                id: null,
             };
-            let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == input["requestingUserBasicId"]);
+            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
             if (isConnectOne != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectOne.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
             }
-            let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == input["requestingUserBasicId"]);
+            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestingUserBasicId']);
             if (isConnectTwo != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectTwo.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             }
-            input["user"]['connectStatus'] = tempObj;
+            input['user']['connectStatus'] = tempObj;
         });
-        activeconnections.forEach(input => {
+        activeconnections.forEach((input) => {
             let tempObj = {
                 isConnected: false,
-                id: null
+                id: null,
             };
-            if (userBasicId == input["requestedUserBasicId"]) {
-                input["user"] = users.find(x => x.id == input["requestingUserBasicId"]);
-                let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == input["requestingUserBasicId"]);
+            if (userBasicId == input['requestedUserBasicId']) {
+                input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
+                let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
                 if (isConnectOne != null) {
-                    tempObj.isConnected = true,
-                        tempObj.id = isConnectOne.id;
+                    (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
                 }
             }
             else {
-                input["user"] = users.find(x => x.id == input["requestedUserBasicId"]);
-                let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == input["requestedUserBasicId"]);
+                input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
                 if (isConnectTwo != null) {
-                    tempObj.isConnected = true,
-                        tempObj.id = isConnectTwo.id;
+                    (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
                 }
             }
-            input["user"]['connectStatus'] = tempObj;
+            input['user']['connectStatus'] = tempObj;
         });
         return {
             activeSent,
             activeconnections,
-            activeInvites
+            activeInvites,
         };
     }
     async createOrUpdateUserRequest(userRequestDto) {
@@ -115,10 +109,14 @@ let ConnectFacade = class ConnectFacade {
         const rechargeHistory = await this.connectService.getRechargeHistory(userBasic);
         return rechargeHistory;
     }
+    async getAllRechargeHistory() {
+        const rechargeHistory = await this.connectService.getAllRechargeHistory();
+        return rechargeHistory;
+    }
     async createRechargeHistory(rechargeHistoryDto) {
         const userBasic = await this.userService.getUserById(rechargeHistoryDto.userBasicId);
         if (_.isEmpty(userBasic)) {
-            throw new common_1.HttpException("User not found.", common_1.HttpStatus.EXPECTATION_FAILED);
+            throw new common_1.HttpException('User not found.', common_1.HttpStatus.EXPECTATION_FAILED);
         }
         const rechargeObject = await this.connectService.createRechargeHistory(rechargeHistoryDto, userBasic);
         if (rechargeHistoryDto.paymentStatus == miscellaneous_enum_1.PaymentStatus.Pending ||
@@ -126,14 +124,16 @@ let ConnectFacade = class ConnectFacade {
             return rechargeObject;
         }
         const userConnect = await this.connectService.getUserConnect(userBasic);
-        let prevConnectBalance = _.isEmpty(userConnect) ? 0 : userConnect.connectBalance;
+        let prevConnectBalance = _.isEmpty(userConnect)
+            ? 0
+            : userConnect.connectBalance;
         if (_.isEmpty(userConnect)) {
             await this.connectService.createUserConnects(rechargeHistoryDto.connectCount, userBasic);
         }
         else {
-            await this.connectService.updateUserConnects(userConnect, rechargeHistoryDto.connectCount, userBasic, "add");
+            await this.connectService.updateUserConnects(userConnect, rechargeHistoryDto.connectCount, userBasic, 'add');
         }
-        await this.connectService.createUserConnectLogs(prevConnectBalance, prevConnectBalance + rechargeHistoryDto.connectCount, rechargeHistoryDto.connectCount, 1, "Added connect.", userBasic);
+        await this.connectService.createUserConnectLogs(prevConnectBalance, prevConnectBalance + rechargeHistoryDto.connectCount, rechargeHistoryDto.connectCount, 1, 'Added connect.', userBasic);
         return rechargeObject;
     }
     async getUserConnect(userBasicId) {
@@ -143,17 +143,17 @@ let ConnectFacade = class ConnectFacade {
     async createOrUpdateUserConnectDuration(userConnectDurationDto) {
         let userConnectReqObj = await this.connectService.getUserConnectRequestById(userConnectDurationDto.userConnectRequestId);
         if (userConnectReqObj == null) {
-            throw new common_1.HttpException("Invalid Id", common_1.HttpStatus.EXPECTATION_FAILED);
+            throw new common_1.HttpException('Invalid Id', common_1.HttpStatus.EXPECTATION_FAILED);
         }
         return await this.connectService.createUserConnectDurationLog(userConnectDurationDto, userConnectReqObj);
     }
     async createOrUpdateUserConnectRequest(userConnectRequestDto) {
         let masterConnect = await this.masterService.getConnects();
         const userOneBasic = await this.userService.getUserById(userConnectRequestDto.userOneBasicId);
-        if (userConnectRequestDto.userConnectRequestId == "" ||
+        if (userConnectRequestDto.userConnectRequestId == '' ||
             userConnectRequestDto.userConnectRequestId == null) {
             const userOneConnect = await this.connectService.getUserConnect(userOneBasic);
-            await this.connectService.updateUserConnects(userOneConnect, 1, userOneBasic, "remove");
+            await this.connectService.updateUserConnects(userOneConnect, 1, userOneBasic, 'remove');
             await this.connectService.addConnectTransaction(userOneBasic, 0, userConnectRequestDto.userTwoBasicId);
             return await this.connectService.createUserConnectRequest(userConnectRequestDto, masterConnect[0]);
         }
@@ -165,13 +165,16 @@ let ConnectFacade = class ConnectFacade {
     async getUserConnectDuration(userConnectDurationDto) {
         let respObj = {
             minutesLeft: 0,
-            userConnectRequestId: null
+            userConnectRequestId: null,
         };
         const obj = await this.connectService.getUserConnectDurationByUserIdsActive(userConnectDurationDto.userOneBasicId, userConnectDurationDto.userTwoBasicId);
         if (obj.length == 0) {
             let masterConnect = await this.masterService.getConnects();
             const objExist = await this.connectService.getUserConnectDurationByUserIds(userConnectDurationDto.userOneBasicId, userConnectDurationDto.userTwoBasicId);
-            respObj.minutesLeft = objExist.length == 0 ? masterConnect[0].firstTimeBenifitMins : masterConnect[0].secondTimeBenifitMins;
+            respObj.minutesLeft =
+                objExist.length == 0
+                    ? masterConnect[0].firstTimeBenifitMins
+                    : masterConnect[0].secondTimeBenifitMins;
         }
         else {
             respObj.minutesLeft = obj[0].totalDuration - obj[0].usedDuration;
@@ -182,13 +185,16 @@ let ConnectFacade = class ConnectFacade {
     async getAllUserConnectDuration(userBasicId) {
         let respObj = {
             minutesLeft: 0,
-            userConnectRequestId: null
+            userConnectRequestId: null,
         };
         const obj = await this.connectService.getUserConnectDurationAllUserActive(userBasicId);
         return obj;
     }
     async getConnectTransaction(userBasicId) {
         return await this.connectService.getConnectTransactions(userBasicId);
+    }
+    async getalluserConnectTransactions() {
+        return await this.connectService.getalluserConnectTransactions();
     }
 };
 ConnectFacade = __decorate([

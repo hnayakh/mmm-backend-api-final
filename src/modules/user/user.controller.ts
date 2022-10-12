@@ -13,6 +13,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Console } from 'console';
+import { ResponseService } from 'src/shared/services/response.service';
 import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
@@ -341,6 +342,7 @@ export class UserController {
     };
     console.log(filterObj);
     const users = await this.userFacade.getAppUsersForAdmin(filterObj);
+    let res= new ResponseService();
     return { data: users, message: 'All the users fetched successfully.' };
   }
 

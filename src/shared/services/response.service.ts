@@ -21,6 +21,8 @@ export class ResponseService {
     res: Response,
     headers?: any,
   ) {
+  
+    console.log("response called1");
     const responseDto: ResponseDto = {
       status: status,
       message: message,
@@ -28,9 +30,12 @@ export class ResponseService {
       type: 'SUCCESS',
     };
 
-    if (headers) {
-      res.set(headers);
-    }
-    return res.status(status).json(responseDto);
+  //   if (headers) {
+  //  res.set(headers);
+  //   console.log("response called2 ---header set");
+  //   }
+    console.log("response called3 ---res.status");
+     return res.status(status).json(responseDto);
+    // res.end();
   }
 }

@@ -4,26 +4,61 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core/services';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map,tap } from 'rxjs/operators';
 import { ResponseService } from 'src/shared/services/response.service';
+import { ResponseMessageKey } from './response.decorator';
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    let res = new ResponseService();
-    let ctx = context.switchToHttp();
-    let response = ctx.getResponse();
+  
+ 
+
+  constructor(private reflector: Reflector) {}
+
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler
+  ): Observable<any> {
+    const responseMessage = this.reflector.get<string>(
+      ResponseMessageKey,
+      context.getHandler()
+    ) ?? ''
+    let res1 = new ResponseService();
     return next.handle().pipe(
-      map((resObj) => {
-        res.successResponse(
-          response.statusCode,
-          resObj.message,
-          resObj.data,
-          response,
-          resObj.headers ?? resObj.headers,
-        );
-      }),
-    );
+      map((data) => ({
+        data:data.data,
+        status: context.switchToHttp().getResponse().statusCode,
+        message: data.message
+      }))
+      // map((resObj) => {
+             
+            //   res1.successResponse(
+            //     context.switchToHttp().getResponse().statusCode,
+            //     resObj.message,
+            //     resObj.data,
+            //     context.switchToHttp().getResponse(),
+            //     resObj.headers ?? resObj.headers,
+            //   );
+            // })
+    )
   }
+  // intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  //   let res1 = new ResponseService();
+  //   let ctx = context.switchToHttp();
+  //   let response = ctx.getResponse();
+  //   return next.handle().pipe(
+  //     map((resObj) => {
+  //       console.log("response returned");
+  //       res1.successResponse(
+  //         response.statusCode,
+  //         resObj.message,
+  //         resObj.data,
+  //         response,
+  //         resObj.headers ?? resObj.headers,
+  //       );
+  //     }),
+  //   );
+  // }
 }

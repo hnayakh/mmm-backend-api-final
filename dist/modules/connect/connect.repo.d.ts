@@ -80,4 +80,5 @@ export declare class ConnectRepo {
     getUserConnectRequestById(userConnectRequestId: string): Promise<UserConnectDuration>;
     getUserConnectDurationAllUserActive(userBasicId: string): Promise<any>;
     getmyTransactions(userBasicId: string): Promise<any>;
+    getAllTransactions(): Promise<any>;
 }

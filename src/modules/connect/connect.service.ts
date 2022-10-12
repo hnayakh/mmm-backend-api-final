@@ -72,6 +72,9 @@ export class ConnectService {
   async getRechargeHistory(userBasic: UserBasic) {
     return await this.connectRepo.getRechargeHistory(userBasic);
   }
+  async getAllRechargeHistory() {
+    return await this.connectRepo.getAllRechargeHistory();
+  }
 
   async getUserConnect(userBasic: UserBasic) {
     return await this.connectRepo.getUserConnectByUserBasic(userBasic);
@@ -232,6 +235,10 @@ export class ConnectService {
 
   async getConnectTransactions(userBasicId: string) {
     const transactions = await this.connectRepo.getmyTransactions(userBasicId);
+    return transactions;
+  }
+  async getalluserConnectTransactions() {
+    const transactions = await this.connectRepo.getAllTransactions();
     return transactions;
   }
 

@@ -16,6 +16,7 @@ exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const swagger_1 = require("@nestjs/swagger");
+const response_service_1 = require("../../shared/services/response.service");
 const craete_user_religion_dto_1 = require("./dtos/craete-user-religion.dto");
 const create_admin_user_dto_1 = require("./dtos/create-admin-user.dto");
 const create_user_about_dto_1 = require("./dtos/create-user-about.dto");
@@ -176,6 +177,7 @@ let UserController = class UserController {
         };
         console.log(filterObj);
         const users = await this.userFacade.getAppUsersForAdmin(filterObj);
+        let res = new response_service_1.ResponseService();
         return { data: users, message: 'All the users fetched successfully.' };
     }
     async getFilteredUsers(userFilterDto) {
