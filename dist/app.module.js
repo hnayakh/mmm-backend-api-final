@@ -44,6 +44,7 @@ const user_profile_visit_1 = require("./modules/user/entities/user.profile.visit
 const connect_transaction_entity_1 = require("./modules/connect/entities/connect-transaction-entity");
 const cms_module_1 = require("./modules/cms/cms.module");
 const faq_entity_1 = require("./modules/cms/entities/faq.entity");
+const app_gateway_1 = require("./app.gateway");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -109,6 +110,7 @@ AppModule = __decorate([
                 provide: core_1.APP_FILTER,
                 useClass: exception_filter_1.HttpExceptionFilter,
             },
+            app_gateway_1.AppGateway,
         ],
     })
 ], AppModule);

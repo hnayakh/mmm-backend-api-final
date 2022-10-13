@@ -35,6 +35,7 @@ import { ProfileVisit } from './modules/user/entities/user.profile.visit';
 import { ConnectTransactionEntity } from './modules/connect/entities/connect-transaction-entity';
 import { CmsModule } from './modules/cms/cms.module';
 import { faq } from './modules/cms/entities/faq.entity';
+import { AppGateway } from './app.gateway';
 @Module({
   imports: [
     Logger,
@@ -97,6 +98,7 @@ import { faq } from './modules/cms/entities/faq.entity';
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
+    AppGateway,
   ],
 })
 export class AppModule { }

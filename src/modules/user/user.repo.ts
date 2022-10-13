@@ -578,7 +578,8 @@ export class UserRepo {
     // return result;
 
     const entityManager = getManager();
-    const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+    const rawQuery = 
+    `select distinct(pv.id) as userBasicId, pv.*,
     pv.createdAt as visitedAt
     from users_view pv
     join users_view uv
@@ -586,6 +587,7 @@ export class UserRepo {
     and pv.isActive = 1
     and pv.id != '${userBasicId}'
     and pv.gender != uv.gender
+    group by pv.id
 `;
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
@@ -618,7 +620,9 @@ export class UserRepo {
     join states s on s.id=ufb.state
     join cities c on c.id = ufb.city
      WHERE  ucl.updatedBy < NOW() - INTERVAL (select value  from settings where name = 'PremiumMemberConnectrequestMonthDuration' ) MONTH
-     AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' );`;
+     AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' )
+     group by ucl.userBasicId 
+     ;`;
     const requiredConnectionData = await entityManager.query(rawQuery);
     console.log('requiredConnectionData', requiredConnectionData);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;

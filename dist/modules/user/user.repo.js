@@ -499,6 +499,7 @@ let UserRepo = class UserRepo {
     and pv.isActive = 1
     and pv.id != '${userBasicId}'
     and pv.gender != uv.gender
+    group by pv.id
 `;
         const userDet = await entityManager.query(rawQuery);
         console.log('requiredConnectionData', userDet);
@@ -522,7 +523,9 @@ let UserRepo = class UserRepo {
     join states s on s.id=ufb.state
     join cities c on c.id = ufb.city
      WHERE  ucl.updatedBy < NOW() - INTERVAL (select value  from settings where name = 'PremiumMemberConnectrequestMonthDuration' ) MONTH
-     AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' );`;
+     AND currentConnectBalance > (select value  from settings where name = 'PremiumMemberConnectBuyCountThreshhold' )
+     group by ucl.userBasicId 
+     ;`;
         const requiredConnectionData = await entityManager.query(rawQuery);
         console.log('requiredConnectionData', requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
