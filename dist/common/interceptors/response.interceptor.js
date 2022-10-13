@@ -23,10 +23,14 @@ let ResponseInterceptor = class ResponseInterceptor {
         var _a;
         const responseMessage = (_a = this.reflector.get(response_decorator_1.ResponseMessageKey, context.getHandler())) !== null && _a !== void 0 ? _a : '';
         let res1 = new response_service_1.ResponseService();
+        let ctx = context.switchToHttp();
+        let response = ctx.getResponse();
+        console.log(response);
         return next.handle().pipe(operators_1.map((data) => ({
             status: context.switchToHttp().getResponse().statusCode,
             message: data.message,
             data: data.data,
+            type: "SUCCESS",
         })));
     }
 };
