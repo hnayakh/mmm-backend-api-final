@@ -13,32 +13,20 @@ import { ResponseMessageKey } from './response.decorator';
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
   constructor(private reflector: Reflector) {}
-
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const responseMessage =
       this.reflector.get<string>(ResponseMessageKey, context.getHandler()) ??
       '';
-    let res1 = new ResponseService();
-    let ctx = context.switchToHttp();
-    let response = ctx.getResponse();
-    console.log(response)
     return next.handle().pipe(
-      map((data) => ({
-        status: context.switchToHttp().getResponse().statusCode,
-        message: data.message,
-        data: data.data,
-        type: "SUCCESS",
-      })),
-      // map((resObj) => {
-
-      //   res1.successResponse(
-      //     context.switchToHttp().getResponse().statusCode,
-      //     resObj.message,
-      //     resObj.data,
-      //     context.switchToHttp().getResponse(),
-      //     resObj.headers ?? resObj.headers,
-      //   );
-      // })
+      map((data) => {
+        console.log(data);
+        return {
+          status: context.switchToHttp().getResponse().statusCode,
+          message: data.message,
+          data: data.data,
+          type: 'SUCCESS',
+        };
+      }),
     );
   }
   // intercept(context: ExecutionContext, next: CallHandler): Observable<any> {

@@ -2,11 +2,11 @@ import * as moment from 'moment';
 
 export class UserSession {
   private DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
-  userName: string;
+  userBasicId: string;
   lastConnectedTime: string;
 
-  constructor(userName: string) {
-    this.userName = userName;
+  constructor(userBasicId: string) {
+    this.userBasicId = userBasicId;
     this.lastConnectedTime = moment(new Date()).format(this.DATE_TIME_FORMAT);
   }
 
@@ -17,6 +17,6 @@ export class UserSession {
       ),
     );
     console.log('durantion', duration.asSeconds());
-    return duration.asSeconds() < 60;
+    return duration.asSeconds() < 2;
   }
 }

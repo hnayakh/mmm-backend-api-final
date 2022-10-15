@@ -19,14 +19,12 @@ let ResponseService = class ResponseService {
         return res.status(status).json(errorDto);
     }
     successResponse(status, message, data, res, headers) {
-        console.log("response called1");
         const responseDto = {
             status: status,
             message: message,
             data: data,
             type: 'SUCCESS',
         };
-        console.log("response called3 ---res.status");
         return res.status(status).json(responseDto);
     }
 };

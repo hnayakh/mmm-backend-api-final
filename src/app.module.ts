@@ -1,4 +1,4 @@
-import { Logger, Module } from '@nestjs/common';
+import { Logger, Module, CacheModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -36,8 +36,10 @@ import { ConnectTransactionEntity } from './modules/connect/entities/connect-tra
 import { CmsModule } from './modules/cms/cms.module';
 import { faq } from './modules/cms/entities/faq.entity';
 import { AppGateway } from './app.gateway';
+import { UserSessionCache } from './modules/user/user-session-cache';
 @Module({
   imports: [
+
     Logger,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -75,7 +77,7 @@ import { AppGateway } from './app.gateway';
         UserConnectDurationLog,
         UserConnectDuration,
         ConnectTransactionEntity,
-        ProfileVisit
+        ProfileVisit,
       ],
       synchronize: true,
     }),
@@ -83,7 +85,10 @@ import { AppGateway } from './app.gateway';
     AuthModule,
     MasterModule,
     ConnectModule,
-    CmsModule
+    CmsModule,
+        CacheModule.register({
+      isGlobal: true,
+    }),
   ],
   providers: [
     {
@@ -99,6 +104,7 @@ import { AppGateway } from './app.gateway';
       useClass: HttpExceptionFilter,
     },
     AppGateway,
+    UserSessionCache,
   ],
 })
-export class AppModule { }
+export class AppModule {}

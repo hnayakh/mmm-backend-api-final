@@ -7,9 +7,14 @@ export declare class UserSessionCache {
     DATE_TIME_FORMAT: string;
     expired_time: number;
     constructor(cacheManager: Cache);
-    addOrUpdate(userName: string): Promise<void>;
+    addOrUpdate(userBasicId: string): Promise<void>;
     private addNewUserSession;
-    get(userName: string): Promise<UserSession>;
-    getAllActive(): Promise<UserSession[]>;
-    remove(userName: string): Promise<void>;
+    get(userBasicId: string): Promise<UserSession>;
+    getAllActiveUsers(userBasicId: any): Promise<any>;
+    getMyOnlineUSers(userBasicId: any): Promise<any>;
+    getUserOnlineStatus(userBasicId: any): Promise<{
+        userBasicId: any;
+        isOnline: boolean;
+    }>;
+    remove(userBasicId: string): Promise<void>;
 }

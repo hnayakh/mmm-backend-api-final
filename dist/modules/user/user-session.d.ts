@@ -1,7 +1,7 @@
 export declare class UserSession {
     private DATE_TIME_FORMAT;
-    userName: string;
+    userBasicId: string;
     lastConnectedTime: string;
-    constructor(userName: string);
+    constructor(userBasicId: string);
     IsConnected(): boolean;
 }

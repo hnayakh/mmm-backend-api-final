@@ -45,6 +45,7 @@ const connect_transaction_entity_1 = require("./modules/connect/entities/connect
 const cms_module_1 = require("./modules/cms/cms.module");
 const faq_entity_1 = require("./modules/cms/entities/faq.entity");
 const app_gateway_1 = require("./app.gateway");
+const user_session_cache_1 = require("./modules/user/user-session-cache");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -87,7 +88,7 @@ AppModule = __decorate([
                     user_connect_duration_log_1.UserConnectDurationLog,
                     user_connect_duration_entity_1.UserConnectDuration,
                     connect_transaction_entity_1.ConnectTransactionEntity,
-                    user_profile_visit_1.ProfileVisit
+                    user_profile_visit_1.ProfileVisit,
                 ],
                 synchronize: true,
             }),
@@ -95,7 +96,10 @@ AppModule = __decorate([
             auth_module_1.AuthModule,
             master_module_1.MasterModule,
             connect_module_1.ConnectModule,
-            cms_module_1.CmsModule
+            cms_module_1.CmsModule,
+            common_1.CacheModule.register({
+                isGlobal: true,
+            }),
         ],
         providers: [
             {
@@ -111,6 +115,7 @@ AppModule = __decorate([
                 useClass: exception_filter_1.HttpExceptionFilter,
             },
             app_gateway_1.AppGateway,
+            user_session_cache_1.UserSessionCache,
         ],
     })
 ], AppModule);
