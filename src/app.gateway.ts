@@ -36,7 +36,6 @@ export class AppGateway
     };
     this.server.emit('all_online_users_list', respObj);
   }
-  
   @SubscribeMessage('onlineUsers')
   public async checkMyOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('onlineUsers', userBasicId);
@@ -53,7 +52,7 @@ export class AppGateway
     this.server.emit('online_users_list', respObj);
   }
 
-
+  
   @SubscribeMessage('userOnlineStatus')
   public async checkAuserOnlineStatus(client: Socket, userBasicId: string) {
     this.logger.log('userOnlineStatus', userBasicId);
