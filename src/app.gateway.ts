@@ -20,6 +20,7 @@ export class AppGateway
   server: Server;
   private logger: Logger = new Logger('AppGateway');
   private userRepo: UserRepo;
+
   @SubscribeMessage('allOnlineUsers')
   public async checkOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('allOnlineUsers', userBasicId);
@@ -36,6 +37,7 @@ export class AppGateway
     };
     this.server.emit('all_online_users_list', respObj);
   }
+
   @SubscribeMessage('onlineUsers')
   public async checkMyOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('onlineUsers', userBasicId);

@@ -58,7 +58,7 @@ let UserSessionCache = class UserSessionCache {
     }
     async getAllActiveUsers(userBasicId) {
         const results = (await this.cacheManager.get(this.key));
-        let allOnlineMember = results === null || results === void 0 ? void 0 : results.filter((x) => x.IsConnected());
+        let allOnlineMember = results === null || results === void 0 ? void 0 : results.filter((x) => x);
         let allMembersId = allOnlineMember.map((x) => x.userBasicId);
         const inClause = allMembersId.map((id) => "'" + id + "'").join();
         let tempQuery = `SELECT ul.userBasicId,uv.* 
@@ -72,13 +72,16 @@ let UserSessionCache = class UserSessionCache {
     }
     async getMyOnlineUSers(userBasicId) {
         const results = (await this.cacheManager.get(this.key));
-        let allOnlineMember = results === null || results === void 0 ? void 0 : results.filter((x) => x.IsConnected());
+        console.log('all data', results);
+        let allOnlineMember = results === null || results === void 0 ? void 0 : results.filter((x) => x.userBasicId);
         let allMembersId = allOnlineMember.map((x) => x.userBasicId);
         const inClause = allMembersId.map((id) => "'" + id + "'").join();
         let tempQuery = `SELECT ul.userBasicId,uva.* FROM user_logins as ul  join users_view_admin uva on ul.userBasicId=uva.id
     where userBasicId in (${inClause}) and ul.userBasicId !='${userBasicId}' group by userBasicId;`;
+        console.log(tempQuery);
         const entityManager = typeorm_1.getManager();
         const users = await entityManager.query(tempQuery);
+        console.log('users', users);
         return users;
     }
     async getUserOnlineStatus(userBasicId) {

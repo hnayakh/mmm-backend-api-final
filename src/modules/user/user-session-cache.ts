@@ -59,7 +59,7 @@ export class UserSessionCache {
 
   async getAllActiveUsers(userBasicId) {
     const results = (await this.cacheManager.get(this.key)) as UserSession[];
-    let allOnlineMember = results?.filter((x) => x.IsConnected());
+    let allOnlineMember = results?.filter((x) => x); //.IsConnected()
     let allMembersId = allOnlineMember.map((x) => x.userBasicId);
     const inClause = allMembersId.map((id) => "'" + id + "'").join();
     let tempQuery = `SELECT ul.userBasicId,uv.* 
@@ -71,15 +71,20 @@ export class UserSessionCache {
     const users = await entityManager.query(tempQuery);
     return users;
   }
+
   async getMyOnlineUSers(userBasicId) {
     const results = (await this.cacheManager.get(this.key)) as UserSession[];
-    let allOnlineMember = results?.filter((x) => x.IsConnected());
+    console.log('all data', results);
+    let allOnlineMember = results?.filter((x) => x.userBasicId); //.IsConnected()
     let allMembersId = allOnlineMember.map((x) => x.userBasicId);
+  
     const inClause = allMembersId.map((id) => "'" + id + "'").join();
     let tempQuery = `SELECT ul.userBasicId,uva.* FROM user_logins as ul  join users_view_admin uva on ul.userBasicId=uva.id
     where userBasicId in (${inClause}) and ul.userBasicId !='${userBasicId}' group by userBasicId;`;
+    console.log(tempQuery)
     const entityManager = getManager();
     const users = await entityManager.query(tempQuery);
+    console.log('users', users);
     return users;
   }
 
@@ -92,6 +97,7 @@ export class UserSessionCache {
     }
     return { userBasicId: userBasicId, isOnline: isOnline };
   }
+
   async remove(userBasicId: string) {
     const results = await this.cacheManager.get(this.key);
     if (results) {
