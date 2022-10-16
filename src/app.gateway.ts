@@ -23,7 +23,7 @@ export class AppGateway
   @SubscribeMessage('allOnlineUsers')
   public async checkOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('allOnlineUsers', userBasicId);
-    this.userSessionCache.addOrUpdate(userBasicId);
+    await this.userSessionCache.addOrUpdate(userBasicId);
     let activeUsers = await this.userSessionCache.getAllActiveUsers(
       userBasicId,
     );
@@ -39,8 +39,8 @@ export class AppGateway
   @SubscribeMessage('onlineUsers')
   public async checkMyOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('onlineUsers', userBasicId);
-    console.log('userBasicId',userBasicId)
-    this.userSessionCache.addOrUpdate(userBasicId);
+    console.log('userBasicId', userBasicId);
+    await this.userSessionCache.addOrUpdate(userBasicId);
     let activeUsers = await this.userSessionCache.getMyOnlineUSers(userBasicId);
     console.log('activeUsers', activeUsers);
     let respObj = {
@@ -52,12 +52,13 @@ export class AppGateway
     this.server.emit('online_users_list', respObj);
   }
 
-  
   @SubscribeMessage('userOnlineStatus')
   public async checkAuserOnlineStatus(client: Socket, userBasicId: string) {
     this.logger.log('userOnlineStatus', userBasicId);
-    this.userSessionCache.addOrUpdate(userBasicId);
-    let activeUsers = await this.userSessionCache.getUserOnlineStatus(userBasicId);
+    await this.userSessionCache.addOrUpdate(userBasicId);
+    let activeUsers = await this.userSessionCache.getUserOnlineStatus(
+      userBasicId,
+    );
     console.log('activeUsers', activeUsers);
     let respObj = {
       status: 200,

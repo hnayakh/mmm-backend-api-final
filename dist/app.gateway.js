@@ -21,7 +21,7 @@ let AppGateway = class AppGateway {
     }
     async checkOnlineUser(client, userBasicId) {
         this.logger.log('allOnlineUsers', userBasicId);
-        this.userSessionCache.addOrUpdate(userBasicId);
+        await this.userSessionCache.addOrUpdate(userBasicId);
         let activeUsers = await this.userSessionCache.getAllActiveUsers(userBasicId);
         console.log('activeUsers', activeUsers);
         let respObj = {
@@ -35,7 +35,7 @@ let AppGateway = class AppGateway {
     async checkMyOnlineUser(client, userBasicId) {
         this.logger.log('onlineUsers', userBasicId);
         console.log('userBasicId', userBasicId);
-        this.userSessionCache.addOrUpdate(userBasicId);
+        await this.userSessionCache.addOrUpdate(userBasicId);
         let activeUsers = await this.userSessionCache.getMyOnlineUSers(userBasicId);
         console.log('activeUsers', activeUsers);
         let respObj = {
@@ -48,7 +48,7 @@ let AppGateway = class AppGateway {
     }
     async checkAuserOnlineStatus(client, userBasicId) {
         this.logger.log('userOnlineStatus', userBasicId);
-        this.userSessionCache.addOrUpdate(userBasicId);
+        await this.userSessionCache.addOrUpdate(userBasicId);
         let activeUsers = await this.userSessionCache.getUserOnlineStatus(userBasicId);
         console.log('activeUsers', activeUsers);
         let respObj = {
