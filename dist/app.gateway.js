@@ -34,6 +34,7 @@ let AppGateway = class AppGateway {
     }
     async checkMyOnlineUser(client, userBasicId) {
         this.logger.log('onlineUsers', userBasicId);
+        console.log('userBasicId', userBasicId);
         this.userSessionCache.addOrUpdate(userBasicId);
         let activeUsers = await this.userSessionCache.getMyOnlineUSers(userBasicId);
         console.log('activeUsers', activeUsers);

@@ -36,9 +36,11 @@ export class AppGateway
     };
     this.server.emit('all_online_users_list', respObj);
   }
+  
   @SubscribeMessage('onlineUsers')
   public async checkMyOnlineUser(client: Socket, userBasicId: string) {
     this.logger.log('onlineUsers', userBasicId);
+    console.log('userBasicId',userBasicId)
     this.userSessionCache.addOrUpdate(userBasicId);
     let activeUsers = await this.userSessionCache.getMyOnlineUSers(userBasicId);
     console.log('activeUsers', activeUsers);
@@ -50,6 +52,8 @@ export class AppGateway
     };
     this.server.emit('online_users_list', respObj);
   }
+
+
   @SubscribeMessage('userOnlineStatus')
   public async checkAuserOnlineStatus(client: Socket, userBasicId: string) {
     this.logger.log('userOnlineStatus', userBasicId);
