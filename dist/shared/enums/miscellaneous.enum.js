@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRequestState = exports.UserRequestStatus = exports.ModeOfPayment = exports.PaymentStatus = exports.OtpType = exports.AdminRoles = exports.RegistrationSteps = exports.DiscountType = exports.LifecycleStatus = exports.ActivationStatus = exports.ProfileUpdationStatus = void 0;
+exports.UserRequestState = exports.UserRequestStatus = exports.ModeOfPayment = exports.PaymentStatus = exports.OtpType = exports.AdminRoles = exports.RegistrationSteps = exports.TemplateEnum = exports.DiscountType = exports.LifecycleStatus = exports.ActivationStatus = exports.ProfileUpdationStatus = void 0;
 var ProfileUpdationStatus;
 (function (ProfileUpdationStatus) {
     ProfileUpdationStatus[ProfileUpdationStatus["Current"] = 0] = "Current";
@@ -23,6 +23,12 @@ var DiscountType;
     DiscountType[DiscountType["Percentage"] = 0] = "Percentage";
     DiscountType[DiscountType["Amount"] = 1] = "Amount";
 })(DiscountType = exports.DiscountType || (exports.DiscountType = {}));
+var TemplateEnum;
+(function (TemplateEnum) {
+    TemplateEnum[TemplateEnum["email"] = 0] = "email";
+    TemplateEnum[TemplateEnum["sms"] = 1] = "sms";
+    TemplateEnum[TemplateEnum["PopUp"] = 3] = "PopUp";
+})(TemplateEnum = exports.TemplateEnum || (exports.TemplateEnum = {}));
 var RegistrationSteps;
 (function (RegistrationSteps) {
     RegistrationSteps[RegistrationSteps["Basic"] = 1] = "Basic";

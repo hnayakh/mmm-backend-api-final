@@ -20,6 +20,12 @@ export enum DiscountType {
   Amount = 1,
 }
 
+export enum TemplateEnum{
+  email=0,
+  sms=1,
+  PopUp=3
+}
+
 export enum RegistrationSteps {
   Basic = 1,
   About = 2,

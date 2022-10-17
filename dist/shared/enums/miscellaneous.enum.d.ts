@@ -16,6 +16,11 @@ export declare enum DiscountType {
     Percentage = 0,
     Amount = 1
 }
+export declare enum TemplateEnum {
+    email = 0,
+    sms = 1,
+    PopUp = 3
+}
 export declare enum RegistrationSteps {
     Basic = 1,
     About = 2,

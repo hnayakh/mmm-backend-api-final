@@ -9,23 +9,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FaqService = void 0;
+exports.CmsService = void 0;
 const common_1 = require("@nestjs/common");
 const cms_repo_1 = require("./cms.repo");
-let FaqService = class FaqService {
+let CmsService = class CmsService {
     constructor(cmsRepo) {
         this.cmsRepo = cmsRepo;
     }
     async createFaq(faqDto) {
         return await this.cmsRepo.createFaq(faqDto);
     }
+    async createSuccess(successDto) {
+        return await this.cmsRepo.createSuccess(successDto);
+    }
+    async createContent(contentDto) {
+        return await this.cmsRepo.createContent(contentDto);
+    }
     async getAllFaq() {
         return await this.cmsRepo.getAllFaq();
     }
+    async getAllSuccess() {
+        return await this.cmsRepo.getAllSuccess();
+    }
+    async getAllContent() {
+        return await this.cmsRepo.getAllContent();
+    }
 };
-FaqService = __decorate([
+CmsService = __decorate([
     common_1.Injectable(),
     __metadata("design:paramtypes", [cms_repo_1.CmsRepo])
-], FaqService);
-exports.FaqService = FaqService;
+], CmsService);
+exports.CmsService = CmsService;
 //# sourceMappingURL=cms.service.js.map

@@ -46,6 +46,8 @@ const cms_module_1 = require("./modules/cms/cms.module");
 const faq_entity_1 = require("./modules/cms/entities/faq.entity");
 const app_gateway_1 = require("./app.gateway");
 const user_session_cache_1 = require("./modules/user/user-session-cache");
+const successstories_enity_1 = require("./modules/cms/entities/successstories.enity");
+const contentcreation_entity_1 = require("./modules/cms/entities/contentcreation.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -85,6 +87,8 @@ AppModule = __decorate([
                     user_request_entity_1.UserRequest,
                     recharge_history_entity_1.RechargeHistory,
                     faq_entity_1.faq,
+                    successstories_enity_1.success_stories,
+                    contentcreation_entity_1.content_creation,
                     user_connect_duration_log_1.UserConnectDurationLog,
                     user_connect_duration_entity_1.UserConnectDuration,
                     connect_transaction_entity_1.ConnectTransactionEntity,

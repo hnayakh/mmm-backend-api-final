@@ -17,10 +17,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const miscellaneous_enum_1 = require("../../shared/enums/miscellaneous.enum");
 const typeorm_2 = require("typeorm");
+const contentcreation_entity_1 = require("./entities/contentcreation.entity");
 const faq_entity_1 = require("./entities/faq.entity");
+const successstories_enity_1 = require("./entities/successstories.enity");
 let CmsRepo = class CmsRepo {
-    constructor(faq) {
+    constructor(success_stories, faq, content_creation) {
+        this.success_stories = success_stories;
         this.faq = faq;
+        this.content_creation = content_creation;
     }
     async createFaq(faqDto) {
         return await this.faq.save(faqDto);
@@ -28,11 +32,27 @@ let CmsRepo = class CmsRepo {
     async getAllFaq() {
         return await this.faq.find();
     }
+    async getAllSuccess() {
+        return await this.success_stories.find();
+    }
+    async createSuccess(SuccessStoriesDto) {
+        return await this.success_stories.save(SuccessStoriesDto);
+    }
+    async createContent(ContentCreationDto) {
+        return await this.content_creation.save(ContentCreationDto);
+    }
+    async getAllContent() {
+        return await this.content_creation.find();
+    }
 };
 CmsRepo = __decorate([
     common_1.Injectable(),
-    __param(0, typeorm_1.InjectRepository(faq_entity_1.faq)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(0, typeorm_1.InjectRepository(successstories_enity_1.success_stories)),
+    __param(1, typeorm_1.InjectRepository(faq_entity_1.faq)),
+    __param(2, typeorm_1.InjectRepository(contentcreation_entity_1.content_creation)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
+        typeorm_2.Repository])
 ], CmsRepo);
 exports.CmsRepo = CmsRepo;
 //# sourceMappingURL=cms.repo.js.map

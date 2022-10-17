@@ -37,6 +37,8 @@ import { CmsModule } from './modules/cms/cms.module';
 import { faq } from './modules/cms/entities/faq.entity';
 import { AppGateway } from './app.gateway';
 import { UserSessionCache } from './modules/user/user-session-cache';
+import { success_stories } from './modules/cms/entities/successstories.enity';
+import { content_creation } from './modules/cms/entities/contentcreation.entity';
 @Module({
   imports: [
 
@@ -74,6 +76,8 @@ import { UserSessionCache } from './modules/user/user-session-cache';
         UserRequest,
         RechargeHistory,
         faq,
+        success_stories,
+        content_creation,
         UserConnectDurationLog,
         UserConnectDuration,
         ConnectTransactionEntity,
