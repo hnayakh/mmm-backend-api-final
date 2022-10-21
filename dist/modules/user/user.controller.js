@@ -48,6 +48,18 @@ let UserController = class UserController {
             message: 'User basic details fetched successful.',
         };
     }
+    async getUserDeatailByDisplayId(displayId) {
+        console.log("DISPLAY", displayId);
+        let message = 'User basic details fetched successful.';
+        const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId);
+        if (!userBasic) {
+            message = "No user found for given DisplayId";
+        }
+        return {
+            data: userBasic ? userBasic : {},
+            message: message,
+        };
+    }
     async createUserAbout(createUserAboutDto) {
         const userAbout = await this.userFacade.createUserAbout(createUserAboutDto);
         return { data: userAbout, message: 'User about registration successful.' };
@@ -248,6 +260,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserDeatailById", null);
+__decorate([
+    common_1.Get('displaybasic/:displayId'),
+    __param(0, common_1.Param('displayId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserDeatailByDisplayId", null);
 __decorate([
     common_1.Post('about'),
     __param(0, common_1.Body()),
