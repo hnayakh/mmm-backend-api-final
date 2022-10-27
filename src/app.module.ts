@@ -39,9 +39,11 @@ import { AppGateway } from './app.gateway';
 import { UserSessionCache } from './modules/user/user-session-cache';
 import { success_stories } from './modules/cms/entities/successstories.enity';
 import { content_creation } from './modules/cms/entities/contentcreation.entity';
+import { ChatGateway } from './chat/chat.gateway';
+import { ChatModule } from './chat/chat.module';
+import { Chat } from './chat/entity/chat.entity';
 @Module({
   imports: [
-
     Logger,
     ConfigModule.forRoot({
       isGlobal: true,
@@ -76,6 +78,7 @@ import { content_creation } from './modules/cms/entities/contentcreation.entity'
         UserRequest,
         RechargeHistory,
         faq,
+        Chat,
         success_stories,
         content_creation,
         UserConnectDurationLog,
@@ -90,7 +93,8 @@ import { content_creation } from './modules/cms/entities/contentcreation.entity'
     MasterModule,
     ConnectModule,
     CmsModule,
-        CacheModule.register({
+    ChatModule,
+    CacheModule.register({
       isGlobal: true,
     }),
   ],
@@ -109,6 +113,7 @@ import { content_creation } from './modules/cms/entities/contentcreation.entity'
     },
     AppGateway,
     UserSessionCache,
+    ChatGateway,
   ],
 })
 export class AppModule {}
