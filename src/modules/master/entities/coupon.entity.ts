@@ -4,7 +4,7 @@ import { DiscountType } from 'src/shared/enums/miscellaneous.enum';
 
 @Entity('coupons')
 export class Coupon extends AbstarctEntity {
-  @Column()
+  @Column({ unique: true })
   couponCode: string;
 
   @Column()

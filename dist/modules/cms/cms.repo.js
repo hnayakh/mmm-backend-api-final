@@ -29,6 +29,12 @@ let CmsRepo = class CmsRepo {
     async createFaq(faqDto) {
         return await this.faq.save(faqDto);
     }
+    async removeFaq(faqDto) {
+        return await this.faq.delete(faqDto);
+    }
+    async updateFaq(faq) {
+        return this.faq.save(Object.assign({}, faq));
+    }
     async getAllFaq() {
         return await this.faq.find();
     }
@@ -38,11 +44,17 @@ let CmsRepo = class CmsRepo {
     async createSuccess(SuccessStoriesDto) {
         return await this.success_stories.save(SuccessStoriesDto);
     }
+    async updateSuccess(success_stories) {
+        return await this.success_stories.save(Object.assign({}, success_stories));
+    }
     async createContent(ContentCreationDto) {
         return await this.content_creation.save(ContentCreationDto);
     }
     async getAllContent() {
         return await this.content_creation.find();
+    }
+    async updateContent(content_creation) {
+        return await this.content_creation.save(Object.assign({}, content_creation));
     }
 };
 CmsRepo = __decorate([

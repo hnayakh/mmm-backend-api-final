@@ -1,9 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CmsFacade } from './cms.facade';
 import { ContentCreationDto } from './dtos/contentcreation.dto';
 import { FaqDto } from './dtos/faq.dto';
 import { SuccessStoriesDto } from './dtos/successstories.dto';
+import { content_creation } from './entities/contentcreation.entity';
+import { faq } from './entities/faq.entity';
+import { success_stories } from './entities/successstories.enity';
 
 @ApiTags('CMS')
 @Controller('cms')
@@ -13,6 +16,11 @@ export class CmsController {
   async createFaq(@Body() faqDto: FaqDto) {
     const faqObj = await this.faqFacade.createFaq(faqDto);
     return { data: faqObj, message: ' successfully created!!!' };
+  }
+  @Put('faq')
+  async updateFaq(@Body() faq: faq) {
+    const faqObj = await this.faqFacade.updateFaq(faq);
+    return { data: faqObj, message: ' successfully updated!!!' };
   }
   @Get('faq/all')
   async getAllFaq() {
@@ -29,6 +37,11 @@ export class CmsController {
     const result = await this.faqFacade.getAllSuccess();
     return { data: result, message: 'Results fetched successfully.' };
   }
+  @Put('success_stories')
+  async updateSuccess(@Body() success_stories: success_stories) {
+    const faqObj = await this.faqFacade.updateSuccess(success_stories);
+    return { data: faqObj, message: ' successfully updated!!!' };
+  }
   @Post('content_creation')
   async createContent(@Body() ContentCreationDto: ContentCreationDto) {
     const faqObj = await this.faqFacade.createContent(ContentCreationDto);
@@ -38,5 +51,10 @@ export class CmsController {
   async getAllContent() {
     const result = await this.faqFacade.getAllContent();
     return { data: result, message: 'Results fetched successfully.' };
+  }
+  @Put('content_creation')
+  async updateContent(@Body() content_creation: content_creation) {
+    const faqObj = await this.faqFacade.updateContent(content_creation);
+    return { data: faqObj, message: ' successfully updated!!!' };
   }
 }
