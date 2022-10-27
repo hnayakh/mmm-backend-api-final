@@ -25,6 +25,10 @@ export declare class UserController {
         data: import("./entities/user-basic.entity").UserBasic;
         message: string;
     }>;
+    getUserDeatailByDisplayId(displayId: string): Promise<{
+        data: {};
+        message: string;
+    }>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<{
         data: import("./entities/user-about.entity").UserAbout;
         message: string;

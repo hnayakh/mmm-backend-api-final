@@ -28,6 +28,7 @@ import * as app_root from 'app-root-path';
 import * as _ from 'lodash';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { ConnectService } from '../connect/connect.service';
+import { getManager } from 'typeorm';
 
 @Injectable()
 export class UserFacade {
@@ -528,7 +529,60 @@ async updateUserRegistrationStep(userBasicId, step){
     }
     return userDetails;
   }
+  async getUserDeatailByDisplayId(displayId: string) 
+  {
+    const entityManager = getManager();
+    const rawQuery = `SELECT id from user_basics where displayId='${displayId}'`;
+    const userDet = await entityManager.query(rawQuery);
+    console.log("USERDET", userDet);
+   if(userDet.length==0){
+    return undefined;
+   }
+    const userDetails = await this.userService.getAllUserDetailsById(
+      userDet[0].id,
+    );
+    userDetails.userCareers = userDetails.userCareers.filter(
+      (x) =>
+        x.profileUpdationStatus == ProfileUpdationStatus.Current ||
+        x.profileUpdationStatus == ProfileUpdationStatus.Pending,
+    );
+    userDetails.userFamilyBackgrounds =
+      userDetails.userFamilyBackgrounds.filter(
+        (x) =>
+          x.profileUpdationStatus == ProfileUpdationStatus.Current ||
+          x.profileUpdationStatus == ProfileUpdationStatus.Pending,
+      );
+    for (let i = 0; i < userDetails.userCareers.length; i++) {
+      let country = await this.masterService.getCountry(
+        userDetails.userCareers[i].country,
+      );
+      let state = await this.masterService.getState(
+        userDetails.userCareers[i].state,
+      );
+      let city = await this.masterService.getCity(
+        userDetails.userCareers[i].city,
+      );
+      userDetails.userCareers[i]['countryName'] = country['name'];
+      userDetails.userCareers[i]['stateName'] = state['name'];
+      userDetails.userCareers[i]['cityName'] = city['name'];
+    }
 
+    for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
+      let country = await this.masterService.getCountry(
+        userDetails.userFamilyBackgrounds[i].country,
+      );
+      let state = await this.masterService.getState(
+        userDetails.userFamilyBackgrounds[i].state,
+      );
+      let city = await this.masterService.getCity(
+        userDetails.userFamilyBackgrounds[i].city,
+      );
+      userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
+      userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
+      userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+    }
+    return userDetails;
+  }
   async getAppUsersForAdmin(filterObj: any) {
     let queryString = `SELECT uv.id,
     uv.displayId,

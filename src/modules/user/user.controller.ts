@@ -59,6 +59,22 @@ export class UserController {
       message: 'User basic details fetched successful.',
     };
   }
+  @Get('displaybasic/:displayId')
+  async getUserDeatailByDisplayId(@Param('displayId') displayId: string) {
+    console.log("DISPLAY", displayId);
+    let message='User basic details fetched successful.';
+    
+    const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId);
+   
+    if(!userBasic){
+      message="No user found for given DisplayId";
+      
+    }
+    return {
+      data: userBasic?userBasic:{},
+      message: message,
+    };
+  }
 
   @Post('about')
   async createUserAbout(@Body() createUserAboutDto: CreateUserAboutDto) {

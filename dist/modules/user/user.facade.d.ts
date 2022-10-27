@@ -42,6 +42,7 @@ export declare class UserFacade {
     createAdminUser(createAdminUserDto: CreateAdminUserDto): Promise<import("./entities/admin-user.entity").AdminUser>;
     createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto): Promise<import("./entities/user-preference.entity").UserPreference>;
     getUserDeatailById(userBasicId: string): Promise<UserBasic>;
+    getUserDeatailByDisplayId(displayId: string): Promise<UserBasic>;
     getAppUsersForAdmin(filterObj: any): Promise<{
         users: any[];
         count: number;
