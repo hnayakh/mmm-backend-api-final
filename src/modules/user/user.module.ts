@@ -19,6 +19,7 @@ import { UserAbout } from './entities/user-about.entity';
 import { UserBasic } from './entities/user-basic.entity';
 import { UserBio } from './entities/user-bio.entity';
 import { UserCareer } from './entities/user-career.entity';
+import { UserDocs } from './entities/user-docs.entity';
 import { UserFamilyBackground } from './entities/user-family-background.entity';
 import { UserFamilyDetail } from './entities/user-family-detail.entity';
 import { UserHabit } from './entities/user-habit.entity';
@@ -51,6 +52,7 @@ import { UserService } from './user.service';
       UserFamilyDetail,
       UserBio,
       UserImage,
+      UserDocs,
       AdminUser,
       Otp,
       UserLogin,

@@ -27,6 +27,12 @@ export class CmsRepo {
   async createFaq(faqDto: FaqDto) {
     return await this.faq.save(faqDto);
   }
+  async removeFaq(faqDto: FaqDto) {
+    return await this.faq.delete(faqDto);
+  }
+  async updateFaq(faq: faq) {
+    return this.faq.save({ ...faq });
+  }
   async getAllFaq() {
     return await this.faq.find();
   }
@@ -36,10 +42,16 @@ export class CmsRepo {
   async createSuccess(SuccessStoriesDto: SuccessStoriesDto) {
     return await this.success_stories.save(SuccessStoriesDto);
   }
+  async updateSuccess(success_stories: success_stories) {
+    return await this.success_stories.save({ ...success_stories });
+  }
   async createContent(ContentCreationDto: ContentCreationDto) {
     return await this.content_creation.save(ContentCreationDto);
   }
   async getAllContent() {
     return await this.content_creation.find();
+  }
+  async updateContent(content_creation: content_creation) {
+    return await this.content_creation.save({ ...content_creation });
   }
 }
