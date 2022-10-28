@@ -42,6 +42,7 @@ import { content_creation } from './modules/cms/entities/contentcreation.entity'
 import { ChatGateway } from './chat/chat.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/entity/chat.entity';
+import { UserDocs } from './modules/user/entities/user-docs.entity';
 @Module({
   imports: [
     Logger,
@@ -66,6 +67,7 @@ import { Chat } from './chat/entity/chat.entity';
         UserFamilyDetail,
         UserBio,
         UserImage,
+        UserDocs,
         AdminUser,
         Otp,
         UserLogin,
