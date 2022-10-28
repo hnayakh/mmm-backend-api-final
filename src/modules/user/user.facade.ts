@@ -295,18 +295,45 @@ async updateUserRegistrationStep(userBasicId, step){
       genderPreference = 1;
     }
     let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
-    // if (userGenderAndPreference.minAge != null) {
-    //   queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
-    // }
-    // if (userGenderAndPreference.maxAge != null) {
-    //   queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
-    // }
-    // if (userGenderAndPreference.minHeight != null) {
-    //   queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
-    // }
-    // if (userGenderAndPreference.maxHeight != null) {
-    //   queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
-    // }
+    if (userGenderAndPreference.minAge != null) {
+      queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
+    }
+    if (userGenderAndPreference.maxAge != null) {
+      queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
+    }
+    if (userGenderAndPreference.minHeight != null) {
+      queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
+    }
+    if (userGenderAndPreference.maxHeight != null) {
+      queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
+    }
+    if (userGenderAndPreference.cast != null) {
+      queryString = queryString + ` AND uv.cast = ${userGenderAndPreference.caste}`
+    }
+    if (userGenderAndPreference.religion != null) {
+      queryString = queryString + ` AND uv.religion = ${userGenderAndPreference.religion}`
+    }
+    if (userGenderAndPreference.motherTongue != null) {
+      queryString = queryString + ` AND uv.motherTongue = ${userGenderAndPreference.motherTongue}`
+    }
+    if (userGenderAndPreference.smokingHabits != null) {
+      queryString = queryString + ` AND uv.smokingHabit = ${userGenderAndPreference.smokingHabits}`
+    }
+    if (userGenderAndPreference.dietaryHabits != null) {
+      queryString = queryString + ` AND uv.eatingHabit = ${userGenderAndPreference.dietaryHabits}`
+    }
+    if (userGenderAndPreference.drinkingHabits != null) {
+      queryString = queryString + ` AND uv.drinkingHabit = ${userGenderAndPreference.dietaryHabits}`
+    }
+    if (userGenderAndPreference.maritalStatus != null) {
+      queryString = queryString + ` AND uv.maritalStatus = ${userGenderAndPreference.maritalStatus}`
+    }
+    if (userGenderAndPreference.minIncome != null) {
+      queryString = queryString + ` AND uv.annualIncome >= ${userGenderAndPreference.minIncome}`
+    }
+    if (userGenderAndPreference.maxIncome != null) {
+      queryString = queryString + ` AND uv.annualIncome <= ${userGenderAndPreference.maxIncome}`
+    }
     queryString = queryString + ` AND uv.registrationStep in (10, 11);`;
     console.log(queryString);
     const result = await this.userService.getProfilesByPreference(queryString);
