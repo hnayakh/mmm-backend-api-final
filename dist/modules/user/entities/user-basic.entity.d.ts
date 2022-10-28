@@ -15,6 +15,7 @@ import { UserConnect } from 'src/modules/connect/entities/user-connect.entity';
 import { RechargeHistory } from 'src/modules/connect/entities/recharge-history.entity';
 import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
+import { UserDocs } from './user-docs.entity';
 export declare class UserBasic extends AbstarctEntity {
     relationship: Relationship;
     email: string;
@@ -36,6 +37,7 @@ export declare class UserBasic extends AbstarctEntity {
     userFamilyBackgrounds: UserFamilyBackground[];
     userFamilyDetails: UserFamilyDetail[];
     userImages: UserImage[];
+    userDocs: UserDocs[];
     userConnects: UserConnect[];
     connectTransaction: ConnectTransactionEntity[];
     rechargeHistory: RechargeHistory[];
