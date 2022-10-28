@@ -10,7 +10,7 @@ export class Coupon extends AbstarctEntity {
   @Column()
   discountType: DiscountType;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'timestamp' })  
   validTill: string;
 
   @Column()

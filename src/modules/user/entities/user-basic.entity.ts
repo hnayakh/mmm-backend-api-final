@@ -23,6 +23,7 @@ import { RechargeHistory } from 'src/modules/connect/entities/recharge-history.e
 import { UserConnectLog } from 'src/modules/connect/entities/user-connect-log.entity';
 import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
+import { UserDocs } from './user-docs.entity';
 
 @Entity('user_basics')
 export class UserBasic extends AbstarctEntity {
@@ -91,11 +92,17 @@ export class UserBasic extends AbstarctEntity {
 
   @OneToMany((type) => UserImage, (userImages) => userImages.userBasic)
   userImages: UserImage[];
+  
+  @OneToMany((type) => UserDocs, (UserDocs) => UserDocs.userBasic)
+  userDocs: UserDocs[];
 
   @OneToMany((type) => UserConnect, (userConnects) => userConnects.userBasic)
   userConnects: UserConnect[];
 
-  @OneToMany((type) => ConnectTransactionEntity, (connectTransaction) => connectTransaction.userBasic)
+  @OneToMany(
+    (type) => ConnectTransactionEntity,
+    (connectTransaction) => connectTransaction.userBasic,
+  )
   connectTransaction: ConnectTransactionEntity[];
 
   @OneToMany(
@@ -142,7 +149,7 @@ export class UserBasic extends AbstarctEntity {
     userBasic.lifecycleStatus = LifecycleStatus.Active;
     userBasic.registrationStep = RegistrationSteps.About;
     userBasic.relationship = relationship;
-    userBasic.displayId = "MM"+shortid.generate();
+    userBasic.displayId = 'MM' + shortid.generate();
     return userBasic;
   }
 
