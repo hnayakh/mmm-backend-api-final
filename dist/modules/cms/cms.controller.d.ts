@@ -26,6 +26,10 @@ export declare class CmsController {
         } & faq;
         message: string;
     }>;
+    removeFaq(faq: faq): Promise<{
+        data: faq;
+        message: string;
+    }>;
     getAllFaq(): Promise<{
         data: faq[];
         message: string;

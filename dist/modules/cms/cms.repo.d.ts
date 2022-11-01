@@ -11,7 +11,7 @@ export declare class CmsRepo {
     private readonly content_creation;
     constructor(success_stories: Repository<success_stories>, faq: Repository<faq>, content_creation: Repository<content_creation>);
     createFaq(faqDto: FaqDto): Promise<FaqDto & faq>;
-    removeFaq(faqDto: FaqDto): Promise<import("typeorm").DeleteResult>;
+    removeFaq(faq: faq): Promise<faq>;
     updateFaq(faq: faq): Promise<{
         question: string;
         answer: string;

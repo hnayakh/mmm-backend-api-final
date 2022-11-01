@@ -29,8 +29,8 @@ let CmsRepo = class CmsRepo {
     async createFaq(faqDto) {
         return await this.faq.save(faqDto);
     }
-    async removeFaq(faqDto) {
-        return await this.faq.delete(faqDto);
+    async removeFaq(faq) {
+        return await this.faq.remove(faq);
     }
     async updateFaq(faq) {
         return this.faq.save(Object.assign({}, faq));

@@ -56,6 +56,7 @@ export declare class UserRepo {
         userFamilyBackgrounds: UserFamilyBackground[];
         userFamilyDetails: UserFamilyDetail[];
         userImages: UserImage[];
+        userDocs: import("./entities/user-docs.entity").UserDocs[];
         userConnects: import("../connect/entities/user-connect.entity").UserConnect[];
         connectTransaction: import("../connect/entities/connect-transaction-entity").ConnectTransactionEntity[];
         rechargeHistory: import("../connect/entities/recharge-history.entity").RechargeHistory[];

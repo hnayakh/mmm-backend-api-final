@@ -20,6 +20,7 @@ export declare class CmsService {
         updatedBy: string;
         isActive: boolean;
     } & faq>;
+    removeFaq(faq: faq): Promise<faq>;
     updateSuccess(success_stories: success_stories): Promise<{
         heading: string;
         story: string;

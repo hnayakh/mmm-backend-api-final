@@ -34,6 +34,10 @@ let CmsController = class CmsController {
         const faqObj = await this.faqFacade.updateFaq(faq);
         return { data: faqObj, message: ' successfully updated!!!' };
     }
+    async removeFaq(faq) {
+        const faqObj = await this.faqFacade.removeFaq(faq);
+        return { data: faqObj, message: ' successfully updated!!!' };
+    }
     async getAllFaq() {
         const result = await this.faqFacade.getAllFaq();
         return { data: result, message: 'Results fetched successfully.' };
@@ -77,6 +81,13 @@ __decorate([
     __metadata("design:paramtypes", [faq_entity_1.faq]),
     __metadata("design:returntype", Promise)
 ], CmsController.prototype, "updateFaq", null);
+__decorate([
+    common_1.Delete('faq'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [faq_entity_1.faq]),
+    __metadata("design:returntype", Promise)
+], CmsController.prototype, "removeFaq", null);
 __decorate([
     common_1.Get('faq/all'),
     __metadata("design:type", Function),

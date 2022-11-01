@@ -16,6 +16,15 @@ export class CmsService {
   async updateFaq(faq: faq) {
     return await this.cmsRepo.updateFaq(faq);
   }
+  async removeFaq(id: any) {
+    return await this.cmsRepo.removeFaq(id);
+  }
+  async removeContent(id: any) {
+    return await this.cmsRepo.removeContent(id);
+  }
+  async removeSuccess(id: any) {
+    return await this.cmsRepo.removeSuccess(id);
+  }
   async updateSuccess(success_stories: success_stories) {
     return await this.cmsRepo.updateSuccess(success_stories);
   }

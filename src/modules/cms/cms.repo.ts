@@ -27,8 +27,26 @@ export class CmsRepo {
   async createFaq(faqDto: FaqDto) {
     return await this.faq.save(faqDto);
   }
-  async removeFaq(faqDto: FaqDto) {
-    return await this.faq.delete(faqDto);
+  async removeFaq(id: any) {
+    const entityManager = getManager();
+    const rawQuery = `DELETE  FROM faq WHERE id ='${id.id}';`;
+    console.log(rawQuery)
+    const faq = await entityManager.query(rawQuery);
+    return faq;
+  }
+  async removeContent(id: any) {
+    const entityManager = getManager();
+    const rawQuery = `DELETE  FROM content_creation WHERE id ='${id.id}';`;
+    console.log(rawQuery)
+    const faq = await entityManager.query(rawQuery);
+    return faq;
+  }
+  async removeSuccess(id: any) {
+    const entityManager = getManager();
+    const rawQuery = `DELETE  FROM success_stories WHERE id ='${id.id}';`;
+    console.log(rawQuery)
+    const faq = await entityManager.query(rawQuery);
+    return faq;
   }
   async updateFaq(faq: faq) {
     return this.faq.save({ ...faq });
