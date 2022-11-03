@@ -177,12 +177,13 @@ let UserFacade = class UserFacade {
     }
     async getProfilesByPreference(userBasicId, queryObj) {
         let userGenderAndPreference = await this.userService.getUserGenderAndPreference(userBasicId);
+        console.log("USERGENDERPREF", userGenderAndPreference);
         let genderPreference = 0;
         if (userGenderAndPreference.gender == 0) {
             genderPreference = 1;
         }
         let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
-        queryString = queryString + ` AND uv.registrationStep in (10, 11);`;
+        queryString = queryString + ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
         console.log(queryString);
         const result = await this.userService.getProfilesByPreference(queryString);
         let uniqueUsers = [];
