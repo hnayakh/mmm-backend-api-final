@@ -22,8 +22,14 @@ let CmsService = class CmsService {
     async updateFaq(faq) {
         return await this.cmsRepo.updateFaq(faq);
     }
-    async removeFaq(faq) {
-        return await this.cmsRepo.removeFaq(faq);
+    async removeFaq(id) {
+        return await this.cmsRepo.removeFaq(id);
+    }
+    async removeContent(id) {
+        return await this.cmsRepo.removeContent(id);
+    }
+    async removeSuccess(id) {
+        return await this.cmsRepo.removeSuccess(id);
     }
     async updateSuccess(success_stories) {
         return await this.cmsRepo.updateSuccess(success_stories);
