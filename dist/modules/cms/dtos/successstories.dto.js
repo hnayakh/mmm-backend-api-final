@@ -16,17 +16,16 @@ const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum")
 class SuccessStoriesDto {
 }
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'question can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'heading can not be empty.' }),
     swagger_1.ApiProperty({ example: 100 }),
     __metadata("design:type", String)
 ], SuccessStoriesDto.prototype, "heading", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'answer can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'story can not be empty.' }),
     swagger_1.ApiProperty({ example: 100 }),
     __metadata("design:type", String)
 ], SuccessStoriesDto.prototype, "story", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'answer can not be empty.' }),
     swagger_1.ApiProperty({ example: 100 }),
     __metadata("design:type", String)
 ], SuccessStoriesDto.prototype, "photo", void 0);

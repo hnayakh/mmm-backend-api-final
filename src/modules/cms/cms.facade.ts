@@ -16,6 +16,15 @@ export class CmsFacade {
   async updateFaq(faq: faq) {
     return await this.cmsService.updateFaq(faq);
   }
+  async removeFaq(id: any) {
+    return await this.cmsService.removeFaq(id);
+  }
+  async removeContent(id: any) {
+    return await this.cmsService.removeContent(id);
+  }
+  async removeSuccess(id: any) {
+    return await this.cmsService.removeSuccess(id);
+  }
   async updateSuccess(success_stories: success_stories) {
     return await this.cmsService.updateSuccess(success_stories);
   }
