@@ -88,7 +88,7 @@ import { UserDocs } from './modules/user/entities/user-docs.entity';
         ConnectTransactionEntity,
         ProfileVisit,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     UserModule,
     AuthModule,

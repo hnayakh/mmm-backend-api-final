@@ -100,7 +100,7 @@ AppModule = __decorate([
                     connect_transaction_entity_1.ConnectTransactionEntity,
                     user_profile_visit_1.ProfileVisit,
                 ],
-                synchronize: true,
+                synchronize: false,
             }),
             user_module_1.UserModule,
             auth_module_1.AuthModule,
