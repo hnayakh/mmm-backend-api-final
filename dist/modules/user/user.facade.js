@@ -16,8 +16,8 @@ const s3_service_1 = require("../../shared/services/s3.service");
 const master_service_1 = require("../master/master.service");
 const user_service_1 = require("./user.service");
 const shortid = require("shortid");
-const fs = require("fs");
-const resolve = require("path").resolve;
+const fs = require('fs');
+const resolve = require('path').resolve;
 const app_root = require("app-root-path");
 const _ = require("lodash");
 const connect_service_1 = require("../connect/connect.service");
@@ -92,6 +92,11 @@ let UserFacade = class UserFacade {
     async createUserBioWithImages(createUserBioImageDto) {
         const userBasic = await this.userService.getUserBasicById(createUserBioImageDto.userBasicId);
         const res = await this.userService.createUserBioWithImages(userBasic, createUserBioImageDto);
+        return res;
+    }
+    async updateUserBioWithDocs(UpdateUserDocsDto) {
+        const userBasic = await this.userService.getUserBasicById(UpdateUserDocsDto.userBasicId);
+        const res = await this.userService.updateUserBioWithDocs(userBasic, UpdateUserDocsDto);
         return res;
     }
     async rejectUserByAdmin(userBasicId) {
@@ -342,6 +347,9 @@ let UserFacade = class UserFacade {
             throw new common_1.HttpException("Email is already registred.", common_1.HttpStatus.EXPECTATION_FAILED);
         }
         return this.userService.createAdminUser(createAdminUserDto);
+    }
+    async updateAdminUser(createAdminUserDto) {
+        return this.userService.updateAdminUser(createAdminUserDto);
     }
     async createUserPreference(createUserPreferenceDto) {
         const userBasic = await this.userService.getUserById(createUserPreferenceDto.userBasicId);

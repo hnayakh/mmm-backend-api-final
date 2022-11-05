@@ -15,6 +15,7 @@ import { UserLogin } from './entities/user-login.entity';
 import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
+import { UserDocs } from './entities/user-docs.entity';
 export declare class UserRepo {
     private readonly jwtstategy;
     private readonly userBasicRepo;
@@ -25,13 +26,14 @@ export declare class UserRepo {
     private readonly userFamilyBackgroundRepo;
     private readonly userFamilyDetailRepo;
     private readonly userImageRepo;
+    private readonly userDocRepo;
     private readonly userBioRepo;
     private readonly otpRepo;
     private readonly userLoginRepo;
     private readonly adminUserRepo;
     private readonly userPreferenceRepo;
     private readonly userProfileVisitRepo;
-    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>);
+    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;
@@ -56,7 +58,7 @@ export declare class UserRepo {
         userFamilyBackgrounds: UserFamilyBackground[];
         userFamilyDetails: UserFamilyDetail[];
         userImages: UserImage[];
-        userDocs: import("./entities/user-docs.entity").UserDocs[];
+        userDocs: UserDocs[];
         userConnects: import("../connect/entities/user-connect.entity").UserConnect[];
         connectTransaction: import("../connect/entities/connect-transaction-entity").ConnectTransactionEntity[];
         rechargeHistory: import("../connect/entities/recharge-history.entity").RechargeHistory[];
@@ -184,7 +186,8 @@ export declare class UserRepo {
         isActive: boolean;
     } & UserBio>;
     createUserImages(userImages: UserImage[]): Promise<UserImage[]>;
-    updateUserImages(userImages: UserImage[]): Promise<UserImage[]>;
+    createUserDocs(userImages: UserDocs[]): Promise<(UserDocs & UserImage)[]>;
+    updateUserImages(userDocRepo: UserDocs[]): Promise<UserDocs[]>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;
     getUserById(userBasicId: string): Promise<UserBasic>;
     getUserBasicByPhone(phoneNumber: string): Promise<UserBasic>;
@@ -209,6 +212,7 @@ export declare class UserRepo {
     getAppUsersForAdmin(queryString: string): Promise<any>;
     getProfilesByPreference(queryString: string): Promise<any>;
     createAdminUser(adminUser: AdminUser): Promise<AdminUser>;
+    updateAdminUser(adminUser: AdminUser): Promise<any>;
     getAdminUsers(): Promise<AdminUser[]>;
     getAdminUserByEmail(email: string): Promise<AdminUser>;
     createUserPreference(userPreference: UserPreference): Promise<UserPreference>;

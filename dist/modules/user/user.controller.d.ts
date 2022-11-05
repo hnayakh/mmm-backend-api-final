@@ -2,13 +2,14 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
 import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
+import { AdminUser } from './entities/admin-user.entity';
 import { UserFacade } from './user.facade';
 export declare class UserController {
     private readonly userFacade;
@@ -65,6 +66,10 @@ export declare class UserController {
         data: import("./entities/user-bio.entity").UserBio;
         message: string;
     }>;
+    updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto): Promise<{
+        data: import("./entities/user-docs.entity").UserDocs[];
+        message: string;
+    }>;
     verifyUserByAdmin(userBasicId: string): Promise<{
         data: any;
         message: string;
@@ -82,11 +87,15 @@ export declare class UserController {
         message: string;
     }>;
     createAdminUser(createAdminUserDto: CreateAdminUserDto): Promise<{
-        data: import("./entities/admin-user.entity").AdminUser;
+        data: AdminUser;
+        message: string;
+    }>;
+    updateAdminUser(createAdminUserDto: AdminUser): Promise<{
+        data: any;
         message: string;
     }>;
     getAdminUsers(): Promise<{
-        data: import("./entities/admin-user.entity").AdminUser[];
+        data: AdminUser[];
         message: string;
     }>;
     validateEmail(email: string): Promise<{

@@ -1,4 +1,5 @@
 import { Repository } from 'typeorm';
+import { CouponDto } from './dtos/coupon.dto';
 import { Connect } from './entities/connect.entity';
 import { Coupon } from './entities/coupon.entity';
 import { Referral } from './entities/referral.entity';
@@ -45,6 +46,7 @@ export declare class MasterRepo {
         updatedBy: string;
         isActive: boolean;
     } & Coupon>;
+    deleteCoupon(couponObj: CouponDto): Promise<import("typeorm").DeleteResult>;
     getReferrals(): Promise<Referral[]>;
     getConnects(): Promise<Connect[]>;
     getCoupons(): Promise<Coupon[]>;
