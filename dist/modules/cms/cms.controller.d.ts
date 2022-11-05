@@ -13,17 +13,11 @@ export declare class CmsController {
         message: string;
     }>;
     updateFaq(faq: faq): Promise<{
-        data: {
-            question: string;
-            answer: string;
-            position: number;
-            id: string;
-            createdAt: string;
-            createdBy: string;
-            updatedAt: string;
-            updatedBy: string;
-            isActive: boolean;
-        } & faq;
+        data: any;
+        message: string;
+    }>;
+    removeFaq(id: any): Promise<{
+        data: any;
         message: string;
     }>;
     getAllFaq(): Promise<{
@@ -39,18 +33,15 @@ export declare class CmsController {
         message: string;
     }>;
     updateSuccess(success_stories: success_stories): Promise<{
-        data: {
-            heading: string;
-            story: string;
-            photo: string;
-            position: number;
-            id: string;
-            createdAt: string;
-            createdBy: string;
-            updatedAt: string;
-            updatedBy: string;
-            isActive: boolean;
-        } & success_stories;
+        data: any;
+        message: string;
+    }>;
+    removeSuccess(id: any): Promise<{
+        data: any;
+        message: string;
+    }>;
+    removecontent(id: any): Promise<{
+        data: any;
         message: string;
     }>;
     createContent(ContentCreationDto: ContentCreationDto): Promise<{
@@ -62,20 +53,7 @@ export declare class CmsController {
         message: string;
     }>;
     updateContent(content_creation: content_creation): Promise<{
-        data: {
-            channel: string;
-            template_name: string;
-            content_heading: string;
-            content: string;
-            photo: string;
-            position: number;
-            id: string;
-            createdAt: string;
-            createdBy: string;
-            updatedAt: string;
-            updatedBy: string;
-            isActive: boolean;
-        } & content_creation;
+        data: any;
         message: string;
     }>;
 }

@@ -36,7 +36,7 @@ let Coupon = Coupon_1 = class Coupon extends abstract_entity_1.AbstarctEntity {
     }
 };
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ unique: true }),
     __metadata("design:type", String)
 ], Coupon.prototype, "couponCode", void 0);
 __decorate([

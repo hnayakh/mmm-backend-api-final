@@ -3,15 +3,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PaymentStatus } from 'src/shared/enums/miscellaneous.enum';
 
 export class SuccessStoriesDto {
-  @IsNotEmpty({ message: 'question can not be empty.' })
+  @IsNotEmpty({ message: 'heading can not be empty.' })
   @ApiProperty({ example: 100 })
   heading: string;
 
-  @IsNotEmpty({ message: 'answer can not be empty.' })
+  @IsNotEmpty({ message: 'story can not be empty.' })
   @ApiProperty({ example: 100 })
   story: string;
 
-  @IsNotEmpty({ message: 'answer can not be empty.' })
+  // @IsNotEmpty({ message: 'answer can not be empty.' })
   @ApiProperty({ example: 100 })
   photo: string;
 

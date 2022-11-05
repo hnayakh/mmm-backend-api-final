@@ -28,6 +28,7 @@ const user_about_entity_1 = require("./entities/user-about.entity");
 const user_basic_entity_1 = require("./entities/user-basic.entity");
 const user_bio_entity_1 = require("./entities/user-bio.entity");
 const user_career_entity_1 = require("./entities/user-career.entity");
+const user_docs_entity_1 = require("./entities/user-docs.entity");
 const user_family_background_entity_1 = require("./entities/user-family-background.entity");
 const user_family_detail_entity_1 = require("./entities/user-family-detail.entity");
 const user_habit_entity_1 = require("./entities/user-habit.entity");
@@ -62,6 +63,7 @@ UserModule = __decorate([
                 user_family_detail_entity_1.UserFamilyDetail,
                 user_bio_entity_1.UserBio,
                 user_image_entity_1.UserImage,
+                user_docs_entity_1.UserDocs,
                 admin_user_entity_1.AdminUser,
                 otp_entity_1.Otp,
                 user_login_entity_1.UserLogin,

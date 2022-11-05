@@ -32,6 +32,7 @@ const recharge_history_entity_1 = require("../../connect/entities/recharge-histo
 const user_connect_log_entity_1 = require("../../connect/entities/user-connect-log.entity");
 const user_profile_visit_1 = require("./user.profile.visit");
 const connect_transaction_entity_1 = require("../../connect/entities/connect-transaction-entity");
+const user_docs_entity_1 = require("./user-docs.entity");
 let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.AbstarctEntity {
     async hashPassword() {
         this.password = await bcrypt.hash(this.password == null ? 'User@123' : this.password, 8);
@@ -47,7 +48,7 @@ let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.Abstarct
         userBasic.lifecycleStatus = miscellaneous_enum_1.LifecycleStatus.Active;
         userBasic.registrationStep = miscellaneous_enum_1.RegistrationSteps.About;
         userBasic.relationship = relationship;
-        userBasic.displayId = "MM" + shortid.generate();
+        userBasic.displayId = 'MM' + shortid.generate();
         return userBasic;
     }
     updateRegistrationStep(registrationStep) {
@@ -140,6 +141,10 @@ __decorate([
     typeorm_1.OneToMany((type) => user_image_entity_1.UserImage, (userImages) => userImages.userBasic),
     __metadata("design:type", Array)
 ], UserBasic.prototype, "userImages", void 0);
+__decorate([
+    typeorm_1.OneToMany((type) => user_docs_entity_1.UserDocs, (UserDocs) => UserDocs.userBasic),
+    __metadata("design:type", Array)
+], UserBasic.prototype, "userDocs", void 0);
 __decorate([
     typeorm_1.OneToMany((type) => user_connect_entity_1.UserConnect, (userConnects) => userConnects.userBasic),
     __metadata("design:type", Array)

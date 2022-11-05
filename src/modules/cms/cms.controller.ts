@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { CmsFacade } from './cms.facade';
 import { ContentCreationDto } from './dtos/contentcreation.dto';
@@ -22,6 +31,13 @@ export class CmsController {
     const faqObj = await this.faqFacade.updateFaq(faq);
     return { data: faqObj, message: ' successfully updated!!!' };
   }
+  @Delete('faq/:id')
+  async removeFaq(@Param() id: any) {
+    try {
+      const faqObj = await this.faqFacade.removeFaq(id);
+      return { data: faqObj, message: ' successfully updated!!!' };
+    } catch (error) {}
+  }
   @Get('faq/all')
   async getAllFaq() {
     const result = await this.faqFacade.getAllFaq();
@@ -41,6 +57,20 @@ export class CmsController {
   async updateSuccess(@Body() success_stories: success_stories) {
     const faqObj = await this.faqFacade.updateSuccess(success_stories);
     return { data: faqObj, message: ' successfully updated!!!' };
+  }
+  @Delete('success_stories/:id')
+  async removeSuccess(@Param() id: any) {
+    try {
+      const faqObj = await this.faqFacade.removeSuccess(id);
+      return { data: faqObj, message: ' successfully updated!!!' };
+    } catch (error) {}
+  }
+  @Delete('content_creation/:id')
+  async removecontent(@Param() id: any) {
+    try {
+      const faqObj = await this.faqFacade.removeContent(id);
+      return { data: faqObj, message: ' successfully updated!!!' };
+    } catch (error) {}
   }
   @Post('content_creation')
   async createContent(@Body() ContentCreationDto: ContentCreationDto) {

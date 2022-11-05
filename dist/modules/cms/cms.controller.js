@@ -34,6 +34,13 @@ let CmsController = class CmsController {
         const faqObj = await this.faqFacade.updateFaq(faq);
         return { data: faqObj, message: ' successfully updated!!!' };
     }
+    async removeFaq(id) {
+        try {
+            const faqObj = await this.faqFacade.removeFaq(id);
+            return { data: faqObj, message: ' successfully updated!!!' };
+        }
+        catch (error) { }
+    }
     async getAllFaq() {
         const result = await this.faqFacade.getAllFaq();
         return { data: result, message: 'Results fetched successfully.' };
@@ -49,6 +56,20 @@ let CmsController = class CmsController {
     async updateSuccess(success_stories) {
         const faqObj = await this.faqFacade.updateSuccess(success_stories);
         return { data: faqObj, message: ' successfully updated!!!' };
+    }
+    async removeSuccess(id) {
+        try {
+            const faqObj = await this.faqFacade.removeSuccess(id);
+            return { data: faqObj, message: ' successfully updated!!!' };
+        }
+        catch (error) { }
+    }
+    async removecontent(id) {
+        try {
+            const faqObj = await this.faqFacade.removeContent(id);
+            return { data: faqObj, message: ' successfully updated!!!' };
+        }
+        catch (error) { }
     }
     async createContent(ContentCreationDto) {
         const faqObj = await this.faqFacade.createContent(ContentCreationDto);
@@ -78,6 +99,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], CmsController.prototype, "updateFaq", null);
 __decorate([
+    common_1.Delete('faq/:id'),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CmsController.prototype, "removeFaq", null);
+__decorate([
     common_1.Get('faq/all'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -103,6 +131,20 @@ __decorate([
     __metadata("design:paramtypes", [successstories_enity_1.success_stories]),
     __metadata("design:returntype", Promise)
 ], CmsController.prototype, "updateSuccess", null);
+__decorate([
+    common_1.Delete('success_stories/:id'),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CmsController.prototype, "removeSuccess", null);
+__decorate([
+    common_1.Delete('content_creation/:id'),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], CmsController.prototype, "removecontent", null);
 __decorate([
     common_1.Post('content_creation'),
     __param(0, common_1.Body()),
