@@ -18,7 +18,7 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
@@ -167,6 +167,16 @@ export class UserController {
   ) {
     const result = await this.userFacade.createUserBioWithImages(
       createUserBioImageDto,
+    );
+    return { data: result, message: 'User profile registration successful.' };
+  }
+  
+  @Post('docs')
+  async updateUserBioWithDocs(
+    @Body() UpdateUserDocsDto: UpdateUserDocsDto,
+  ) {
+    const result = await this.userFacade.updateUserBioWithDocs(
+      UpdateUserDocsDto,
     );
     return { data: result, message: 'User profile registration successful.' };
   }

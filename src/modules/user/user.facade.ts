@@ -12,7 +12,7 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
@@ -149,6 +149,18 @@ async updateUserRegistrationStep(userBasicId, step){
     const res = await this.userService.createUserBioWithImages(
       userBasic,
       createUserBioImageDto,
+    );
+    // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
+    return res;
+  }
+  
+  async updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto) {
+    const userBasic = await this.userService.getUserBasicById(
+      UpdateUserDocsDto.userBasicId,
+    );
+    const res = await this.userService.updateUserBioWithDocs(
+      userBasic,
+      UpdateUserDocsDto,
     );
     // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
     return res;
