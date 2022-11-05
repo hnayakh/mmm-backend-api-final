@@ -397,6 +397,9 @@ export class UserService {
     );
     return this.userRepo.createAdminUser(adminUser);
   }
+  async updateAdminUser(adminUser: AdminUser) {
+    return this.userRepo.updateAdminUser(adminUser);
+  }
 
   async createUserPreference(
     userBasic: UserBasic,

@@ -25,6 +25,7 @@ import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
 import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
+import { AdminUser } from './entities/admin-user.entity';
 import { UserFacade } from './user.facade';
 
 @ApiTags('User')
@@ -276,6 +277,11 @@ export class UserController {
   @Post('admin')
   async createAdminUser(@Body() createAdminUserDto: CreateAdminUserDto) {
     const adminUser = await this.userFacade.createAdminUser(createAdminUserDto);
+    return { data: adminUser, message: 'Admin registration successful.' };
+  }
+  @Put('admin')
+  async updateAdminUser(@Body() createAdminUserDto: AdminUser) {
+    const adminUser = await this.userFacade.updateAdminUser(createAdminUserDto);
     return { data: adminUser, message: 'Admin registration successful.' };
   }
 

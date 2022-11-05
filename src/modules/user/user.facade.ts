@@ -32,6 +32,7 @@ import { getManager } from "typeorm";
 import { religion } from 'src/shared/constants/profile-master-data/religion';
 import { motherTongue } from 'src/shared/constants/profile-master-data/mother-tongue';
 import { castSubcaste } from "src/shared/constants/profile-master-data/cast-subcaste";
+import { AdminUser } from "./entities/admin-user.entity";
 @Injectable()
 export class UserFacade {
   constructor(
@@ -576,6 +577,9 @@ export class UserFacade {
       );
     }
     return this.userService.createAdminUser(createAdminUserDto);
+  }
+  async updateAdminUser(createAdminUserDto: AdminUser) {
+    return this.userService.updateAdminUser(createAdminUserDto);
   }
 
   async createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto) {

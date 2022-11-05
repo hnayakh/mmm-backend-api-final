@@ -379,6 +379,14 @@ export class UserRepo {
   async createAdminUser(adminUser: AdminUser) {
     return this.adminUserRepo.save(adminUser);
   }
+  async updateAdminUser(adminUser: AdminUser) {
+    console.log('admin user', adminUser);
+    const entityManager = getManager();
+    const rawQuery = `UPDATE admin_users SET isActive = ${adminUser.isActive} WHERE (id = '${adminUser.id}');`;
+    console.log('rawQuery', rawQuery);
+    const userDet = await entityManager.query(rawQuery);
+    return userDet;
+  }
   async getAdminUsers() {
     return this.adminUserRepo.find({
       where: {
