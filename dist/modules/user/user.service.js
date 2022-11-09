@@ -18,6 +18,7 @@ const user_about_entity_1 = require("./entities/user-about.entity");
 const user_basic_entity_1 = require("./entities/user-basic.entity");
 const user_bio_entity_1 = require("./entities/user-bio.entity");
 const user_career_entity_1 = require("./entities/user-career.entity");
+const user_docs_entity_1 = require("./entities/user-docs.entity");
 const user_family_background_entity_1 = require("./entities/user-family-background.entity");
 const user_family_detail_entity_1 = require("./entities/user-family-detail.entity");
 const user_habit_entity_1 = require("./entities/user-habit.entity");
@@ -92,6 +93,16 @@ let UserService = class UserService {
         this.userRepo.updateUserBasic(updatedUserBasic);
         this.userRepo.createUserImages(userImages);
         return await this.userRepo.createUserBio(userBio);
+    }
+    async updateUserBioWithDocs(userBasic, createUserBioImageDto) {
+        const userImages = [];
+        let isDefaultImage = true;
+        createUserBioImageDto.userDocs.forEach((ui) => {
+            const userImage = user_docs_entity_1.UserDocs.createUserDocs(ui.imageUrl, isDefaultImage, userBasic);
+            userImages.push(userImage);
+            isDefaultImage = false;
+        });
+        return await this.userRepo.updateUserImages(userImages);
     }
     async getUserBasicByEmail(email) {
         return await this.userRepo.getUserBasicByEmail(email);
@@ -175,6 +186,9 @@ let UserService = class UserService {
     async createAdminUser(createAdminUserDto) {
         const adminUser = admin_user_entity_1.AdminUser.createAdminUser(createAdminUserDto.firstName, createAdminUserDto.lastName, createAdminUserDto.email, createAdminUserDto.gender, createAdminUserDto.phoneNumber, createAdminUserDto.password, createAdminUserDto.role);
         return this.userRepo.createAdminUser(adminUser);
+    }
+    async updateAdminUser(adminUser) {
+        return this.userRepo.updateAdminUser(adminUser);
     }
     async createUserPreference(userBasic, cupd) {
         const userPreference = user_preference_entity_1.UserPreference.createPreference(cupd.minAge, cupd.maxAge, cupd.minHeight, cupd.maxHeight, JSON.stringify(cupd.maritalStatus), JSON.stringify(cupd.country), JSON.stringify(cupd.state), JSON.stringify(cupd.city), JSON.stringify(cupd.religion), JSON.stringify(cupd.caste), JSON.stringify(cupd.motherTongue), JSON.stringify(cupd.highestEducation), JSON.stringify(cupd.occupation), JSON.stringify(cupd.maxIncome), JSON.stringify(cupd.minIncome), JSON.stringify(cupd.dietaryHabits), JSON.stringify(cupd.drinkingHabits), JSON.stringify(cupd.smokingHabits), JSON.stringify(cupd.challenged), userBasic);

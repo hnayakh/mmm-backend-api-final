@@ -97,9 +97,11 @@ let MasterService = class MasterService {
             const coupon = await this.masterRepo.getCouponById(couponDto.couponId);
             if (coupon.isActive == true) {
                 coupon.activateOrDeativateCoupon(false);
+                return await this.masterRepo.updateCoupon(coupon);
             }
             else {
                 coupon.activateOrDeativateCoupon(true);
+                return await this.masterRepo.updateCoupon(coupon);
             }
         }
         else {

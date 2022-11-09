@@ -5,24 +5,24 @@ import {
   ProfileUpdationStatus,
   RegistrationSteps,
   UserRequestState,
-} from "src/shared/enums/miscellaneous.enum";
-import { S3Service } from "src/shared/services/s3.service";
-import { MasterService } from "../master/master.service";
-import { CreateUserReligionDto } from "./dtos/craete-user-religion.dto";
-import { CreateAdminUserDto } from "./dtos/create-admin-user.dto";
-import { CreateUserAboutDto } from "./dtos/create-user-about.dto";
-import { CreateUserBasicDto } from "./dtos/create-user-basic.dto";
-import { CreateUserBioImageDto } from "./dtos/create-user-bio-image.dto";
-import { CreateUserCareerDto } from "./dtos/create-user-career.dto";
-import { CreateUserFamilyBgDto } from "./dtos/create-user-familybg.dto";
-import { CreateUserFamilyDDto } from "./dtos/create-user-familyd.dto";
-import { CreateUserHabitDto } from "./dtos/create-user-habit.dto";
-import { CreateUserPreferenceDto } from "./dtos/create-user-preference.dto";
-import { UserBasic } from "./entities/user-basic.entity";
-import { UserService } from "./user.service";
-import * as shortid from "shortid";
-const fs = require("fs");
-const resolve = require("path").resolve;
+} from 'src/shared/enums/miscellaneous.enum';
+import { S3Service } from 'src/shared/services/s3.service';
+import { MasterService } from '../master/master.service';
+import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
+import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
+import { CreateUserAboutDto } from './dtos/create-user-about.dto';
+import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
+import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserCareerDto } from './dtos/create-user-career.dto';
+import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
+import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
+import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
+import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
+import { UserBasic } from './entities/user-basic.entity';
+import { UserService } from './user.service';
+import * as shortid from 'shortid';
+const fs = require('fs');
+const resolve = require('path').resolve;
 // const searchedDiplayIds = require('../../shared/searches/searched_displayids.json');
 import * as app_root from "app-root-path";
 import * as _ from "lodash";
@@ -32,6 +32,7 @@ import { getManager } from "typeorm";
 import { religion } from 'src/shared/constants/profile-master-data/religion';
 import { motherTongue } from 'src/shared/constants/profile-master-data/mother-tongue';
 import { castSubcaste } from "src/shared/constants/profile-master-data/cast-subcaste";
+import { AdminUser } from "./entities/admin-user.entity";
 @Injectable()
 export class UserFacade {
   constructor(
@@ -150,7 +151,19 @@ export class UserFacade {
     );
     const res = await this.userService.createUserBioWithImages(
       userBasic,
-      createUserBioImageDto
+      createUserBioImageDto,
+    );
+    // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
+    return res;
+  }
+  
+  async updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto) {
+    const userBasic = await this.userService.getUserBasicById(
+      UpdateUserDocsDto.userBasicId,
+    );
+    const res = await this.userService.updateUserBioWithDocs(
+      userBasic,
+      UpdateUserDocsDto,
     );
     // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
     return res;
@@ -564,6 +577,9 @@ export class UserFacade {
       );
     }
     return this.userService.createAdminUser(createAdminUserDto);
+  }
+  async updateAdminUser(createAdminUserDto: AdminUser) {
+    return this.userService.updateAdminUser(createAdminUserDto);
   }
 
   async createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto) {

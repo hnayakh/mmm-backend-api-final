@@ -18,13 +18,14 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
 import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
+import { AdminUser } from './entities/admin-user.entity';
 import { UserFacade } from './user.facade';
 
 @ApiTags('User')
@@ -170,6 +171,16 @@ export class UserController {
     );
     return { data: result, message: 'User profile registration successful.' };
   }
+  
+  @Post('docs')
+  async updateUserBioWithDocs(
+    @Body() UpdateUserDocsDto: UpdateUserDocsDto,
+  ) {
+    const result = await this.userFacade.updateUserBioWithDocs(
+      UpdateUserDocsDto,
+    );
+    return { data: result, message: 'User profile registration successful.' };
+  }
 
   @Get('admin/verify/:userBasicId')
   async verifyUserByAdmin(@Param('userBasicId') userBasicId: string) {
@@ -266,6 +277,11 @@ export class UserController {
   @Post('admin')
   async createAdminUser(@Body() createAdminUserDto: CreateAdminUserDto) {
     const adminUser = await this.userFacade.createAdminUser(createAdminUserDto);
+    return { data: adminUser, message: 'Admin registration successful.' };
+  }
+  @Put('admin')
+  async updateAdminUser(@Body() createAdminUserDto: AdminUser) {
+    const adminUser = await this.userFacade.updateAdminUser(createAdminUserDto);
     return { data: adminUser, message: 'Admin registration successful.' };
   }
 
