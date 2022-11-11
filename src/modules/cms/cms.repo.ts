@@ -14,7 +14,7 @@ import { faq } from './entities/faq.entity';
 import { success_stories } from './entities/successstories.enity';
 
 @Injectable()
-export class CmsRepo {
+export class CmsRepo {    
   constructor(
     @InjectRepository(success_stories)
     private readonly success_stories: Repository<success_stories>,
