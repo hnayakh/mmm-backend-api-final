@@ -74,6 +74,27 @@ let ConnectRepo = class ConnectRepo {
     async getAllRechargeHistory() {
         return await this.rechargeHistoryRepo.find();
     }
+    async getAllUserRequest() {
+        const entityManager = typeorm_2.getManager();
+        let rawQuery = `select ctl.id as transactionId,
+    ctl.updatedAt as updatedAt,
+    ctl.operation ,
+    ctl.userRequestState,
+    ctl.userRequestStatus,
+    ctl.acceptanceRejectionDate,
+    ctl.requestDate,
+    uva.id as userId,
+    uva.displayId,
+    uva.activationStatus,
+    uva.name,
+    uva.imageURL,
+    uva.thumbnailURL
+    from user_requests ctl
+    join users_view_admin uva on
+    ctl.requestingUserBasicId = uva.id group by uva.id;`;
+        const userDet = await entityManager.query(rawQuery);
+        return userDet;
+    }
     async getUserRequestById(id) {
         return await this.userRequestRepo.findOne({
             where: {

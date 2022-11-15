@@ -28,6 +28,7 @@ const create_user_familyd_dto_1 = require("./dtos/create-user-familyd.dto");
 const create_user_habit_dto_1 = require("./dtos/create-user-habit.dto");
 const create_user_preference_dto_1 = require("./dtos/create-user-preference.dto");
 const user_filter_dto_1 = require("./dtos/user-filter.dto");
+const admin_user_entity_1 = require("./entities/admin-user.entity");
 const user_facade_1 = require("./user.facade");
 let UserController = class UserController {
     constructor(userFacade) {
@@ -111,6 +112,10 @@ let UserController = class UserController {
         const result = await this.userFacade.createUserBioWithImages(createUserBioImageDto);
         return { data: result, message: 'User profile registration successful.' };
     }
+    async updateUserBioWithDocs(UpdateUserDocsDto) {
+        const result = await this.userFacade.updateUserBioWithDocs(UpdateUserDocsDto);
+        return { data: result, message: 'User profile registration successful.' };
+    }
     async verifyUserByAdmin(userBasicId) {
         const result = await this.userFacade.verifyUserByAdmin(userBasicId);
         return { data: null, message: 'User profile verified successful.' };
@@ -150,6 +155,10 @@ let UserController = class UserController {
         const adminUser = await this.userFacade.createAdminUser(createAdminUserDto);
         return { data: adminUser, message: 'Admin registration successful.' };
     }
+    async updateAdminUser(createAdminUserDto) {
+        const adminUser = await this.userFacade.updateAdminUser(createAdminUserDto);
+        return { data: adminUser, message: 'Admin registration successful.' };
+    }
     async getAdminUsers() {
         const adminUsers = await this.userFacade.getAdminUsers();
         return { data: adminUsers, message: 'Admin registration successful.' };
@@ -170,7 +179,7 @@ let UserController = class UserController {
         const response = await this.userFacade.getUserFromDisplayId(userBasicId, diplayId);
         return { data: response, message: 'Response received successfully.' };
     }
-    async getAppUsersForAdmin(displayId, gender, cast, religion, relationship, location, startDate, endDate, isVerified, motherTongue, state, country, limit, offset) {
+    async getAppUsersForAdmin(displayId, gender, cast, religion, relationship, location, startDate, endDate, isVerified, motherTongue, state, country, limit, offset, profileStatus) {
         let filterObj = {
             displayId,
             gender,
@@ -186,6 +195,7 @@ let UserController = class UserController {
             country,
             limit,
             offset,
+            profileStatus
         };
         console.log(filterObj);
         const users = await this.userFacade.getAppUsersForAdmin(filterObj);
@@ -333,6 +343,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserBioWithImages", null);
 __decorate([
+    common_1.Post('docs'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_bio_image_dto_1.UpdateUserDocsDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateUserBioWithDocs", null);
+__decorate([
     common_1.Get('admin/verify/:userBasicId'),
     __param(0, common_1.Param('userBasicId')),
     __metadata("design:type", Function),
@@ -406,6 +423,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createAdminUser", null);
 __decorate([
+    common_1.Put('admin'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [admin_user_entity_1.AdminUser]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "updateAdminUser", null);
+__decorate([
     common_1.Get('admin'),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
@@ -467,8 +491,9 @@ __decorate([
     __param(11, common_1.Query('country')),
     __param(12, common_1.Query('limit')),
     __param(13, common_1.Query('offset')),
+    __param(14, common_1.Query('profileStatus')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, String, String, Number, String, String, String, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [String, Number, String, String, Number, String, String, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAppUsersForAdmin", null);
 __decorate([

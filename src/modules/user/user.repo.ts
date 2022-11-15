@@ -20,6 +20,7 @@ import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 import { UserService } from './user.service';
 import { isArray } from 'lodash';
+import { UserDocs } from './entities/user-docs.entity';
 
 @Injectable()
 export class UserRepo {
@@ -42,6 +43,8 @@ export class UserRepo {
     private readonly userFamilyDetailRepo: Repository<UserFamilyDetail>,
     @InjectRepository(UserImage)
     private readonly userImageRepo: Repository<UserImage>,
+    @InjectRepository(UserDocs)
+    private readonly userDocRepo: Repository<UserDocs>,
     @InjectRepository(UserBio)
     private readonly userBioRepo: Repository<UserBio>,
     @InjectRepository(Otp)
@@ -232,9 +235,12 @@ export class UserRepo {
   async createUserImages(userImages: UserImage[]) {
     return await this.userImageRepo.save(userImages);
   }
+  async createUserDocs(userImages: UserDocs[]) {
+    return await this.userImageRepo.save(userImages);
+  }
 
-  async updateUserImages(userImages: UserImage[]) {
-    return await this.userImageRepo.save({ ...userImages });
+  async updateUserImages(userDocRepo: UserDocs[]) {
+    return await this.userDocRepo.save({ ...userDocRepo });
   }
 
   async getUserBasicByEmail(email: string) {
@@ -372,6 +378,14 @@ export class UserRepo {
 
   async createAdminUser(adminUser: AdminUser) {
     return this.adminUserRepo.save(adminUser);
+  }
+  async updateAdminUser(adminUser: AdminUser) {
+    console.log('admin user', adminUser);
+    const entityManager = getManager();
+    const rawQuery = `UPDATE admin_users SET isActive = ${adminUser.isActive} WHERE (id = '${adminUser.id}');`;
+    console.log('rawQuery', rawQuery);
+    const userDet = await entityManager.query(rawQuery);
+    return userDet;
   }
   async getAdminUsers() {
     return this.adminUserRepo.find({
@@ -535,7 +549,7 @@ export class UserRepo {
       matchingFields: matchingFields,
       differentFields: differentFields,
       match_percentage: match_percentage,
-      userImage:userDetails.userImages[0]
+      userImage: userDetails.userImages[0],
     };
   }
   async getRecentViews(userBasicId: string) {
@@ -578,8 +592,7 @@ export class UserRepo {
     // return result;
 
     const entityManager = getManager();
-    const rawQuery = 
-    `select distinct(pv.id) as userBasicId, pv.*,
+    const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
     pv.createdAt as visitedAt
     from users_view pv
     join users_view uv

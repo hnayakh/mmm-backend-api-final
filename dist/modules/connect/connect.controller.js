@@ -64,6 +64,10 @@ let ConnectController = class ConnectController {
         const resp = await this.connectFacade.createOrUpdateUserConnectRequest(userConnectRequestDto);
         return { data: resp, message: 'Operation successfully completed.' };
     }
+    async getAllUserRequest() {
+        const resp = await this.connectFacade.getAllUserRequest();
+        return { data: resp, message: 'Operation successfully completed.' };
+    }
     async createOrUpdateUserConnectDuration(userConnectDurationDto) {
         const resp = await this.connectFacade.createOrUpdateUserConnectDuration(userConnectDurationDto);
         return { data: resp, message: 'Operation successfully completed.' };
@@ -147,6 +151,12 @@ __decorate([
     __metadata("design:paramtypes", [user_connect_duration_dto_1.UserConnectRequestDto]),
     __metadata("design:returntype", Promise)
 ], ConnectController.prototype, "createOrUpdateUserConnectRequest", null);
+__decorate([
+    common_1.Get('all_users_connect_request'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ConnectController.prototype, "getAllUserRequest", null);
 __decorate([
     common_1.Post('user_connect_duration'),
     __param(0, common_1.Body()),

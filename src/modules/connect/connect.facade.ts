@@ -220,7 +220,10 @@ export class ConnectFacade {
       userConnectReqObj,
     );
   }
-
+  async getAllUserRequest() {
+    //  const userBasic = await this.userService.getUserById(userBasicId);
+    return await this.connectService.getAllUserRequest();
+  }
   async createOrUpdateUserConnectRequest(
     userConnectRequestDto: UserConnectRequestDto,
   ) {

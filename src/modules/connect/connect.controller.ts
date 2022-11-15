@@ -81,6 +81,12 @@ export class ConnectController {
     );
     return { data: resp, message: 'Operation successfully completed.' };
   }
+  
+  @Get('all_users_connect_request')
+  async getAllUserRequest() {
+    const resp = await this.connectFacade.getAllUserRequest();
+    return { data: resp, message: 'Operation successfully completed.' };
+  }
 
   @Post('user_connect_duration')
   async createOrUpdateUserConnectDuration(

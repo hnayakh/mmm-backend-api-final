@@ -35,6 +35,7 @@ export declare class ConnectRepo {
     createRechargeHistory(rechargeHistory: RechargeHistory): Promise<RechargeHistory>;
     getRechargeHistoryByUserBasic(userBasic: UserBasic): Promise<RechargeHistory[]>;
     getAllRechargeHistory(): Promise<RechargeHistory[]>;
+    getAllUserRequest(): Promise<any>;
     getUserRequestById(id: string): Promise<UserRequest>;
     updateUserRequest(userRequest: UserRequest): Promise<{
         requestingUserBasicId: string;

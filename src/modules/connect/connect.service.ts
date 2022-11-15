@@ -75,6 +75,9 @@ export class ConnectService {
   async getAllRechargeHistory() {
     return await this.connectRepo.getAllRechargeHistory();
   }
+  async getAllUserRequest() {
+    return await this.connectRepo.getAllUserRequest();
+  }
 
   async getUserConnect(userBasic: UserBasic) {
     return await this.connectRepo.getUserConnectByUserBasic(userBasic);

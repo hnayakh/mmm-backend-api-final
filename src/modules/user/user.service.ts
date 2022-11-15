@@ -7,7 +7,10 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto } from './dtos/create-user-bio-image.dto';
+import {
+  CreateUserBioImageDto,
+  UpdateUserDocsDto,
+} from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
@@ -19,6 +22,7 @@ import { UserAbout } from './entities/user-about.entity';
 import { UserBasic } from './entities/user-basic.entity';
 import { UserBio } from './entities/user-bio.entity';
 import { UserCareer } from './entities/user-career.entity';
+import { UserDocs } from './entities/user-docs.entity';
 import { UserFamilyBackground } from './entities/user-family-background.entity';
 import { UserFamilyDetail } from './entities/user-family-detail.entity';
 import { UserHabit } from './entities/user-habit.entity';
@@ -30,14 +34,14 @@ import { UserRepo } from './user.repo';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepo: UserRepo) { }
+  constructor(private readonly userRepo: UserRepo) {}
 
   async getAllUsers(skip: string, take: string) {
     return await this.userRepo.getAllUsers(skip, take);
   }
 
   async getUsersByIds(userBasicIds: string[]) {
-    return await this.userRepo.getUsersByIds(userBasicIds)
+    return await this.userRepo.getUsersByIds(userBasicIds);
   }
 
   async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
@@ -200,6 +204,33 @@ export class UserService {
     this.userRepo.updateUserBasic(updatedUserBasic);
     this.userRepo.createUserImages(userImages);
     return await this.userRepo.createUserBio(userBio);
+  }
+  async updateUserBioWithDocs(
+    userBasic: UserBasic,
+    createUserBioImageDto: UpdateUserDocsDto,
+  ) {
+    const userImages = [];
+    // By default the first image would be the display image
+    let isDefaultImage = true;
+    createUserBioImageDto.userDocs.forEach((ui) => {
+      const userImage = UserDocs.createUserDocs(
+        ui.imageUrl,
+        isDefaultImage,
+        userBasic,
+      );
+      userImages.push(userImage);
+      isDefaultImage = false;
+    });
+    // const userBio = UserBio.createUserBio(
+    //   createUserBioImageDto.aboutMe,
+    //   userBasic,
+    // );
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Preferences,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    // this.userRepo.createUserImages(userImages);
+    return await this.userRepo.updateUserImages(userImages);
   }
 
   async getUserBasicByEmail(email: string) {
@@ -366,6 +397,9 @@ export class UserService {
     );
     return this.userRepo.createAdminUser(adminUser);
   }
+  async updateAdminUser(adminUser: AdminUser) {
+    return this.userRepo.updateAdminUser(adminUser);
+  }
 
   async createUserPreference(
     userBasic: UserBasic,
@@ -416,9 +450,12 @@ export class UserService {
     const userVisitedTo = await this.getUserById(visitedTo);
     return await this.userRepo.visitedProfile(userVisitedBy, userVisitedTo);
   }
- async getMatchPercentage (userBasicId:String,otherUserBasicId:String){
-  return await this.userRepo.getMatchPercentage(userBasicId,otherUserBasicId);
- }
+  async getMatchPercentage(userBasicId: String, otherUserBasicId: String) {
+    return await this.userRepo.getMatchPercentage(
+      userBasicId,
+      otherUserBasicId,
+    );
+  }
   async recentProfileViews(userBasicId: string) {
     return await this.userRepo.getRecentViews(userBasicId);
   }
@@ -430,6 +467,6 @@ export class UserService {
   }
 
   async getPremiumMembers(userBaicId: string) {
-    return  await this.userRepo.getPremiumMembers(userBaicId)
+    return await this.userRepo.getPremiumMembers(userBaicId);
   }
 }
