@@ -355,6 +355,7 @@ export class UserController {
     @Query('country') country: string,
     @Query('limit') limit: string,
     @Query('offset') offset: string,
+    @Query('profileStatus') profileStatus:string,
   ) {
     let filterObj = {
       displayId,
@@ -371,6 +372,7 @@ export class UserController {
       country,
       limit,
       offset,
+      profileStatus
     };
     console.log(filterObj);
     const users = await this.userFacade.getAppUsersForAdmin(filterObj);

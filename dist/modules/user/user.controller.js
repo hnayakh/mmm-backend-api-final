@@ -179,7 +179,7 @@ let UserController = class UserController {
         const response = await this.userFacade.getUserFromDisplayId(userBasicId, diplayId);
         return { data: response, message: 'Response received successfully.' };
     }
-    async getAppUsersForAdmin(displayId, gender, cast, religion, relationship, location, startDate, endDate, isVerified, motherTongue, state, country, limit, offset) {
+    async getAppUsersForAdmin(displayId, gender, cast, religion, relationship, location, startDate, endDate, isVerified, motherTongue, state, country, limit, offset, profileStatus) {
         let filterObj = {
             displayId,
             gender,
@@ -195,6 +195,7 @@ let UserController = class UserController {
             country,
             limit,
             offset,
+            profileStatus
         };
         console.log(filterObj);
         const users = await this.userFacade.getAppUsersForAdmin(filterObj);
@@ -490,8 +491,9 @@ __decorate([
     __param(11, common_1.Query('country')),
     __param(12, common_1.Query('limit')),
     __param(13, common_1.Query('offset')),
+    __param(14, common_1.Query('profileStatus')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number, String, String, Number, String, String, String, String, String, String, String, String, String]),
+    __metadata("design:paramtypes", [String, Number, String, String, Number, String, String, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getAppUsersForAdmin", null);
 __decorate([

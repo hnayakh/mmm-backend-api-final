@@ -89,6 +89,34 @@ export class ConnectRepo {
     return await this.rechargeHistoryRepo.find();
   }
 
+  async getAllUserRequest() {
+    const entityManager = getManager();
+    let rawQuery = `select ctl.id as transactionId,
+    ctl.updatedAt as updatedAt,
+    ctl.operation ,
+    ctl.userRequestState,
+    ctl.userRequestStatus,
+    ctl.acceptanceRejectionDate,
+    ctl.requestDate,
+    ctl.createdAt,
+    uv.name as requestedName,
+    uva.id as userId,
+    uva.displayId,
+    uv.displayId as receiverDisplayId,
+    uv.id as receiverId,
+    uva.activationStatus,
+    uva.name as requestingName,
+    uva.imageURL,
+    uva.thumbnailURL
+    from user_requests ctl
+    join users_view_admin uv on ctl.requestedUserBasicId = uv.id
+    join users_view_admin uva on
+    ctl.requestingUserBasicId = uva.id group by uva.id;`;
+    const userDet = await entityManager.query(rawQuery);
+    console.log(userDet)
+    return userDet;
+  }
+
   async getUserRequestById(id: string) {
     return await this.userRequestRepo.findOne({
       where: {
@@ -303,6 +331,4 @@ from connect_transaction_log ctl
     console.log(transactions);
     return transactions;
   }
-  
-  
 }

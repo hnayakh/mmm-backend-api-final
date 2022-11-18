@@ -12,9 +12,9 @@ import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserBasic } from './entities/user-basic.entity';
 import { UserService } from './user.service';
-import { UserFilterDto } from "./dtos/user-filter.dto";
-import { ConnectService } from "../connect/connect.service";
-import { AdminUser } from "./entities/admin-user.entity";
+import { UserFilterDto } from './dtos/user-filter.dto';
+import { ConnectService } from '../connect/connect.service';
+import { AdminUser } from './entities/admin-user.entity';
 export declare class UserFacade {
     private readonly userService;
     private readonly masterService;

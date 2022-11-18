@@ -20,6 +20,7 @@ export declare class ConnectFacade {
     createRechargeHistory(rechargeHistoryDto: RechargeHistoryDto): Promise<import("./entities/recharge-history.entity").RechargeHistory>;
     getUserConnect(userBasicId: string): Promise<import("./entities/user-connect.entity").UserConnect>;
     createOrUpdateUserConnectDuration(userConnectDurationDto: UserConnectDurationDto): Promise<import("./entities/user-connect-duration-log").UserConnectDurationLog>;
+    getAllUserRequest(): Promise<any>;
     createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<import("./entities/user-connect-duration.entity").UserConnectDuration>;
     getUserConnectDuration(userConnectDurationDto: any): Promise<{
         minutesLeft: number;

@@ -117,7 +117,7 @@ export declare class UserController {
         data: any[];
         message: string;
     }>;
-    getAppUsersForAdmin(displayId: string, gender: number, cast: string, religion: string, relationship: number, location: string, startDate: string, endDate: string, isVerified: string, motherTongue: string, state: string, country: string, limit: string, offset: string): Promise<{
+    getAppUsersForAdmin(displayId: string, gender: number, cast: string, religion: string, relationship: number, location: string, startDate: string, endDate: string, isVerified: string, motherTongue: string, state: string, country: string, limit: string, offset: string, profileStatus: string): Promise<{
         data: {
             users: any[];
             count: number;
