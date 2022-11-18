@@ -83,16 +83,22 @@ let ConnectRepo = class ConnectRepo {
     ctl.userRequestStatus,
     ctl.acceptanceRejectionDate,
     ctl.requestDate,
+    ctl.createdAt,
+    uv.name as requestedName,
     uva.id as userId,
     uva.displayId,
+    uv.displayId as receiverDisplayId,
+    uv.id as receiverId,
     uva.activationStatus,
-    uva.name,
+    uva.name as requestingName,
     uva.imageURL,
     uva.thumbnailURL
     from user_requests ctl
+    join users_view_admin uv on ctl.requestedUserBasicId = uv.id
     join users_view_admin uva on
     ctl.requestingUserBasicId = uva.id group by uva.id;`;
         const userDet = await entityManager.query(rawQuery);
+        console.log(userDet);
         return userDet;
     }
     async getUserRequestById(id) {
