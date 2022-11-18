@@ -26,13 +26,13 @@ const user_image_entity_1 = require("./user-image.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 const user_login_entity_1 = require("./user-login.entity");
 const user_preference_entity_1 = require("./user-preference.entity");
-const shortid = require("shortid");
 const user_connect_entity_1 = require("../../connect/entities/user-connect.entity");
 const recharge_history_entity_1 = require("../../connect/entities/recharge-history.entity");
 const user_connect_log_entity_1 = require("../../connect/entities/user-connect-log.entity");
 const user_profile_visit_1 = require("./user.profile.visit");
 const connect_transaction_entity_1 = require("../../connect/entities/connect-transaction-entity");
 const user_docs_entity_1 = require("./user-docs.entity");
+const nanoid_1 = require("nanoid");
 let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.AbstarctEntity {
     async hashPassword() {
         this.password = await bcrypt.hash(this.password == null ? 'User@123' : this.password, 8);
@@ -48,7 +48,8 @@ let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.Abstarct
         userBasic.lifecycleStatus = miscellaneous_enum_1.LifecycleStatus.Active;
         userBasic.registrationStep = miscellaneous_enum_1.RegistrationSteps.About;
         userBasic.relationship = relationship;
-        userBasic.displayId = 'MM' + shortid.generate();
+        userBasic.displayId = 'MM' + nanoid_1.nanoid(6);
+        console.log("NANOID", userBasic.displayId);
         return userBasic;
     }
     updateRegistrationStep(registrationStep) {

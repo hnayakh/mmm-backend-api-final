@@ -24,6 +24,7 @@ import { UserConnectLog } from 'src/modules/connect/entities/user-connect-log.en
 import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
 import { UserDocs } from './user-docs.entity';
+import { nanoid } from 'nanoid';
 
 @Entity('user_basics')
 export class UserBasic extends AbstarctEntity {
@@ -149,7 +150,10 @@ export class UserBasic extends AbstarctEntity {
     userBasic.lifecycleStatus = LifecycleStatus.Active;
     userBasic.registrationStep = RegistrationSteps.About;
     userBasic.relationship = relationship;
-    userBasic.displayId = 'MM' + shortid.generate();
+   // userBasic.displayId = 'MM' + shortid.generate();
+    userBasic.displayId = 'MM' + nanoid(6);
+
+    console.log("NANOID",userBasic.displayId );
     return userBasic;
   }
 
