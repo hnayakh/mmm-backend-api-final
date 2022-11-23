@@ -32,8 +32,9 @@ const user_login_entity_1 = require("./entities/user-login.entity");
 const user_preference_entity_1 = require("./entities/user-preference.entity");
 const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_profile_visit_1 = require("./entities/user.profile.visit");
+const user_docs_entity_1 = require("./entities/user-docs.entity");
 let UserRepo = class UserRepo {
-    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo) {
+    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo) {
         this.jwtstategy = jwtstategy;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
@@ -43,6 +44,7 @@ let UserRepo = class UserRepo {
         this.userFamilyBackgroundRepo = userFamilyBackgroundRepo;
         this.userFamilyDetailRepo = userFamilyDetailRepo;
         this.userImageRepo = userImageRepo;
+        this.userDocRepo = userDocRepo;
         this.userBioRepo = userBioRepo;
         this.otpRepo = otpRepo;
         this.userLoginRepo = userLoginRepo;
@@ -204,8 +206,11 @@ let UserRepo = class UserRepo {
     async createUserImages(userImages) {
         return await this.userImageRepo.save(userImages);
     }
-    async updateUserImages(userImages) {
-        return await this.userImageRepo.save(Object.assign({}, userImages));
+    async createUserDocs(userImages) {
+        return await this.userImageRepo.save(userImages);
+    }
+    async updateUserImages(userDocRepo) {
+        return await this.userDocRepo.save(Object.assign({}, userDocRepo));
     }
     async getUserBasicByEmail(email) {
         return await this.userBasicRepo.findOne({ where: { email: email } });
@@ -334,6 +339,14 @@ let UserRepo = class UserRepo {
     }
     async createAdminUser(adminUser) {
         return this.adminUserRepo.save(adminUser);
+    }
+    async updateAdminUser(adminUser) {
+        console.log('admin user', adminUser);
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE admin_users SET isActive = ${adminUser.isActive} WHERE (id = '${adminUser.id}');`;
+        console.log('rawQuery', rawQuery);
+        const userDet = await entityManager.query(rawQuery);
+        return userDet;
     }
     async getAdminUsers() {
         return this.adminUserRepo.find({
@@ -468,7 +481,7 @@ let UserRepo = class UserRepo {
             matchingFields: matchingFields,
             differentFields: differentFields,
             match_percentage: match_percentage,
-            userImage: userDetails.userImages[0]
+            userImage: userDetails.userImages[0],
         };
     }
     async getRecentViews(userBasicId) {
@@ -559,13 +572,15 @@ UserRepo = __decorate([
     __param(6, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
     __param(7, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
     __param(8, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
-    __param(9, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
-    __param(10, typeorm_1.InjectRepository(otp_entity_1.Otp)),
-    __param(11, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
-    __param(12, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
-    __param(13, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
-    __param(14, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __param(9, typeorm_1.InjectRepository(user_docs_entity_1.UserDocs)),
+    __param(10, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
+    __param(11, typeorm_1.InjectRepository(otp_entity_1.Otp)),
+    __param(12, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
+    __param(13, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
+    __param(14, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
+    __param(15, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
     __metadata("design:paramtypes", [jwt_1.JwtService,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

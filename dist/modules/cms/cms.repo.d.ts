@@ -11,6 +11,12 @@ export declare class CmsRepo {
     private readonly content_creation;
     constructor(success_stories: Repository<success_stories>, faq: Repository<faq>, content_creation: Repository<content_creation>);
     createFaq(faqDto: FaqDto): Promise<FaqDto & faq>;
+    removeFaq(id: any): Promise<any>;
+    removeContent(id: any): Promise<any>;
+    removeSuccess(id: any): Promise<any>;
+    updateFaq(faq: faq): Promise<any>;
+    updateSuccess(success_stories: success_stories): Promise<any>;
+    updateContent(content_creation: content_creation): Promise<any>;
     getAllFaq(): Promise<faq[]>;
     getAllSuccess(): Promise<success_stories[]>;
     createSuccess(SuccessStoriesDto: SuccessStoriesDto): Promise<SuccessStoriesDto & success_stories>;

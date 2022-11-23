@@ -19,6 +19,24 @@ let CmsFacade = class CmsFacade {
     async createFaq(faqDto) {
         return await this.cmsService.createFaq(faqDto);
     }
+    async updateFaq(faq) {
+        return await this.cmsService.updateFaq(faq);
+    }
+    async removeFaq(id) {
+        return await this.cmsService.removeFaq(id);
+    }
+    async removeContent(id) {
+        return await this.cmsService.removeContent(id);
+    }
+    async removeSuccess(id) {
+        return await this.cmsService.removeSuccess(id);
+    }
+    async updateSuccess(success_stories) {
+        return await this.cmsService.updateSuccess(success_stories);
+    }
+    async updateContent(content_create) {
+        return await this.cmsService.updateContent(content_create);
+    }
     async createSuccess(successDto) {
         return await this.cmsService.createSuccess(successDto);
     }

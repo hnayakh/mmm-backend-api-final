@@ -29,6 +29,53 @@ let CmsRepo = class CmsRepo {
     async createFaq(faqDto) {
         return await this.faq.save(faqDto);
     }
+    async removeFaq(id) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `DELETE  FROM faq WHERE id ='${id.id}';`;
+        console.log(rawQuery);
+        const faq = await entityManager.query(rawQuery);
+        return faq;
+    }
+    async removeContent(id) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `DELETE  FROM content_creation WHERE id ='${id.id}';`;
+        console.log(rawQuery);
+        const faq = await entityManager.query(rawQuery);
+        return faq;
+    }
+    async removeSuccess(id) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `DELETE  FROM success_stories WHERE id ='${id.id}';`;
+        console.log(rawQuery);
+        const faq = await entityManager.query(rawQuery);
+        return faq;
+    }
+    async updateFaq(faq) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE faq SET question = '${faq.question}' , answer = '${faq.answer}' WHERE (id = '${faq.id}');`;
+        console.log(rawQuery);
+        const faqUpdate = await entityManager.query(rawQuery);
+        return faqUpdate;
+    }
+    async updateSuccess(success_stories) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE success_stories SET heading = '${success_stories.heading}' , story = '${success_stories.story}' WHERE (id = '${success_stories.id}');`;
+        console.log(rawQuery);
+        const faqUpdate = await entityManager.query(rawQuery);
+        return faqUpdate;
+    }
+    async updateContent(content_creation) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE content_creation SET 
+     channel = '${content_creation.channel}' ,
+     content = '${content_creation.content}',
+     template_name = '${content_creation.template_name}',
+     content_heading = '${content_creation.content_heading}'
+     WHERE (id = '${content_creation.id}');`;
+        console.log(rawQuery);
+        const faqUpdate = await entityManager.query(rawQuery);
+        return faqUpdate;
+    }
     async getAllFaq() {
         return await this.faq.find();
     }

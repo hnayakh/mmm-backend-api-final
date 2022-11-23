@@ -3,6 +3,9 @@ import { CmsService } from './cms.service';
 import { ContentCreationDto } from './dtos/contentcreation.dto';
 import { FaqDto } from './dtos/faq.dto';
 import { SuccessStoriesDto } from './dtos/successstories.dto';
+import { content_creation } from './entities/contentcreation.entity';
+import { faq } from './entities/faq.entity';
+import { success_stories } from './entities/successstories.enity';
 
 @Injectable()
 export class CmsFacade {
@@ -10,6 +13,25 @@ export class CmsFacade {
   async createFaq(faqDto: FaqDto) {
     return await this.cmsService.createFaq(faqDto);
   }
+  async updateFaq(faq: faq) {
+    return await this.cmsService.updateFaq(faq);
+  }
+  async removeFaq(id: any) {
+    return await this.cmsService.removeFaq(id);
+  }
+  async removeContent(id: any) {
+    return await this.cmsService.removeContent(id);
+  }
+  async removeSuccess(id: any) {
+    return await this.cmsService.removeSuccess(id);
+  }
+  async updateSuccess(success_stories: success_stories) {
+    return await this.cmsService.updateSuccess(success_stories);
+  }
+  async updateContent(content_create: content_creation) {
+    return await this.cmsService.updateContent(content_create);
+  }
+
   async createSuccess(successDto: SuccessStoriesDto) {
     return await this.cmsService.createSuccess(successDto);
   }

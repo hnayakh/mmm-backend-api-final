@@ -147,6 +147,9 @@ let ConnectFacade = class ConnectFacade {
         }
         return await this.connectService.createUserConnectDurationLog(userConnectDurationDto, userConnectReqObj);
     }
+    async getAllUserRequest() {
+        return await this.connectService.getAllUserRequest();
+    }
     async createOrUpdateUserConnectRequest(userConnectRequestDto) {
         let masterConnect = await this.masterService.getConnects();
         const userOneBasic = await this.userService.getUserById(userConnectRequestDto.userOneBasicId);

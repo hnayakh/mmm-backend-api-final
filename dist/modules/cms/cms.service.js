@@ -19,6 +19,24 @@ let CmsService = class CmsService {
     async createFaq(faqDto) {
         return await this.cmsRepo.createFaq(faqDto);
     }
+    async updateFaq(faq) {
+        return await this.cmsRepo.updateFaq(faq);
+    }
+    async removeFaq(id) {
+        return await this.cmsRepo.removeFaq(id);
+    }
+    async removeContent(id) {
+        return await this.cmsRepo.removeContent(id);
+    }
+    async removeSuccess(id) {
+        return await this.cmsRepo.removeSuccess(id);
+    }
+    async updateSuccess(success_stories) {
+        return await this.cmsRepo.updateSuccess(success_stories);
+    }
+    async updateContent(content_creates) {
+        return await this.cmsRepo.updateContent(content_creates);
+    }
     async createSuccess(successDto) {
         return await this.cmsRepo.createSuccess(successDto);
     }

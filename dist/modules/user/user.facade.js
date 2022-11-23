@@ -21,6 +21,10 @@ const resolve = require('path').resolve;
 const app_root = require("app-root-path");
 const _ = require("lodash");
 const connect_service_1 = require("../connect/connect.service");
+const typeorm_1 = require("typeorm");
+const religion_1 = require("../../shared/constants/profile-master-data/religion");
+const mother_tongue_1 = require("../../shared/constants/profile-master-data/mother-tongue");
+const cast_subcaste_1 = require("../../shared/constants/profile-master-data/cast-subcaste");
 let UserFacade = class UserFacade {
     constructor(userService, masterService, s3Service, connectService) {
         this.userService = userService;
@@ -90,6 +94,11 @@ let UserFacade = class UserFacade {
         const res = await this.userService.createUserBioWithImages(userBasic, createUserBioImageDto);
         return res;
     }
+    async updateUserBioWithDocs(UpdateUserDocsDto) {
+        const userBasic = await this.userService.getUserBasicById(UpdateUserDocsDto.userBasicId);
+        const res = await this.userService.updateUserBioWithDocs(userBasic, UpdateUserDocsDto);
+        return res;
+    }
     async rejectUserByAdmin(userBasicId) {
         const user = await this.userService.getUserById(userBasicId);
         user.updateStatus(miscellaneous_enum_1.ActivationStatus.Rejected, miscellaneous_enum_1.RegistrationSteps.Completed);
@@ -130,45 +139,49 @@ let UserFacade = class UserFacade {
             }
         });
         const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isLiked: false,
                 sent: false,
                 requested: false,
                 isConnected: false,
-                id: ""
+                id: '',
             };
-            let isConnectOne = connectUsers.find(u => u.requestedUserBasicId == uu.id);
+            let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isLiked = true,
-                    tempObj.requested = true,
-                    tempObj.isConnected = isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.requested = true),
+                    (tempObj.isConnected =
+                        isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
                 tempObj.id = isConnectOne.id;
             }
-            let isConnectTwo = connectUsers.find(u => u.requestingUserBasicId == uu.id);
+            let isConnectTwo = connectUsers.find((u) => u.requestingUserBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isLiked = true,
-                    tempObj.sent = true,
-                    tempObj.isConnected = isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.sent = true),
+                    (tempObj.isConnected =
+                        isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
                 tempObj.id = isConnectTwo.id;
             }
             uu['interestStatus'] = tempObj;
         });
         const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isConnected: false,
-                id: null
+                id: null,
             };
-            let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == uu.id);
+            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectOne.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
             }
-            let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == uu.id);
+            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectTwo.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             }
             uu['connectStatus'] = tempObj;
         });
@@ -176,12 +189,15 @@ let UserFacade = class UserFacade {
     }
     async getProfilesByPreference(userBasicId, queryObj) {
         let userGenderAndPreference = await this.userService.getUserGenderAndPreference(userBasicId);
+        console.log('USERGENDERPREF', userGenderAndPreference);
         let genderPreference = 0;
         if (userGenderAndPreference.gender == 0) {
             genderPreference = 1;
         }
         let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
-        queryString = queryString + ` AND uv.registrationStep in (10, 11);`;
+        queryString =
+            queryString +
+                ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
         console.log(queryString);
         const result = await this.userService.getProfilesByPreference(queryString);
         let uniqueUsers = [];
@@ -192,45 +208,49 @@ let UserFacade = class UserFacade {
             }
         });
         const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isLiked: false,
                 sent: false,
                 requested: false,
                 isConnected: false,
-                id: ""
+                id: '',
             };
-            let isConnectOne = connectUsers.find(u => u.requestedUserBasicId == uu.id);
+            let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isLiked = true,
-                    tempObj.requested = true,
-                    tempObj.isConnected = isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.requested = true),
+                    (tempObj.isConnected =
+                        isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
                 tempObj.id = isConnectOne.id;
             }
-            let isConnectTwo = connectUsers.find(u => u.requestingUserBasicId == uu.id);
+            let isConnectTwo = connectUsers.find((u) => u.requestingUserBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isLiked = true,
-                    tempObj.sent = true,
-                    tempObj.isConnected = isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.sent = true),
+                    (tempObj.isConnected =
+                        isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
                 tempObj.id = isConnectTwo.id;
             }
             uu['interestStatus'] = tempObj;
         });
         const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isConnected: false,
-                id: null
+                id: null,
             };
-            let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == uu.id);
+            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectOne.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
             }
-            let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == uu.id);
+            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isConnected = true,
-                    tempObj.id = isConnectTwo.id;
+                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             }
             uu['connectStatus'] = tempObj;
         });
@@ -268,42 +288,48 @@ let UserFacade = class UserFacade {
             }
         });
         const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(userFilterDto.userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isLiked: false,
                 sent: false,
                 requested: false,
-                isConnected: false
+                isConnected: false,
             };
-            let isConnectOne = connectUsers.find(u => u.requestedUserBasicId == uu.id);
+            let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isLiked = true,
-                    tempObj.requested = true,
-                    tempObj.isConnected = isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.requested = true),
+                    (tempObj.isConnected =
+                        isConnectOne.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
             }
-            let isConnectTwo = connectUsers.find(u => u.requestingUserBasicId == uu.id);
+            let isConnectTwo = connectUsers.find((u) => u.requestingUserBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isLiked = true,
-                    tempObj.sent = true,
-                    tempObj.isConnected = isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active ? true : false;
+                (tempObj.isLiked = true),
+                    (tempObj.sent = true),
+                    (tempObj.isConnected =
+                        isConnectTwo.userRequestState == miscellaneous_enum_1.UserRequestState.Active
+                            ? true
+                            : false);
             }
             uu['connectStatus'] = tempObj;
         });
         const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userFilterDto.userBasicId);
-        uniqueUsers.forEach(uu => {
+        uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isConnectedForCallMessage: false,
-                userConnectRequestId: null
+                userConnectRequestId: null,
             };
-            let isConnectOne = connectedUserForCall.find(u => u.userOneBasicId == uu.id);
+            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == uu.id);
             if (isConnectOne != null) {
-                tempObj.isConnectedForCallMessage = true,
-                    tempObj.userConnectRequestId = isConnectOne.id;
+                (tempObj.isConnectedForCallMessage = true),
+                    (tempObj.userConnectRequestId = isConnectOne.id);
             }
-            let isConnectTwo = connectedUserForCall.find(u => u.userTwoBasicId == uu.id);
+            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == uu.id);
             if (isConnectTwo != null) {
-                tempObj.isConnectedForCallMessage = true,
-                    tempObj.userConnectRequestId = isConnectOne.id;
+                (tempObj.isConnectedForCallMessage = true),
+                    (tempObj.userConnectRequestId = isConnectOne.id);
             }
             uu['connectRequestCallMessageStatus'] = tempObj;
         });
@@ -322,6 +348,9 @@ let UserFacade = class UserFacade {
         }
         return this.userService.createAdminUser(createAdminUserDto);
     }
+    async updateAdminUser(createAdminUserDto) {
+        return this.userService.updateAdminUser(createAdminUserDto);
+    }
     async createUserPreference(createUserPreferenceDto) {
         const userBasic = await this.userService.getUserById(createUserPreferenceDto.userBasicId);
         const res = await this.userService.createUserPreference(userBasic, createUserPreferenceDto);
@@ -329,7 +358,66 @@ let UserFacade = class UserFacade {
         return res;
     }
     async getUserDeatailById(userBasicId) {
-        const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
+        try {
+            const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
+            if (userDetails.userCareers) {
+                userDetails.userCareers = userDetails.userCareers.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
+            }
+            userDetails.userFamilyBackgrounds =
+                userDetails.userFamilyBackgrounds.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
+            for (let i = 0; i < userDetails.userCareers.length; i++) {
+                let country = await this.masterService.getCountry(userDetails.userCareers[i].country);
+                let state = await this.masterService.getState(userDetails.userCareers[i].state);
+                let city = await this.masterService.getCity(userDetails.userCareers[i].city);
+                userDetails.userCareers[i]['countryName'] = country['name'];
+                userDetails.userCareers[i]['stateName'] = state['name'];
+                userDetails.userCareers[i]['cityName'] = city['name'];
+            }
+            if (userDetails.userReligions && userDetails.userReligions.length) {
+                for (let i = 0; i < userDetails.userReligions.length; i++) {
+                    let religionName = userDetails.userReligions[i].religion;
+                    let religionId = religion_1.religion.filter((x) => x.text == religionName);
+                    userDetails.userReligions[i]['religionId'] = religionId;
+                }
+            }
+            if (userDetails.userReligions && userDetails.userReligions.length) {
+                for (let i = 0; i < userDetails.userReligions.length; i++) {
+                    let casteName = userDetails.userReligions[i].religion;
+                    let subCastName = userDetails.userReligions[i].cast;
+                    let motherTongueName = userDetails.userReligions[i].motherTongue;
+                    let motherTongueId = mother_tongue_1.motherTongue.filter((x) => x.text == motherTongueName)[0].id;
+                    console.log('casteName', userDetails.userReligions[i].religion);
+                    console.log('subCasteName', subCastName);
+                    userDetails.userReligions[i]['casteName'] = casteName;
+                    userDetails.userReligions[i]['subCasteName'] = subCastName;
+                    userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
+                }
+            }
+            for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
+                let country = await this.masterService.getCountry(userDetails.userFamilyBackgrounds[i].country);
+                let state = await this.masterService.getState(userDetails.userFamilyBackgrounds[i].state);
+                let city = await this.masterService.getCity(userDetails.userFamilyBackgrounds[i].city);
+                userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
+                userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
+                userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+            }
+            return userDetails;
+        }
+        catch (err) {
+            console.log('ERRRRRROR', err);
+        }
+    }
+    async getUserDeatailByDisplayId(displayId) {
+        const entityManager = typeorm_1.getManager();
+        const rawQuery = `SELECT id from user_basics where displayId='${displayId}'`;
+        const userDet = await entityManager.query(rawQuery);
+        console.log('USERDET', userDet);
+        if (userDet.length == 0) {
+            return undefined;
+        }
+        const userDetails = await this.userService.getAllUserDetailsById(userDet[0].id);
         userDetails.userCareers = userDetails.userCareers.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
             x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
         userDetails.userFamilyBackgrounds =
@@ -371,9 +459,23 @@ let UserFacade = class UserFacade {
     uv.careerState,
     uv.careerCountry,
     uv.activationStatus
-    FROM users_view_admin uv WHERE uv.isActive = true AND uv.registrationStep > 8`;
+    FROM users_view_admin uv 
+    JOIN user_logins as ul 
+    ON uv.id = ul.userBasicId
+    WHERE uv.isActive = true `;
         if (filterObj['gender'] != undefined) {
             queryString = queryString + ` AND uv.gender = ${filterObj['gender']}`;
+        }
+        if (filterObj['profileStatus'] != undefined) {
+            if (filterObj['profileStatus'] == 3) {
+                queryString = queryString + ` AND uv.registrationStep < 8`;
+            }
+            if (filterObj['profileStatus'] == 2) {
+                queryString = queryString + ` AND uv.registrationStep > 8 AND ul.updatedAt< DATE_SUB(NOW(), INTERVAL 60 DAY)`;
+            }
+        }
+        if (!filterObj['profileStatus']) {
+            queryString = queryString + ` AND uv.registrationStep > 8`;
         }
         if (filterObj['displayId'] != undefined) {
             if (filterObj['displayId'].includes('@')) {
@@ -416,7 +518,7 @@ let UserFacade = class UserFacade {
             filterObj['endDate'] != undefined) {
             queryString =
                 queryString +
-                    ` AND uv.createdAt >= '${filterObj['startDate']}' AND uv.createdAt <= '${filterObj['endDate']}'`;
+                    ` AND date(uv.createdAt) >= date('${filterObj['startDate']}') AND date(uv.createdAt) <= date('${filterObj['endDate']}') `;
         }
         if (filterObj['isVerified'] != undefined) {
             let isVerified = +filterObj['isVerified'];

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { getManager, Repository } from 'typeorm';
+import { CouponDto } from './dtos/coupon.dto';
 import { Connect } from './entities/connect.entity';
 import { Coupon } from './entities/coupon.entity';
 import { Referral } from './entities/referral.entity';
@@ -87,6 +88,9 @@ export class MasterRepo {
 
   async updateCoupon(couponObj: Coupon) {
     return await this.couponRepo.save({ ...couponObj });
+  }
+  async deleteCoupon(couponObj: CouponDto) {
+    return await this.couponRepo.delete(couponObj)
   }
 
   async getReferrals() {

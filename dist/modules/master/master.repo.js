@@ -85,6 +85,9 @@ let MasterRepo = class MasterRepo {
     async updateCoupon(couponObj) {
         return await this.couponRepo.save(Object.assign({}, couponObj));
     }
+    async deleteCoupon(couponObj) {
+        return await this.couponRepo.delete(couponObj);
+    }
     async getReferrals() {
         return await this.referralRepo.find();
     }

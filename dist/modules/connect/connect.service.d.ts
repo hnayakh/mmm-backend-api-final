@@ -28,6 +28,7 @@ export declare class ConnectService {
     createRechargeHistory(input: RechargeHistoryDto, userBasic: UserBasic): Promise<RechargeHistory>;
     getRechargeHistory(userBasic: UserBasic): Promise<RechargeHistory[]>;
     getAllRechargeHistory(): Promise<RechargeHistory[]>;
+    getAllUserRequest(): Promise<any>;
     getUserConnect(userBasic: UserBasic): Promise<UserConnect>;
     addConnectTransaction(userOneBasic: UserBasic, operation: number, externalId?: string): Promise<import("./entities/connect-transaction-entity").ConnectTransactionEntity>;
     createOrUpdateUserRequest(userRequestDto: UserRequestDto): Promise<UserRequest>;

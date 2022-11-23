@@ -48,6 +48,10 @@ const app_gateway_1 = require("./app.gateway");
 const user_session_cache_1 = require("./modules/user/user-session-cache");
 const successstories_enity_1 = require("./modules/cms/entities/successstories.enity");
 const contentcreation_entity_1 = require("./modules/cms/entities/contentcreation.entity");
+const chat_gateway_1 = require("./chat/chat.gateway");
+const chat_module_1 = require("./chat/chat.module");
+const chat_entity_1 = require("./chat/entity/chat.entity");
+const user_docs_entity_1 = require("./modules/user/entities/user-docs.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -75,6 +79,7 @@ AppModule = __decorate([
                     user_family_detail_entity_1.UserFamilyDetail,
                     user_bio_entity_1.UserBio,
                     user_image_entity_1.UserImage,
+                    user_docs_entity_1.UserDocs,
                     admin_user_entity_1.AdminUser,
                     otp_entity_1.Otp,
                     user_login_entity_1.UserLogin,
@@ -87,6 +92,7 @@ AppModule = __decorate([
                     user_request_entity_1.UserRequest,
                     recharge_history_entity_1.RechargeHistory,
                     faq_entity_1.faq,
+                    chat_entity_1.Chat,
                     successstories_enity_1.success_stories,
                     contentcreation_entity_1.content_creation,
                     user_connect_duration_log_1.UserConnectDurationLog,
@@ -101,6 +107,7 @@ AppModule = __decorate([
             master_module_1.MasterModule,
             connect_module_1.ConnectModule,
             cms_module_1.CmsModule,
+            chat_module_1.ChatModule,
             common_1.CacheModule.register({
                 isGlobal: true,
             }),
@@ -120,6 +127,7 @@ AppModule = __decorate([
             },
             app_gateway_1.AppGateway,
             user_session_cache_1.UserSessionCache,
+            chat_gateway_1.ChatGateway,
         ],
     })
 ], AppModule);
