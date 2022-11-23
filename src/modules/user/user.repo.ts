@@ -95,7 +95,9 @@ export class UserRepo {
   async getUserBasicById(userBasicId: string) {
     return await this.userBasicRepo.findOne(userBasicId);
   }
-
+  async getUserAboutyId(userBasicId: string) {
+    return await this.userAboutRepo.findOne(userBasicId);
+  }
   async createUserAbout(userAbout: UserAbout) {
     const existingPending = await this.userAboutRepo.findOne({
       where: {
@@ -108,11 +110,22 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userAboutRepo.save({ ...existingPending });
     }
-    return await this.userAboutRepo.save(userAbout);
+    let existingAboutRecord= await this.userAboutRepo.findOne({
+      where: {
+        userBasic: userAbout.userBasic,
+      },
+    })
+    console.log("existingAboutRecord", existingAboutRecord)
+    return existingAboutRecord !=null? await this.updateUserAbout(userAbout) : await this.userAboutRepo.save(userAbout);
   }
 
   async updateUserAbout(userAbout: UserAbout) {
-    return await this.userAboutRepo.save({ ...userAbout });
+    // let userAboutData= this.userAboutRepo.findOne({
+    //   where: { userBasic: userAbout.userBasic},
+    // });
+    console.log("updating...............")
+      await this.userAboutRepo.update({ userBasic: userAbout.userBasic},{ ...userAbout });
+      return userAbout;
   }
 
   async createUserHabit(userHabit: UserHabit) {

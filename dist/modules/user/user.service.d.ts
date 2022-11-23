@@ -57,23 +57,7 @@ export declare class UserService {
     getOtpForVerification(phoneNumber: string, email: string): Promise<Otp>;
     getUserById(userBasicId: string): Promise<UserBasic>;
     updateUserBasic(user: UserBasic): Promise<void>;
-    updateUserAboutStatus(userAbout: UserAbout, profileUpdationStatus: ProfileUpdationStatus): Promise<{
-        name: string;
-        dateOfBirth: string;
-        maritalStatus: import("../../shared/enums/user-profile.enum").MaritalStatus;
-        childrenStatus: import("../../shared/enums/user-profile.enum").ChildrenStatus;
-        numberOfChildren: import("../../shared/enums/user-profile.enum").NumberOfChildren;
-        abilityStatus: import("../../shared/enums/user-profile.enum").AbilityStatus;
-        profileUpdationStatus: ProfileUpdationStatus;
-        height: number;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserAbout>;
+    updateUserAboutStatus(userAbout: UserAbout, profileUpdationStatus: ProfileUpdationStatus): Promise<UserAbout>;
     updateUserHabitStatus(userHabit: UserHabit, profileUpdationStatus: ProfileUpdationStatus): Promise<{
         eatingHabit: import("../../shared/enums/user-profile.enum").EatingHabit;
         smokingHabit: import("../../shared/enums/user-profile.enum").SmokingHabit;

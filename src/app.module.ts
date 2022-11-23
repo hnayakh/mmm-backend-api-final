@@ -83,7 +83,7 @@ import { content_creation } from './modules/cms/entities/contentcreation.entity'
         ConnectTransactionEntity,
         ProfileVisit,
       ],
-      synchronize: true,
+      synchronize: false,
     }),
     UserModule,
     AuthModule,

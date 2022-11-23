@@ -70,24 +70,9 @@ export declare class UserRepo {
         isActive: boolean;
     } & UserBasic>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
+    getUserAboutyId(userBasicId: string): Promise<UserAbout>;
     createUserAbout(userAbout: UserAbout): Promise<UserAbout>;
-    updateUserAbout(userAbout: UserAbout): Promise<{
-        name: string;
-        dateOfBirth: string;
-        maritalStatus: import("../../shared/enums/user-profile.enum").MaritalStatus;
-        childrenStatus: import("../../shared/enums/user-profile.enum").ChildrenStatus;
-        numberOfChildren: import("../../shared/enums/user-profile.enum").NumberOfChildren;
-        abilityStatus: import("../../shared/enums/user-profile.enum").AbilityStatus;
-        profileUpdationStatus: ProfileUpdationStatus;
-        height: number;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserAbout>;
+    updateUserAbout(userAbout: UserAbout): Promise<UserAbout>;
     createUserHabit(userHabit: UserHabit): Promise<UserHabit>;
     updateUserHabit(userHabit: UserHabit): Promise<{
         eatingHabit: import("../../shared/enums/user-profile.enum").EatingHabit;

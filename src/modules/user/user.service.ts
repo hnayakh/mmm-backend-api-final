@@ -74,6 +74,7 @@ export class UserService {
       RegistrationSteps.Habit,
     );
     this.userRepo.updateUserBasic(updatedUserBasic);
+    
     return await this.userRepo.createUserAbout(userAbout);
   }
 
