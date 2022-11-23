@@ -101,6 +101,7 @@ export class UserRepo {
   async getUserAboutyId(userBasicId: string) {
     return await this.userAboutRepo.findOne(userBasicId);
   }
+
   async createUserAbout(userAbout: UserAbout) {
     const existingPending = await this.userAboutRepo.findOne({
       where: {
@@ -119,8 +120,10 @@ export class UserRepo {
       },
     })
     console.log("existingAboutRecord", existingAboutRecord)
-    return existingAboutRecord !=null? await this.updateUserAbout(userAbout) : await this.userAboutRepo.save(userAbout);
+    return existingAboutRecord !=null ? await this.updateUserAbout(userAbout) : await this.userAboutRepo.save(userAbout);
   }
+
+
 
   async updateUserAbout(userAbout: UserAbout) {
     // let userAboutData= this.userAboutRepo.findOne({
@@ -150,6 +153,21 @@ export class UserRepo {
     return await this.userHabitRepo.save({ ...userHabit });
   }
 
+  // async createUserFamilyDetail(ufd: UserFamilyDetail) {
+  //   const existingPending = await this.userFamilyDetailRepo.findOne({
+  //     where: {
+  //       userBasic: ufd.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userFamilyDetailRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userFamilyDetailRepo.save(ufd);
+  // }
+
   async createUserFamilyDetail(ufd: UserFamilyDetail) {
     const existingPending = await this.userFamilyDetailRepo.findOne({
       where: {
@@ -162,12 +180,27 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userFamilyDetailRepo.save({ ...existingPending });
     }
-    return await this.userFamilyDetailRepo.save(ufd);
+
+    let existingFamilyDetailRecord= await this.userFamilyDetailRepo.findOne({
+      where: {
+        userBasic: ufd.userBasic,
+      },
+    })
+    console.log("existingAboutRecord", existingFamilyDetailRecord)
+    return  existingFamilyDetailRecord != null ? this.updateUserFamilyDetail(ufd) : await this.userFamilyDetailRepo.save(ufd);
   }
 
   async updateUserFamilyDetail(ufd: UserFamilyDetail) {
-    return await this.userFamilyDetailRepo.save({ ...ufd });
-  }
+    // return await this.userFamilyDetailRepo.save({ ...ufd });
+    console.log("updating Family Details..................")
+    await this.userFamilyDetailRepo.update({ userBasic: ufd.userBasic},{ ...ufd });
+    return ufd;
+ 
+   }
+
+  // async updateUserFamilyDetail(ufd: UserFamilyDetail) {
+  //   return await this.userFamilyDetailRepo.save({ ...ufd });
+  // }
 
   async createUserFamilyBackground(ufbg: UserFamilyBackground) {
     const existingPending = await this.userFamilyBackgroundRepo.findOne({
@@ -181,12 +214,42 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userFamilyBackgroundRepo.save({ ...existingPending });
     }
-    return await this.userFamilyBackgroundRepo.save(ufbg);
+
+    let existingFamilyBackgroundRecord= await this.userFamilyBackgroundRepo.findOne({
+      where: {
+        userBasic: ufbg.userBasic,
+      },
+    })
+    console.log("existingAboutRecord", existingFamilyBackgroundRecord)
+    return  existingFamilyBackgroundRecord != null ? this.updateUserFamilyBackground(ufbg) : await this.userFamilyBackgroundRepo.save(ufbg);
   }
 
+  // async createUserFamilyBackground(ufbg: UserFamilyBackground) {
+  //   const existingPending = await this.userFamilyBackgroundRepo.findOne({
+  //     where: {
+  //       userBasic: ufbg.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userFamilyBackgroundRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userFamilyBackgroundRepo.save(ufbg);
+  // }
+
   async updateUserFamilyBackground(ufbg: UserFamilyBackground) {
-    return await this.userFamilyBackgroundRepo.save({ ...ufbg });
-  }
+    // return await this.userFamilyDetailRepo.save({ ...ufd });
+    console.log("updating Backgrround Details..................")
+    await this.userFamilyBackgroundRepo.update({ userBasic: ufbg.userBasic},{ ...ufbg });
+    return ufbg;
+ 
+   }
+
+  // async updateUserFamilyBackground(ufbg: UserFamilyBackground) {
+  //   return await this.userFamilyBackgroundRepo.save({ ...ufbg });
+  // }
 
   async createUserCareer(userCareer: UserCareer) {
     const existingPending = await this.userCareerRepo.findOne({

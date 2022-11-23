@@ -91,39 +91,9 @@ export declare class UserRepo {
         isActive: boolean;
     } & UserHabit>;
     createUserFamilyDetail(ufd: UserFamilyDetail): Promise<UserFamilyDetail>;
-    updateUserFamilyDetail(ufd: UserFamilyDetail): Promise<{
-        fatherOccupation: import("../../shared/enums/user-profile.enum").FatherOccupation;
-        motherOccupation: import("../../shared/enums/user-profile.enum").MotherOccupation;
-        numberOfBrothers: number;
-        marriedNumberOfBrothers: number;
-        numberOfSisters: number;
-        marriedNumberOfSisters: number;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserFamilyDetail>;
+    updateUserFamilyDetail(ufd: UserFamilyDetail): Promise<UserFamilyDetail>;
     createUserFamilyBackground(ufbg: UserFamilyBackground): Promise<UserFamilyBackground>;
-    updateUserFamilyBackground(ufbg: UserFamilyBackground): Promise<{
-        familyStatus: import("../../shared/enums/user-profile.enum").FamilyAfluenceLevel;
-        familyValues: import("../../shared/enums/user-profile.enum").FamilyValues;
-        familyType: import("../../shared/enums/user-profile.enum").FamilyType;
-        country: number;
-        state: number;
-        city: number;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserFamilyBackground>;
+    updateUserFamilyBackground(ufbg: UserFamilyBackground): Promise<UserFamilyBackground>;
     createUserCareer(userCareer: UserCareer): Promise<UserCareer>;
     updateUserCareer(userCareer: UserCareer): Promise<{
         employedIn: string;

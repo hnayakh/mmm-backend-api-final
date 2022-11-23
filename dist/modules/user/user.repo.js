@@ -134,10 +134,18 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userFamilyDetailRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userFamilyDetailRepo.save(ufd);
+        let existingFamilyDetailRecord = await this.userFamilyDetailRepo.findOne({
+            where: {
+                userBasic: ufd.userBasic,
+            },
+        });
+        console.log("existingAboutRecord", existingFamilyDetailRecord);
+        return existingFamilyDetailRecord != null ? this.updateUserFamilyDetail(ufd) : await this.userFamilyDetailRepo.save(ufd);
     }
     async updateUserFamilyDetail(ufd) {
-        return await this.userFamilyDetailRepo.save(Object.assign({}, ufd));
+        console.log("updating Family Details..................");
+        await this.userFamilyDetailRepo.update({ userBasic: ufd.userBasic }, Object.assign({}, ufd));
+        return ufd;
     }
     async createUserFamilyBackground(ufbg) {
         const existingPending = await this.userFamilyBackgroundRepo.findOne({
@@ -150,10 +158,18 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userFamilyBackgroundRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userFamilyBackgroundRepo.save(ufbg);
+        let existingFamilyBackgroundRecord = await this.userFamilyBackgroundRepo.findOne({
+            where: {
+                userBasic: ufbg.userBasic,
+            },
+        });
+        console.log("existingAboutRecord", existingFamilyBackgroundRecord);
+        return existingFamilyBackgroundRecord != null ? this.updateUserFamilyBackground(ufbg) : await this.userFamilyBackgroundRepo.save(ufbg);
     }
     async updateUserFamilyBackground(ufbg) {
-        return await this.userFamilyBackgroundRepo.save(Object.assign({}, ufbg));
+        console.log("updating Backgrround Details..................");
+        await this.userFamilyBackgroundRepo.update({ userBasic: ufbg.userBasic }, Object.assign({}, ufbg));
+        return ufbg;
     }
     async createUserCareer(userCareer) {
         const existingPending = await this.userCareerRepo.findOne({

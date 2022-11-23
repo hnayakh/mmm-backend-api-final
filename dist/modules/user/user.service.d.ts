@@ -105,38 +105,8 @@ export declare class UserService {
         updatedBy: string;
         isActive: boolean;
     } & UserCareer>;
-    updateUserFamilyBackgroundStatus(userFamilyBackground: UserFamilyBackground, profileUpdationStatus: ProfileUpdationStatus): Promise<{
-        familyStatus: import("../../shared/enums/user-profile.enum").FamilyAfluenceLevel;
-        familyValues: import("../../shared/enums/user-profile.enum").FamilyValues;
-        familyType: import("../../shared/enums/user-profile.enum").FamilyType;
-        country: number;
-        state: number;
-        city: number;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserFamilyBackground>;
-    updateUserFamilyDetailStatus(ufd: UserFamilyDetail, profileUpdationStatus: ProfileUpdationStatus): Promise<{
-        fatherOccupation: import("../../shared/enums/user-profile.enum").FatherOccupation;
-        motherOccupation: import("../../shared/enums/user-profile.enum").MotherOccupation;
-        numberOfBrothers: number;
-        marriedNumberOfBrothers: number;
-        numberOfSisters: number;
-        marriedNumberOfSisters: number;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserFamilyDetail>;
+    updateUserFamilyBackgroundStatus(userFamilyBackground: UserFamilyBackground, profileUpdationStatus: ProfileUpdationStatus): Promise<UserFamilyBackground>;
+    updateUserFamilyDetailStatus(ufd: UserFamilyDetail, profileUpdationStatus: ProfileUpdationStatus): Promise<UserFamilyDetail>;
     updateUserBioStatus(userBio: UserBio, profileUpdationStatus: ProfileUpdationStatus): Promise<{
         aboutMe: string;
         profileUpdationStatus: ProfileUpdationStatus;
