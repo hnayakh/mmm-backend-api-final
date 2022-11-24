@@ -102,6 +102,8 @@ export class UserRepo {
     return await this.userAboutRepo.findOne(userBasicId);
   }
 
+
+
   async createUserAbout(userAbout: UserAbout) {
     const existingPending = await this.userAboutRepo.findOne({
       where: {
@@ -134,6 +136,20 @@ export class UserRepo {
       return userAbout;
   }
 
+  // async createUserHabit(userHabit: UserHabit) {
+  //   const existingPending = await this.userHabitRepo.findOne({
+  //     where: {
+  //       userBasic: userHabit.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userHabitRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userHabitRepo.save(userHabit);
+  // }
   async createUserHabit(userHabit: UserHabit) {
     const existingPending = await this.userHabitRepo.findOne({
       where: {
@@ -146,12 +162,25 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userHabitRepo.save({ ...existingPending });
     }
-    return await this.userHabitRepo.save(userHabit);
+    let existingHabitRecord= await this.userHabitRepo.findOne({
+      where: {
+        userBasic: userHabit.userBasic,
+      },
+    })
+    console.log("existingHabitRecord", existingHabitRecord)
+    return existingHabitRecord != null ?  await this.updateUserHabit(userHabit) : await this.userHabitRepo.save(userHabit);
   }
 
   async updateUserHabit(userHabit: UserHabit) {
-    return await this.userHabitRepo.save({ ...userHabit });
+    //return await this.userHabitRepo.save({ ...userHabit });
+    console.log("updating...............")
+    await this.userHabitRepo.update({ userBasic: userHabit.userBasic},{ ...userHabit });
+    return userHabit;
   }
+
+  // async updateUserHabit(userHabit: UserHabit) {
+  //   return await this.userHabitRepo.save({ ...userHabit });
+  // }
 
   // async createUserFamilyDetail(ufd: UserFamilyDetail) {
   //   const existingPending = await this.userFamilyDetailRepo.findOne({

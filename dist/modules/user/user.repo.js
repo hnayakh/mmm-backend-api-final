@@ -118,10 +118,18 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userHabitRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userHabitRepo.save(userHabit);
+        let existingHabitRecord = await this.userHabitRepo.findOne({
+            where: {
+                userBasic: userHabit.userBasic,
+            },
+        });
+        console.log("existingHabitRecord", existingHabitRecord);
+        return existingHabitRecord != null ? await this.updateUserHabit(userHabit) : await this.userHabitRepo.save(userHabit);
     }
     async updateUserHabit(userHabit) {
-        return await this.userHabitRepo.save(Object.assign({}, userHabit));
+        console.log("updating...............");
+        await this.userHabitRepo.update({ userBasic: userHabit.userBasic }, Object.assign({}, userHabit));
+        return userHabit;
     }
     async createUserFamilyDetail(ufd) {
         const existingPending = await this.userFamilyDetailRepo.findOne({

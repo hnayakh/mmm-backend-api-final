@@ -77,19 +77,7 @@ export declare class UserRepo {
     createUserAbout(userAbout: UserAbout): Promise<UserAbout>;
     updateUserAbout(userAbout: UserAbout): Promise<UserAbout>;
     createUserHabit(userHabit: UserHabit): Promise<UserHabit>;
-    updateUserHabit(userHabit: UserHabit): Promise<{
-        eatingHabit: import("../../shared/enums/user-profile.enum").EatingHabit;
-        smokingHabit: import("../../shared/enums/user-profile.enum").SmokingHabit;
-        drinkingHabit: import("../../shared/enums/user-profile.enum").DrinkingHabit;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserHabit>;
+    updateUserHabit(userHabit: UserHabit): Promise<UserHabit>;
     createUserFamilyDetail(ufd: UserFamilyDetail): Promise<UserFamilyDetail>;
     updateUserFamilyDetail(ufd: UserFamilyDetail): Promise<UserFamilyDetail>;
     createUserFamilyBackground(ufbg: UserFamilyBackground): Promise<UserFamilyBackground>;

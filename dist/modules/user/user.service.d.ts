@@ -60,19 +60,7 @@ export declare class UserService {
     getUserById(userBasicId: string): Promise<UserBasic>;
     updateUserBasic(user: UserBasic): Promise<void>;
     updateUserAboutStatus(userAbout: UserAbout, profileUpdationStatus: ProfileUpdationStatus): Promise<UserAbout>;
-    updateUserHabitStatus(userHabit: UserHabit, profileUpdationStatus: ProfileUpdationStatus): Promise<{
-        eatingHabit: import("../../shared/enums/user-profile.enum").EatingHabit;
-        smokingHabit: import("../../shared/enums/user-profile.enum").SmokingHabit;
-        drinkingHabit: import("../../shared/enums/user-profile.enum").DrinkingHabit;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserHabit>;
+    updateUserHabitStatus(userHabit: UserHabit, profileUpdationStatus: ProfileUpdationStatus): Promise<UserHabit>;
     updateUserReligionStatus(userReligion: UserReligion, profileUpdationStatus: ProfileUpdationStatus): Promise<{
         religion: string;
         cast: string;
