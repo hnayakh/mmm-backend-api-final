@@ -33,11 +33,11 @@ var RegistrationSteps;
 (function (RegistrationSteps) {
     RegistrationSteps[RegistrationSteps["Basic"] = 1] = "Basic";
     RegistrationSteps[RegistrationSteps["About"] = 2] = "About";
-    RegistrationSteps[RegistrationSteps["Habit"] = 3] = "Habit";
-    RegistrationSteps[RegistrationSteps["Religion"] = 4] = "Religion";
-    RegistrationSteps[RegistrationSteps["Career"] = 5] = "Career";
-    RegistrationSteps[RegistrationSteps["FamilyBackground"] = 6] = "FamilyBackground";
-    RegistrationSteps[RegistrationSteps["FamilyDetail"] = 7] = "FamilyDetail";
+    RegistrationSteps[RegistrationSteps["Religion"] = 3] = "Religion";
+    RegistrationSteps[RegistrationSteps["Career"] = 4] = "Career";
+    RegistrationSteps[RegistrationSteps["FamilyBackground"] = 5] = "FamilyBackground";
+    RegistrationSteps[RegistrationSteps["FamilyDetail"] = 6] = "FamilyDetail";
+    RegistrationSteps[RegistrationSteps["Habit"] = 7] = "Habit";
     RegistrationSteps[RegistrationSteps["BioWithImages"] = 8] = "BioWithImages";
     RegistrationSteps[RegistrationSteps["PendingVerification"] = 9] = "PendingVerification";
     RegistrationSteps[RegistrationSteps["Completed"] = 10] = "Completed";
