@@ -1,5 +1,4 @@
-
-import { ProfileUpdationStatus } from '../../shared/enums/miscellaneous.enum';
+import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
 import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';

@@ -55,8 +55,8 @@ let UserRepo = class UserRepo {
     async getAllUsers(skip, take) {
         return await this.userBasicRepo.find({
             relations: [
-                'userBios',
-                'userAbouts',
+                "userBios",
+                "userAbouts",
             ],
         });
     }
@@ -100,7 +100,9 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingAboutRecord);
-        return existingAboutRecord != null ? await this.updateUserAbout(userAbout) : await this.userAboutRepo.save(userAbout);
+        return existingAboutRecord != null
+            ? await this.updateUserAbout(userAbout)
+            : await this.userAboutRepo.save(userAbout);
     }
     async updateUserAbout(userAbout) {
         console.log("updating...............");
@@ -124,7 +126,9 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingHabitRecord", existingHabitRecord);
-        return existingHabitRecord != null ? await this.updateUserHabit(userHabit) : await this.userHabitRepo.save(userHabit);
+        return existingHabitRecord != null
+            ? await this.updateUserHabit(userHabit)
+            : await this.userHabitRepo.save(userHabit);
     }
     async updateUserHabit(userHabit) {
         console.log("updating...............");
@@ -148,7 +152,9 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingFamilyDetailRecord);
-        return existingFamilyDetailRecord != null ? this.updateUserFamilyDetail(ufd) : await this.userFamilyDetailRepo.save(ufd);
+        return existingFamilyDetailRecord != null
+            ? this.updateUserFamilyDetail(ufd)
+            : await this.userFamilyDetailRepo.save(ufd);
     }
     async updateUserFamilyDetail(ufd) {
         console.log("updating Family Details..................");
@@ -172,7 +178,9 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingFamilyBackgroundRecord);
-        return existingFamilyBackgroundRecord != null ? this.updateUserFamilyBackground(ufbg) : await this.userFamilyBackgroundRepo.save(ufbg);
+        return existingFamilyBackgroundRecord != null
+            ? this.updateUserFamilyBackground(ufbg)
+            : await this.userFamilyBackgroundRepo.save(ufbg);
     }
     async updateUserFamilyBackground(ufbg) {
         console.log("updating Backgrround Details..................");
@@ -245,14 +253,14 @@ let UserRepo = class UserRepo {
                 id: userBasicId,
             },
             relations: [
-                'userBios',
-                'userAbouts',
-                'userHabits',
-                'userReligions',
-                'userCareers',
-                'userFamilyBackgrounds',
-                'userFamilyDetails',
-                'userImages',
+                "userBios",
+                "userAbouts",
+                "userHabits",
+                "userReligions",
+                "userCareers",
+                "userFamilyBackgrounds",
+                "userFamilyDetails",
+                "userImages",
             ],
         });
     }
@@ -365,10 +373,10 @@ let UserRepo = class UserRepo {
         return this.adminUserRepo.save(adminUser);
     }
     async updateAdminUser(adminUser) {
-        console.log('admin user', adminUser);
+        console.log("admin user", adminUser);
         const entityManager = typeorm_2.getManager();
         const rawQuery = `UPDATE admin_users SET isActive = ${adminUser.isActive} WHERE (id = '${adminUser.id}');`;
-        console.log('rawQuery', rawQuery);
+        console.log("rawQuery", rawQuery);
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
@@ -399,14 +407,14 @@ let UserRepo = class UserRepo {
                 id: userBasicId,
             },
             relations: [
-                'userBios',
-                'userAbouts',
-                'userHabits',
-                'userReligions',
-                'userCareers',
-                'userFamilyBackgrounds',
-                'userFamilyDetails',
-                'userImages',
+                "userBios",
+                "userAbouts",
+                "userHabits",
+                "userReligions",
+                "userCareers",
+                "userFamilyBackgrounds",
+                "userFamilyDetails",
+                "userImages",
             ],
         });
     }
@@ -444,21 +452,21 @@ let UserRepo = class UserRepo {
     inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);
-        console.log('userDet', userDet);
+        console.log("userDet", userDet);
         let userPreferenc = new user_preference_entity_1.UserPreference();
         userDet.forEach((record) => {
-            console.log('record', Object.keys(record));
+            console.log("record", Object.keys(record));
             Object.keys(record).forEach((key) => {
-                console.log('key', key);
-                let recordValue = record[key].toString().indexOf('[') == 0
+                console.log("key", key);
+                let recordValue = record[key].toString().indexOf("[") == 0
                     ? String(JSON.parse(record[key]))
                     : record[key];
-                console.log('recordValue', recordValue);
-                if (key != 'userBasicId' && userPreferenc[key] != recordValue) {
+                console.log("recordValue", recordValue);
+                if (key != "userBasicId" && userPreferenc[key] != recordValue) {
                     if (userPreferenc[key]) {
                         if (userPreferenc[key].length &&
-                            userPreferenc[key].split(',').indexOf(recordValue) == -1) {
-                            userPreferenc[key] = userPreferenc[key] + ',' + recordValue;
+                            userPreferenc[key].split(",").indexOf(recordValue) == -1) {
+                            userPreferenc[key] = userPreferenc[key] + "," + recordValue;
                         }
                     }
                     else {
@@ -467,7 +475,7 @@ let UserRepo = class UserRepo {
                 }
             });
         });
-        console.log('userDet', userDet);
+        console.log("userDet", userDet);
         return userPreferenc;
     }
     async getMatchPercentage(userBasicId, otherUserBasicId) {
@@ -476,21 +484,21 @@ let UserRepo = class UserRepo {
         let userDetails = await this.getAllUserDetailsById(userBasicId);
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-        console.log('userDetails', userDetails.userImages[0]);
+        console.log("userDetails", userDetails.userImages[0]);
         let excludedFields = [
-            'createdAt',
-            'updatedAt',
-            'isActive',
-            'createdBy',
-            'updatedBy',
-            'id',
+            "createdAt",
+            "updatedAt",
+            "isActive",
+            "createdBy",
+            "updatedBy",
+            "id",
         ];
         Object.keys(userPreference)
             .filter((x) => excludedFields.indexOf(x) == -1)
             .forEach((filed) => {
             if (userPreference[filed]) {
                 if (userPreference[filed] === otherUserPreference[filed]) {
-                    console.log('fdfdfddf', userPreference);
+                    console.log("fdfdfddf", userPreference);
                     matchingFields.push({ filed, value: userPreference[filed] });
                 }
                 else {
@@ -515,10 +523,11 @@ let UserRepo = class UserRepo {
     pv.updatedAt as visitedAt
     from profile_visit pv
      join users_view_admin uva on
-    pv.visitedById = uva.id
-    and pv.visitedToId = '${userBasicId}'
+    pv.visitedToId = uva.id
+    WHERE pv.isActive
+    and pv.visitedById = '${userBasicId}'
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
-    group by pv.visitedById;`;
+    group by pv.visitedToId`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
@@ -529,11 +538,10 @@ let UserRepo = class UserRepo {
     pv.updatedAt as visitedAt
     from profile_visit pv
      join users_view_admin uva on
-    pv.visitedToId = uva.id
-    WHERE pv.isActive
-    and pv.visitedById = '${userBasicId}'
+    pv.visitedById = uva.id
+    and pv.visitedToId = '${userBasicId}'
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
-    group by pv.visitedToId`;
+    group by pv.visitedById;`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
@@ -550,14 +558,14 @@ let UserRepo = class UserRepo {
     group by pv.id
 `;
         const userDet = await entityManager.query(rawQuery);
-        console.log('requiredConnectionData', userDet);
+        console.log("requiredConnectionData", userDet);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log('requiredReligionData', requiredReligionData);
+        console.log("requiredReligionData", requiredReligionData);
         let userReligions = [].concat(...requiredReligionData
             .map((x) => JSON.parse(x.religion))
             .filter((y) => y != null));
-        console.log('userReligions', userReligions);
+        console.log("userReligions", userReligions);
         let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
         return result;
     }
@@ -575,14 +583,14 @@ let UserRepo = class UserRepo {
      group by ucl.userBasicId 
      ;`;
         const requiredConnectionData = await entityManager.query(rawQuery);
-        console.log('requiredConnectionData', requiredConnectionData);
+        console.log("requiredConnectionData", requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log('requiredReligionData', requiredReligionData);
+        console.log("requiredReligionData", requiredReligionData);
         let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)));
-        console.log('userReligions', userReligions);
+        console.log("userReligions", userReligions);
         let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
-        console.log('result', result);
+        console.log("result", result);
         return result;
     }
 };
