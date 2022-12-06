@@ -74,11 +74,11 @@ export class UserService {
       userBasic,
       createUserAboutDto.numberOfChildren,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.Habit,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
-    
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.About,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserAbout(userAbout);
   }
 
@@ -92,10 +92,11 @@ export class UserService {
       createUserHabitDto.drinkingHabit,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.Religion,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Religion,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserHabit(userHabit);
   }
 
@@ -112,10 +113,12 @@ export class UserService {
       createUserFamilyDDto.marriedNumberOfSisters,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.BioWithImages,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.BioWithImages,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
+
     return await this.userRepo.createUserFamilyDetail(ufd);
   }
 
@@ -132,10 +135,11 @@ export class UserService {
       createUserFamilyBgDto.city,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.FamilyDetail,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.FamilyDetail,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserFamilyBackground(ufbg);
   }
 
@@ -153,10 +157,11 @@ export class UserService {
       createUserCareerDto.city,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.FamilyBackground,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.FamilyBackground,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserCareer(userCareer);
   }
 
@@ -172,10 +177,11 @@ export class UserService {
       createUserReligionDto.isManglik,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.Career,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Career,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserReligion(userReligion);
   }
 

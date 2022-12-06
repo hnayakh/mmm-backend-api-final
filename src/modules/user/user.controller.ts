@@ -157,9 +157,21 @@ export class UserController {
   async uploadUserImages(
     @Param('userId') userId: string,
     @UploadedFiles() files: any,
+    @Body() idProof: string,
   ) {
     const imageUrls = await this.userFacade.uploadUserImages(userId, files);
     return { data: imageUrls, message: 'User image uploaded successfully.' };
+  }
+
+  @Post('docsImages/:userId')
+  @UseInterceptors(FilesInterceptor('files'))
+  async uploadDocImages(
+    @Param('userId') userId: string,
+    @UploadedFiles() files: any,
+  
+  ) {
+    const imageUrls = await this.userFacade.uploadUserDocImages(userId, files);
+    return { data: imageUrls, message: 'User Doc Image uploaded successfully.'};
   }
 
   @Post('bio')

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ta } from "date-fns/locale";
-import { ProfileUpdationStatus } from "src/shared/enums/miscellaneous.enum";
+import { ProfileUpdationStatus, RegistrationSteps } from "src/shared/enums/miscellaneous.enum";
 import { getManager, Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import { AdminUser } from "./entities/admin-user.entity";
@@ -120,9 +120,19 @@ export class UserRepo {
       },
     });
     console.log("existingAboutRecord", existingAboutRecord);
-    return existingAboutRecord != null
-      ? await this.updateUserAbout(userAbout)
-      : await this.userAboutRepo.save(userAbout);
+    let result;
+   if(existingAboutRecord != null){
+   
+    result= await this.updateUserAbout(userAbout)
+      }
+
+      else{
+        const updatedUserBasic = userAbout.userBasic.updateRegistrationStep(
+          RegistrationSteps.About,
+        );
+        result= await this.userAboutRepo.save(userAbout);
+      }
+      return result;
   }
 
   async updateUserAbout(userAbout: UserAbout) {
@@ -169,9 +179,22 @@ export class UserRepo {
       },
     });
     console.log("existingHabitRecord", existingHabitRecord);
-    return existingHabitRecord != null
-      ? await this.updateUserHabit(userHabit)
-      : await this.userHabitRepo.save(userHabit);
+    let result;
+    if(existingHabitRecord != null){
+    
+     result= await this.updateUserHabit(userHabit)
+       }
+ 
+       else{
+         const updatedUserBasic = userHabit.userBasic.updateRegistrationStep(
+           RegistrationSteps.Habit,
+         );
+         result= await this.userHabitRepo.save(userHabit);
+       }
+       return result;
+    // return existingHabitRecord != null
+    //   ? await this.updateUserHabit(userHabit)
+    //   : await this.userHabitRepo.save(userHabit);
   }
 
   async updateUserHabit(userHabit: UserHabit) {
@@ -222,9 +245,22 @@ export class UserRepo {
       },
     });
     console.log("existingAboutRecord", existingFamilyDetailRecord);
-    return existingFamilyDetailRecord != null
-      ? this.updateUserFamilyDetail(ufd)
-      : await this.userFamilyDetailRepo.save(ufd);
+    let result;
+    if(existingFamilyDetailRecord != null){
+   
+      result= await this.updateUserFamilyDetail(ufd)
+        }
+  
+        else{
+          const updatedUserBasic = ufd.userBasic.updateRegistrationStep(
+            RegistrationSteps.FamilyDetail,
+          );
+          result= await this.userFamilyDetailRepo.save(ufd);
+        }
+        return result;
+    // return existingFamilyDetailRecord != null
+    //   ? this.updateUserFamilyDetail(ufd)
+    //   : await this.userFamilyDetailRepo.save(ufd);
   }
 
   async updateUserFamilyDetail(ufd: UserFamilyDetail) {
@@ -240,6 +276,7 @@ export class UserRepo {
   // async updateUserFamilyDetail(ufd: UserFamilyDetail) {
   //   return await this.userFamilyDetailRepo.save({ ...ufd });
   // }
+  
 
   async createUserFamilyBackground(ufbg: UserFamilyBackground) {
     const existingPending = await this.userFamilyBackgroundRepo.findOne({
@@ -262,9 +299,22 @@ export class UserRepo {
       }
     );
     console.log("existingAboutRecord", existingFamilyBackgroundRecord);
-    return existingFamilyBackgroundRecord != null
-      ? this.updateUserFamilyBackground(ufbg)
-      : await this.userFamilyBackgroundRepo.save(ufbg);
+    let result;
+    if(existingFamilyBackgroundRecord != null){
+   
+      result= await this.updateUserFamilyBackground(ufbg)
+        }
+  
+        else{
+          const updatedUserBasic = ufbg.userBasic.updateRegistrationStep(
+            RegistrationSteps.FamilyBackground,
+          );
+          result= await this.userFamilyBackgroundRepo.save(ufbg);
+        }
+        return result;
+    // return existingFamilyBackgroundRecord != null
+    //   ? this.updateUserFamilyBackground(ufbg)
+    //   : await this.userFamilyBackgroundRepo.save(ufbg);
   }
 
   // async createUserFamilyBackground(ufbg: UserFamilyBackground) {
@@ -308,12 +358,59 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userCareerRepo.save({ ...existingPending });
     }
-    return await this.userCareerRepo.save(userCareer);
+    let existingCareerRecord = await this.userCareerRepo.findOne({
+      where: {
+        userBasic: userCareer.userBasic,
+      },
+    });
+    console.log("existingCarrerRecord", existingCareerRecord);
+    let result;
+   if(existingCareerRecord != null){
+   
+    result= await this.updateUserCareer(userCareer)
+      }
+
+      else{
+        const updatedUserBasic = userCareer.userBasic.updateRegistrationStep(
+          RegistrationSteps.Career,
+        );
+        result= await this.userAboutRepo.save(userCareer);
+      }
+      return result;
   }
 
+  // async createUserCareer(userCareer: UserCareer) {
+  //   const existingPending = await this.userCareerRepo.findOne({
+  //     where: {
+  //       userBasic: userCareer.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userCareerRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userCareerRepo.save(userCareer);
+  // }
+
+
   async updateUserCareer(userCareer: UserCareer) {
-    return await this.userCareerRepo.save({ ...userCareer });
+    // let userAboutData= this.userAboutRepo.findOne({
+    //   where: { userBasic: userAbout.userBasic},
+    // });
+    console.log("updating...............");
+    await this.userCareerRepo.update(
+      { userBasic: userCareer.userBasic },
+      { ...userCareer }
+    );
+    return userCareer;
   }
+
+  // async updateUserCareer(userCareer: UserCareer) {
+  //   return await this.userCareerRepo.save({ ...userCareer });
+  // }
+
 
   async createUserReligion(userReligion: UserReligion) {
     const existingPending = await this.userReligionRepo.findOne({
@@ -327,12 +424,58 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userReligionRepo.save({ ...existingPending });
     }
-    return await this.userReligionRepo.save(userReligion);
+    let existingReligionRecord = await this.userReligionRepo.findOne({
+      where: {
+        userBasic: userReligion.userBasic,
+      },
+    });
+    console.log("existingCarrerRecord", existingReligionRecord);
+    let result;
+   if(existingReligionRecord != null){
+   
+    result= await this.updateUserReligion(userReligion)
+      }
+
+      else{
+        const updatedUserBasic = userReligion.userBasic.updateRegistrationStep(
+          RegistrationSteps.Religion,
+        );
+        result= await this.userReligionRepo.save(userReligion);
+      }
+      return result;
   }
 
+
+  // async createUserReligion(userReligion: UserReligion) {
+  //   const existingPending = await this.userReligionRepo.findOne({
+  //     where: {
+  //       userBasic: userReligion.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userReligionRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userReligionRepo.save(userReligion);
+  // }
+
   async updateUserReligion(userReligion: UserReligion) {
-    return await this.userReligionRepo.save({ ...userReligion });
+    // let userAboutData= this.userAboutRepo.findOne({
+    //   where: { userBasic: userAbout.userBasic},
+    // });
+    console.log("updating...............");
+    await this.userReligionRepo.update(
+      { userBasic: userReligion.userBasic },
+      { ...userReligion }
+    );
+    return userReligion;
   }
+
+  // async updateUserReligion(userReligion: UserReligion) {
+  //   return await this.userReligionRepo.save({ ...userReligion });
+  // }
 
   async createUserBio(userBio: UserBio) {
     const existingPending = await this.userBioRepo.findOne({

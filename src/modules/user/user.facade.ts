@@ -148,6 +148,23 @@ export class UserFacade {
     return imageArr;
   }
 
+  async uploadUserDocImages(userId: string, files: any) {
+    let docPromiseArr = [];
+    let docImageArr = [];
+    let docIdProof = "";
+    for (let i = 0; i < files.length; i++) {
+      let rand = shortid.generate();
+      const key = `${userId}/${rand}_${files[i].originalname}`;
+      docPromiseArr.push(await this.s3Service.uploadDirectlyToS3(key, files[i]));
+      docImageArr.push(`${process.env.S3_PREFIX_URL}${key}`);
+      
+    }
+    await Promise.all(docPromiseArr);
+    console.log("Doc Image Array", );
+    return docImageArr ;
+
+  }
+
   async createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto) {
     const userBasic = await this.userService.getUserBasicById(
       createUserBioImageDto.userBasicId,

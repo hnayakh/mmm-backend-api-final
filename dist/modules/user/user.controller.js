@@ -104,9 +104,13 @@ let UserController = class UserController {
             message: 'User family detail registration successful.',
         };
     }
-    async uploadUserImages(userId, files) {
+    async uploadUserImages(userId, files, idProof) {
         const imageUrls = await this.userFacade.uploadUserImages(userId, files);
         return { data: imageUrls, message: 'User image uploaded successfully.' };
+    }
+    async uploadDocImages(userId, files) {
+        const imageUrls = await this.userFacade.uploadUserDocImages(userId, files);
+        return { data: imageUrls, message: 'User Doc Image uploaded successfully.' };
     }
     async createUserBioWithImages(createUserBioImageDto) {
         const result = await this.userFacade.createUserBioWithImages(createUserBioImageDto);
@@ -331,10 +335,20 @@ __decorate([
     common_1.UseInterceptors(platform_express_1.FilesInterceptor('files')),
     __param(0, common_1.Param('userId')),
     __param(1, common_1.UploadedFiles()),
+    __param(2, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "uploadUserImages", null);
+__decorate([
+    common_1.Post('docsImages/:userId'),
+    common_1.UseInterceptors(platform_express_1.FilesInterceptor('files')),
+    __param(0, common_1.Param('userId')),
+    __param(1, common_1.UploadedFiles()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "uploadUserImages", null);
+], UserController.prototype, "uploadDocImages", null);
 __decorate([
     common_1.Post('bio'),
     __param(0, common_1.Body()),

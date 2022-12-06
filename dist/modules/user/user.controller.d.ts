@@ -31,19 +31,19 @@ export declare class UserController {
         message: string;
     }>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<{
-        data: import("./entities/user-about.entity").UserAbout;
+        data: any;
         message: string;
     }>;
     createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<{
-        data: import("./entities/user-habit.entity").UserHabit;
+        data: any;
         message: string;
     }>;
     createUserReligion(createUserReligionDto: CreateUserReligionDto): Promise<{
-        data: import("./entities/user-religion.entity").UserReligion;
+        data: any;
         message: string;
     }>;
     createUserCareer(createUserCareerDto: CreateUserCareerDto): Promise<{
-        data: import("./entities/user-career.entity").UserCareer;
+        data: any;
         message: string;
     }>;
     createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto): Promise<{
@@ -51,14 +51,18 @@ export declare class UserController {
         message: string;
     }>;
     createUserFamilyBackground(createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<{
-        data: import("./entities/user-family-background.entity").UserFamilyBackground;
+        data: any;
         message: string;
     }>;
     createUserFamilyDetail(createUserFamilyDDto: CreateUserFamilyDDto): Promise<{
-        data: import("./entities/user-family-detail.entity").UserFamilyDetail;
+        data: any;
         message: string;
     }>;
-    uploadUserImages(userId: string, files: any): Promise<{
+    uploadUserImages(userId: string, files: any, idProof: string): Promise<{
+        data: any[];
+        message: string;
+    }>;
+    uploadDocImages(userId: string, files: any): Promise<{
         data: any[];
         message: string;
     }>;

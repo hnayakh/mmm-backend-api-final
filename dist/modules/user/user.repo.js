@@ -100,9 +100,15 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingAboutRecord);
-        return existingAboutRecord != null
-            ? await this.updateUserAbout(userAbout)
-            : await this.userAboutRepo.save(userAbout);
+        let result;
+        if (existingAboutRecord != null) {
+            result = await this.updateUserAbout(userAbout);
+        }
+        else {
+            const updatedUserBasic = userAbout.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.About);
+            result = await this.userAboutRepo.save(userAbout);
+        }
+        return result;
     }
     async updateUserAbout(userAbout) {
         console.log("updating...............");
@@ -126,9 +132,15 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingHabitRecord", existingHabitRecord);
-        return existingHabitRecord != null
-            ? await this.updateUserHabit(userHabit)
-            : await this.userHabitRepo.save(userHabit);
+        let result;
+        if (existingHabitRecord != null) {
+            result = await this.updateUserHabit(userHabit);
+        }
+        else {
+            const updatedUserBasic = userHabit.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Habit);
+            result = await this.userHabitRepo.save(userHabit);
+        }
+        return result;
     }
     async updateUserHabit(userHabit) {
         console.log("updating...............");
@@ -152,9 +164,15 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingFamilyDetailRecord);
-        return existingFamilyDetailRecord != null
-            ? this.updateUserFamilyDetail(ufd)
-            : await this.userFamilyDetailRepo.save(ufd);
+        let result;
+        if (existingFamilyDetailRecord != null) {
+            result = await this.updateUserFamilyDetail(ufd);
+        }
+        else {
+            const updatedUserBasic = ufd.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.FamilyDetail);
+            result = await this.userFamilyDetailRepo.save(ufd);
+        }
+        return result;
     }
     async updateUserFamilyDetail(ufd) {
         console.log("updating Family Details..................");
@@ -178,9 +196,15 @@ let UserRepo = class UserRepo {
             },
         });
         console.log("existingAboutRecord", existingFamilyBackgroundRecord);
-        return existingFamilyBackgroundRecord != null
-            ? this.updateUserFamilyBackground(ufbg)
-            : await this.userFamilyBackgroundRepo.save(ufbg);
+        let result;
+        if (existingFamilyBackgroundRecord != null) {
+            result = await this.updateUserFamilyBackground(ufbg);
+        }
+        else {
+            const updatedUserBasic = ufbg.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.FamilyBackground);
+            result = await this.userFamilyBackgroundRepo.save(ufbg);
+        }
+        return result;
     }
     async updateUserFamilyBackground(ufbg) {
         console.log("updating Backgrround Details..................");
@@ -198,10 +222,26 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userCareerRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userCareerRepo.save(userCareer);
+        let existingCareerRecord = await this.userCareerRepo.findOne({
+            where: {
+                userBasic: userCareer.userBasic,
+            },
+        });
+        console.log("existingCarrerRecord", existingCareerRecord);
+        let result;
+        if (existingCareerRecord != null) {
+            result = await this.updateUserCareer(userCareer);
+        }
+        else {
+            const updatedUserBasic = userCareer.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Career);
+            result = await this.userAboutRepo.save(userCareer);
+        }
+        return result;
     }
     async updateUserCareer(userCareer) {
-        return await this.userCareerRepo.save(Object.assign({}, userCareer));
+        console.log("updating...............");
+        await this.userCareerRepo.update({ userBasic: userCareer.userBasic }, Object.assign({}, userCareer));
+        return userCareer;
     }
     async createUserReligion(userReligion) {
         const existingPending = await this.userReligionRepo.findOne({
@@ -214,10 +254,26 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userReligionRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userReligionRepo.save(userReligion);
+        let existingReligionRecord = await this.userReligionRepo.findOne({
+            where: {
+                userBasic: userReligion.userBasic,
+            },
+        });
+        console.log("existingCarrerRecord", existingReligionRecord);
+        let result;
+        if (existingReligionRecord != null) {
+            result = await this.updateUserReligion(userReligion);
+        }
+        else {
+            const updatedUserBasic = userReligion.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Religion);
+            result = await this.userReligionRepo.save(userReligion);
+        }
+        return result;
     }
     async updateUserReligion(userReligion) {
-        return await this.userReligionRepo.save(Object.assign({}, userReligion));
+        console.log("updating...............");
+        await this.userReligionRepo.update({ userBasic: userReligion.userBasic }, Object.assign({}, userReligion));
+        return userReligion;
     }
     async createUserBio(userBio) {
         const existingPending = await this.userBioRepo.findOne({

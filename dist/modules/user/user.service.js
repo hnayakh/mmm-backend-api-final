@@ -46,38 +46,32 @@ let UserService = class UserService {
     }
     async createUserAbout(userBasic, createUserAboutDto) {
         const userAbout = user_about_entity_1.UserAbout.createUserAbout(createUserAboutDto.name, createUserAboutDto.dateOfBirth, createUserAboutDto.maritalStatus, createUserAboutDto.childrenStatus, createUserAboutDto.abilityStatus, createUserAboutDto.height, userBasic, createUserAboutDto.numberOfChildren);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Habit);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserAbout(userAbout);
     }
     async createUserHabit(userBasic, createUserHabitDto) {
         const userHabit = user_habit_entity_1.UserHabit.createUserHabit(createUserHabitDto.eatingHabit, createUserHabitDto.smokingHabit, createUserHabitDto.drinkingHabit, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Religion);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserHabit(userHabit);
     }
     async createUserFamilyDetail(userBasic, createUserFamilyDDto) {
         const ufd = user_family_detail_entity_1.UserFamilyDetail.createUserFamilyDetail(createUserFamilyDDto.fatherOccupation, createUserFamilyDDto.motherOccupation, createUserFamilyDDto.numberOfBrothers, createUserFamilyDDto.marriedNumberOfBrothers, createUserFamilyDDto.numberOfSisters, createUserFamilyDDto.marriedNumberOfSisters, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.BioWithImages);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserFamilyDetail(ufd);
     }
     async createUserFamilyBackground(userBasic, createUserFamilyBgDto) {
         const ufbg = user_family_background_entity_1.UserFamilyBackground.createUserFamilyBackground(createUserFamilyBgDto.familyStatus, createUserFamilyBgDto.familyValues, createUserFamilyBgDto.familyType, createUserFamilyBgDto.country, createUserFamilyBgDto.state, createUserFamilyBgDto.city, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.FamilyDetail);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserFamilyBackground(ufbg);
     }
     async createUserCareer(userBasic, createUserCareerDto) {
         const userCareer = user_career_entity_1.UserCareer.createUserCareer(createUserCareerDto.employedIn, createUserCareerDto.occupation, createUserCareerDto.annualIncome, createUserCareerDto.highestEducation, createUserCareerDto.country, createUserCareerDto.state, createUserCareerDto.city, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.FamilyBackground);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserCareer(userCareer);
     }
     async createUserReligion(userBasic, createUserReligionDto) {
         const userReligion = user_religion_entity_1.UserReligion.createUserReligion(createUserReligionDto.religion, createUserReligionDto.cast, createUserReligionDto.gothra, createUserReligionDto.motherTongue, createUserReligionDto.isManglik, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Career);
-        this.userRepo.updateUserBasic(updatedUserBasic);
+        this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserReligion(userReligion);
     }
     async createUserBioWithImages(userBasic, createUserBioImageDto) {
