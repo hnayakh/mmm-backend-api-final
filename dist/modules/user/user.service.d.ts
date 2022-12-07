@@ -38,7 +38,7 @@ export declare class UserService {
     createUserCareer(userBasic: UserBasic, createUserCareerDto: CreateUserCareerDto): Promise<any>;
     createUserReligion(userBasic: UserBasic, createUserReligionDto: CreateUserReligionDto): Promise<any>;
     createUserBioWithImages(userBasic: UserBasic, createUserBioImageDto: CreateUserBioImageDto): Promise<UserBio>;
-    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<UserDocs[]>;
+    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<UserBio>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;
     getUserBasicByPhone(phoneNumber: string): Promise<UserBasic>;
     createUserLogin(deviceType: string, deviceId: string, authToken: string, userBasic: UserBasic): Promise<UserLogin>;
@@ -67,6 +67,7 @@ export declare class UserService {
     updateUserFamilyDetailStatus(ufd: UserFamilyDetail, profileUpdationStatus: ProfileUpdationStatus): Promise<UserFamilyDetail>;
     updateUserBioStatus(userBio: UserBio, profileUpdationStatus: ProfileUpdationStatus): Promise<{
         aboutMe: string;
+        idProof: string;
         profileUpdationStatus: ProfileUpdationStatus;
         userBasic: UserBasic;
         id: string;

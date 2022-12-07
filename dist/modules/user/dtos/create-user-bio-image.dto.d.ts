@@ -4,7 +4,6 @@ export declare class CreateUserImageDto {
 }
 export declare class CreateUserImageDocsDto {
     imageUrl: string;
-    isDefault: boolean;
 }
 export declare class CreateUserBioImageDto {
     userBasicId: string;
@@ -13,5 +12,7 @@ export declare class CreateUserBioImageDto {
 }
 export declare class UpdateUserDocsDto {
     userBasicId: string;
+    idProof: string;
+    userDocImages: CreateUserImageDocsDto[];
     userDocs: CreateUserImageDocsDto[];
 }

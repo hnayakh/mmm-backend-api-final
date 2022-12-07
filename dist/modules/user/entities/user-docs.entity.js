@@ -16,12 +16,10 @@ const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const user_basic_entity_1 = require("./user-basic.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 let UserDocs = UserDocs_1 = class UserDocs extends abstract_entity_1.AbstarctEntity {
-    static createUserDocs(imageURL, isDefault, userBasic) {
+    static createUserDocs(imageURL, userBasic) {
         const userImage = new UserDocs_1();
         userImage.imageURL = imageURL;
-        userImage.isDefault = isDefault;
         userImage.userBasic = userBasic;
-        userImage.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Pending;
         return userImage;
     }
     updateProfileUpdationStatus(profileUpdationStatus) {
@@ -33,6 +31,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], UserDocs.prototype, "imageURL", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserDocs.prototype, "idProof", void 0);
 __decorate([
     typeorm_1.Column({ default: false }),
     __metadata("design:type", Boolean)

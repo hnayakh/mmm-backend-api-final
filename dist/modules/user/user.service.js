@@ -90,13 +90,15 @@ let UserService = class UserService {
     }
     async updateUserBioWithDocs(userBasic, createUserBioImageDto) {
         const userImages = [];
-        let isDefaultImage = true;
-        createUserBioImageDto.userDocs.forEach((ui) => {
-            const userImage = user_docs_entity_1.UserDocs.createUserDocs(ui.imageUrl, isDefaultImage, userBasic);
+        console.log("Hello outside Doc", createUserBioImageDto.userDocImages);
+        createUserBioImageDto.userDocImages.forEach((ui) => {
+            console.log("Hello Doc", userBasic);
+            const userImage = user_docs_entity_1.UserDocs.createUserDocs(ui.imageUrl, userBasic);
             userImages.push(userImage);
-            isDefaultImage = false;
         });
-        return await this.userRepo.updateUserImages(userImages);
+        const userBio = user_bio_entity_1.UserBio.createUserDocBio(createUserBioImageDto.idProof);
+        this.userRepo.updateUserImages(userImages);
+        return await this.userRepo.createUserBio(userBio);
     }
     async getUserBasicByEmail(email) {
         return await this.userRepo.getUserBasicByEmail(email);

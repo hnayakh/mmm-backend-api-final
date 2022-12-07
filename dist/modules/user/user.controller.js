@@ -116,9 +116,10 @@ let UserController = class UserController {
         const result = await this.userFacade.createUserBioWithImages(createUserBioImageDto);
         return { data: result, message: 'User profile registration successful.' };
     }
-    async updateUserBioWithDocs(UpdateUserDocsDto) {
-        const result = await this.userFacade.updateUserBioWithDocs(UpdateUserDocsDto);
-        return { data: result, message: 'User profile registration successful.' };
+    async updateUserBioWithDocs(updateUserDocsDto) {
+        console.log("DOCSS", updateUserDocsDto);
+        const result = await this.userFacade.updateUserBioWithDocs(updateUserDocsDto);
+        return { data: result, message: 'User Document Uploaded successfully.' };
     }
     async verifyUserByAdmin(userBasicId) {
         const result = await this.userFacade.verifyUserByAdmin(userBasicId);

@@ -108,9 +108,9 @@ let UserFacade = class UserFacade {
         const res = await this.userService.createUserBioWithImages(userBasic, createUserBioImageDto);
         return res;
     }
-    async updateUserBioWithDocs(UpdateUserDocsDto) {
-        const userBasic = await this.userService.getUserBasicById(UpdateUserDocsDto.userBasicId);
-        const res = await this.userService.updateUserBioWithDocs(userBasic, UpdateUserDocsDto);
+    async updateUserBioWithDocs(updateUserDocsDto) {
+        const userBasic = await this.userService.getUserBasicById(updateUserDocsDto.userBasicId);
+        const res = await this.userService.updateUserBioWithDocs(userBasic, updateUserDocsDto);
         return res;
     }
     async rejectUserByAdmin(userBasicId) {

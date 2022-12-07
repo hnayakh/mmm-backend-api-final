@@ -183,15 +183,17 @@ export class UserController {
     );
     return { data: result, message: 'User profile registration successful.' };
   }
+
   
   @Post('docs')
   async updateUserBioWithDocs(
-    @Body() UpdateUserDocsDto: UpdateUserDocsDto,
+    @Body() updateUserDocsDto: UpdateUserDocsDto,
   ) {
+    console.log("DOCSS",updateUserDocsDto);
     const result = await this.userFacade.updateUserBioWithDocs(
-      UpdateUserDocsDto,
+      updateUserDocsDto,
     );
-    return { data: result, message: 'User profile registration successful.' };
+    return { data: result, message: 'User Document Uploaded successfully.' };
   }
 
   @Get('admin/verify/:userBasicId')

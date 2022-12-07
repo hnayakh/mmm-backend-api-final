@@ -89,6 +89,7 @@ export declare class UserRepo {
     createUserBio(userBio: UserBio): Promise<UserBio>;
     updateUserBio(userBio: UserBio): Promise<{
         aboutMe: string;
+        idProof: string;
         profileUpdationStatus: ProfileUpdationStatus;
         userBasic: UserBasic;
         id: string;

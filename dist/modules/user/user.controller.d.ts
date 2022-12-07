@@ -70,8 +70,8 @@ export declare class UserController {
         data: import("./entities/user-bio.entity").UserBio;
         message: string;
     }>;
-    updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto): Promise<{
-        data: import("./entities/user-docs.entity").UserDocs[];
+    updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<{
+        data: import("./entities/user-bio.entity").UserBio;
         message: string;
     }>;
     verifyUserByAdmin(userBasicId: string): Promise<{

@@ -7,7 +7,8 @@ import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
 export class UserBio extends AbstarctEntity {
   @Column()
   aboutMe: string;
-
+  idProof: string;
+  // imageUrl: string;
   @Column()
   profileUpdationStatus: ProfileUpdationStatus;
 
@@ -21,6 +22,20 @@ export class UserBio extends AbstarctEntity {
     userBio.userBasic = userBasic;
     return userBio;
   }
+  static createUserDocBio(idProof: string) {
+    const userBio = new UserBio();
+    userBio.idProof = idProof;
+    //userBio.profileUpdationStatus = ProfileUpdationStatus.Pending;
+   // userBio.userBasic = userBasic;
+    return userBio;
+  }
+  // static createUserDoc(imageUrl: string,idProof:string, userBasic: UserBasic) {
+  //   const userBio = new UserBio();
+  //   userBio.idProof = idProof;
+  //   userBio.userBasic = userBasic;
+  //   userBio.imageUrl = imageUrl
+  //   return userBio;
+  // }
 
   updateProfileUpdationStatus(profileUpdationStatus: ProfileUpdationStatus) {
     this.profileUpdationStatus = profileUpdationStatus;

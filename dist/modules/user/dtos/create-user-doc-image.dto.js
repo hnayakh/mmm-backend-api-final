@@ -9,45 +9,37 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateUserDocsDto = exports.CreateUserBioImageDto = exports.CreateUserImageDocsDto = exports.CreateUserImageDto = void 0;
+exports.UpdateUserDocsDto = exports.CreateUserDocumentImageDto = exports.CreateUserDocImageDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
-class CreateUserImageDto {
+class CreateUserDocImageDto {
 }
 __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
-], CreateUserImageDto.prototype, "imageUrl", void 0);
+], CreateUserDocImageDto.prototype, "imageUrl", void 0);
 __decorate([
     swagger_1.ApiProperty({ example: false }),
     __metadata("design:type", Boolean)
-], CreateUserImageDto.prototype, "isDefault", void 0);
-exports.CreateUserImageDto = CreateUserImageDto;
-class CreateUserImageDocsDto {
-}
-__decorate([
-    class_validator_1.IsNotEmpty({ message: 'Identification Proof can not be empty.' }),
-    swagger_1.ApiProperty(),
-    __metadata("design:type", String)
-], CreateUserImageDocsDto.prototype, "imageUrl", void 0);
-exports.CreateUserImageDocsDto = CreateUserImageDocsDto;
-class CreateUserBioImageDto {
+], CreateUserDocImageDto.prototype, "isDefault", void 0);
+exports.CreateUserDocImageDto = CreateUserDocImageDto;
+class CreateUserDocumentImageDto {
 }
 __decorate([
     class_validator_1.IsNotEmpty({ message: 'UserBasicId can not be empty.' }),
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
-], CreateUserBioImageDto.prototype, "userBasicId", void 0);
+], CreateUserDocumentImageDto.prototype, "userBasicId", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'About can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'Id-proof can not be empty.' }),
     swagger_1.ApiProperty({ example: 'I am from Bhubaneswar.' }),
     __metadata("design:type", String)
-], CreateUserBioImageDto.prototype, "aboutMe", void 0);
+], CreateUserDocumentImageDto.prototype, "idProof", void 0);
 __decorate([
-    swagger_1.ApiProperty({ type: [CreateUserImageDto] }),
+    swagger_1.ApiProperty({ type: [CreateUserDocImageDto] }),
     __metadata("design:type", Array)
-], CreateUserBioImageDto.prototype, "userImages", void 0);
-exports.CreateUserBioImageDto = CreateUserBioImageDto;
+], CreateUserDocumentImageDto.prototype, "userDocImages", void 0);
+exports.CreateUserDocumentImageDto = CreateUserDocumentImageDto;
 class UpdateUserDocsDto {
 }
 __decorate([
@@ -55,18 +47,5 @@ __decorate([
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
 ], UpdateUserDocsDto.prototype, "userBasicId", void 0);
-__decorate([
-    class_validator_1.IsNotEmpty({ message: 'Identification Proof can not be empty.' }),
-    swagger_1.ApiProperty({ example: 'My Passport' }),
-    __metadata("design:type", String)
-], UpdateUserDocsDto.prototype, "idProof", void 0);
-__decorate([
-    swagger_1.ApiProperty({ type: [CreateUserImageDocsDto] }),
-    __metadata("design:type", Array)
-], UpdateUserDocsDto.prototype, "userDocImages", void 0);
-__decorate([
-    swagger_1.ApiProperty({ type: [CreateUserImageDocsDto] }),
-    __metadata("design:type", Array)
-], UpdateUserDocsDto.prototype, "userDocs", void 0);
 exports.UpdateUserDocsDto = UpdateUserDocsDto;
-//# sourceMappingURL=create-user-bio-image.dto.js.map
+//# sourceMappingURL=create-user-doc-image.dto.js.map

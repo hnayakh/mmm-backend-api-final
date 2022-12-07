@@ -33,7 +33,7 @@ export declare class UserFacade {
     uploadUserImages(userId: string, files: any): Promise<any[]>;
     uploadUserDocImages(userId: string, files: any): Promise<any[]>;
     createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto): Promise<import("./entities/user-bio.entity").UserBio>;
-    updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto): Promise<import("./entities/user-docs.entity").UserDocs[]>;
+    updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<import("./entities/user-bio.entity").UserBio>;
     rejectUserByAdmin(userBasicId: string): Promise<void>;
     verifyUserByAdmin(userBasicId: string): Promise<void>;
     private updateChildStatusesAfterAdminVerification;

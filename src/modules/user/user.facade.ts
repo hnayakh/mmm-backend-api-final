@@ -36,6 +36,7 @@ import { religion } from 'src/shared/constants/profile-master-data/religion';
 import { motherTongue } from 'src/shared/constants/profile-master-data/mother-tongue';
 import { castSubcaste } from 'src/shared/constants/profile-master-data/cast-subcaste';
 import { AdminUser } from './entities/admin-user.entity';
+
 @Injectable()
 export class UserFacade {
   constructor(
@@ -165,7 +166,7 @@ export class UserFacade {
 
   }
 
-  async createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto) {
+  async createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto) { 
     const userBasic = await this.userService.getUserBasicById(
       createUserBioImageDto.userBasicId,
     );
@@ -177,13 +178,15 @@ export class UserFacade {
     return res;
   }
 
-  async updateUserBioWithDocs(UpdateUserDocsDto: UpdateUserDocsDto) {
+
+
+  async updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto) {
     const userBasic = await this.userService.getUserBasicById(
-      UpdateUserDocsDto.userBasicId,
+      updateUserDocsDto.userBasicId,
     );
     const res = await this.userService.updateUserBioWithDocs(
       userBasic,
-      UpdateUserDocsDto,
+      updateUserDocsDto,
     );
     // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
     return res;

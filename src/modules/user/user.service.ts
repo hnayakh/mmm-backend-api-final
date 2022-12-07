@@ -212,32 +212,35 @@ export class UserService {
     this.userRepo.createUserImages(userImages);
     return await this.userRepo.createUserBio(userBio);
   }
+
+
   async updateUserBioWithDocs(
     userBasic: UserBasic,
     createUserBioImageDto: UpdateUserDocsDto,
   ) {
     const userImages = [];
     // By default the first image would be the display image
-    let isDefaultImage = true;
-    createUserBioImageDto.userDocs.forEach((ui) => {
+   // let isDefaultImage = true;
+   console.log("Hello outside Doc", createUserBioImageDto.userDocImages);
+   
+    createUserBioImageDto.userDocImages.forEach((ui) => {
+      console.log("Hello Doc", userBasic);
       const userImage = UserDocs.createUserDocs(
         ui.imageUrl,
-        isDefaultImage,
+      //  ui.idProof,
+       // isDefaultImage,
         userBasic,
       );
       userImages.push(userImage);
-      isDefaultImage = false;
+     
+    //  isDefaultImage = false;
     });
-    // const userBio = UserBio.createUserBio(
-    //   createUserBioImageDto.aboutMe,
-    //   userBasic,
-    // );
-    // const updatedUserBasic = userBasic.updateRegistrationStep(
-    //   RegistrationSteps.Preferences,
-    // );
-    // this.userRepo.updateUserBasic(updatedUserBasic);
-    // this.userRepo.createUserImages(userImages);
-    return await this.userRepo.updateUserImages(userImages);
+    const userBio = UserBio.createUserDocBio(
+      createUserBioImageDto.idProof
+      
+    );
+    this.userRepo.updateUserImages(userImages);
+    return await this.userRepo.createUserBio(userBio);
   }
 
   async getUserBasicByEmail(email: string) {

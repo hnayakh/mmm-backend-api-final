@@ -23,6 +23,11 @@ let UserBio = UserBio_1 = class UserBio extends abstract_entity_1.AbstarctEntity
         userBio.userBasic = userBasic;
         return userBio;
     }
+    static createUserDocBio(idProof) {
+        const userBio = new UserBio_1();
+        userBio.idProof = idProof;
+        return userBio;
+    }
     updateProfileUpdationStatus(profileUpdationStatus) {
         this.profileUpdationStatus = profileUpdationStatus;
         return this;

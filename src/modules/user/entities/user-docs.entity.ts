@@ -8,6 +8,9 @@ export class UserDocs extends AbstarctEntity {
   @Column()
   imageURL: string;
 
+  @Column()
+  idProof: string;
+
   @Column({ default: false })
   isDefault: boolean;
 
@@ -19,7 +22,8 @@ export class UserDocs extends AbstarctEntity {
 
   static createUserDocs(
     imageURL: string,
-    isDefault: boolean,
+  //  idProof:string,
+  //  isDefault: boolean,
     userBasic: UserBasic,
   ) {
     // Random code
@@ -41,9 +45,10 @@ export class UserDocs extends AbstarctEntity {
     // ]
     const userImage = new UserDocs();
     userImage.imageURL = imageURL;
-    userImage.isDefault = isDefault;
+   // userImage.idProof = idProof;
+  //  userImage.isDefault = isDefault;
     userImage.userBasic = userBasic;
-    userImage.profileUpdationStatus = ProfileUpdationStatus.Pending;
+    //userImage.profileUpdationStatus = ProfileUpdationStatus.Pending;
     return userImage;
   }
 
