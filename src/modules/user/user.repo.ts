@@ -112,11 +112,11 @@ export class UserRepo {
         profileUpdationStatus: ProfileUpdationStatus.Pending,
       },
     });
-    // if (existingPending != null) {
-    //   // Special scenario for multiple updates before verification.
-    //   existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
-    //   this.userAboutRepo.save({ ...existingPending });
-    // }
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userAboutRepo.save({ ...existingPending });
+    }
     let existingAboutRecord = await this.userAboutRepo.findOne({
       where: {
         userBasic: userAbout.userBasic,

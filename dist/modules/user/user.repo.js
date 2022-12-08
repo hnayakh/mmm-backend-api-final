@@ -90,6 +90,10 @@ let UserRepo = class UserRepo {
                 profileUpdationStatus: miscellaneous_enum_1.ProfileUpdationStatus.Pending,
             },
         });
+        if (existingPending != null) {
+            existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
+            this.userAboutRepo.save(Object.assign({}, existingPending));
+        }
         let existingAboutRecord = await this.userAboutRepo.findOne({
             where: {
                 userBasic: userAbout.userBasic,
