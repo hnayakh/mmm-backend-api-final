@@ -90,10 +90,6 @@ let UserRepo = class UserRepo {
                 profileUpdationStatus: miscellaneous_enum_1.ProfileUpdationStatus.Pending,
             },
         });
-        if (existingPending != null) {
-            existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
-            this.userAboutRepo.save(Object.assign({}, existingPending));
-        }
         let existingAboutRecord = await this.userAboutRepo.findOne({
             where: {
                 userBasic: userAbout.userBasic,
@@ -234,7 +230,7 @@ let UserRepo = class UserRepo {
         }
         else {
             const updatedUserBasic = userCareer.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Career);
-            result = await this.userAboutRepo.save(userCareer);
+            result = await this.userCareerRepo.save(userCareer);
         }
         return result;
     }

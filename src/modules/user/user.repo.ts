@@ -1,7 +1,10 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ta } from "date-fns/locale";
-import { ProfileUpdationStatus, RegistrationSteps } from "src/shared/enums/miscellaneous.enum";
+import {
+  ProfileUpdationStatus,
+  RegistrationSteps,
+} from "src/shared/enums/miscellaneous.enum";
 import { getManager, Repository } from "typeorm";
 import { JwtService } from "@nestjs/jwt";
 import { AdminUser } from "./entities/admin-user.entity";
@@ -109,11 +112,11 @@ export class UserRepo {
         profileUpdationStatus: ProfileUpdationStatus.Pending,
       },
     });
-    if (existingPending != null) {
-      // Special scenario for multiple updates before verification.
-      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
-      this.userAboutRepo.save({ ...existingPending });
-    }
+    // if (existingPending != null) {
+    //   // Special scenario for multiple updates before verification.
+    //   existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+    //   this.userAboutRepo.save({ ...existingPending });
+    // }
     let existingAboutRecord = await this.userAboutRepo.findOne({
       where: {
         userBasic: userAbout.userBasic,
@@ -121,18 +124,15 @@ export class UserRepo {
     });
     console.log("existingAboutRecord", existingAboutRecord);
     let result;
-   if(existingAboutRecord != null){
-   
-    result= await this.updateUserAbout(userAbout)
-      }
-
-      else{
-        const updatedUserBasic = userAbout.userBasic.updateRegistrationStep(
-          RegistrationSteps.About,
-        );
-        result= await this.userAboutRepo.save(userAbout);
-      }
-      return result;
+    if (existingAboutRecord != null) {
+      result = await this.updateUserAbout(userAbout);
+    } else {
+      const updatedUserBasic = userAbout.userBasic.updateRegistrationStep(
+        RegistrationSteps.About
+      );
+      result = await this.userAboutRepo.save(userAbout);
+    }
+    return result;
   }
 
   async updateUserAbout(userAbout: UserAbout) {
@@ -180,18 +180,15 @@ export class UserRepo {
     });
     console.log("existingHabitRecord", existingHabitRecord);
     let result;
-    if(existingHabitRecord != null){
-    
-     result= await this.updateUserHabit(userHabit)
-       }
- 
-       else{
-         const updatedUserBasic = userHabit.userBasic.updateRegistrationStep(
-           RegistrationSteps.Habit,
-         );
-         result= await this.userHabitRepo.save(userHabit);
-       }
-       return result;
+    if (existingHabitRecord != null) {
+      result = await this.updateUserHabit(userHabit);
+    } else {
+      const updatedUserBasic = userHabit.userBasic.updateRegistrationStep(
+        RegistrationSteps.Habit
+      );
+      result = await this.userHabitRepo.save(userHabit);
+    }
+    return result;
     // return existingHabitRecord != null
     //   ? await this.updateUserHabit(userHabit)
     //   : await this.userHabitRepo.save(userHabit);
@@ -246,18 +243,15 @@ export class UserRepo {
     });
     console.log("existingAboutRecord", existingFamilyDetailRecord);
     let result;
-    if(existingFamilyDetailRecord != null){
-   
-      result= await this.updateUserFamilyDetail(ufd)
-        }
-  
-        else{
-          const updatedUserBasic = ufd.userBasic.updateRegistrationStep(
-            RegistrationSteps.FamilyDetail,
-          );
-          result= await this.userFamilyDetailRepo.save(ufd);
-        }
-        return result;
+    if (existingFamilyDetailRecord != null) {
+      result = await this.updateUserFamilyDetail(ufd);
+    } else {
+      const updatedUserBasic = ufd.userBasic.updateRegistrationStep(
+        RegistrationSteps.FamilyDetail
+      );
+      result = await this.userFamilyDetailRepo.save(ufd);
+    }
+    return result;
     // return existingFamilyDetailRecord != null
     //   ? this.updateUserFamilyDetail(ufd)
     //   : await this.userFamilyDetailRepo.save(ufd);
@@ -276,7 +270,6 @@ export class UserRepo {
   // async updateUserFamilyDetail(ufd: UserFamilyDetail) {
   //   return await this.userFamilyDetailRepo.save({ ...ufd });
   // }
-  
 
   async createUserFamilyBackground(ufbg: UserFamilyBackground) {
     const existingPending = await this.userFamilyBackgroundRepo.findOne({
@@ -300,18 +293,15 @@ export class UserRepo {
     );
     console.log("existingAboutRecord", existingFamilyBackgroundRecord);
     let result;
-    if(existingFamilyBackgroundRecord != null){
-   
-      result= await this.updateUserFamilyBackground(ufbg)
-        }
-  
-        else{
-          const updatedUserBasic = ufbg.userBasic.updateRegistrationStep(
-            RegistrationSteps.FamilyBackground,
-          );
-          result= await this.userFamilyBackgroundRepo.save(ufbg);
-        }
-        return result;
+    if (existingFamilyBackgroundRecord != null) {
+      result = await this.updateUserFamilyBackground(ufbg);
+    } else {
+      const updatedUserBasic = ufbg.userBasic.updateRegistrationStep(
+        RegistrationSteps.FamilyBackground
+      );
+      result = await this.userFamilyBackgroundRepo.save(ufbg);
+    }
+    return result;
     // return existingFamilyBackgroundRecord != null
     //   ? this.updateUserFamilyBackground(ufbg)
     //   : await this.userFamilyBackgroundRepo.save(ufbg);
@@ -365,18 +355,15 @@ export class UserRepo {
     });
     console.log("existingCarrerRecord", existingCareerRecord);
     let result;
-   if(existingCareerRecord != null){
-   
-    result= await this.updateUserCareer(userCareer)
-      }
-
-      else{
-        const updatedUserBasic = userCareer.userBasic.updateRegistrationStep(
-          RegistrationSteps.Career,
-        );
-        result= await this.userAboutRepo.save(userCareer);
-      }
-      return result;
+    if (existingCareerRecord != null) {
+      result = await this.updateUserCareer(userCareer);
+    } else {
+      const updatedUserBasic = userCareer.userBasic.updateRegistrationStep(
+        RegistrationSteps.Career
+      );
+      result = await this.userCareerRepo.save(userCareer);
+    }
+    return result;
   }
 
   // async createUserCareer(userCareer: UserCareer) {
@@ -394,7 +381,6 @@ export class UserRepo {
   //   return await this.userCareerRepo.save(userCareer);
   // }
 
-
   async updateUserCareer(userCareer: UserCareer) {
     // let userAboutData= this.userAboutRepo.findOne({
     //   where: { userBasic: userAbout.userBasic},
@@ -410,7 +396,6 @@ export class UserRepo {
   // async updateUserCareer(userCareer: UserCareer) {
   //   return await this.userCareerRepo.save({ ...userCareer });
   // }
-
 
   async createUserReligion(userReligion: UserReligion) {
     const existingPending = await this.userReligionRepo.findOne({
@@ -431,20 +416,16 @@ export class UserRepo {
     });
     console.log("existingCarrerRecord", existingReligionRecord);
     let result;
-   if(existingReligionRecord != null){
-   
-    result= await this.updateUserReligion(userReligion)
-      }
-
-      else{
-        const updatedUserBasic = userReligion.userBasic.updateRegistrationStep(
-          RegistrationSteps.Religion,
-        );
-        result= await this.userReligionRepo.save(userReligion);
-      }
-      return result;
+    if (existingReligionRecord != null) {
+      result = await this.updateUserReligion(userReligion);
+    } else {
+      const updatedUserBasic = userReligion.userBasic.updateRegistrationStep(
+        RegistrationSteps.Religion
+      );
+      result = await this.userReligionRepo.save(userReligion);
+    }
+    return result;
   }
-
 
   // async createUserReligion(userReligion: UserReligion) {
   //   const existingPending = await this.userReligionRepo.findOne({
