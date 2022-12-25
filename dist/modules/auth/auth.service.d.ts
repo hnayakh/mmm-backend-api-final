@@ -6,7 +6,7 @@ export declare class AuthService {
     private userService;
     private jwtService;
     constructor(userService: UserService, jwtService: JwtService);
-    validateUser(email: string, loginPassword: string): Promise<any>;
+    validateUser(email: string, loginPassword: string, fireBaseToken: string): Promise<any>;
     private login;
     decodeToken(authToken: string): Promise<string | {
         [key: string]: any;
@@ -17,7 +17,7 @@ export declare class AuthService {
         phoneNumber: string;
         email: string;
     }>;
-    verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<{
+    verifyOtp(verifyOtpDto: VerifyOtpDto, fireBaseToken: any): Promise<{
         userId: string;
         access_token: string;
         userBasic: UserBasic;
@@ -29,4 +29,13 @@ export declare class AuthService {
     }>;
     validateAdminUser(email: string, loginPassword: string): Promise<any>;
     private adminLogin;
+    generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
+        status: number;
+        message: string;
+        Message?: undefined;
+    } | {
+        Message: string;
+        status?: undefined;
+        message?: undefined;
+    }>;
 }

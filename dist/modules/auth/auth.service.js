@@ -20,7 +20,7 @@ let AuthService = class AuthService {
         this.userService = userService;
         this.jwtService = jwtService;
     }
-    async validateUser(email, loginPassword) {
+    async validateUser(email, loginPassword, fireBaseToken) {
         const user = await this.userService.getUserBasicByEmail(email.toLowerCase());
         if (user == null || user == undefined) {
             throw new common_1.HttpException('Invalid email or password.', common_1.HttpStatus.UNAUTHORIZED);
@@ -33,12 +33,13 @@ let AuthService = class AuthService {
             throw new common_1.HttpException('Invalid email or password.', common_1.HttpStatus.EXPECTATION_FAILED);
         }
         const requiredLoginDetails = await this.userService.getRequiredLoginDetails(user.id);
-        return await this.login(user, requiredLoginDetails);
+        return await this.login(user, requiredLoginDetails, fireBaseToken);
     }
-    async login(user, requiredLoginDetails) {
+    async login(user, requiredLoginDetails, fireBaseToken) {
         const payload = { username: user.email, sub: user.id };
         let authToken = this.jwtService.sign(payload);
         this.userService.createUserLogin('M', '12e34', authToken, user);
+        this.userService.updateTokenToUserBasic(fireBaseToken, user.id);
         return {
             userId: user.id,
             access_token: authToken,
@@ -100,7 +101,7 @@ let AuthService = class AuthService {
             };
         }
     }
-    async verifyOtp(verifyOtpDto) {
+    async verifyOtp(verifyOtpDto, fireBaseToken) {
         if (verifyOtpDto.type == miscellaneous_enum_1.OtpType.Registration) {
             const sentOtp = await this.userService.getOtpForVerification(verifyOtpDto.phoneNumber, null);
             if (!sentOtp) {
@@ -129,7 +130,7 @@ let AuthService = class AuthService {
             const userBasic = await this.userService.getUserBasicByPhone(verifyOtpDto.phoneNumber);
             this.userService.updateOtpStatus(verifyOtpDto.phoneNumber, verifyOtpDto.email, verifyOtpDto.otp);
             const requiredLoginDetails = await this.userService.getRequiredLoginDetails(userBasic.id);
-            return this.login(userBasic, requiredLoginDetails);
+            return this.login(userBasic, requiredLoginDetails, fireBaseToken);
         }
         else {
             const sentOtp = await this.userService.getOtpForVerification(null, verifyOtpDto.email);
@@ -143,7 +144,7 @@ let AuthService = class AuthService {
             const userBasic = await this.userService.getUserBasicByEmail(verifyOtpDto.email);
             this.userService.updateOtpStatus(verifyOtpDto.phoneNumber, verifyOtpDto.email, verifyOtpDto.otp);
             const requiredLoginDetails = await this.userService.getRequiredLoginDetails(userBasic.id);
-            return this.login(userBasic, requiredLoginDetails);
+            return this.login(userBasic, requiredLoginDetails, fireBaseToken);
         }
     }
     async validateAdminUser(email, loginPassword) {
@@ -172,6 +173,9 @@ let AuthService = class AuthService {
             access_token: authToken,
             adminUser: adminUser,
         };
+    }
+    async generateAGoraToken(data) {
+        return await this.userService.generateAGoraToken(data);
     }
 };
 AuthService = __decorate([

@@ -52,6 +52,7 @@ const chat_gateway_1 = require("./chat/chat.gateway");
 const chat_module_1 = require("./chat/chat.module");
 const chat_entity_1 = require("./chat/entity/chat.entity");
 const user_docs_entity_1 = require("./modules/user/entities/user-docs.entity");
+const notification_entity_1 = require("./modules/user/entities/notification.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -99,8 +100,9 @@ AppModule = __decorate([
                     user_connect_duration_entity_1.UserConnectDuration,
                     connect_transaction_entity_1.ConnectTransactionEntity,
                     user_profile_visit_1.ProfileVisit,
+                    notification_entity_1.Notification,
                 ],
-                synchronize: false,
+                synchronize: true,
             }),
             user_module_1.UserModule,
             auth_module_1.AuthModule,

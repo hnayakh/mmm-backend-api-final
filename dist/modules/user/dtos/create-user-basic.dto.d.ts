@@ -4,6 +4,7 @@ export declare class CreateUserBasicDto {
     email: string;
     gender: Gender;
     countryCode: string;
+    fireBaseToken: string;
     phoneNumber: string;
     password: string;
 }

@@ -55,6 +55,9 @@ export class UserBasic extends AbstarctEntity {
   @Column()
   lifecycleStatus: LifecycleStatus;
 
+  @Column()
+  fireBaseToken: string;
+  
   @Column({ default: RegistrationSteps.Basic })
   registrationStep: RegistrationSteps;
 
@@ -139,6 +142,7 @@ export class UserBasic extends AbstarctEntity {
     phoneNumber: string,
     password: string,
     relationship: Relationship,
+    fireBaseToken:string
   ) {
     const userBasic = new UserBasic();
     userBasic.email = email;
@@ -146,6 +150,7 @@ export class UserBasic extends AbstarctEntity {
     userBasic.countryCode = countryCode;
     userBasic.phoneNumber = phoneNumber;
     userBasic.password = password;
+    userBasic.fireBaseToken=fireBaseToken;
     userBasic.activationStatus = ActivationStatus.Pending;
     userBasic.lifecycleStatus = LifecycleStatus.Active;
     userBasic.registrationStep = RegistrationSteps.About;

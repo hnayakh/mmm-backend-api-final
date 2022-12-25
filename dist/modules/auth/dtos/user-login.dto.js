@@ -21,5 +21,9 @@ __decorate([
     swagger_1.ApiProperty({ example: 'Password@123' }),
     __metadata("design:type", String)
 ], UserLoginDto.prototype, "password", void 0);
+__decorate([
+    swagger_1.ApiProperty({ example: 'Password@123' }),
+    __metadata("design:type", String)
+], UserLoginDto.prototype, "fireBaseToken", void 0);
 exports.UserLoginDto = UserLoginDto;
 //# sourceMappingURL=user-login.dto.js.map

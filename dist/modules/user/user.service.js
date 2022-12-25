@@ -8,6 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
@@ -27,9 +30,16 @@ const user_login_entity_1 = require("./entities/user-login.entity");
 const user_preference_entity_1 = require("./entities/user-preference.entity");
 const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_repo_1 = require("./user.repo");
+const firebase_admin_1 = require("firebase-admin");
+const agora_access_token_1 = require("agora-access-token");
+const firebaseServiceAccount_json_1 = require("../auth/firebaseServiceAccount.json");
+const notification_entity_1 = require("./entities/notification.entity");
+const typeorm_1 = require("typeorm");
+const typeorm_2 = require("@nestjs/typeorm");
 let UserService = class UserService {
-    constructor(userRepo) {
+    constructor(userRepo, notificationRepo) {
         this.userRepo = userRepo;
+        this.notificationRepo = notificationRepo;
     }
     async getAllUsers(skip, take) {
         return await this.userRepo.getAllUsers(skip, take);
@@ -38,7 +48,7 @@ let UserService = class UserService {
         return await this.userRepo.getUsersByIds(userBasicIds);
     }
     async createUserBasic(createUserBasicDto) {
-        const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship);
+        const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.fireBaseToken);
         return await this.userRepo.createUserBasic(userBasic);
     }
     async getUserBasicById(userBasicId) {
@@ -90,9 +100,9 @@ let UserService = class UserService {
     }
     async updateUserBioWithDocs(userBasic, createUserBioImageDto) {
         const userImages = [];
-        console.log("Hello outside Doc", createUserBioImageDto.userDocImages);
+        console.log('Hello outside Doc', createUserBioImageDto.userDocImages);
         createUserBioImageDto.userDocImages.forEach((ui) => {
-            console.log("Hello Doc", userBasic);
+            console.log('Hello Doc', userBasic);
             const userImage = user_docs_entity_1.UserDocs.createUserDocs(ui.imageUrl, userBasic);
             userImages.push(userImage);
         });
@@ -127,6 +137,9 @@ let UserService = class UserService {
     }
     async updateUserBasic(user) {
         await this.userRepo.updateUserBasic(user);
+    }
+    async updateTokenToUserBasic(fireBaseToken, id) {
+        await this.userRepo.updateToken(fireBaseToken, id);
     }
     async updateUserAboutStatus(userAbout, profileUpdationStatus) {
         const updatedUserAbout = userAbout.updateProfileUpdationStatus(profileUpdationStatus);
@@ -221,10 +234,116 @@ let UserService = class UserService {
     async getPremiumMembers(userBaicId) {
         return await this.userRepo.getPremiumMembers(userBaicId);
     }
+    async generateAGoraToken(data) {
+        const firebase_params = {
+            type: firebaseServiceAccount_json_1.default.type,
+            projectId: firebaseServiceAccount_json_1.default.project_id,
+            privateKeyId: firebaseServiceAccount_json_1.default.private_key_id,
+            privateKey: firebaseServiceAccount_json_1.default.private_key,
+            clientEmail: firebaseServiceAccount_json_1.default.client_email,
+            clientId: firebaseServiceAccount_json_1.default.client_id,
+            authUri: firebaseServiceAccount_json_1.default.auth_uri,
+            tokenUri: firebaseServiceAccount_json_1.default.token_uri,
+            authProviderX509CertUrl: firebaseServiceAccount_json_1.default.auth_provider_x509_cert_url,
+            clientC509CertUrl: firebaseServiceAccount_json_1.default.client_x509_cert_url,
+        };
+        if (!firebase_admin_1.default.apps.length) {
+            firebase_admin_1.default.initializeApp({
+                credential: firebase_admin_1.default.credential.cert(firebase_params),
+            });
+        }
+        else {
+            firebase_admin_1.default.app();
+        }
+        const APP_ID = '2408d5882f0445ec82566323785cfb66';
+        const APP_CERTIFICATE = 'c18a5201243a44ebb6c3c95f124f9798';
+        const { senderId, receiverId, callType } = data;
+        let receiverData = await this.userRepo.getUserBasicById(receiverId);
+        if (!receiverData) {
+            return 'Receiver Data not found';
+        }
+        if (receiverData) {
+            const role = agora_access_token_1.RtcRole.SUBSCRIBER;
+            const expirationTimeInSeconds = 3600;
+            const currentTimestamp = Math.floor(Date.now() / 1000);
+            const channelName = receiverData.id.toString() + receiverData;
+            const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
+            let sender = await this.userRepo.getUserBasicById(senderId);
+            if (!sender) {
+                return {
+                    status: 0,
+                    message: 'Sender not found.',
+                };
+            }
+            const token = agora_access_token_1.RtcTokenBuilder.buildTokenWithUid(APP_ID, APP_CERTIFICATE, channelName, 0, role, privilegeExpiredTs);
+            const data = {
+                agoraToken: token,
+                channelName: channelName,
+                notificationId: '',
+                name: '',
+                receiverId: '',
+                profileImage: '',
+                status: '',
+            };
+            const notificationCreated = await this.userRepo.createNotification({
+                senderId: senderId,
+                receiverId: receiverId,
+                message: callType,
+            });
+            data.notificationId = notificationCreated._id.toString();
+            data.name = sender.userAbouts[0].name;
+            data.receiverId = sender.userAbouts[0].userBasic.id;
+            data.profileImage = sender.userImages[0].imageURL;
+            data.status = 'calling';
+            const payload = {
+                notification: {
+                    title: 'Video call',
+                },
+                data: data,
+            };
+            const options = {
+                priority: 'high',
+            };
+            if (receiverData.userAbouts[0].fireBaseToken) {
+                firebase_admin_1.default
+                    .messaging()
+                    .sendToDevice(receiverData.userAbouts[0].fireBaseToken, payload, options)
+                    .then(async function (r) {
+                    if (r.failureCount !== 0) {
+                        return ({ status: 0, message: r.results[0].error.message });
+                    }
+                    else {
+                        delete data.receiverId;
+                        delete data.status;
+                        return {
+                            status: 1,
+                            Message: 'Successfully sent notification',
+                            data: data,
+                        };
+                    }
+                })
+                    .catch(function (error) {
+                    console.log('Error sending notification:', error);
+                    return { status: 0, Message: 'Error sending notification' };
+                });
+            }
+            else {
+                return { Message: 'Something went wrong' };
+            }
+        }
+        else {
+            return {
+                status: 0,
+                message: 'Receiver not found',
+            };
+        }
+    }
 };
 UserService = __decorate([
     common_1.Injectable(),
-    __metadata("design:paramtypes", [user_repo_1.UserRepo])
+    __param(1, typeorm_2.InjectRepository(notification_entity_1.Notification)),
+    __metadata("design:paramtypes", [user_repo_1.UserRepo,
+        typeorm_1.Repository])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

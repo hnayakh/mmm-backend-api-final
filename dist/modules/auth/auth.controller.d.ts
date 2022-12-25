@@ -16,7 +16,7 @@ export declare class AuthController {
         };
         message: string;
     }>;
-    verifyOtp(verifyOtpDto: VerifyOtpDto): Promise<{
+    verifyOtp(verifyOtpDto: VerifyOtpDto, fireBaseToken: string): Promise<{
         data: {
             userId: string;
             access_token: string;
@@ -33,4 +33,5 @@ export declare class AuthController {
         data: any;
         message: string;
     }>;
+    generateAGoraToken(data: any): Promise<void>;
 }

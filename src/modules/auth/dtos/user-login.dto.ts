@@ -6,4 +6,7 @@ export class UserLoginDto {
 
   @ApiProperty({ example: 'Password@123' })
   password: string;
+  
+  @ApiProperty({ example: 'Password@123' })
+  fireBaseToken: string;
 }

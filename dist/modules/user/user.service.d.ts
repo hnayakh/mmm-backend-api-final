@@ -24,9 +24,12 @@ import { UserLogin } from './entities/user-login.entity';
 import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { UserRepo } from './user.repo';
+import { Notification } from './entities/notification.entity';
+import { Repository } from 'typeorm';
 export declare class UserService {
     private readonly userRepo;
-    constructor(userRepo: UserRepo);
+    private readonly notificationRepo;
+    constructor(userRepo: UserRepo, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
@@ -59,6 +62,7 @@ export declare class UserService {
     getOtpForVerification(phoneNumber: string, email: string): Promise<Otp>;
     getUserById(userBasicId: string): Promise<UserBasic>;
     updateUserBasic(user: UserBasic): Promise<void>;
+    updateTokenToUserBasic(fireBaseToken: string, id: string): Promise<void>;
     updateUserAboutStatus(userAbout: UserAbout, profileUpdationStatus: ProfileUpdationStatus): Promise<UserAbout>;
     updateUserHabitStatus(userHabit: UserHabit, profileUpdationStatus: ProfileUpdationStatus): Promise<UserHabit>;
     updateUserReligionStatus(userReligion: UserReligion, profileUpdationStatus: ProfileUpdationStatus): Promise<UserReligion>;
@@ -100,4 +104,13 @@ export declare class UserService {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBaicId: string): Promise<any>;
+    generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
+        status: number;
+        message: string;
+        Message?: undefined;
+    } | {
+        Message: string;
+        status?: undefined;
+        message?: undefined;
+    }>;
 }

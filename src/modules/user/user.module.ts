@@ -14,6 +14,7 @@ import { UserConnect } from '../connect/entities/user-connect.entity';
 import { UserRequest } from '../connect/entities/user-request.entity';
 import { MasterModule } from '../master/master.module';
 import { AdminUser } from './entities/admin-user.entity';
+import { Notification } from './entities/notification.entity';
 import { Otp } from './entities/otp.entity';
 import { UserAbout } from './entities/user-about.entity';
 import { UserBasic } from './entities/user-basic.entity';
@@ -64,11 +65,12 @@ import { UserService } from './user.service';
       UserConnectDurationLog,
       UserConnectDuration,
       ConnectTransactionEntity,
-      ProfileVisit
+      ProfileVisit,
+      Notification
     ]),
   ],
   controllers: [UserController],
-  providers: [UserFacade, UserService, UserRepo, ConnectService, ConnectRepo],
+  providers: [UserFacade, UserService, UserRepo, ConnectService, ConnectRepo,Notification],
   exports: [UserService ],
 })
 export class UserModule { }

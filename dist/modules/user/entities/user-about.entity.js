@@ -45,6 +45,10 @@ __decorate([
 ], UserAbout.prototype, "dateOfBirth", void 0);
 __decorate([
     typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserAbout.prototype, "fireBaseToken", void 0);
+__decorate([
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], UserAbout.prototype, "maritalStatus", void 0);
 __decorate([

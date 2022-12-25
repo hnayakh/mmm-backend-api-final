@@ -36,6 +36,14 @@ export enum EatingHabit {
   Nonvegetarrian = 2,
 }
 
+export enum NotificationStatus {
+  missed = 0,
+  accepted = 1,
+  rejected = 3,
+  completed = 4,
+  cancel = 5,
+}
+
 export enum SmokingHabit {
   Smoker = 0,
   NonSmoker = 1,

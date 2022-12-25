@@ -23,20 +23,23 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async login(userLoginDto) {
-        const result = await this.authService.validateUser(userLoginDto.email, userLoginDto.password);
+        const result = await this.authService.validateUser(userLoginDto.email, userLoginDto.password, userLoginDto.fireBaseToken);
         return { data: result, message: 'User logged in successfully.' };
     }
     async sendOtp(createOtpDto) {
         const result = await this.authService.sendOtp(createOtpDto);
         return { data: result, message: 'Otp sent succssfully.' };
     }
-    async verifyOtp(verifyOtpDto) {
-        const result = await this.authService.verifyOtp(verifyOtpDto);
+    async verifyOtp(verifyOtpDto, fireBaseToken) {
+        const result = await this.authService.verifyOtp(verifyOtpDto, fireBaseToken);
         return { data: result, message: 'Otp verified successfully.' };
     }
     async adminLogin(userLoginDto) {
         const result = await this.authService.validateAdminUser(userLoginDto.email, userLoginDto.password);
         return { data: result, message: 'User logged in successfully.' };
+    }
+    async generateAGoraToken(data) {
+        const result = await this.authService.generateAGoraToken(data);
     }
 };
 __decorate([
@@ -57,7 +60,7 @@ __decorate([
     common_1.Post('verifyOtp'),
     __param(0, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_otp_dto_1.VerifyOtpDto]),
+    __metadata("design:paramtypes", [create_otp_dto_1.VerifyOtpDto, String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyOtp", null);
 __decorate([
@@ -67,6 +70,13 @@ __decorate([
     __metadata("design:paramtypes", [user_login_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "adminLogin", null);
+__decorate([
+    common_1.Post('generateAGoraToken'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "generateAGoraToken", null);
 AuthController = __decorate([
     swagger_1.ApiTags('Auth'),
     common_1.Controller('auth'),

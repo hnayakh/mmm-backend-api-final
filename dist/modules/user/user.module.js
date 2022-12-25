@@ -75,11 +75,12 @@ UserModule = __decorate([
                 user_connect_duration_log_1.UserConnectDurationLog,
                 user_connect_duration_entity_1.UserConnectDuration,
                 connect_transaction_entity_1.ConnectTransactionEntity,
-                user_profile_visit_1.ProfileVisit
+                user_profile_visit_1.ProfileVisit,
+                Notification
             ]),
         ],
         controllers: [user_controller_1.UserController],
-        providers: [user_facade_1.UserFacade, user_service_1.UserService, user_repo_1.UserRepo, connect_service_1.ConnectService, connect_repo_1.ConnectRepo],
+        providers: [user_facade_1.UserFacade, user_service_1.UserService, user_repo_1.UserRepo, connect_service_1.ConnectService, connect_repo_1.ConnectRepo, Notification],
         exports: [user_service_1.UserService],
     })
 ], UserModule);
