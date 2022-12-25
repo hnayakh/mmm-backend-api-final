@@ -32,7 +32,7 @@ const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_repo_1 = require("./user.repo");
 const firebase_admin_1 = require("firebase-admin");
 const agora_access_token_1 = require("agora-access-token");
-const firebaseServiceAccount_json_1 = require("../auth/firebaseServiceAccount.json");
+const FIREBASE_SERVICE_ACCOUNT = require("../auth/firebaseServiceAccount.json");
 const notification_entity_1 = require("./entities/notification.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
@@ -235,18 +235,20 @@ let UserService = class UserService {
         return await this.userRepo.getPremiumMembers(userBaicId);
     }
     async generateAGoraToken(data) {
+        console.log('check');
         const firebase_params = {
-            type: firebaseServiceAccount_json_1.default.type,
-            projectId: firebaseServiceAccount_json_1.default.project_id,
-            privateKeyId: firebaseServiceAccount_json_1.default.private_key_id,
-            privateKey: firebaseServiceAccount_json_1.default.private_key,
-            clientEmail: firebaseServiceAccount_json_1.default.client_email,
-            clientId: firebaseServiceAccount_json_1.default.client_id,
-            authUri: firebaseServiceAccount_json_1.default.auth_uri,
-            tokenUri: firebaseServiceAccount_json_1.default.token_uri,
-            authProviderX509CertUrl: firebaseServiceAccount_json_1.default.auth_provider_x509_cert_url,
-            clientC509CertUrl: firebaseServiceAccount_json_1.default.client_x509_cert_url,
+            type: FIREBASE_SERVICE_ACCOUNT.type,
+            projectId: FIREBASE_SERVICE_ACCOUNT.project_id,
+            privateKeyId: FIREBASE_SERVICE_ACCOUNT.private_key_id,
+            privateKey: FIREBASE_SERVICE_ACCOUNT.private_key,
+            clientEmail: FIREBASE_SERVICE_ACCOUNT.client_email,
+            clientId: FIREBASE_SERVICE_ACCOUNT.client_id,
+            authUri: FIREBASE_SERVICE_ACCOUNT.auth_uri,
+            tokenUri: FIREBASE_SERVICE_ACCOUNT.token_uri,
+            authProviderX509CertUrl: FIREBASE_SERVICE_ACCOUNT.auth_provider_x509_cert_url,
+            clientC509CertUrl: FIREBASE_SERVICE_ACCOUNT.client_x509_cert_url,
         };
+        console.log('firebase');
         if (!firebase_admin_1.default.apps.length) {
             firebase_admin_1.default.initializeApp({
                 credential: firebase_admin_1.default.credential.cert(firebase_params),
@@ -258,7 +260,9 @@ let UserService = class UserService {
         const APP_ID = '2408d5882f0445ec82566323785cfb66';
         const APP_CERTIFICATE = 'c18a5201243a44ebb6c3c95f124f9798';
         const { senderId, receiverId, callType } = data;
+        console.log('here');
         let receiverData = await this.userRepo.getUserBasicById(receiverId);
+        console.log(receiverData);
         if (!receiverData) {
             return 'Receiver Data not found';
         }
@@ -266,7 +270,7 @@ let UserService = class UserService {
             const role = agora_access_token_1.RtcRole.SUBSCRIBER;
             const expirationTimeInSeconds = 3600;
             const currentTimestamp = Math.floor(Date.now() / 1000);
-            const channelName = receiverData.id.toString() + receiverData;
+            const channelName = receiverData.id.toString() + receiverData.email;
             const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
             let sender = await this.userRepo.getUserBasicById(senderId);
             if (!sender) {
@@ -289,10 +293,13 @@ let UserService = class UserService {
                 senderId: senderId,
                 receiverId: receiverId,
                 message: callType,
+                status: 0,
             });
-            data.notificationId = notificationCreated._id.toString();
+            console.log(notificationCreated);
+            console.log(sender);
+            data.notificationId = notificationCreated.id.toString();
             data.name = sender.userAbouts[0].name;
-            data.receiverId = sender.userAbouts[0].userBasic.id;
+            data.receiverId = receiverData.id;
             data.profileImage = sender.userImages[0].imageURL;
             data.status = 'calling';
             const payload = {
@@ -304,28 +311,23 @@ let UserService = class UserService {
             const options = {
                 priority: 'high',
             };
-            if (receiverData.userAbouts[0].fireBaseToken) {
-                firebase_admin_1.default
+            console.log('data before', data);
+            if (receiverData.fireBaseToken) {
+                let result = await firebase_admin_1.default
                     .messaging()
-                    .sendToDevice(receiverData.userAbouts[0].fireBaseToken, payload, options)
-                    .then(async function (r) {
-                    if (r.failureCount !== 0) {
-                        return ({ status: 0, message: r.results[0].error.message });
-                    }
-                    else {
-                        delete data.receiverId;
-                        delete data.status;
-                        return {
-                            status: 1,
-                            Message: 'Successfully sent notification',
-                            data: data,
-                        };
-                    }
-                })
-                    .catch(function (error) {
-                    console.log('Error sending notification:', error);
-                    return { status: 0, Message: 'Error sending notification' };
-                });
+                    .sendToDevice(receiverData.fireBaseToken, payload, options);
+                if (result.failureCount !== 0) {
+                    return { status: 0, message: result.results[0].error.message };
+                }
+                else {
+                    delete data.receiverId;
+                    delete data.status;
+                    await this.userRepo.updateNotification({
+                        id: notificationCreated.id,
+                    });
+                    console.log('data after', data);
+                    return data;
+                }
             }
             else {
                 return { Message: 'Something went wrong' };

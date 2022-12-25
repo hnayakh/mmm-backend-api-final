@@ -33,5 +33,24 @@ export declare class AuthController {
         data: any;
         message: string;
     }>;
-    generateAGoraToken(data: any): Promise<void>;
+    generateAGoraToken(data: any): Promise<{
+        data: string | {
+            agoraToken: string;
+            channelName: string;
+            notificationId: string;
+            name: string;
+            receiverId: string;
+            profileImage: string;
+            status: string;
+        } | {
+            status: number;
+            message: string;
+            Message?: undefined;
+        } | {
+            Message: string;
+            status?: undefined;
+            message?: undefined;
+        };
+        message: string;
+    }>;
 }

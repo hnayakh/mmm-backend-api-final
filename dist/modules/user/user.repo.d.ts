@@ -16,6 +16,7 @@ import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 import { UserDocs } from './entities/user-docs.entity';
+import { Notification } from './entities/notification.entity';
 export declare class UserRepo {
     private readonly jwtstategy;
     private readonly userBasicRepo;
@@ -148,4 +149,5 @@ export declare class UserRepo {
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any>;
     createNotification(data: any): Promise<any>;
+    updateNotification(data: any): Promise<any>;
 }

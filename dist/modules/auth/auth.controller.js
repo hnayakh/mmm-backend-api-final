@@ -39,7 +39,10 @@ let AuthController = class AuthController {
         return { data: result, message: 'User logged in successfully.' };
     }
     async generateAGoraToken(data) {
+        console.log('data', data);
         const result = await this.authService.generateAGoraToken(data);
+        console.log(result);
+        return { data: result, message: 'successfully.' };
     }
 };
 __decorate([

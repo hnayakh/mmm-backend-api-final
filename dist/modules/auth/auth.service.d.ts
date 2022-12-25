@@ -30,6 +30,14 @@ export declare class AuthService {
     validateAdminUser(email: string, loginPassword: string): Promise<any>;
     private adminLogin;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
+        agoraToken: string;
+        channelName: string;
+        notificationId: string;
+        name: string;
+        receiverId: string;
+        profileImage: string;
+        status: string;
+    } | {
         status: number;
         message: string;
         Message?: undefined;

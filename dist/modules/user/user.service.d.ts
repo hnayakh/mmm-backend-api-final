@@ -105,6 +105,14 @@ export declare class UserService {
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBaicId: string): Promise<any>;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
+        agoraToken: string;
+        channelName: string;
+        notificationId: string;
+        name: string;
+        receiverId: string;
+        profileImage: string;
+        status: string;
+    } | {
         status: number;
         message: string;
         Message?: undefined;

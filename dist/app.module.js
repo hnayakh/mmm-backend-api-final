@@ -102,7 +102,7 @@ AppModule = __decorate([
                     user_profile_visit_1.ProfileVisit,
                     notification_entity_1.Notification,
                 ],
-                synchronize: true,
+                synchronize: false,
             }),
             user_module_1.UserModule,
             auth_module_1.AuthModule,
