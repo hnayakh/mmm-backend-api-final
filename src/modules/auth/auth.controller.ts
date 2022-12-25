@@ -45,6 +45,9 @@ export class AuthController {
   }
   @Post('generateAGoraToken')
   async generateAGoraToken(@Body() data: any) {
+    console.log('data', data);
     const result = await this.authService.generateAGoraToken(data);
+    console.log(result)
+    return { data: result, message: 'successfully.' };
   }
 }

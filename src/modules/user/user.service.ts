@@ -38,7 +38,7 @@ import {
   RtcRole,
   RtmRole,
 } from 'agora-access-token';
-import FIREBASE_SERVICE_ACCOUNT from '../auth/firebaseServiceAccount.json';
+import * as FIREBASE_SERVICE_ACCOUNT from '../auth/firebaseServiceAccount.json';
 import { Notification } from './entities/notification.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -66,7 +66,7 @@ export class UserService {
       createUserBasicDto.phoneNumber,
       createUserBasicDto.password,
       createUserBasicDto.relationship,
-      createUserBasicDto.fireBaseToken
+      createUserBasicDto.fireBaseToken,
     );
     return await this.userRepo.createUserBasic(userBasic);
   }
@@ -300,10 +300,9 @@ export class UserService {
   async updateUserBasic(user: UserBasic) {
     await this.userRepo.updateUserBasic(user);
   }
- async updateTokenToUserBasic(fireBaseToken:string,id:string)  {
-  await this.userRepo.updateToken(fireBaseToken,id)
-  
- }
+  async updateTokenToUserBasic(fireBaseToken: string, id: string) {
+    await this.userRepo.updateToken(fireBaseToken, id);
+  }
 
   async updateUserAboutStatus(
     userAbout: UserAbout,
@@ -496,6 +495,7 @@ export class UserService {
   }
 
   async generateAGoraToken(data: any) {
+    console.log('check');
     const firebase_params = {
       type: FIREBASE_SERVICE_ACCOUNT.type,
       projectId: FIREBASE_SERVICE_ACCOUNT.project_id,
@@ -509,6 +509,8 @@ export class UserService {
         FIREBASE_SERVICE_ACCOUNT.auth_provider_x509_cert_url,
       clientC509CertUrl: FIREBASE_SERVICE_ACCOUNT.client_x509_cert_url,
     };
+
+    console.log('firebase');
     if (!firebaseAdmin.apps.length) {
       firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert(firebase_params),
@@ -520,9 +522,9 @@ export class UserService {
     const APP_ID = '2408d5882f0445ec82566323785cfb66';
     const APP_CERTIFICATE = 'c18a5201243a44ebb6c3c95f124f9798';
     const { senderId, receiverId, callType } = data;
-
+    console.log('here');
     let receiverData = await this.userRepo.getUserBasicById(receiverId);
-
+    console.log(receiverData);
     if (!receiverData) {
       return 'Receiver Data not found';
     }
@@ -530,7 +532,7 @@ export class UserService {
       const role = RtcRole.SUBSCRIBER;
       const expirationTimeInSeconds = 3600;
       const currentTimestamp = Math.floor(Date.now() / 1000);
-      const channelName = receiverData.id.toString() + receiverData;
+      const channelName = receiverData.id.toString() + receiverData.email;
       const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
       let sender = await this.userRepo.getUserBasicById(senderId);
       if (!sender) {
@@ -561,6 +563,7 @@ export class UserService {
         senderId: senderId,
         receiverId: receiverId,
         message: callType,
+        status: 0,
       });
 
       // .createNotification({
@@ -568,10 +571,11 @@ export class UserService {
       //   receiverId: receiverId,
       //   message:
       // });
-
-      data.notificationId = notificationCreated._id.toString();
+      console.log(notificationCreated);
+      console.log(sender);
+      data.notificationId = notificationCreated.id.toString();
       data.name = sender.userAbouts[0].name;
-      data.receiverId = sender.userAbouts[0].userBasic.id;
+      data.receiverId = receiverData.id;
       data.profileImage = sender.userImages[0].imageURL;
       data.status = 'calling';
       const payload = {
@@ -586,31 +590,37 @@ export class UserService {
         priority: 'high',
         // timeToLive: 60 * 60 * 24, // 1 day
       };
-      if (receiverData.userAbouts[0].fireBaseToken) {
-        firebaseAdmin
+      console.log('data before', data);
+      if (receiverData.fireBaseToken) {
+        let result = await firebaseAdmin
           .messaging()
-          .sendToDevice(receiverData.userAbouts[0].fireBaseToken, payload, options)
-          .then(async function (r) {
-            if (r.failureCount !== 0) {
-              return ({ status: 0, message: r.results[0].error.message });
-            } else {
-              delete data.receiverId;
-              delete data.status;
-              // await Notification.updateOne(
-              //   { _id: notificationCreated._id },
-              //   { message: data },
-              // );
-              return {
-                status: 1,
-                Message: 'Successfully sent notification',
-                data: data,
-              };
-            }
-          })
-          .catch(function (error) {
-            console.log('Error sending notification:', error);
-            return { status: 0, Message: 'Error sending notification' };
+          .sendToDevice(receiverData.fireBaseToken, payload, options);
+        // .then(async function (r) {
+
+        // })
+        // .catch(function (error) {
+        //   console.log('Error sending notification:', error);
+        //   return { status: 0, Message: 'Error sending notification' };
+        // });
+        // return {
+        //   firebaseResult: result,
+        //   data: data,
+        // };
+        if (result.failureCount !== 0) {
+          return { status: 0, message: result.results[0].error.message };
+        } else {
+          delete data.receiverId;
+          delete data.status;
+          // await Notification.updateOne(
+          //   { _id: notificationCreated._id },
+          //   { message: data },
+          // );
+          await this.userRepo.updateNotification({
+            id: notificationCreated.id,
           });
+          console.log('data after', data);
+          return data;
+        }
       } else {
         return { Message: 'Something went wrong' };
       }

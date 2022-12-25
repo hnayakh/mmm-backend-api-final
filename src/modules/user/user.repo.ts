@@ -116,7 +116,19 @@ export class UserRepo {
   }
 
   async getUserBasicById(userBasicId: string) {
-    return await this.userBasicRepo.findOne(userBasicId);
+    return await this.userBasicRepo.findOne(userBasicId, {
+      relations: [
+        'userBios',
+        'userAbouts',
+        'userHabits',
+        'userReligions',
+        'userCareers',
+        'userFamilyBackgrounds',
+        'userFamilyDetails',
+        'userImages',
+        'userLogins',
+      ],
+    });
   }
   async getUserAboutyId(userBasicId: string) {
     return await this.userAboutRepo.findOne(userBasicId);
@@ -919,6 +931,9 @@ export class UserRepo {
   }
 
   async createNotification(data: any) {
+    return await this.notificationRepo.save({ ...data });
+  }
+  async updateNotification(data: any) {
     return await this.notificationRepo.save({ ...data });
   }
 }
