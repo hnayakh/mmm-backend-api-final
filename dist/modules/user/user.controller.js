@@ -42,19 +42,19 @@ let UserController = class UserController {
         const userBasic = await this.userFacade.createUserBasic(createUserBasicDto);
         return { data: userBasic, message: 'User basic registration successful.' };
     }
-    async getUserDeatailById(userBasicId) {
-        const userBasic = await this.userFacade.getUserDeatailById(userBasicId);
+    async getUserDeatailById(userBasicId, myBasicId) {
+        const userBasic = await this.userFacade.getUserDeatailById(userBasicId, myBasicId);
         return {
             data: userBasic,
             message: 'User basic details fetched successful.',
         };
     }
     async getUserDeatailByDisplayId(displayId) {
-        console.log("DISPLAY", displayId);
+        console.log('DISPLAY', displayId);
         let message = 'User basic details fetched successful.';
         const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId);
         if (!userBasic) {
-            message = "No user found for given DisplayId";
+            message = 'No user found for given DisplayId';
         }
         return {
             data: userBasic ? userBasic : {},
@@ -110,14 +110,17 @@ let UserController = class UserController {
     }
     async uploadDocImages(userId, files) {
         const imageUrls = await this.userFacade.uploadUserDocImages(userId, files);
-        return { data: imageUrls, message: 'User Doc Image uploaded successfully.' };
+        return {
+            data: imageUrls,
+            message: 'User Doc Image uploaded successfully.',
+        };
     }
     async createUserBioWithImages(createUserBioImageDto) {
         const result = await this.userFacade.createUserBioWithImages(createUserBioImageDto);
         return { data: result, message: 'User profile registration successful.' };
     }
     async updateUserBioWithDocs(updateUserDocsDto) {
-        console.log("DOCSS", updateUserDocsDto);
+        console.log('DOCSS', updateUserDocsDto);
         const result = await this.userFacade.updateUserBioWithDocs(updateUserDocsDto);
         return { data: result, message: 'User Document Uploaded successfully.' };
     }
@@ -200,7 +203,7 @@ let UserController = class UserController {
             country,
             limit,
             offset,
-            profileStatus
+            profileStatus,
         };
         console.log(filterObj);
         const users = await this.userFacade.getAppUsersForAdmin(filterObj);
@@ -242,7 +245,7 @@ let UserController = class UserController {
     }
     async getPremiumMembers(userBasicId) {
         const response = await this.userFacade.getPremiumMembers(userBasicId);
-        console.log("response", response);
+        console.log('response', response);
         return {
             data: response,
             message: ' Premium members profiles fetched.',
@@ -269,10 +272,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserBasic", null);
 __decorate([
-    common_1.Get('basic/:userBasicId'),
+    common_1.Post('basic/:userBasicId'),
     __param(0, common_1.Param('userBasicId')),
+    __param(1, common_1.Body('myBasicId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserDeatailById", null);
 __decorate([

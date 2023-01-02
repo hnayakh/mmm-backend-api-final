@@ -18,7 +18,10 @@ import { CreateUserReligionDto } from './dtos/craete-user-religion.dto';
 import { CreateAdminUserDto } from './dtos/create-admin-user.dto';
 import { CreateUserAboutDto } from './dtos/create-user-about.dto';
 import { CreateUserBasicDto } from './dtos/create-user-basic.dto';
-import { CreateUserBioImageDto, UpdateUserDocsDto } from './dtos/create-user-bio-image.dto';
+import {
+  CreateUserBioImageDto,
+  UpdateUserDocsDto,
+} from './dtos/create-user-bio-image.dto';
 import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
@@ -52,9 +55,15 @@ export class UserController {
     return { data: userBasic, message: 'User basic registration successful.' };
   }
 
-  @Get('basic/:userBasicId')
-  async getUserDeatailById(@Param('userBasicId') userBasicId: string) {
-    const userBasic = await this.userFacade.getUserDeatailById(userBasicId);
+  @Post('basic/:userBasicId')
+  async getUserDeatailById(
+    @Param('userBasicId') userBasicId: string,
+    @Body('myBasicId') myBasicId: string,
+  ) {
+    const userBasic = await this.userFacade.getUserDeatailById(
+      userBasicId,
+      myBasicId,
+    );
     return {
       data: userBasic,
       message: 'User basic details fetched successful.',
@@ -62,17 +71,18 @@ export class UserController {
   }
   @Get('displaybasic/:displayId')
   async getUserDeatailByDisplayId(@Param('displayId') displayId: string) {
-    console.log("DISPLAY", displayId);
-    let message='User basic details fetched successful.';
-    
-    const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId);
-   
-    if(!userBasic){
-      message="No user found for given DisplayId";
-      
+    console.log('DISPLAY', displayId);
+    let message = 'User basic details fetched successful.';
+
+    const userBasic = await this.userFacade.getUserDeatailByDisplayId(
+      displayId,
+    );
+
+    if (!userBasic) {
+      message = 'No user found for given DisplayId';
     }
     return {
-      data: userBasic?userBasic:{},
+      data: userBasic ? userBasic : {},
       message: message,
     };
   }
@@ -168,10 +178,12 @@ export class UserController {
   async uploadDocImages(
     @Param('userId') userId: string,
     @UploadedFiles() files: any,
-  
   ) {
     const imageUrls = await this.userFacade.uploadUserDocImages(userId, files);
-    return { data: imageUrls, message: 'User Doc Image uploaded successfully.'};
+    return {
+      data: imageUrls,
+      message: 'User Doc Image uploaded successfully.',
+    };
   }
 
   @Post('bio')
@@ -184,12 +196,9 @@ export class UserController {
     return { data: result, message: 'User profile registration successful.' };
   }
 
-  
   @Post('docs')
-  async updateUserBioWithDocs(
-    @Body() updateUserDocsDto: UpdateUserDocsDto,
-  ) {
-    console.log("DOCSS",updateUserDocsDto);
+  async updateUserBioWithDocs(@Body() updateUserDocsDto: UpdateUserDocsDto) {
+    console.log('DOCSS', updateUserDocsDto);
     const result = await this.userFacade.updateUserBioWithDocs(
       updateUserDocsDto,
     );
@@ -321,7 +330,10 @@ export class UserController {
     @Query('otherUserBasicId') otherUserBasicId: string,
     @Param('userBasicId') userBasicId: string,
   ) {
-    const response = await this.userFacade.getMatchPercentage(userBasicId,otherUserBasicId);
+    const response = await this.userFacade.getMatchPercentage(
+      userBasicId,
+      otherUserBasicId,
+    );
     return { data: response, message: 'Respnse received successfully.' };
   }
 
@@ -369,7 +381,7 @@ export class UserController {
     @Query('country') country: string,
     @Query('limit') limit: string,
     @Query('offset') offset: string,
-    @Query('profileStatus') profileStatus:string,
+    @Query('profileStatus') profileStatus: string,
   ) {
     let filterObj = {
       displayId,
@@ -386,11 +398,11 @@ export class UserController {
       country,
       limit,
       offset,
-      profileStatus
+      profileStatus,
     };
     console.log(filterObj);
     const users = await this.userFacade.getAppUsersForAdmin(filterObj);
-    let res= new ResponseService();
+    let res = new ResponseService();
     return { data: users, message: 'All the users fetched successfully.' };
   }
 
@@ -401,8 +413,11 @@ export class UserController {
   }
 
   @Post('app/users/updateRegistrationStep/:userBasicId/:step')
-  async updateRegistrationStep(@Param('userBasicId') userBasicId: string,@Param('userBasicId') step: number) {
-       await this.userFacade.updateUserRegistrationStep(userBasicId,step);
+  async updateRegistrationStep(
+    @Param('userBasicId') userBasicId: string,
+    @Param('userBasicId') step: number,
+  ) {
+    await this.userFacade.updateUserRegistrationStep(userBasicId, step);
     return { data: {}, message: 'Registration step updated successfully.' };
   }
   @ApiQuery({ name: 'visitedBy', required: true })
@@ -448,7 +463,7 @@ export class UserController {
   @Get('premium_members/:userBasicId')
   async getPremiumMembers(@Param('userBasicId') userBasicId: string) {
     const response = await this.userFacade.getPremiumMembers(userBasicId);
-    console.log("response",response);
+    console.log('response', response);
     return {
       data: response,
       message: ' Premium members profiles fetched.',
