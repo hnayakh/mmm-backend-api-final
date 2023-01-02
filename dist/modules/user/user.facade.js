@@ -92,7 +92,7 @@ let UserFacade = class UserFacade {
     async uploadUserDocImages(userId, files) {
         let docPromiseArr = [];
         let docImageArr = [];
-        let docIdProof = "";
+        let docIdProof = '';
         for (let i = 0; i < files.length; i++) {
             let rand = shortid.generate();
             const key = `${userId}/${rand}_${files[i].originalname}`;
@@ -100,7 +100,7 @@ let UserFacade = class UserFacade {
             docImageArr.push(`${process.env.S3_PREFIX_URL}${key}`);
         }
         await Promise.all(docPromiseArr);
-        console.log("Doc Image Array");
+        console.log('Doc Image Array');
         return docImageArr;
     }
     async createUserBioWithImages(createUserBioImageDto) {
@@ -371,9 +371,18 @@ let UserFacade = class UserFacade {
         delete res.userBasic;
         return res;
     }
-    async getUserDeatailById(userBasicId) {
+    async getUserDeatailById(userBasicId, myBasicId) {
         try {
             const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
+            let userReqDet = [];
+            if (myBasicId) {
+                console.log(myBasicId);
+                const entityManager = typeorm_1.getManager();
+                const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
+                userReqDet = await entityManager.query(rawQuery);
+                console.log(rawQuery);
+                console.log('userReqDet', userReqDet);
+            }
             if (userDetails.userCareers) {
                 userDetails.userCareers = userDetails.userCareers.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
                     x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
@@ -417,7 +426,8 @@ let UserFacade = class UserFacade {
                 userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
                 userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
             }
-            return userDetails;
+            let requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+            return requiredData;
         }
         catch (err) {
             console.log('ERRRRRROR', err);
@@ -485,7 +495,9 @@ let UserFacade = class UserFacade {
                 queryString = queryString + ` AND uv.registrationStep < 8`;
             }
             if (filterObj['profileStatus'] == 2) {
-                queryString = queryString + ` AND uv.registrationStep > 8 AND ul.updatedAt< DATE_SUB(NOW(), INTERVAL 60 DAY)`;
+                queryString =
+                    queryString +
+                        ` AND uv.registrationStep > 8 AND ul.updatedAt< DATE_SUB(NOW(), INTERVAL 60 DAY)`;
             }
         }
         if (!filterObj['profileStatus']) {

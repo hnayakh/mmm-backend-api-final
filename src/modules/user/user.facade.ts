@@ -152,21 +152,21 @@ export class UserFacade {
   async uploadUserDocImages(userId: string, files: any) {
     let docPromiseArr = [];
     let docImageArr = [];
-    let docIdProof = "";
+    let docIdProof = '';
     for (let i = 0; i < files.length; i++) {
       let rand = shortid.generate();
       const key = `${userId}/${rand}_${files[i].originalname}`;
-      docPromiseArr.push(await this.s3Service.uploadDirectlyToS3(key, files[i]));
+      docPromiseArr.push(
+        await this.s3Service.uploadDirectlyToS3(key, files[i]),
+      );
       docImageArr.push(`${process.env.S3_PREFIX_URL}${key}`);
-      
     }
     await Promise.all(docPromiseArr);
-    console.log("Doc Image Array", );
-    return docImageArr ;
-
+    console.log('Doc Image Array');
+    return docImageArr;
   }
 
-  async createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto) { 
+  async createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto) {
     const userBasic = await this.userService.getUserBasicById(
       createUserBioImageDto.userBasicId,
     );
@@ -177,8 +177,6 @@ export class UserFacade {
     // this.verifyUserByAdmin(createUserBioImageDto.userBasicId);
     return res;
   }
-
-
 
   async updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto) {
     const userBasic = await this.userService.getUserBasicById(
@@ -619,11 +617,20 @@ export class UserFacade {
     return res;
   }
 
-  async getUserDeatailById(userBasicId: string) {
+  async getUserDeatailById(userBasicId: string, myBasicId: string) {
     try {
       const userDetails = await this.userService.getAllUserDetailsById(
         userBasicId,
       );
+      let userReqDet = [];
+      if (myBasicId) {
+        console.log(myBasicId);
+        const entityManager = getManager();
+        const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
+        userReqDet = await entityManager.query(rawQuery);
+        console.log(rawQuery);
+        console.log('userReqDet', userReqDet);
+      }
       if (userDetails.userCareers) {
         userDetails.userCareers = userDetails.userCareers.filter(
           (x) =>
@@ -692,7 +699,8 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
         userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
       }
-      return userDetails;
+      let requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+      return requiredData;
     } catch (err) {
       console.log('ERRRRRROR', err);
     }
@@ -781,7 +789,9 @@ export class UserFacade {
         queryString = queryString + ` AND uv.registrationStep < 8`;
       }
       if (filterObj['profileStatus'] == 2) {
-        queryString = queryString + ` AND uv.registrationStep > 8 AND ul.updatedAt< DATE_SUB(NOW(), INTERVAL 60 DAY)`;
+        queryString =
+          queryString +
+          ` AND uv.registrationStep > 8 AND ul.updatedAt< DATE_SUB(NOW(), INTERVAL 60 DAY)`;
       }
     }
     if (!filterObj['profileStatus']) {
