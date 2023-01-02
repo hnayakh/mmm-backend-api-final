@@ -23,6 +23,7 @@ const user_connect_entity_1 = require("../connect/entities/user-connect.entity")
 const user_request_entity_1 = require("../connect/entities/user-request.entity");
 const master_module_1 = require("../master/master.module");
 const admin_user_entity_1 = require("./entities/admin-user.entity");
+const notification_entity_1 = require("./entities/notification.entity");
 const otp_entity_1 = require("./entities/otp.entity");
 const user_about_entity_1 = require("./entities/user-about.entity");
 const user_basic_entity_1 = require("./entities/user-basic.entity");
@@ -75,11 +76,12 @@ UserModule = __decorate([
                 user_connect_duration_log_1.UserConnectDurationLog,
                 user_connect_duration_entity_1.UserConnectDuration,
                 connect_transaction_entity_1.ConnectTransactionEntity,
-                user_profile_visit_1.ProfileVisit
+                user_profile_visit_1.ProfileVisit,
+                notification_entity_1.Notification
             ]),
         ],
         controllers: [user_controller_1.UserController],
-        providers: [user_facade_1.UserFacade, user_service_1.UserService, user_repo_1.UserRepo, connect_service_1.ConnectService, connect_repo_1.ConnectRepo],
+        providers: [user_facade_1.UserFacade, user_service_1.UserService, user_repo_1.UserRepo, connect_service_1.ConnectService, connect_repo_1.ConnectRepo, notification_entity_1.Notification],
         exports: [user_service_1.UserService],
     })
 ], UserModule);

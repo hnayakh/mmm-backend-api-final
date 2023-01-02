@@ -1,21 +1,22 @@
-import { ProfileUpdationStatus, RegistrationSteps } from "src/shared/enums/miscellaneous.enum";
-import { Repository } from "typeorm";
-import { JwtService } from "@nestjs/jwt";
-import { AdminUser } from "./entities/admin-user.entity";
-import { Otp } from "./entities/otp.entity";
-import { UserAbout } from "./entities/user-about.entity";
-import { UserBasic } from "./entities/user-basic.entity";
-import { UserBio } from "./entities/user-bio.entity";
-import { UserCareer } from "./entities/user-career.entity";
-import { UserFamilyBackground } from "./entities/user-family-background.entity";
-import { UserFamilyDetail } from "./entities/user-family-detail.entity";
-import { UserHabit } from "./entities/user-habit.entity";
-import { UserImage } from "./entities/user-image.entity";
-import { UserLogin } from "./entities/user-login.entity";
-import { UserPreference } from "./entities/user-preference.entity";
-import { UserReligion } from "./entities/user-religion.entity";
-import { ProfileVisit } from "./entities/user.profile.visit";
-import { UserDocs } from "./entities/user-docs.entity";
+import { ProfileUpdationStatus, RegistrationSteps } from 'src/shared/enums/miscellaneous.enum';
+import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
+import { AdminUser } from './entities/admin-user.entity';
+import { Otp } from './entities/otp.entity';
+import { UserAbout } from './entities/user-about.entity';
+import { UserBasic } from './entities/user-basic.entity';
+import { UserBio } from './entities/user-bio.entity';
+import { UserCareer } from './entities/user-career.entity';
+import { UserFamilyBackground } from './entities/user-family-background.entity';
+import { UserFamilyDetail } from './entities/user-family-detail.entity';
+import { UserHabit } from './entities/user-habit.entity';
+import { UserImage } from './entities/user-image.entity';
+import { UserLogin } from './entities/user-login.entity';
+import { UserPreference } from './entities/user-preference.entity';
+import { UserReligion } from './entities/user-religion.entity';
+import { ProfileVisit } from './entities/user.profile.visit';
+import { UserDocs } from './entities/user-docs.entity';
+import { Notification } from './entities/notification.entity';
 export declare class UserRepo {
     private readonly jwtstategy;
     private readonly userBasicRepo;
@@ -33,7 +34,8 @@ export declare class UserRepo {
     private readonly adminUserRepo;
     private readonly userPreferenceRepo;
     private readonly userProfileVisitRepo;
-    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>);
+    private readonly notificationRepo;
+    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;
@@ -47,6 +49,7 @@ export declare class UserRepo {
         displayId: string;
         activationStatus: import("src/shared/enums/miscellaneous.enum").ActivationStatus;
         lifecycleStatus: import("src/shared/enums/miscellaneous.enum").LifecycleStatus;
+        fireBaseToken: string;
         registrationStep: RegistrationSteps;
         userBios: UserBio[];
         userAbouts: UserAbout[];
@@ -72,6 +75,7 @@ export declare class UserRepo {
         updatedBy: string;
         isActive: boolean;
     } & UserBasic>;
+    updateToken(fireBaseToken: any, id: any): Promise<any>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
     getUserAboutyId(userBasicId: string): Promise<UserAbout>;
     createUserAbout(userAbout: UserAbout): Promise<any>;
@@ -144,4 +148,6 @@ export declare class UserRepo {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any>;
+    createNotification(data: any): Promise<any>;
+    updateNotification(data: any): Promise<any>;
 }

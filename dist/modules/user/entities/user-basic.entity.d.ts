@@ -26,6 +26,7 @@ export declare class UserBasic extends AbstarctEntity {
     displayId: string;
     activationStatus: ActivationStatus;
     lifecycleStatus: LifecycleStatus;
+    fireBaseToken: string;
     registrationStep: RegistrationSteps;
     userBios: UserBio[];
     userAbouts: UserAbout[];
@@ -45,7 +46,7 @@ export declare class UserBasic extends AbstarctEntity {
     userPreferences: UserPreference[];
     userLogins: UserLogin[];
     hashPassword(): Promise<void>;
-    static createUserBasic(email: string, gender: Gender, countryCode: string, phoneNumber: string, password: string, relationship: Relationship): UserBasic;
+    static createUserBasic(email: string, gender: Gender, countryCode: string, phoneNumber: string, password: string, relationship: Relationship, fireBaseToken: string): UserBasic;
     updateRegistrationStep(registrationStep: RegistrationSteps): this;
     updateStatus(activationStatus: ActivationStatus, registrationSteps: RegistrationSteps): this;
 }

@@ -30,6 +30,13 @@ export declare enum EatingHabit {
     Eggitarrian = 1,
     Nonvegetarrian = 2
 }
+export declare enum NotificationStatus {
+    missed = 0,
+    accepted = 1,
+    rejected = 3,
+    completed = 4,
+    cancel = 5
+}
 export declare enum SmokingHabit {
     Smoker = 0,
     NonSmoker = 1,

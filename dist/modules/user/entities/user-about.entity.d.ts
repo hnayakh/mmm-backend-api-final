@@ -5,6 +5,7 @@ import { AbilityStatus, ChildrenStatus, MaritalStatus, NumberOfChildren } from '
 export declare class UserAbout extends AbstarctEntity {
     name: string;
     dateOfBirth: string;
+    fireBaseToken: string;
     maritalStatus: MaritalStatus;
     childrenStatus: ChildrenStatus;
     numberOfChildren: NumberOfChildren;

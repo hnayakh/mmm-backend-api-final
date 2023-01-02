@@ -37,13 +37,14 @@ let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.Abstarct
     async hashPassword() {
         this.password = await bcrypt.hash(this.password == null ? 'User@123' : this.password, 8);
     }
-    static createUserBasic(email, gender, countryCode, phoneNumber, password, relationship) {
+    static createUserBasic(email, gender, countryCode, phoneNumber, password, relationship, fireBaseToken) {
         const userBasic = new UserBasic_1();
         userBasic.email = email;
         userBasic.gender = gender;
         userBasic.countryCode = countryCode;
         userBasic.phoneNumber = phoneNumber;
         userBasic.password = password;
+        userBasic.fireBaseToken = fireBaseToken;
         userBasic.activationStatus = miscellaneous_enum_1.ActivationStatus.Pending;
         userBasic.lifecycleStatus = miscellaneous_enum_1.LifecycleStatus.Active;
         userBasic.registrationStep = miscellaneous_enum_1.RegistrationSteps.About;
@@ -98,6 +99,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
 ], UserBasic.prototype, "lifecycleStatus", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserBasic.prototype, "fireBaseToken", void 0);
 __decorate([
     typeorm_1.Column({ default: miscellaneous_enum_1.RegistrationSteps.Basic }),
     __metadata("design:type", Number)

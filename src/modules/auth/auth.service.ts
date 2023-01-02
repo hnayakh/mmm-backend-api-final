@@ -14,7 +14,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, loginPassword: string): Promise<any> {
+  async validateUser(
+    email: string,
+    loginPassword: string,
+    fireBaseToken: string,
+  ): Promise<any> {
     const user = await this.userService.getUserBasicByEmail(
       email.toLowerCase(),
     );
@@ -43,13 +47,18 @@ export class AuthService {
     const requiredLoginDetails = await this.userService.getRequiredLoginDetails(
       user.id,
     );
-    return await this.login(user, requiredLoginDetails);
+    return await this.login(user, requiredLoginDetails, fireBaseToken);
   }
 
-  private async login(user: UserBasic, requiredLoginDetails: any) {
+  private async login(
+    user: UserBasic,
+    requiredLoginDetails: any,
+    fireBaseToken: any,
+  ) {
     const payload = { username: user.email, sub: user.id };
     let authToken = this.jwtService.sign(payload);
     this.userService.createUserLogin('M', '12e34', authToken, user);
+    this.userService.updateTokenToUserBasic(fireBaseToken, user.id);
     return {
       userId: user.id,
       access_token: authToken,
@@ -149,7 +158,7 @@ export class AuthService {
     }
   }
 
-  async verifyOtp(verifyOtpDto: VerifyOtpDto) {
+  async verifyOtp(verifyOtpDto: VerifyOtpDto, fireBaseToken) {
     if (verifyOtpDto.type == OtpType.Registration) {
       const sentOtp = await this.userService.getOtpForVerification(
         verifyOtpDto.phoneNumber,
@@ -204,7 +213,7 @@ export class AuthService {
       );
       const requiredLoginDetails =
         await this.userService.getRequiredLoginDetails(userBasic.id);
-      return this.login(userBasic, requiredLoginDetails);
+      return this.login(userBasic, requiredLoginDetails, fireBaseToken);
     } else {
       const sentOtp = await this.userService.getOtpForVerification(
         null,
@@ -232,7 +241,7 @@ export class AuthService {
       );
       const requiredLoginDetails =
         await this.userService.getRequiredLoginDetails(userBasic.id);
-      return this.login(userBasic, requiredLoginDetails);
+      return this.login(userBasic, requiredLoginDetails, fireBaseToken);
     }
   }
 
@@ -277,5 +286,9 @@ export class AuthService {
       access_token: authToken,
       adminUser: adminUser,
     };
+  }
+
+  async generateAGoraToken(data: any) {
+    return await this.userService.generateAGoraToken(data);
   }
 }

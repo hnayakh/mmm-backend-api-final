@@ -15,6 +15,7 @@ export class AuthController {
     const result = await this.authService.validateUser(
       userLoginDto.email,
       userLoginDto.password,
+      userLoginDto.fireBaseToken,
     );
     return { data: result, message: 'User logged in successfully.' };
   }
@@ -26,8 +27,11 @@ export class AuthController {
   }
 
   @Post('verifyOtp')
-  async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
-    const result = await this.authService.verifyOtp(verifyOtpDto);
+  async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto, fireBaseToken: string) {
+    const result = await this.authService.verifyOtp(
+      verifyOtpDto,
+      fireBaseToken,
+    );
     return { data: result, message: 'Otp verified successfully.' };
   }
 
@@ -38,5 +42,12 @@ export class AuthController {
       userLoginDto.password,
     );
     return { data: result, message: 'User logged in successfully.' };
+  }
+  @Post('generateAGoraToken')
+  async generateAGoraToken(@Body() data: any) {
+    console.log('data', data);
+    const result = await this.authService.generateAGoraToken(data);
+    console.log(result)
+    return { data: result, message: 'successfully.' };
   }
 }

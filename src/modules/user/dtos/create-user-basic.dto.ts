@@ -20,6 +20,10 @@ export class CreateUserBasicDto {
   @ApiProperty({ example: '+91' })
   countryCode: string;
 
+  @IsNotEmpty({ message: 'FirebaseToken code can not be empty.' })
+  @ApiProperty({ example: '+91' })
+  fireBaseToken: string;
+
   @IsNotEmpty({ message: 'Phone number code can not be empty.' })
   @ApiProperty({ example: '9853461442' })
   phoneNumber: string;

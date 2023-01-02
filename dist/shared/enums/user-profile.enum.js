@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AnualIncome = exports.NumberOfChildren = exports.Manglik = exports.MotherOccupation = exports.FatherOccupation = exports.FamilyAfluenceLevel = exports.FamilyValues = exports.FamilyType = exports.DrinkingHabit = exports.SmokingHabit = exports.EatingHabit = exports.ChildrenStatus = exports.AbilityStatus = exports.MaritalStatus = exports.Relationship = exports.Gender = void 0;
+exports.AnualIncome = exports.NumberOfChildren = exports.Manglik = exports.MotherOccupation = exports.FatherOccupation = exports.FamilyAfluenceLevel = exports.FamilyValues = exports.FamilyType = exports.DrinkingHabit = exports.SmokingHabit = exports.NotificationStatus = exports.EatingHabit = exports.ChildrenStatus = exports.AbilityStatus = exports.MaritalStatus = exports.Relationship = exports.Gender = void 0;
 var Gender;
 (function (Gender) {
     Gender[Gender["Male"] = 0] = "Male";
@@ -39,6 +39,14 @@ var EatingHabit;
     EatingHabit[EatingHabit["Eggitarrian"] = 1] = "Eggitarrian";
     EatingHabit[EatingHabit["Nonvegetarrian"] = 2] = "Nonvegetarrian";
 })(EatingHabit = exports.EatingHabit || (exports.EatingHabit = {}));
+var NotificationStatus;
+(function (NotificationStatus) {
+    NotificationStatus[NotificationStatus["missed"] = 0] = "missed";
+    NotificationStatus[NotificationStatus["accepted"] = 1] = "accepted";
+    NotificationStatus[NotificationStatus["rejected"] = 3] = "rejected";
+    NotificationStatus[NotificationStatus["completed"] = 4] = "completed";
+    NotificationStatus[NotificationStatus["cancel"] = 5] = "cancel";
+})(NotificationStatus = exports.NotificationStatus || (exports.NotificationStatus = {}));
 var SmokingHabit;
 (function (SmokingHabit) {
     SmokingHabit[SmokingHabit["Smoker"] = 0] = "Smoker";

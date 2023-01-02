@@ -33,8 +33,9 @@ const user_preference_entity_1 = require("./entities/user-preference.entity");
 const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_profile_visit_1 = require("./entities/user.profile.visit");
 const user_docs_entity_1 = require("./entities/user-docs.entity");
+const notification_entity_1 = require("./entities/notification.entity");
 let UserRepo = class UserRepo {
-    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo) {
+    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo, notificationRepo) {
         this.jwtstategy = jwtstategy;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
@@ -51,12 +52,13 @@ let UserRepo = class UserRepo {
         this.adminUserRepo = adminUserRepo;
         this.userPreferenceRepo = userPreferenceRepo;
         this.userProfileVisitRepo = userProfileVisitRepo;
+        this.notificationRepo = notificationRepo;
     }
     async getAllUsers(skip, take) {
         return await this.userBasicRepo.find({
             relations: [
-                "userBios",
-                "userAbouts",
+                'userBios',
+                'userAbouts',
             ],
         });
     }
@@ -77,8 +79,30 @@ let UserRepo = class UserRepo {
     async updateUserBasic(userBasic) {
         return await this.userBasicRepo.save(Object.assign({}, userBasic));
     }
+    async updateToken(fireBaseToken, id) {
+        console.log('firebaseToken', fireBaseToken);
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE user_basics SET 
+     fireBaseToken = '${fireBaseToken}'
+     WHERE (id = '${id}');`;
+        console.log(rawQuery);
+        const faqUpdate = await entityManager.query(rawQuery);
+        return faqUpdate;
+    }
     async getUserBasicById(userBasicId) {
-        return await this.userBasicRepo.findOne(userBasicId);
+        return await this.userBasicRepo.findOne(userBasicId, {
+            relations: [
+                'userBios',
+                'userAbouts',
+                'userHabits',
+                'userReligions',
+                'userCareers',
+                'userFamilyBackgrounds',
+                'userFamilyDetails',
+                'userImages',
+                'userLogins',
+            ],
+        });
     }
     async getUserAboutyId(userBasicId) {
         return await this.userAboutRepo.findOne(userBasicId);
@@ -99,7 +123,7 @@ let UserRepo = class UserRepo {
                 userBasic: userAbout.userBasic,
             },
         });
-        console.log("existingAboutRecord", existingAboutRecord);
+        console.log('existingAboutRecord', existingAboutRecord);
         let result;
         if (existingAboutRecord != null) {
             result = await this.updateUserAbout(userAbout);
@@ -111,7 +135,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserAbout(userAbout) {
-        console.log("updating...............");
+        console.log('updating...............');
         await this.userAboutRepo.update({ userBasic: userAbout.userBasic }, Object.assign({}, userAbout));
         return userAbout;
     }
@@ -131,7 +155,7 @@ let UserRepo = class UserRepo {
                 userBasic: userHabit.userBasic,
             },
         });
-        console.log("existingHabitRecord", existingHabitRecord);
+        console.log('existingHabitRecord', existingHabitRecord);
         let result;
         if (existingHabitRecord != null) {
             result = await this.updateUserHabit(userHabit);
@@ -143,7 +167,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserHabit(userHabit) {
-        console.log("updating...............");
+        console.log('updating...............');
         await this.userHabitRepo.update({ userBasic: userHabit.userBasic }, Object.assign({}, userHabit));
         return userHabit;
     }
@@ -163,7 +187,7 @@ let UserRepo = class UserRepo {
                 userBasic: ufd.userBasic,
             },
         });
-        console.log("existingAboutRecord", existingFamilyDetailRecord);
+        console.log('existingAboutRecord', existingFamilyDetailRecord);
         let result;
         if (existingFamilyDetailRecord != null) {
             result = await this.updateUserFamilyDetail(ufd);
@@ -175,7 +199,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserFamilyDetail(ufd) {
-        console.log("updating Family Details..................");
+        console.log('updating Family Details..................');
         await this.userFamilyDetailRepo.update({ userBasic: ufd.userBasic }, Object.assign({}, ufd));
         return ufd;
     }
@@ -195,7 +219,7 @@ let UserRepo = class UserRepo {
                 userBasic: ufbg.userBasic,
             },
         });
-        console.log("existingAboutRecord", existingFamilyBackgroundRecord);
+        console.log('existingAboutRecord', existingFamilyBackgroundRecord);
         let result;
         if (existingFamilyBackgroundRecord != null) {
             result = await this.updateUserFamilyBackground(ufbg);
@@ -207,7 +231,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserFamilyBackground(ufbg) {
-        console.log("updating Backgrround Details..................");
+        console.log('updating Backgrround Details..................');
         await this.userFamilyBackgroundRepo.update({ userBasic: ufbg.userBasic }, Object.assign({}, ufbg));
         return ufbg;
     }
@@ -227,7 +251,7 @@ let UserRepo = class UserRepo {
                 userBasic: userCareer.userBasic,
             },
         });
-        console.log("existingCarrerRecord", existingCareerRecord);
+        console.log('existingCarrerRecord', existingCareerRecord);
         let result;
         if (existingCareerRecord != null) {
             result = await this.updateUserCareer(userCareer);
@@ -239,7 +263,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserCareer(userCareer) {
-        console.log("updating...............");
+        console.log('updating...............');
         await this.userCareerRepo.update({ userBasic: userCareer.userBasic }, Object.assign({}, userCareer));
         return userCareer;
     }
@@ -259,7 +283,7 @@ let UserRepo = class UserRepo {
                 userBasic: userReligion.userBasic,
             },
         });
-        console.log("existingCarrerRecord", existingReligionRecord);
+        console.log('existingCarrerRecord', existingReligionRecord);
         let result;
         if (existingReligionRecord != null) {
             result = await this.updateUserReligion(userReligion);
@@ -271,7 +295,7 @@ let UserRepo = class UserRepo {
         return result;
     }
     async updateUserReligion(userReligion) {
-        console.log("updating...............");
+        console.log('updating...............');
         await this.userReligionRepo.update({ userBasic: userReligion.userBasic }, Object.assign({}, userReligion));
         return userReligion;
     }
@@ -309,14 +333,14 @@ let UserRepo = class UserRepo {
                 id: userBasicId,
             },
             relations: [
-                "userBios",
-                "userAbouts",
-                "userHabits",
-                "userReligions",
-                "userCareers",
-                "userFamilyBackgrounds",
-                "userFamilyDetails",
-                "userImages",
+                'userBios',
+                'userAbouts',
+                'userHabits',
+                'userReligions',
+                'userCareers',
+                'userFamilyBackgrounds',
+                'userFamilyDetails',
+                'userImages',
             ],
         });
     }
@@ -429,10 +453,10 @@ let UserRepo = class UserRepo {
         return this.adminUserRepo.save(adminUser);
     }
     async updateAdminUser(adminUser) {
-        console.log("admin user", adminUser);
+        console.log('admin user', adminUser);
         const entityManager = typeorm_2.getManager();
         const rawQuery = `UPDATE admin_users SET isActive = ${adminUser.isActive} WHERE (id = '${adminUser.id}');`;
-        console.log("rawQuery", rawQuery);
+        console.log('rawQuery', rawQuery);
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
@@ -463,14 +487,14 @@ let UserRepo = class UserRepo {
                 id: userBasicId,
             },
             relations: [
-                "userBios",
-                "userAbouts",
-                "userHabits",
-                "userReligions",
-                "userCareers",
-                "userFamilyBackgrounds",
-                "userFamilyDetails",
-                "userImages",
+                'userBios',
+                'userAbouts',
+                'userHabits',
+                'userReligions',
+                'userCareers',
+                'userFamilyBackgrounds',
+                'userFamilyDetails',
+                'userImages',
             ],
         });
     }
@@ -508,21 +532,21 @@ let UserRepo = class UserRepo {
     inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);
-        console.log("userDet", userDet);
+        console.log('userDet', userDet);
         let userPreferenc = new user_preference_entity_1.UserPreference();
         userDet.forEach((record) => {
-            console.log("record", Object.keys(record));
+            console.log('record', Object.keys(record));
             Object.keys(record).forEach((key) => {
-                console.log("key", key);
-                let recordValue = record[key].toString().indexOf("[") == 0
+                console.log('key', key);
+                let recordValue = record[key].toString().indexOf('[') == 0
                     ? String(JSON.parse(record[key]))
                     : record[key];
-                console.log("recordValue", recordValue);
-                if (key != "userBasicId" && userPreferenc[key] != recordValue) {
+                console.log('recordValue', recordValue);
+                if (key != 'userBasicId' && userPreferenc[key] != recordValue) {
                     if (userPreferenc[key]) {
                         if (userPreferenc[key].length &&
-                            userPreferenc[key].split(",").indexOf(recordValue) == -1) {
-                            userPreferenc[key] = userPreferenc[key] + "," + recordValue;
+                            userPreferenc[key].split(',').indexOf(recordValue) == -1) {
+                            userPreferenc[key] = userPreferenc[key] + ',' + recordValue;
                         }
                     }
                     else {
@@ -531,7 +555,7 @@ let UserRepo = class UserRepo {
                 }
             });
         });
-        console.log("userDet", userDet);
+        console.log('userDet', userDet);
         return userPreferenc;
     }
     async getMatchPercentage(userBasicId, otherUserBasicId) {
@@ -540,21 +564,21 @@ let UserRepo = class UserRepo {
         let userDetails = await this.getAllUserDetailsById(userBasicId);
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-        console.log("userDetails", userDetails.userImages[0]);
+        console.log('userDetails', userDetails.userImages[0]);
         let excludedFields = [
-            "createdAt",
-            "updatedAt",
-            "isActive",
-            "createdBy",
-            "updatedBy",
-            "id",
+            'createdAt',
+            'updatedAt',
+            'isActive',
+            'createdBy',
+            'updatedBy',
+            'id',
         ];
         Object.keys(userPreference)
             .filter((x) => excludedFields.indexOf(x) == -1)
             .forEach((filed) => {
             if (userPreference[filed]) {
                 if (userPreference[filed] === otherUserPreference[filed]) {
-                    console.log("fdfdfddf", userPreference);
+                    console.log('fdfdfddf', userPreference);
                     matchingFields.push({ filed, value: userPreference[filed] });
                 }
                 else {
@@ -614,14 +638,14 @@ let UserRepo = class UserRepo {
     group by pv.id
 `;
         const userDet = await entityManager.query(rawQuery);
-        console.log("requiredConnectionData", userDet);
+        console.log('requiredConnectionData', userDet);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log("requiredReligionData", requiredReligionData);
+        console.log('requiredReligionData', requiredReligionData);
         let userReligions = [].concat(...requiredReligionData
             .map((x) => JSON.parse(x.religion))
             .filter((y) => y != null));
-        console.log("userReligions", userReligions);
+        console.log('userReligions', userReligions);
         let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
         return result;
     }
@@ -639,15 +663,21 @@ let UserRepo = class UserRepo {
      group by ucl.userBasicId 
      ;`;
         const requiredConnectionData = await entityManager.query(rawQuery);
-        console.log("requiredConnectionData", requiredConnectionData);
+        console.log('requiredConnectionData', requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log("requiredReligionData", requiredReligionData);
+        console.log('requiredReligionData', requiredReligionData);
         let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)));
-        console.log("userReligions", userReligions);
+        console.log('userReligions', userReligions);
         let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
-        console.log("result", result);
+        console.log('result', result);
         return result;
+    }
+    async createNotification(data) {
+        return await this.notificationRepo.save(Object.assign({}, data));
+    }
+    async updateNotification(data) {
+        return await this.notificationRepo.save(Object.assign({}, data));
     }
 };
 UserRepo = __decorate([
@@ -667,7 +697,9 @@ UserRepo = __decorate([
     __param(13, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
     __param(14, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
     __param(15, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __param(16, typeorm_1.InjectRepository(notification_entity_1.Notification)),
     __metadata("design:paramtypes", [jwt_1.JwtService,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

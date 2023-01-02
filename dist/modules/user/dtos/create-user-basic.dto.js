@@ -37,6 +37,11 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserBasicDto.prototype, "countryCode", void 0);
 __decorate([
+    class_validator_1.IsNotEmpty({ message: 'FirebaseToken code can not be empty.' }),
+    swagger_1.ApiProperty({ example: '+91' }),
+    __metadata("design:type", String)
+], CreateUserBasicDto.prototype, "fireBaseToken", void 0);
+__decorate([
     class_validator_1.IsNotEmpty({ message: 'Phone number code can not be empty.' }),
     swagger_1.ApiProperty({ example: '9853461442' }),
     __metadata("design:type", String)

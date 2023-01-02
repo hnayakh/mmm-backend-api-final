@@ -16,6 +16,9 @@ export class UserAbout extends AbstarctEntity {
 
   @Column()
   dateOfBirth: string;
+  
+  @Column()
+  fireBaseToken: string;
 
   @Column()
   maritalStatus: MaritalStatus;

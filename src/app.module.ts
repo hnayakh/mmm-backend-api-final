@@ -43,6 +43,7 @@ import { ChatGateway } from './chat/chat.gateway';
 import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/entity/chat.entity';
 import { UserDocs } from './modules/user/entities/user-docs.entity';
+import { Notification } from './modules/user/entities/notification.entity';
 @Module({
   imports: [
     Logger,
@@ -69,6 +70,7 @@ import { UserDocs } from './modules/user/entities/user-docs.entity';
         UserImage,
         UserDocs,
         AdminUser,
+       
         Otp,
         UserLogin,
         UserPreference,
@@ -87,6 +89,7 @@ import { UserDocs } from './modules/user/entities/user-docs.entity';
         UserConnectDuration,
         ConnectTransactionEntity,
         ProfileVisit,
+        Notification,
       ],
       synchronize: false,
     }),
