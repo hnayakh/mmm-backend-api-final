@@ -580,7 +580,7 @@ export class UserService {
       data.status = 'calling';
       const payload = {
         notification: {
-          title: 'Video call',
+          title: callType + ' call',
           // body: 'body text here',
         },
         data: data,
