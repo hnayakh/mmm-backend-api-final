@@ -526,7 +526,7 @@ export class UserRepo {
       const updatedUserBasic = userBio.userBasic.updateRegistrationStep(
         RegistrationSteps.BioWithImages,
       );
-      result = await this.userReligionRepo.save(userBio);
+      result = await this.userBioRepo.save(userBio);
     }
     return result;
   }
