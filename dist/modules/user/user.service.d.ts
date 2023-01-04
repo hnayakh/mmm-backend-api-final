@@ -40,8 +40,8 @@ export declare class UserService {
     createUserFamilyBackground(userBasic: UserBasic, createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<any>;
     createUserCareer(userBasic: UserBasic, createUserCareerDto: CreateUserCareerDto): Promise<any>;
     createUserReligion(userBasic: UserBasic, createUserReligionDto: CreateUserReligionDto): Promise<any>;
-    createUserBioWithImages(userBasic: UserBasic, createUserBioImageDto: CreateUserBioImageDto): Promise<UserBio>;
-    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<UserBio>;
+    createUserBioWithImages(userBasic: UserBasic, createUserBioImageDto: CreateUserBioImageDto): Promise<any>;
+    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<any>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;
     getUserBasicByPhone(phoneNumber: string): Promise<UserBasic>;
     createUserLogin(deviceType: string, deviceId: string, authToken: string, userBasic: UserBasic): Promise<UserLogin>;
@@ -69,18 +69,7 @@ export declare class UserService {
     updateUserCareerStatus(userCareer: UserCareer, profileUpdationStatus: ProfileUpdationStatus): Promise<UserCareer>;
     updateUserFamilyBackgroundStatus(userFamilyBackground: UserFamilyBackground, profileUpdationStatus: ProfileUpdationStatus): Promise<UserFamilyBackground>;
     updateUserFamilyDetailStatus(ufd: UserFamilyDetail, profileUpdationStatus: ProfileUpdationStatus): Promise<UserFamilyDetail>;
-    updateUserBioStatus(userBio: UserBio, profileUpdationStatus: ProfileUpdationStatus): Promise<{
-        aboutMe: string;
-        idProof: string;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserBio>;
+    updateUserBioStatus(userBio: UserBio, profileUpdationStatus: ProfileUpdationStatus): Promise<UserBio>;
     updateUserImageStatus(userImages: UserImage[], profileUpdationStatus: ProfileUpdationStatus): Promise<UserDocs[]>;
     getUserGenderById(userBasicId: string): Promise<any>;
     getUserGenderAndPreference(userBasicId: string): Promise<any>;

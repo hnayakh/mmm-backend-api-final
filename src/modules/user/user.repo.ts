@@ -486,6 +486,21 @@ export class UserRepo {
   //   return await this.userReligionRepo.save({ ...userReligion });
   // }
 
+  // async createUserBio(userBio: UserBio) {
+  //   const existingPending = await this.userBioRepo.findOne({
+  //     where: {
+  //       userBasic: userBio.userBasic,
+  //       profileUpdationStatus: ProfileUpdationStatus.Pending,
+  //     },
+  //   });
+  //   if (existingPending != null) {
+  //     // Special scenario for multiple updates before verification.
+  //     existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+  //     this.userBioRepo.save({ ...existingPending });
+  //   }
+  //   return await this.userBioRepo.save(userBio);
+  // }
+
   async createUserBio(userBio: UserBio) {
     const existingPending = await this.userBioRepo.findOne({
       where: {
@@ -498,12 +513,40 @@ export class UserRepo {
       existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
       this.userBioRepo.save({ ...existingPending });
     }
-    return await this.userBioRepo.save(userBio);
+    let existingBioRecord = await this.userBioRepo.findOne({
+      where: {
+        userBasic: userBio.userBasic,
+      },
+    });
+    console.log('existingBioRecord', existingBioRecord);
+    let result;
+    if (existingBioRecord != null) {
+      result = await this.updateUserBio(userBio);
+    } else {
+      const updatedUserBasic = userBio.userBasic.updateRegistrationStep(
+        RegistrationSteps.BioWithImages,
+      );
+      result = await this.userReligionRepo.save(userBio);
+    }
+    return result;
   }
 
+
   async updateUserBio(userBio: UserBio) {
-    return await this.userBioRepo.save({ ...userBio });
+    // let userAboutData= this.userAboutRepo.findOne({
+    //   where: { userBasic: userAbout.userBasic},
+    // });
+    console.log('updating...............');
+    await this.userBioRepo.update(
+      { userBasic: userBio.userBasic },
+      { ...userBio },
+    );
+    return userBio;
   }
+
+  // async updateUserBio(userBio: UserBio) {
+  //  // return await this.userBioRepo.save({ ...userBio });
+  // }
 
   async createUserImages(userImages: UserImage[]) {
     return await this.userImageRepo.save(userImages);

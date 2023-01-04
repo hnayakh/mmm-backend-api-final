@@ -220,10 +220,10 @@ export class UserService {
       createUserBioImageDto.aboutMe,
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.Preferences,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Preferences,
+    // );
+   // this.userRepo.updateUserBasic(updatedUserBasic);
     this.userRepo.createUserImages(userImages);
     return await this.userRepo.createUserBio(userBio);
   }

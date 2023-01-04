@@ -310,10 +310,26 @@ let UserRepo = class UserRepo {
             existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
             this.userBioRepo.save(Object.assign({}, existingPending));
         }
-        return await this.userBioRepo.save(userBio);
+        let existingBioRecord = await this.userBioRepo.findOne({
+            where: {
+                userBasic: userBio.userBasic,
+            },
+        });
+        console.log('existingBioRecord', existingBioRecord);
+        let result;
+        if (existingBioRecord != null) {
+            result = await this.updateUserBio(userBio);
+        }
+        else {
+            const updatedUserBasic = userBio.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.BioWithImages);
+            result = await this.userReligionRepo.save(userBio);
+        }
+        return result;
     }
     async updateUserBio(userBio) {
-        return await this.userBioRepo.save(Object.assign({}, userBio));
+        console.log('updating...............');
+        await this.userBioRepo.update({ userBasic: userBio.userBasic }, Object.assign({}, userBio));
+        return userBio;
     }
     async createUserImages(userImages) {
         return await this.userImageRepo.save(userImages);

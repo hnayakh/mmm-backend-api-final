@@ -93,8 +93,6 @@ let UserService = class UserService {
             isDefaultImage = false;
         });
         const userBio = user_bio_entity_1.UserBio.createUserBio(createUserBioImageDto.aboutMe, userBasic);
-        const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Preferences);
-        this.userRepo.updateUserBasic(updatedUserBasic);
         this.userRepo.createUserImages(userImages);
         return await this.userRepo.createUserBio(userBio);
     }
@@ -304,7 +302,7 @@ let UserService = class UserService {
             data.status = 'calling';
             const payload = {
                 notification: {
-                    title: 'Video call',
+                    title: callType + ' call',
                 },
                 data: data,
             };
