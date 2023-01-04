@@ -635,7 +635,8 @@ export class UserFacade {
         userDetails.userCareers = userDetails.userCareers.filter(
           (x) =>
             x.profileUpdationStatus == ProfileUpdationStatus.Current ||
-            x.profileUpdationStatus == ProfileUpdationStatus.Pending,
+            x.profileUpdationStatus == ProfileUpdationStatus.Pending ||
+            x.profileUpdationStatus == ProfileUpdationStatus.Archived,
         );
       }
       userDetails.userFamilyBackgrounds =
