@@ -1,4 +1,4 @@
-import { ProfileUpdationStatus, RegistrationSteps } from 'src/shared/enums/miscellaneous.enum';
+import { RegistrationSteps } from 'src/shared/enums/miscellaneous.enum';
 import { Repository } from 'typeorm';
 import { JwtService } from '@nestjs/jwt';
 import { AdminUser } from './entities/admin-user.entity';
@@ -90,19 +90,8 @@ export declare class UserRepo {
     updateUserCareer(userCareer: UserCareer): Promise<UserCareer>;
     createUserReligion(userReligion: UserReligion): Promise<any>;
     updateUserReligion(userReligion: UserReligion): Promise<UserReligion>;
-    createUserBio(userBio: UserBio): Promise<UserBio>;
-    updateUserBio(userBio: UserBio): Promise<{
-        aboutMe: string;
-        idProof: string;
-        profileUpdationStatus: ProfileUpdationStatus;
-        userBasic: UserBasic;
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserBio>;
+    createUserBio(userBio: UserBio): Promise<any>;
+    updateUserBio(userBio: UserBio): Promise<UserBio>;
     createUserImages(userImages: UserImage[]): Promise<UserImage[]>;
     createUserDocs(userImages: UserDocs[]): Promise<(UserDocs & UserImage)[]>;
     updateUserImages(userDocRepo: UserDocs[]): Promise<UserDocs[]>;

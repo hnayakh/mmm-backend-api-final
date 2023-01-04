@@ -103,11 +103,11 @@ export declare class UserController {
         message: string;
     }>;
     createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto): Promise<{
-        data: import("./entities/user-bio.entity").UserBio;
+        data: any;
         message: string;
     }>;
     updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<{
-        data: import("./entities/user-bio.entity").UserBio;
+        data: any;
         message: string;
     }>;
     verifyUserByAdmin(userBasicId: string): Promise<{
