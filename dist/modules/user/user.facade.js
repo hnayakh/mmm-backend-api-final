@@ -385,7 +385,8 @@ let UserFacade = class UserFacade {
             }
             if (userDetails.userCareers) {
                 userDetails.userCareers = userDetails.userCareers.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
-                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending ||
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Archived);
             }
             userDetails.userFamilyBackgrounds =
                 userDetails.userFamilyBackgrounds.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
@@ -426,7 +427,13 @@ let UserFacade = class UserFacade {
                 userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
                 userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
             }
-            let requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+            let requiredData = {};
+            if (userReqDet.length > 0) {
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+            }
+            else {
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [] });
+            }
             return requiredData;
         }
         catch (err) {
