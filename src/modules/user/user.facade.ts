@@ -699,7 +699,13 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
         userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
       }
-      let requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+      let requiredData = {};
+      if (userReqDet.length > 0) {
+        requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+      } else {
+        requiredData = { ...userDetails, UserRequestStatus: [] };
+      }
+
       return requiredData;
     } catch (err) {
       console.log('ERRRRRROR', err);
