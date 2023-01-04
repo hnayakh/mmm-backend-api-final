@@ -322,7 +322,7 @@ let UserRepo = class UserRepo {
         }
         else {
             const updatedUserBasic = userBio.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.BioWithImages);
-            result = await this.userReligionRepo.save(userBio);
+            result = await this.userBioRepo.save(userBio);
         }
         return result;
     }
