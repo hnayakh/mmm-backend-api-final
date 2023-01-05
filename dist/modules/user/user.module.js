@@ -33,7 +33,9 @@ const user_docs_entity_1 = require("./entities/user-docs.entity");
 const user_family_background_entity_1 = require("./entities/user-family-background.entity");
 const user_family_detail_entity_1 = require("./entities/user-family-detail.entity");
 const user_habit_entity_1 = require("./entities/user-habit.entity");
+const user_hobbies_entity_1 = require("./entities/user-hobbies.entity");
 const user_image_entity_1 = require("./entities/user-image.entity");
+const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
 const user_login_entity_1 = require("./entities/user-login.entity");
 const user_preference_entity_1 = require("./entities/user-preference.entity");
 const user_religion_entity_1 = require("./entities/user-religion.entity");
@@ -77,7 +79,9 @@ UserModule = __decorate([
                 user_connect_duration_entity_1.UserConnectDuration,
                 connect_transaction_entity_1.ConnectTransactionEntity,
                 user_profile_visit_1.ProfileVisit,
-                notification_entity_1.Notification
+                notification_entity_1.Notification,
+                user_lifestyle_entity_1.UserLifestyle,
+                user_hobbies_entity_1.UserHobbies
             ]),
         ],
         controllers: [user_controller_1.UserController],

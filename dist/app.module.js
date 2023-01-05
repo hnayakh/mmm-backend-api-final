@@ -54,6 +54,7 @@ const chat_entity_1 = require("./chat/entity/chat.entity");
 const user_docs_entity_1 = require("./modules/user/entities/user-docs.entity");
 const notification_entity_1 = require("./modules/user/entities/notification.entity");
 const user_lifestyle_entity_1 = require("./modules/user/entities/user-lifestyle.entity");
+const user_hobbies_entity_1 = require("./modules/user/entities/user-hobbies.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -84,6 +85,7 @@ AppModule = __decorate([
                     user_docs_entity_1.UserDocs,
                     admin_user_entity_1.AdminUser,
                     user_lifestyle_entity_1.UserLifestyle,
+                    user_hobbies_entity_1.UserHobbies,
                     otp_entity_1.Otp,
                     user_login_entity_1.UserLogin,
                     user_preference_entity_1.UserPreference,

@@ -17,6 +17,7 @@ import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
 import { UserDocs } from './user-docs.entity';
 import { UserLifestyle } from './user-lifestyle.entity';
+import { UserHobbies } from './user-hobbies.entity';
 export declare class UserBasic extends AbstarctEntity {
     relationship: Relationship;
     email: string;
@@ -33,6 +34,7 @@ export declare class UserBasic extends AbstarctEntity {
     userAbouts: UserAbout[];
     userHabits: UserHabit[];
     userLifestyle: UserLifestyle[];
+    userHobbies: UserHobbies[];
     userReligions: UserReligion[];
     visitedBy: ProfileVisit[];
     visitedTo: ProfileVisit[];

@@ -8,21 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var UserLifestyle_1;
+var UserHobbies_1;
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserLifestyle = void 0;
+exports.UserHobbies = void 0;
 const typeorm_1 = require("typeorm");
 const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const user_basic_entity_1 = require("./user-basic.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 const user_profile_enum_1 = require("../../../shared/enums/user-profile.enum");
-let UserLifestyle = UserLifestyle_1 = class UserLifestyle extends abstract_entity_1.AbstarctEntity {
-    static createUserLifestyle(lifestyle, userBasic) {
-        const userLifestyle = new UserLifestyle_1();
-        userLifestyle.lifestyle = lifestyle;
-        userLifestyle.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Pending;
-        userLifestyle.userBasic = userBasic;
-        return userLifestyle;
+let UserHobbies = UserHobbies_1 = class UserHobbies extends abstract_entity_1.AbstarctEntity {
+    static createUserLifestyle(hobbies, userBasic) {
+        const userHobbies = new UserHobbies_1();
+        userHobbies.hobbies = hobbies;
+        userHobbies.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Pending;
+        userHobbies.userBasic = userBasic;
+        return userHobbies;
     }
     updateProfileUpdationStatus(profileUpdationStatus) {
         this.profileUpdationStatus = profileUpdationStatus;
@@ -32,17 +32,17 @@ let UserLifestyle = UserLifestyle_1 = class UserLifestyle extends abstract_entit
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
-], UserLifestyle.prototype, "lifestyle", void 0);
+], UserHobbies.prototype, "hobbies", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
-], UserLifestyle.prototype, "profileUpdationStatus", void 0);
+], UserHobbies.prototype, "profileUpdationStatus", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.userLifestyle),
+    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.userHobbies),
     __metadata("design:type", user_basic_entity_1.UserBasic)
-], UserLifestyle.prototype, "userBasic", void 0);
-UserLifestyle = UserLifestyle_1 = __decorate([
-    typeorm_1.Entity('user_lifestyle')
-], UserLifestyle);
-exports.UserLifestyle = UserLifestyle;
-//# sourceMappingURL=user-lifestyle.entity.js.map
+], UserHobbies.prototype, "userBasic", void 0);
+UserHobbies = UserHobbies_1 = __decorate([
+    typeorm_1.Entity('user_hobbies')
+], UserHobbies);
+exports.UserHobbies = UserHobbies;
+//# sourceMappingURL=user-hobbies.entity.js.map

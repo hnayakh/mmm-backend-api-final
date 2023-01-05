@@ -27,6 +27,7 @@ import { UserRepo } from './user.repo';
 import { Notification } from './entities/notification.entity';
 import { Repository } from 'typeorm';
 import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
+import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
 export declare class UserService {
     private readonly userRepo;
     private readonly notificationRepo;
@@ -38,6 +39,7 @@ export declare class UserService {
     createUserAbout(userBasic: UserBasic, createUserAboutDto: CreateUserAboutDto): Promise<any>;
     createUserHabit(userBasic: UserBasic, createUserHabitDto: CreateUserHabitDto): Promise<any>;
     createUserLifestyle(userBasic: UserBasic, createUserLifestyleDto: CreateUserLifestyleDto): Promise<any>;
+    createUserHobbies(userBasic: UserBasic, createUserHobbiesDto: CreateUserHobbiesDto): Promise<any>;
     createUserFamilyDetail(userBasic: UserBasic, createUserFamilyDDto: CreateUserFamilyDDto): Promise<any>;
     createUserFamilyBackground(userBasic: UserBasic, createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<any>;
     createUserCareer(userBasic: UserBasic, createUserCareerDto: CreateUserCareerDto): Promise<any>;
