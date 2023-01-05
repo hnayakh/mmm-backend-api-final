@@ -36,6 +36,8 @@ import { religion } from 'src/shared/constants/profile-master-data/religion';
 import { motherTongue } from 'src/shared/constants/profile-master-data/mother-tongue';
 import { castSubcaste } from 'src/shared/constants/profile-master-data/cast-subcaste';
 import { AdminUser } from './entities/admin-user.entity';
+import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
+import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
 
 @Injectable()
 export class UserFacade {
@@ -91,6 +93,24 @@ export class UserFacade {
     return await this.userService.createUserHabit(
       userBasic,
       createUserHabitDto,
+    );
+  }
+  async createUserLifestyle(createUserLifestyleDto: CreateUserLifestyleDto) {
+    const userBasic = await this.userService.getUserBasicById(
+      createUserLifestyleDto.userBasicId,
+    );
+    return await this.userService.createUserLifestyle(
+      userBasic,
+      createUserLifestyleDto,
+    );
+  }
+  async createUserHobbies(createUserHobbiesDto: CreateUserHobbiesDto) {
+    const userBasic = await this.userService.getUserBasicById(
+      createUserHobbiesDto.userBasicId,
+    );
+    return await this.userService.createUserHobbies(
+      userBasic,
+      createUserHobbiesDto,
     );
   }
 
@@ -643,7 +663,8 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds.filter(
           (x) =>
             x.profileUpdationStatus == ProfileUpdationStatus.Current ||
-            x.profileUpdationStatus == ProfileUpdationStatus.Pending,
+            x.profileUpdationStatus == ProfileUpdationStatus.Pending ||
+            x.profileUpdationStatus == ProfileUpdationStatus.Archived,
         );
       for (let i = 0; i < userDetails.userCareers.length; i++) {
         let country = await this.masterService.getCountry(

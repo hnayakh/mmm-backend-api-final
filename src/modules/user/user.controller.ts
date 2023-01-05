@@ -26,6 +26,8 @@ import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
 import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
+import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
+import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { AdminUser } from './entities/admin-user.entity';
@@ -97,6 +99,17 @@ export class UserController {
   async createUserHabit(@Body() createUserHabitDto: CreateUserHabitDto) {
     const userHabit = await this.userFacade.createUserHabit(createUserHabitDto);
     return { data: userHabit, message: 'User habit registration successful.' };
+  }
+
+    @Post('lifestyle')
+  async createUserLifeStyle(@Body() createUserLifestyleDto: CreateUserLifestyleDto) {
+    const userLifestyle = await this.userFacade.createUserLifestyle(createUserLifestyleDto);
+    return { data: userLifestyle, message: 'User Lifestyle registration successful.' };
+  }
+    @Post('hobbies')
+  async createUserHobbies(@Body() createUserHobbiesDto: CreateUserHobbiesDto) {
+    const userHobbies = await this.userFacade.createUserHobbies(createUserHobbiesDto);
+    return { data: userHobbies, message: 'User Hobbies registration successful.' };
   }
 
   @Post('religion')

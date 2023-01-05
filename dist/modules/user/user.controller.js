@@ -26,6 +26,7 @@ const create_user_career_dto_1 = require("./dtos/create-user-career.dto");
 const create_user_familybg_dto_1 = require("./dtos/create-user-familybg.dto");
 const create_user_familyd_dto_1 = require("./dtos/create-user-familyd.dto");
 const create_user_habit_dto_1 = require("./dtos/create-user-habit.dto");
+const create_user_lifestyle_dto_1 = require("./dtos/create-user-lifestyle.dto");
 const create_user_preference_dto_1 = require("./dtos/create-user-preference.dto");
 const user_filter_dto_1 = require("./dtos/user-filter.dto");
 const admin_user_entity_1 = require("./entities/admin-user.entity");
@@ -68,6 +69,10 @@ let UserController = class UserController {
     async createUserHabit(createUserHabitDto) {
         const userHabit = await this.userFacade.createUserHabit(createUserHabitDto);
         return { data: userHabit, message: 'User habit registration successful.' };
+    }
+    async createUserLifeStyle(createUserLifestyleDto) {
+        const userLifestyle = await this.userFacade.createUserLifestyle(createUserLifestyleDto);
+        return { data: userLifestyle, message: 'User lifestyle registration successful.' };
     }
     async createUserReligion(createUserReligionDto) {
         const userReligion = await this.userFacade.createUserReligion(createUserReligionDto);
@@ -300,6 +305,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_habit_dto_1.CreateUserHabitDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserHabit", null);
+__decorate([
+    common_1.Post('lifestyle'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_lifestyle_dto_1.CreateUserLifestyleDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "createUserLifeStyle", null);
 __decorate([
     common_1.Post('religion'),
     __param(0, common_1.Body()),

@@ -24,7 +24,9 @@ import { UserDocs } from './entities/user-docs.entity';
 import { UserFamilyBackground } from './entities/user-family-background.entity';
 import { UserFamilyDetail } from './entities/user-family-detail.entity';
 import { UserHabit } from './entities/user-habit.entity';
+import { UserHobbies } from './entities/user-hobbies.entity';
 import { UserImage } from './entities/user-image.entity';
+import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { UserLogin } from './entities/user-login.entity';
 import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
@@ -66,7 +68,9 @@ import { UserService } from './user.service';
       UserConnectDuration,
       ConnectTransactionEntity,
       ProfileVisit,
-      Notification
+      Notification,
+      UserLifestyle,
+      UserHobbies
     ]),
   ],
   controllers: [UserController],

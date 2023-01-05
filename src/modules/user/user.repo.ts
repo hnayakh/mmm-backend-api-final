@@ -25,6 +25,8 @@ import { UserService } from './user.service';
 import { isArray } from 'lodash';
 import { UserDocs } from './entities/user-docs.entity';
 import { Notification } from './entities/notification.entity';
+import { UserLifestyle } from './entities/user-lifestyle.entity';
+import { UserHobbies } from './entities/user-hobbies.entity';
 
 @Injectable()
 export class UserRepo {
@@ -37,6 +39,10 @@ export class UserRepo {
     private readonly userAboutRepo: Repository<UserAbout>,
     @InjectRepository(UserHabit)
     private readonly userHabitRepo: Repository<UserHabit>,
+    @InjectRepository(UserLifestyle)
+    private readonly userLifestyleRepo: Repository<UserLifestyle>,
+    @InjectRepository(UserHobbies)
+    private readonly userHobbiesRepo: Repository<UserHobbies>,
     @InjectRepository(UserReligion)
     private readonly userReligionRepo: Repository<UserReligion>,
     @InjectRepository(UserCareer)
@@ -232,6 +238,105 @@ export class UserRepo {
     );
     return userHabit;
   }
+
+  async createUserLifestyle(userLifestyle: UserLifestyle) {
+    const existingPending = await this.userLifestyleRepo.findOne({
+      where: {
+        userBasic: userLifestyle.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userLifestyleRepo.save({ ...existingPending });
+    }
+    let existingLifestyleRecord = await this.userLifestyleRepo.findOne({
+      where: {
+        userBasic: userLifestyle.userBasic,
+      },
+    });
+    console.log('existinglifeStyleRecord', existingLifestyleRecord);
+    let result;
+    if (existingLifestyleRecord != null) {
+      result = await this.updateUserLifestyle(userLifestyle);
+    } else {
+      const updatedUserBasic = userLifestyle.userBasic.updateRegistrationStep(
+        RegistrationSteps.Habit,
+        
+      );
+      console.log("LIFE", userLifestyle);
+      result = await this.userLifestyleRepo.save(userLifestyle);
+
+    }
+    return result;
+    // return existingHabitRecord != null
+    //   ? await this.updateUserHabit(userHabit)
+    //   : await this.userHabitRepo.save(userHabit);
+  }
+
+ 
+
+  async updateUserLifestyle(userLifestyle: UserLifestyle) {
+    //return await this.userHabitRepo.save({ ...userHabit });
+    console.log('updating...............');
+    await this.userLifestyleRepo.update(
+      { userBasic: userLifestyle.userBasic },
+      { ...userLifestyle },
+    );
+    return userLifestyle;
+  }
+
+  async createUserHobbies(userHobbies: UserHobbies) {
+    const existingPending = await this.userHobbiesRepo.findOne({
+      where: {
+        userBasic: userHobbies.userBasic,
+        profileUpdationStatus: ProfileUpdationStatus.Pending,
+      },
+    });
+    if (existingPending != null) {
+      // Special scenario for multiple updates before verification.
+      existingPending.profileUpdationStatus = ProfileUpdationStatus.Archived;
+      this.userHobbiesRepo.save({ ...existingPending });
+    }
+    let existingHobbiesRecord = await this.userHobbiesRepo.findOne({
+      where: {
+        userBasic: userHobbies.userBasic,
+      },
+    });
+    console.log('existingHobbiesRecord', existingHobbiesRecord);
+    let result;
+    if (existingHobbiesRecord != null) {
+      result = await this.updateUserHobbies(userHobbies);
+    } else {
+      const updatedUserBasic = userHobbies.userBasic.updateRegistrationStep(
+        RegistrationSteps.Habit,
+        
+      );
+      console.log("LIFE", userHobbies);
+      result = await this.userHobbiesRepo.save(userHobbies);
+
+    }
+    return result;
+    // return existingHabitRecord != null
+    //   ? await this.updateUserHabit(userHabit)
+    //   : await this.userHabitRepo.save(userHabit);
+  }
+
+  async updateUserHobbies(userHobbies: UserHobbies) {
+    //return await this.userHabitRepo.save({ ...userHabit });
+    console.log('updating...............');
+   
+    await this.userHobbiesRepo.update(
+      { userBasic: userHobbies.userBasic },
+      { ...userHobbies },
+    );
+    console.log('Changing...............',userHobbies);
+    return userHobbies;
+   
+  }
+
+
 
   // async updateUserHabit(userHabit: UserHabit) {
   //   return await this.userHabitRepo.save({ ...userHabit });

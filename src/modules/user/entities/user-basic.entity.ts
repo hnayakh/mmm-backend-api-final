@@ -25,6 +25,8 @@ import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
 import { UserDocs } from './user-docs.entity';
 import { nanoid } from 'nanoid';
+import { UserLifestyle } from './user-lifestyle.entity';
+import { UserHobbies } from './user-hobbies.entity';
 
 @Entity('user_basics')
 export class UserBasic extends AbstarctEntity {
@@ -69,6 +71,12 @@ export class UserBasic extends AbstarctEntity {
 
   @OneToMany((type) => UserHabit, (userHabits) => userHabits.userBasic)
   userHabits: UserHabit[];
+
+  @OneToMany((type) => UserLifestyle, (userLifestyle) => userLifestyle.userBasic)
+  userLifestyle: UserLifestyle[];
+
+  @OneToMany((type) => UserHobbies, (userHobbies) => userHobbies.userBasic)
+  userHobbies: UserHobbies[];
 
   @OneToMany((type) => UserReligion, (userReligions) => userReligions.userBasic)
   userReligions: UserReligion[];

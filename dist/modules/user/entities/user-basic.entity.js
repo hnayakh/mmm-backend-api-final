@@ -33,6 +33,7 @@ const user_profile_visit_1 = require("./user.profile.visit");
 const connect_transaction_entity_1 = require("../../connect/entities/connect-transaction-entity");
 const user_docs_entity_1 = require("./user-docs.entity");
 const nanoid_1 = require("nanoid");
+const user_lifestyle_entity_1 = require("./user-lifestyle.entity");
 let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.AbstarctEntity {
     async hashPassword() {
         this.password = await bcrypt.hash(this.password == null ? 'User@123' : this.password, 8);
@@ -119,6 +120,10 @@ __decorate([
     typeorm_1.OneToMany((type) => user_habit_entity_1.UserHabit, (userHabits) => userHabits.userBasic),
     __metadata("design:type", Array)
 ], UserBasic.prototype, "userHabits", void 0);
+__decorate([
+    typeorm_1.OneToMany((type) => user_lifestyle_entity_1.UserLifestyle, (userLifestyle) => userLifestyle.userBasic),
+    __metadata("design:type", Array)
+], UserBasic.prototype, "userLifestyle", void 0);
 __decorate([
     typeorm_1.OneToMany((type) => user_religion_entity_1.UserReligion, (userReligions) => userReligions.userBasic),
     __metadata("design:type", Array)

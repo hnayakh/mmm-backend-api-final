@@ -61,6 +61,10 @@ let UserFacade = class UserFacade {
         const userBasic = await this.userService.getUserBasicById(createUserHabitDto.userBasicId);
         return await this.userService.createUserHabit(userBasic, createUserHabitDto);
     }
+    async createUserLifestyle(createUserLifestyleDto) {
+        const userBasic = await this.userService.getUserBasicById(createUserLifestyleDto.userBasicId);
+        return await this.userService.createUserLifestyle(userBasic, createUserLifestyleDto);
+    }
     async createUserReligion(createUserReligionDto) {
         const userBasic = await this.userService.getUserBasicById(createUserReligionDto.userBasicId);
         return await this.userService.createUserReligion(userBasic, createUserReligionDto);
@@ -390,7 +394,8 @@ let UserFacade = class UserFacade {
             }
             userDetails.userFamilyBackgrounds =
                 userDetails.userFamilyBackgrounds.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
-                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending);
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Pending ||
+                    x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Archived);
             for (let i = 0; i < userDetails.userCareers.length; i++) {
                 let country = await this.masterService.getCountry(userDetails.userCareers[i].country);
                 let state = await this.masterService.getState(userDetails.userCareers[i].state);

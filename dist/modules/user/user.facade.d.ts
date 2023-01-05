@@ -15,6 +15,7 @@ import { UserService } from './user.service';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { ConnectService } from '../connect/connect.service';
 import { AdminUser } from './entities/admin-user.entity';
+import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 export declare class UserFacade {
     private readonly userService;
     private readonly masterService;
@@ -26,6 +27,7 @@ export declare class UserFacade {
     createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<any>;
     createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<any>;
+    createUserLifestyle(createUserLifestyleDto: CreateUserLifestyleDto): Promise<any>;
     createUserReligion(createUserReligionDto: CreateUserReligionDto): Promise<any>;
     createUserCareer(createUserCareerDto: CreateUserCareerDto): Promise<any>;
     createUserFamilyBackground(createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<any>;
