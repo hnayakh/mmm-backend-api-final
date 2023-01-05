@@ -7,6 +7,7 @@ import { CreateUserCareerDto } from './dtos/create-user-career.dto';
 import { CreateUserFamilyBgDto } from './dtos/create-user-familybg.dto';
 import { CreateUserFamilyDDto } from './dtos/create-user-familyd.dto';
 import { CreateUserHabitDto } from './dtos/create-user-habit.dto';
+import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { AdminUser } from './entities/admin-user.entity';
@@ -35,6 +36,10 @@ export declare class UserController {
         message: string;
     }>;
     createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<{
+        data: any;
+        message: string;
+    }>;
+    createUserLifeStyle(createUserLifestyleDto: CreateUserLifestyleDto): Promise<{
         data: any;
         message: string;
     }>;

@@ -34,12 +34,14 @@ const user_religion_entity_1 = require("./entities/user-religion.entity");
 const user_profile_visit_1 = require("./entities/user.profile.visit");
 const user_docs_entity_1 = require("./entities/user-docs.entity");
 const notification_entity_1 = require("./entities/notification.entity");
+const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
 let UserRepo = class UserRepo {
-    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo, notificationRepo) {
+    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userLifestyleRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo, notificationRepo) {
         this.jwtstategy = jwtstategy;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
         this.userHabitRepo = userHabitRepo;
+        this.userLifestyleRepo = userLifestyleRepo;
         this.userReligionRepo = userReligionRepo;
         this.userCareerRepo = userCareerRepo;
         this.userFamilyBackgroundRepo = userFamilyBackgroundRepo;
@@ -170,6 +172,38 @@ let UserRepo = class UserRepo {
         console.log('updating...............');
         await this.userHabitRepo.update({ userBasic: userHabit.userBasic }, Object.assign({}, userHabit));
         return userHabit;
+    }
+    async createUserLifestyle(userLifestyle) {
+        const existingPending = await this.userLifestyleRepo.findOne({
+            where: {
+                userBasic: userLifestyle.userBasic,
+                profileUpdationStatus: miscellaneous_enum_1.ProfileUpdationStatus.Pending,
+            },
+        });
+        if (existingPending != null) {
+            existingPending.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Archived;
+            this.userLifestyleRepo.save(Object.assign({}, existingPending));
+        }
+        let existingLifestyleRecord = await this.userLifestyleRepo.findOne({
+            where: {
+                userBasic: userLifestyle.userBasic,
+            },
+        });
+        console.log('existingHabitRecord', existingLifestyleRecord);
+        let result;
+        if (existingLifestyleRecord != null) {
+            result = await this.updateUserLifestyle(userLifestyle);
+        }
+        else {
+            const updatedUserBasic = userLifestyle.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Habit);
+            result = await this.userHabitRepo.save(userLifestyle);
+        }
+        return result;
+    }
+    async updateUserLifestyle(userLifestyle) {
+        console.log('updating...............');
+        await this.userLifestyleRepo.update({ userBasic: userLifestyle.userBasic }, Object.assign({}, userLifestyle));
+        return userLifestyle;
     }
     async createUserFamilyDetail(ufd) {
         const existingPending = await this.userFamilyDetailRepo.findOne({
@@ -701,20 +735,22 @@ UserRepo = __decorate([
     __param(1, typeorm_1.InjectRepository(user_basic_entity_1.UserBasic)),
     __param(2, typeorm_1.InjectRepository(user_about_entity_1.UserAbout)),
     __param(3, typeorm_1.InjectRepository(user_habit_entity_1.UserHabit)),
-    __param(4, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
-    __param(5, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
-    __param(6, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
-    __param(7, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
-    __param(8, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
-    __param(9, typeorm_1.InjectRepository(user_docs_entity_1.UserDocs)),
-    __param(10, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
-    __param(11, typeorm_1.InjectRepository(otp_entity_1.Otp)),
-    __param(12, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
-    __param(13, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
-    __param(14, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
-    __param(15, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
-    __param(16, typeorm_1.InjectRepository(notification_entity_1.Notification)),
+    __param(4, typeorm_1.InjectRepository(user_lifestyle_entity_1.UserLifestyle)),
+    __param(5, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
+    __param(6, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
+    __param(7, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
+    __param(8, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
+    __param(9, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
+    __param(10, typeorm_1.InjectRepository(user_docs_entity_1.UserDocs)),
+    __param(11, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
+    __param(12, typeorm_1.InjectRepository(otp_entity_1.Otp)),
+    __param(13, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
+    __param(14, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
+    __param(15, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
+    __param(16, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __param(17, typeorm_1.InjectRepository(notification_entity_1.Notification)),
     __metadata("design:paramtypes", [jwt_1.JwtService,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

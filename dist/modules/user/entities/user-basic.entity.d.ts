@@ -16,6 +16,7 @@ import { RechargeHistory } from 'src/modules/connect/entities/recharge-history.e
 import { ProfileVisit } from './user.profile.visit';
 import { ConnectTransactionEntity } from 'src/modules/connect/entities/connect-transaction-entity';
 import { UserDocs } from './user-docs.entity';
+import { UserLifestyle } from './user-lifestyle.entity';
 export declare class UserBasic extends AbstarctEntity {
     relationship: Relationship;
     email: string;
@@ -31,6 +32,7 @@ export declare class UserBasic extends AbstarctEntity {
     userBios: UserBio[];
     userAbouts: UserAbout[];
     userHabits: UserHabit[];
+    userLifestyle: UserLifestyle[];
     userReligions: UserReligion[];
     visitedBy: ProfileVisit[];
     visitedTo: ProfileVisit[];

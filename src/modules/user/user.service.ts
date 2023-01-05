@@ -42,6 +42,10 @@ import * as FIREBASE_SERVICE_ACCOUNT from '../auth/firebaseServiceAccount.json';
 import { Notification } from './entities/notification.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
+import { UserLifestyle } from './entities/user-lifestyle.entity';
+import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
+import { UserHobbies } from './entities/user-hobbies.entity';
 @Injectable()
 export class UserService {
   constructor(
@@ -113,6 +117,37 @@ export class UserService {
     // this.userRepo.updateUserBasic(updatedUserBasic);
     this.userRepo.updateUserBasic(userBasic);
     return await this.userRepo.createUserHabit(userHabit);
+  }
+
+  async createUserLifestyle(
+    userBasic: UserBasic,
+    createUserLifestyleDto: CreateUserLifestyleDto,
+  ) {
+    const userLifestyle = UserLifestyle.createUserLifestyle(
+      createUserLifestyleDto.lifestyle,
+      userBasic,
+    );
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Religion,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
+    return await this.userRepo.createUserLifestyle(userLifestyle);
+  }
+  async createUserHobbies(
+    userBasic: UserBasic,
+    createUserHobbiesDto: CreateUserHobbiesDto,
+  ) {
+    const userHobbies = UserHobbies.createUserLifestyle(
+      createUserHobbiesDto.hobbies,
+      userBasic,
+    );
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.Religion,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    this.userRepo.updateUserBasic(userBasic);
+    return await this.userRepo.createUserHobbies(userHobbies);
   }
 
   async createUserFamilyDetail(

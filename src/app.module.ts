@@ -44,6 +44,8 @@ import { ChatModule } from './chat/chat.module';
 import { Chat } from './chat/entity/chat.entity';
 import { UserDocs } from './modules/user/entities/user-docs.entity';
 import { Notification } from './modules/user/entities/notification.entity';
+import { UserLifestyle } from './modules/user/entities/user-lifestyle.entity';
+import { UserHobbies } from './modules/user/entities/user-hobbies.entity';
 @Module({
   imports: [
     Logger,
@@ -70,7 +72,8 @@ import { Notification } from './modules/user/entities/notification.entity';
         UserImage,
         UserDocs,
         AdminUser,
-       
+        UserLifestyle,
+        UserHobbies,
         Otp,
         UserLogin,
         UserPreference,

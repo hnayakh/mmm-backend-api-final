@@ -17,11 +17,13 @@ import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 import { UserDocs } from './entities/user-docs.entity';
 import { Notification } from './entities/notification.entity';
+import { UserLifestyle } from './entities/user-lifestyle.entity';
 export declare class UserRepo {
     private readonly jwtstategy;
     private readonly userBasicRepo;
     private readonly userAboutRepo;
     private readonly userHabitRepo;
+    private readonly userLifestyleRepo;
     private readonly userReligionRepo;
     private readonly userCareerRepo;
     private readonly userFamilyBackgroundRepo;
@@ -35,7 +37,7 @@ export declare class UserRepo {
     private readonly userPreferenceRepo;
     private readonly userProfileVisitRepo;
     private readonly notificationRepo;
-    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
+    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userLifestyleRepo: Repository<UserLifestyle>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;
@@ -54,6 +56,7 @@ export declare class UserRepo {
         userBios: UserBio[];
         userAbouts: UserAbout[];
         userHabits: UserHabit[];
+        userLifestyle: UserLifestyle[];
         userReligions: UserReligion[];
         visitedBy: ProfileVisit[];
         visitedTo: ProfileVisit[];
@@ -82,6 +85,8 @@ export declare class UserRepo {
     updateUserAbout(userAbout: UserAbout): Promise<UserAbout>;
     createUserHabit(userHabit: UserHabit): Promise<any>;
     updateUserHabit(userHabit: UserHabit): Promise<UserHabit>;
+    createUserLifestyle(userLifestyle: UserLifestyle): Promise<any>;
+    updateUserLifestyle(userLifestyle: UserLifestyle): Promise<UserLifestyle>;
     createUserFamilyDetail(ufd: UserFamilyDetail): Promise<any>;
     updateUserFamilyDetail(ufd: UserFamilyDetail): Promise<UserFamilyDetail>;
     createUserFamilyBackground(ufbg: UserFamilyBackground): Promise<any>;
