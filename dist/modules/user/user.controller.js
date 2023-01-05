@@ -26,6 +26,7 @@ const create_user_career_dto_1 = require("./dtos/create-user-career.dto");
 const create_user_familybg_dto_1 = require("./dtos/create-user-familybg.dto");
 const create_user_familyd_dto_1 = require("./dtos/create-user-familyd.dto");
 const create_user_habit_dto_1 = require("./dtos/create-user-habit.dto");
+const create_user_hobbies_dto_1 = require("./dtos/create-user-hobbies.dto");
 const create_user_lifestyle_dto_1 = require("./dtos/create-user-lifestyle.dto");
 const create_user_preference_dto_1 = require("./dtos/create-user-preference.dto");
 const user_filter_dto_1 = require("./dtos/user-filter.dto");
@@ -72,7 +73,11 @@ let UserController = class UserController {
     }
     async createUserLifeStyle(createUserLifestyleDto) {
         const userLifestyle = await this.userFacade.createUserLifestyle(createUserLifestyleDto);
-        return { data: userLifestyle, message: 'User lifestyle registration successful.' };
+        return { data: userLifestyle, message: 'User Lifestyle registration successful.' };
+    }
+    async createUserHobbies(createUserHobbiesDto) {
+        const userHobbies = await this.userFacade.createUserHobbies(createUserHobbiesDto);
+        return { data: userHobbies, message: 'User Hobbies registration successful.' };
     }
     async createUserReligion(createUserReligionDto) {
         const userReligion = await this.userFacade.createUserReligion(createUserReligionDto);
@@ -312,6 +317,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_lifestyle_dto_1.CreateUserLifestyleDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserLifeStyle", null);
+__decorate([
+    common_1.Post('hobbies'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_user_hobbies_dto_1.CreateUserHobbiesDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "createUserHobbies", null);
 __decorate([
     common_1.Post('religion'),
     __param(0, common_1.Body()),

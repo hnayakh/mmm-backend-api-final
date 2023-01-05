@@ -65,6 +65,10 @@ let UserFacade = class UserFacade {
         const userBasic = await this.userService.getUserBasicById(createUserLifestyleDto.userBasicId);
         return await this.userService.createUserLifestyle(userBasic, createUserLifestyleDto);
     }
+    async createUserHobbies(createUserHobbiesDto) {
+        const userBasic = await this.userService.getUserBasicById(createUserHobbiesDto.userBasicId);
+        return await this.userService.createUserHobbies(userBasic, createUserHobbiesDto);
+    }
     async createUserReligion(createUserReligionDto) {
         const userBasic = await this.userService.getUserBasicById(createUserReligionDto.userBasicId);
         return await this.userService.createUserReligion(userBasic, createUserReligionDto);

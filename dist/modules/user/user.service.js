@@ -37,6 +37,7 @@ const notification_entity_1 = require("./entities/notification.entity");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
+const user_hobbies_entity_1 = require("./entities/user-hobbies.entity");
 let UserService = class UserService {
     constructor(userRepo, notificationRepo) {
         this.userRepo = userRepo;
@@ -69,6 +70,11 @@ let UserService = class UserService {
         const userLifestyle = user_lifestyle_entity_1.UserLifestyle.createUserLifestyle(createUserLifestyleDto.lifestyle, userBasic);
         this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserLifestyle(userLifestyle);
+    }
+    async createUserHobbies(userBasic, createUserHobbiesDto) {
+        const userHobbies = user_hobbies_entity_1.UserHobbies.createUserLifestyle(createUserHobbiesDto.hobbies, userBasic);
+        this.userRepo.updateUserBasic(userBasic);
+        return await this.userRepo.createUserHobbies(userHobbies);
     }
     async createUserFamilyDetail(userBasic, createUserFamilyDDto) {
         const ufd = user_family_detail_entity_1.UserFamilyDetail.createUserFamilyDetail(createUserFamilyDDto.fatherOccupation, createUserFamilyDDto.motherOccupation, createUserFamilyDDto.numberOfBrothers, createUserFamilyDDto.marriedNumberOfBrothers, createUserFamilyDDto.numberOfSisters, createUserFamilyDDto.marriedNumberOfSisters, userBasic);

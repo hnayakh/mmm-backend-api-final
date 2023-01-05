@@ -9,20 +9,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateUserLifestyleDto = void 0;
+exports.CreateUserHobbiesDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const user_profile_enum_1 = require("../../../shared/enums/user-profile.enum");
-class CreateUserLifestyleDto {
+class CreateUserHobbiesDto {
 }
 __decorate([
     class_validator_1.IsNotEmpty({ message: 'UserBasicId can not be empty.' }),
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
-], CreateUserLifestyleDto.prototype, "userBasicId", void 0);
+], CreateUserHobbiesDto.prototype, "userBasicId", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Lifestyle can not be empty.' }),
+    class_validator_1.IsNotEmpty({ message: 'hobbies can not be empty.' }),
     __metadata("design:type", String)
-], CreateUserLifestyleDto.prototype, "lifestyle", void 0);
-exports.CreateUserLifestyleDto = CreateUserLifestyleDto;
-//# sourceMappingURL=create-user-lifestyle.dto.js.map
+], CreateUserHobbiesDto.prototype, "hobbies", void 0);
+exports.CreateUserHobbiesDto = CreateUserHobbiesDto;
+//# sourceMappingURL=create-user-hobbies.dto.js.map
