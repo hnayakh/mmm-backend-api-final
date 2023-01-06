@@ -707,6 +707,54 @@ export class UserFacade {
         }
       }
 
+      if (userDetails.userHobbies && userDetails.userHobbies.length) {
+        for (let i = 0; i < userDetails.userHobbies.length; i++) {
+          let hobbies = userDetails.userHobbies[i].hobbies;
+          // let subCastName = userDetails.userReligions[i].cast;
+          // let motherTongueName = userDetails.userReligions[i].motherTongue;
+
+
+          console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
+          // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
+          
+          userDetails.userHobbies[i]['hobbies'] = hobbies;
+          // userDetails.userReligions[i]['subCasteName'] = subCastName;
+          // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
+        }
+      }
+
+      if (userDetails.userLifestyle && userDetails.userLifestyle.length) {
+        for (let i = 0; i < userDetails.userLifestyle.length; i++) {
+          let lifestyle = userDetails.userLifestyle[i].lifestyle;
+          // let subCastName = userDetails.userReligions[i].cast;
+          // let motherTongueName = userDetails.userReligions[i].motherTongue;
+
+
+          console.log('LIFESTYLE', userDetails.userLifestyle[i].lifestyle);
+          // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
+          
+          userDetails.userLifestyle[i]['lifestyle'] = lifestyle;
+          // userDetails.userReligions[i]['subCasteName'] = subCastName;
+          // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
+        }
+      }
+
+      if (userDetails.userHobbies && userDetails.userHobbies.length) {
+        for (let i = 0; i < userDetails.userHobbies.length; i++) {
+          let hobbies = userDetails.userHobbies[i].hobbies;
+          // let subCastName = userDetails.userReligions[i].cast;
+          // let motherTongueName = userDetails.userReligions[i].motherTongue;
+
+
+          console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
+          // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
+          
+          userDetails.userHobbies[i]['hobbies'] = hobbies;
+          // userDetails.userReligions[i]['subCasteName'] = subCastName;
+          // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
+        }
+      }
+
       for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
         let country = await this.masterService.getCountry(
           userDetails.userFamilyBackgrounds[i].country,

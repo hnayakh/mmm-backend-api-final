@@ -847,6 +847,8 @@ export class UserRepo {
         'userFamilyBackgrounds',
         'userFamilyDetails',
         'userImages',
+        'userHobbies',
+        'userLifestyle'
       ],
     });
   }
