@@ -428,6 +428,27 @@ let UserFacade = class UserFacade {
                     userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
                 }
             }
+            if (userDetails.userHobbies && userDetails.userHobbies.length) {
+                for (let i = 0; i < userDetails.userHobbies.length; i++) {
+                    let hobbies = userDetails.userHobbies[i].hobbies;
+                    console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
+                    userDetails.userHobbies[i]['hobbies'] = hobbies;
+                }
+            }
+            if (userDetails.userLifestyle && userDetails.userLifestyle.length) {
+                for (let i = 0; i < userDetails.userLifestyle.length; i++) {
+                    let lifestyle = userDetails.userLifestyle[i].lifestyle;
+                    console.log('LIFESTYLE', userDetails.userLifestyle[i].lifestyle);
+                    userDetails.userLifestyle[i]['lifestyle'] = lifestyle;
+                }
+            }
+            if (userDetails.userHobbies && userDetails.userHobbies.length) {
+                for (let i = 0; i < userDetails.userHobbies.length; i++) {
+                    let hobbies = userDetails.userHobbies[i].hobbies;
+                    console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
+                    userDetails.userHobbies[i]['hobbies'] = hobbies;
+                }
+            }
             for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
                 let country = await this.masterService.getCountry(userDetails.userFamilyBackgrounds[i].country);
                 let state = await this.masterService.getState(userDetails.userFamilyBackgrounds[i].state);

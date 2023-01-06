@@ -582,6 +582,8 @@ let UserRepo = class UserRepo {
                 'userFamilyBackgrounds',
                 'userFamilyDetails',
                 'userImages',
+                'userHobbies',
+                'userLifestyle'
             ],
         });
     }
