@@ -34,7 +34,7 @@ export declare class ConnectController {
         message: string;
     }>;
     createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<{
-        data: import("./entities/user-connect-duration.entity").UserConnectDuration;
+        data: any;
         message: string;
     }>;
     getAllUserRequest(): Promise<{

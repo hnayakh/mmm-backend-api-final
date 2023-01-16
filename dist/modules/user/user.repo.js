@@ -198,7 +198,7 @@ let UserRepo = class UserRepo {
         }
         else {
             const updatedUserBasic = userLifestyle.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Habit);
-            console.log("LIFE", userLifestyle);
+            console.log('LIFE', userLifestyle);
             result = await this.userLifestyleRepo.save(userLifestyle);
         }
         return result;
@@ -231,7 +231,7 @@ let UserRepo = class UserRepo {
         }
         else {
             const updatedUserBasic = userHobbies.userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.Habit);
-            console.log("LIFE", userHobbies);
+            console.log('LIFE', userHobbies);
             result = await this.userHobbiesRepo.save(userHobbies);
         }
         return result;
@@ -528,6 +528,7 @@ let UserRepo = class UserRepo {
     }
     async getAppUsersForAdmin(queryString) {
         const entityManager = typeorm_2.getManager();
+        console.log('queryString', queryString);
         const users = await entityManager.query(queryString);
         return users;
     }
@@ -583,7 +584,7 @@ let UserRepo = class UserRepo {
                 'userFamilyDetails',
                 'userImages',
                 'userHobbies',
-                'userLifestyle'
+                'userLifestyle',
             ],
         });
     }
@@ -617,7 +618,6 @@ let UserRepo = class UserRepo {
     occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
     FROM user_preferences up
     inner join states s ON REGEXP_LIKE(up.state, s.id)
-    inner join user_marital_status ums on REGEXP_LIKE(up.maritalStatus, ums.id)
     inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);

@@ -8,4 +8,5 @@ export declare class UserConnectRequestDto {
     userConnectRequestId: string;
     userOneBasicId: string;
     userTwoBasicId: string;
+    type: string;
 }

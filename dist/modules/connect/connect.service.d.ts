@@ -54,20 +54,7 @@ export declare class ConnectService {
         updatedBy: string;
         isActive: boolean;
     } & UserConnectDuration>;
-    updateUserConnectRequest(input: UserConnectRequestDto, masterConnect: Connect): Promise<{
-        userOneBasicId: string;
-        userTwoBasicId: string;
-        usedDuration: number;
-        totalDuration: number;
-        isFirstTime: boolean;
-        userConnectDurationLogs: UserConnectDurationLog[];
-        id: string;
-        createdAt: string;
-        createdBy: string;
-        updatedAt: string;
-        updatedBy: string;
-        isActive: boolean;
-    } & UserConnectDuration>;
+    updateUserConnectRequest(input: UserConnectRequestDto, masterConnect: Connect): Promise<any>;
     getUserConnectDurationByUserIdsActive(userOneBasicId: string, userTwoBasicId: string): Promise<UserConnectDuration[]>;
     getUserConnectDurationByUserIds(userOneBasicId: string, userTwoBasicId: string): Promise<UserConnectDuration[]>;
     getUserConnectRequestById(userConnectRequestId: string): Promise<UserConnectDuration>;

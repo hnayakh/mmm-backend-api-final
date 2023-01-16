@@ -17,6 +17,7 @@ export class ConnectTransactionEntity extends AbstarctEntity {
         obj.userBasic = userBasic;
         obj.operation = operation;
         obj.externalId = externalId;
+        obj.isActive=true
         return obj;
     }
 }

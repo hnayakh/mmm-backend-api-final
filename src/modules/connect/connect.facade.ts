@@ -212,6 +212,7 @@ export class ConnectFacade {
     let userConnectReqObj = await this.connectService.getUserConnectRequestById(
       userConnectDurationDto.userConnectRequestId,
     );
+    console.log('userConnectReqObj', userConnectReqObj);
     if (userConnectReqObj == null) {
       throw new HttpException('Invalid Id', HttpStatus.EXPECTATION_FAILED);
     }
@@ -235,43 +236,55 @@ export class ConnectFacade {
       userConnectRequestDto.userConnectRequestId == '' ||
       userConnectRequestDto.userConnectRequestId == null
     ) {
-      const userOneConnect = await this.connectService.getUserConnect(
-        userOneBasic,
-      );
-      // const userTwoConnect = await this.connectService.getUserConnect(userTwoBasic);
+      console.log('here');
+      try {
+        const userOneConnect = await this.connectService.getUserConnect(
+          userOneBasic,
+        );
+        console.log('userOneConnect', userOneConnect);
+        // const userTwoConnect = await this.connectService.getUserConnect(userTwoBasic);
 
-      await this.connectService.updateUserConnects(
-        userOneConnect,
-        1,
-        userOneBasic,
-        'remove',
-      );
-      await this.connectService.addConnectTransaction(
-        userOneBasic,
-        0,
-        userConnectRequestDto.userTwoBasicId,
-      );
-      // await this.connectService.updateUserConnects(
-      //   userTwoConnect,
-      //   1,
-      //   userTwoBasic,
-      //   'remove'
-      // );
-      // Create user connect duration
-      return await this.connectService.createUserConnectRequest(
-        userConnectRequestDto,
-        masterConnect[0],
-      );
+        await this.connectService.updateUserConnects(
+          userOneConnect,
+          1,
+          userOneBasic,
+          userConnectRequestDto.type,
+        );
+        await this.connectService.addConnectTransaction(
+          userOneBasic,
+          0,
+          userConnectRequestDto.userTwoBasicId,
+        );
+        // await this.connectService.updateUserConnects(
+        //   userTwoConnect,
+        //   1,
+        //   userTwoBasic,
+        //   'remove'
+        // );
+        // Create user connect duration
+        return await this.connectService.createUserConnectRequest(
+          userConnectRequestDto,
+          masterConnect[0],
+        );
+      } catch (error) {
+        return error;
+      }
     } else {
-      await this.connectService.addConnectTransaction(
-        userOneBasic,
-        0,
-        userConnectRequestDto.userTwoBasicId,
-      );
-      return await this.connectService.updateUserConnectRequest(
-        userConnectRequestDto,
-        masterConnect[0],
-      );
+      console.log('then');
+      try {
+        await this.connectService.addConnectTransaction(
+          userOneBasic,
+          0,
+          userConnectRequestDto.userTwoBasicId,
+        );
+        return await this.connectService.updateUserConnectRequest(
+          userConnectRequestDto,
+          masterConnect[0],
+        );
+      } catch (errorLog) {
+        console.log(errorLog);
+        return errorLog;
+      }
     }
   }
 
