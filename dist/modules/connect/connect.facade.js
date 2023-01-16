@@ -142,6 +142,7 @@ let ConnectFacade = class ConnectFacade {
     }
     async createOrUpdateUserConnectDuration(userConnectDurationDto) {
         let userConnectReqObj = await this.connectService.getUserConnectRequestById(userConnectDurationDto.userConnectRequestId);
+        console.log('userConnectReqObj', userConnectReqObj);
         if (userConnectReqObj == null) {
             throw new common_1.HttpException('Invalid Id', common_1.HttpStatus.EXPECTATION_FAILED);
         }
@@ -155,14 +156,28 @@ let ConnectFacade = class ConnectFacade {
         const userOneBasic = await this.userService.getUserById(userConnectRequestDto.userOneBasicId);
         if (userConnectRequestDto.userConnectRequestId == '' ||
             userConnectRequestDto.userConnectRequestId == null) {
-            const userOneConnect = await this.connectService.getUserConnect(userOneBasic);
-            await this.connectService.updateUserConnects(userOneConnect, 1, userOneBasic, 'remove');
-            await this.connectService.addConnectTransaction(userOneBasic, 0, userConnectRequestDto.userTwoBasicId);
-            return await this.connectService.createUserConnectRequest(userConnectRequestDto, masterConnect[0]);
+            console.log('here');
+            try {
+                const userOneConnect = await this.connectService.getUserConnect(userOneBasic);
+                console.log('userOneConnect', userOneConnect);
+                await this.connectService.updateUserConnects(userOneConnect, 1, userOneBasic, userConnectRequestDto.type);
+                await this.connectService.addConnectTransaction(userOneBasic, 0, userConnectRequestDto.userTwoBasicId);
+                return await this.connectService.createUserConnectRequest(userConnectRequestDto, masterConnect[0]);
+            }
+            catch (error) {
+                return error;
+            }
         }
         else {
-            await this.connectService.addConnectTransaction(userOneBasic, 0, userConnectRequestDto.userTwoBasicId);
-            return await this.connectService.updateUserConnectRequest(userConnectRequestDto, masterConnect[0]);
+            console.log('then');
+            try {
+                await this.connectService.addConnectTransaction(userOneBasic, 0, userConnectRequestDto.userTwoBasicId);
+                return await this.connectService.updateUserConnectRequest(userConnectRequestDto, masterConnect[0]);
+            }
+            catch (errorLog) {
+                console.log(errorLog);
+                return errorLog;
+            }
         }
     }
     async getUserConnectDuration(userConnectDurationDto) {

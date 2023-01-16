@@ -62,6 +62,7 @@ let ConnectController = class ConnectController {
     }
     async createOrUpdateUserConnectRequest(userConnectRequestDto) {
         const resp = await this.connectFacade.createOrUpdateUserConnectRequest(userConnectRequestDto);
+        console.log('resp', resp);
         return { data: resp, message: 'Operation successfully completed.' };
     }
     async getAllUserRequest() {

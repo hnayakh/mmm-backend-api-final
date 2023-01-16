@@ -21,7 +21,7 @@ export declare class ConnectFacade {
     getUserConnect(userBasicId: string): Promise<import("./entities/user-connect.entity").UserConnect>;
     createOrUpdateUserConnectDuration(userConnectDurationDto: UserConnectDurationDto): Promise<import("./entities/user-connect-duration-log").UserConnectDurationLog>;
     getAllUserRequest(): Promise<any>;
-    createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<import("./entities/user-connect-duration.entity").UserConnectDuration>;
+    createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<any>;
     getUserConnectDuration(userConnectDurationDto: any): Promise<{
         minutesLeft: number;
         userConnectRequestId: any;

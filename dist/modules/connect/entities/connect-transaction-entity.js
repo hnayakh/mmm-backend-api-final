@@ -20,6 +20,7 @@ let ConnectTransactionEntity = ConnectTransactionEntity_1 = class ConnectTransac
         obj.userBasic = userBasic;
         obj.operation = operation;
         obj.externalId = externalId;
+        obj.isActive = true;
         return obj;
     }
 };

@@ -49,7 +49,13 @@ let ConnectRepo = class ConnectRepo {
     }
     async addConnectTransaction(userBasic, operation, externalId) {
         const connectTransaction = connect_transaction_entity_1.ConnectTransactionEntity.create(userBasic, operation, externalId);
-        return await this.connectTransactionRepo.save(connectTransaction);
+        console.log(connectTransaction);
+        try {
+            return await this.connectTransactionRepo.save(connectTransaction);
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async getRechargeHistory(userBasic) {
         return await this.rechargeHistoryRepo.find({

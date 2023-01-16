@@ -44,5 +44,9 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], UserConnectRequestDto.prototype, "userTwoBasicId", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", String)
+], UserConnectRequestDto.prototype, "type", void 0);
 exports.UserConnectRequestDto = UserConnectRequestDto;
 //# sourceMappingURL=user-connect-duration.dto.js.map

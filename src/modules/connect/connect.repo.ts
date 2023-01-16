@@ -58,7 +58,12 @@ export class ConnectRepo {
       operation,
       externalId,
     );
-    return await this.connectTransactionRepo.save(connectTransaction);
+    console.log(connectTransaction);
+    try {
+      return await this.connectTransactionRepo.save(connectTransaction);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async getRechargeHistory(userBasic: UserBasic) {
@@ -113,7 +118,7 @@ export class ConnectRepo {
     join users_view_admin uva on
     ctl.requestingUserBasicId = uva.id group by uva.id;`;
     const userDet = await entityManager.query(rawQuery);
-    console.log(userDet)
+    console.log(userDet);
     return userDet;
   }
 

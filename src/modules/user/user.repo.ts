@@ -263,19 +263,15 @@ export class UserRepo {
     } else {
       const updatedUserBasic = userLifestyle.userBasic.updateRegistrationStep(
         RegistrationSteps.Habit,
-        
       );
-      console.log("LIFE", userLifestyle);
+      console.log('LIFE', userLifestyle);
       result = await this.userLifestyleRepo.save(userLifestyle);
-
     }
     return result;
     // return existingHabitRecord != null
     //   ? await this.updateUserHabit(userHabit)
     //   : await this.userHabitRepo.save(userHabit);
   }
-
- 
 
   async updateUserLifestyle(userLifestyle: UserLifestyle) {
     //return await this.userHabitRepo.save({ ...userHabit });
@@ -311,11 +307,9 @@ export class UserRepo {
     } else {
       const updatedUserBasic = userHobbies.userBasic.updateRegistrationStep(
         RegistrationSteps.Habit,
-        
       );
-      console.log("LIFE", userHobbies);
+      console.log('LIFE', userHobbies);
       result = await this.userHobbiesRepo.save(userHobbies);
-
     }
     return result;
     // return existingHabitRecord != null
@@ -326,17 +320,14 @@ export class UserRepo {
   async updateUserHobbies(userHobbies: UserHobbies) {
     //return await this.userHabitRepo.save({ ...userHabit });
     console.log('updating...............');
-   
+
     await this.userHobbiesRepo.update(
       { userBasic: userHobbies.userBasic },
       { ...userHobbies },
     );
-    console.log('Changing...............',userHobbies);
+    console.log('Changing...............', userHobbies);
     return userHobbies;
-   
   }
-
-
 
   // async updateUserHabit(userHabit: UserHabit) {
   //   return await this.userHabitRepo.save({ ...userHabit });
@@ -636,7 +627,6 @@ export class UserRepo {
     return result;
   }
 
-
   async updateUserBio(userBio: UserBio) {
     // let userAboutData= this.userAboutRepo.findOne({
     //   where: { userBasic: userAbout.userBasic},
@@ -787,6 +777,7 @@ export class UserRepo {
   async getAppUsersForAdmin(queryString: string) {
     const entityManager = getManager();
     // const rawQuery = `SELECT * FROM users_view uv ORDER BY uv.createdAt DESC;`;
+    console.log('queryString', queryString);
     const users = await entityManager.query(queryString);
     return users;
   }
@@ -848,7 +839,7 @@ export class UserRepo {
         'userFamilyDetails',
         'userImages',
         'userHobbies',
-        'userLifestyle'
+        'userLifestyle',
       ],
     });
   }
@@ -899,7 +890,6 @@ export class UserRepo {
     occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
     FROM user_preferences up
     inner join states s ON REGEXP_LIKE(up.state, s.id)
-    inner join user_marital_status ums on REGEXP_LIKE(up.maritalStatus, ums.id)
     inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
 

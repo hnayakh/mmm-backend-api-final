@@ -109,7 +109,9 @@ let ConnectService = class ConnectService {
     }
     async createUserConnectDuration(input, masterConnect) {
         let prevConnectedObj = await this.connectRepo.getUserConnectDurationByUserIds(input.userOneBasicId, input.userTwoBasicId);
-        let obj = user_connect_duration_entity_1.UserConnectDuration.createUserConnectDuration(input.userOneBasicId, input.userTwoBasicId, input.usedDuration, prevConnectedObj.length == 0 ? masterConnect.firstTimeBenifitMins : masterConnect.secondTimeBenifitMins, true);
+        let obj = user_connect_duration_entity_1.UserConnectDuration.createUserConnectDuration(input.userOneBasicId, input.userTwoBasicId, input.usedDuration, prevConnectedObj.length == 0
+            ? masterConnect.firstTimeBenifitMins
+            : masterConnect.secondTimeBenifitMins, true);
         if (obj.usedDuration >= obj.totalDuration) {
             obj.isActive = false;
         }
@@ -129,7 +131,9 @@ let ConnectService = class ConnectService {
     }
     async createUserConnectRequest(input, masterConnect) {
         let prevConnectedObj = await this.connectRepo.getUserConnectDurationByUserIds(input.userOneBasicId, input.userTwoBasicId);
-        let obj = user_connect_duration_entity_1.UserConnectDuration.createUserConnectDuration(input.userOneBasicId, input.userTwoBasicId, 0, prevConnectedObj.length == 0 ? masterConnect.firstTimeBenifitMins : masterConnect.secondTimeBenifitMins, true);
+        let obj = user_connect_duration_entity_1.UserConnectDuration.createUserConnectDuration(input.userOneBasicId, input.userTwoBasicId, 0, prevConnectedObj.length == 0
+            ? masterConnect.firstTimeBenifitMins
+            : masterConnect.secondTimeBenifitMins, true);
         const createdDurationObj = await this.connectRepo.createUserConnectDuration(obj);
         return createdDurationObj;
     }
@@ -144,9 +148,16 @@ let ConnectService = class ConnectService {
         return await this.connectRepo.updateUserConnectDuration(connectDuration);
     }
     async updateUserConnectRequest(input, masterConnect) {
+        console.log('ewhjgewjh');
         let connectDuration = await this.connectRepo.getConnectDurationById(input.userConnectRequestId);
-        connectDuration.isActive = false;
-        return await this.connectRepo.updateUserConnectDuration(connectDuration);
+        try {
+            console.log('connectDuration', connectDuration);
+            let result = await this.connectRepo.updateUserConnectDuration(connectDuration);
+            return result;
+        }
+        catch (error) {
+            return error;
+        }
     }
     async getUserConnectDurationByUserIdsActive(userOneBasicId, userTwoBasicId) {
         return await this.connectRepo.getUserConnectDurationByUserIdsActive(userOneBasicId, userTwoBasicId);
