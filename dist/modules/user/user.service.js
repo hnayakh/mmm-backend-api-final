@@ -105,6 +105,7 @@ let UserService = class UserService {
             isDefaultImage = false;
         });
         const userBio = user_bio_entity_1.UserBio.createUserBio(createUserBioImageDto.aboutMe, userBasic);
+        console.log('userImages');
         this.userRepo.createUserImages(userImages);
         return await this.userRepo.createUserBio(userBio);
     }

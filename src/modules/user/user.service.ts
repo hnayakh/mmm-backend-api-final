@@ -259,6 +259,7 @@ export class UserService {
     //   RegistrationSteps.Preferences,
     // );
    // this.userRepo.updateUserBasic(updatedUserBasic);
+   console.log('userImages')
     this.userRepo.createUserImages(userImages);
     return await this.userRepo.createUserBio(userBio);
   }

@@ -883,14 +883,15 @@ export class UserRepo {
     // and userBasicId = '${userBasicId}'`;
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
+       // inner join states s ON REGEXP_LIKE(up.state, s.id)
+    // inner join user_marital_status ums on REGEXP_LIKE(up.maritalStatus, ums.id)
+    // inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     const entityManager = getManager();
     const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
-    s.name as state,ums.name as maritalStatus ,c.name as country,
+  
     up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
     occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
     FROM user_preferences up
-    inner join states s ON REGEXP_LIKE(up.state, s.id)
-    inner join  countries c ON REGEXP_LIKE(up.country, c.id)
     where up.userBasicId= '${userBasicId}'`;
 
     const userDet = await entityManager.query(rawQuery);
