@@ -436,6 +436,7 @@ export class UserFacade {
       await this.connectService.getUserRequestStatusForAppPrefAndFilter(
         userBasicId,
       );
+    console.log('connectUsers', connectUsers);
     uniqueUsers.forEach((uu) => {
       let tempObj = {
         isLiked: false,
@@ -643,14 +644,14 @@ export class UserFacade {
         userBasicId,
       );
       let userReqDet = [];
-      if (myBasicId) {
-        console.log(myBasicId);
-        const entityManager = getManager();
-        const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
-        userReqDet = await entityManager.query(rawQuery);
-        console.log(rawQuery);
-        console.log('userReqDet', userReqDet);
-      }
+      // if (myBasicId) {
+      //   console.log(myBasicId);
+      //   const entityManager = getManager();
+      //   const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
+      //   userReqDet = await entityManager.query(rawQuery);
+      //   console.log(rawQuery);
+      //   console.log('userReqDet', userReqDet);
+      // }
       if (userDetails.userCareers) {
         userDetails.userCareers = userDetails.userCareers.filter(
           (x) =>
@@ -713,10 +714,9 @@ export class UserFacade {
           // let subCastName = userDetails.userReligions[i].cast;
           // let motherTongueName = userDetails.userReligions[i].motherTongue;
 
-
           console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
           // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
-          
+
           userDetails.userHobbies[i]['hobbies'] = hobbies;
           // userDetails.userReligions[i]['subCasteName'] = subCastName;
           // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
@@ -729,10 +729,9 @@ export class UserFacade {
           // let subCastName = userDetails.userReligions[i].cast;
           // let motherTongueName = userDetails.userReligions[i].motherTongue;
 
-
           console.log('LIFESTYLE', userDetails.userLifestyle[i].lifestyle);
           // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
-          
+
           userDetails.userLifestyle[i]['lifestyle'] = lifestyle;
           // userDetails.userReligions[i]['subCasteName'] = subCastName;
           // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
@@ -745,10 +744,9 @@ export class UserFacade {
           // let subCastName = userDetails.userReligions[i].cast;
           // let motherTongueName = userDetails.userReligions[i].motherTongue;
 
-
           console.log('HOBBIES', userDetails.userHobbies[i].hobbies);
           // let subCasteName = castSubcaste.filter(x=>x.cast==casteName)[0].subCaste;
-          
+
           userDetails.userHobbies[i]['hobbies'] = hobbies;
           // userDetails.userReligions[i]['subCasteName'] = subCastName;
           // userDetails.userReligions[i]['motherTongueId'] = motherTongueId;
@@ -770,10 +768,145 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
       }
       let requiredData = {};
+
+      if (myBasicId) {
+        console.log('userReqDet', userReqDet);
+        let uniqueUsers = [userDetails];
+        // result.forEach((r: { id: any }) => {
+        //   let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+        //   if (_.isEmpty(dup)) {
+        //     uniqueUsers.push(r);
+        //   }
+        // });
+        // Get blocked users
+        // Get liked users
+        const connectUsers =
+          await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+            myBasicId,
+          );
+        console.log('connectUsers', connectUsers);
+        // uniqueUsers.forEach((uu) => {
+        //   let tempObj = {
+        //     isLiked: false,
+        //     sent: false,
+        //     requested: false,
+        //     isConnected: false,
+        //     id: '',
+        //   };
+        //   let isConnectOne = connectUsers.find(
+        //     (u) => u.requestedUserBasicId == uu.id,
+        //   );
+        //   if (isConnectOne != null) {
+        //     (tempObj.isLiked = true),
+        //       (tempObj.requested = true),
+        //       (tempObj.isConnected =
+        //         isConnectOne.userRequestState == UserRequestState.Active
+        //           ? true
+        //           : false);
+        //   }
+        //   let isConnectTwo = connectUsers.find(
+        //     (u) => u.requestingUserBasicId == uu.id,
+        //   );
+        //   if (isConnectTwo != null) {
+        //     (tempObj.isLiked = true),
+        //       (tempObj.sent = true),
+        //       (tempObj.isConnected =
+        //         isConnectTwo.userRequestState == UserRequestState.Active
+        //           ? true
+        //           : false);
+        //   }
+        //   uu['connectStatus'] = tempObj;
+        // });
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isLiked: false,
+            sent: false,
+            requested: false,
+            isConnected: false,
+            id: '',
+          };
+          let isConnectOne = connectUsers.find(
+            (u) => u.requestedUserBasicId == uu.id,
+          );
+          // console.log(isConnectOne);
+
+          if (isConnectOne != null) {
+            (tempObj.isLiked = true),
+              (tempObj.requested = true),
+              (tempObj.isConnected =
+                isConnectOne.userRequestState == UserRequestState.Active
+                  ? true
+                  : false);
+            tempObj.id = isConnectOne.id;
+          }
+          let isConnectTwo = connectUsers.find(
+            (u) => u.requestingUserBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isLiked = true),
+              (tempObj.sent = true),
+              (tempObj.isConnected =
+                isConnectTwo.userRequestState == UserRequestState.Active
+                  ? true
+                  : false);
+            tempObj.id = isConnectTwo.id;
+          }
+          uu['interestStatus'] = tempObj;
+        });
+
+        // // Get connect requestUser for call and message
+        const connectedUserForCallAndMessage =
+          await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isConnected: false,
+            id: null,
+          };
+          let isConnectOne = connectedUserForCallAndMessage.find(
+            (u) => u.userOneBasicId == uu.id,
+          );
+          if (isConnectOne != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+          }
+          let isConnectTwo = connectedUserForCallAndMessage.find(
+            (u) => u.userTwoBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+          }
+          uu['connectStatus'] = tempObj;
+        });
+        // Get connect requestUser for call and message
+        const connectedUserForCall =
+          await this.connectService.getUserConnectRequestsByUserId(myBasicId);
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isConnectedForCallMessage: false,
+            userConnectRequestId: null,
+          };
+          let isConnectOne = connectedUserForCall.find(
+            (u) => u.userOneBasicId == uu.id,
+          );
+          if (isConnectOne != null) {
+            (tempObj.isConnectedForCallMessage = true),
+              (tempObj.userConnectRequestId = isConnectOne.id);
+          }
+          let isConnectTwo = connectedUserForCall.find(
+            (u) => u.userTwoBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isConnectedForCallMessage = true),
+              (tempObj.userConnectRequestId = isConnectOne.id);
+          }
+          uu['connectRequestCallMessageStatus'] = tempObj;
+        });
+        console.log('uniqueUsers', uniqueUsers);
+        // return uniqueUsers;
+      }
       if (userReqDet.length > 0) {
-        requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+        requiredData = { ...userDetails };
       } else {
-        requiredData = { ...userDetails, UserRequestStatus: [] };
+        requiredData = { ...userDetails };
       }
 
       return requiredData;
@@ -1012,16 +1145,232 @@ export class UserFacade {
     return this.userService.visitedProfile(visitedBy, visitedTo);
   }
   async recentProfileViews(userBasicId: string) {
-    return this.userService.recentProfileViews(userBasicId);
+    let result = await this.userService.recentProfileViews(userBasicId);
+    let uniqueUsers = [];
+    result.forEach((r: { id: any }) => {
+      let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+      if (_.isEmpty(dup)) {
+        uniqueUsers.push(r);
+      }
+    });
+    const connectUsers =
+      await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+        userBasicId,
+      );
+    console.log('connectUsers', connectUsers);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isLiked: false,
+        sent: false,
+        requested: false,
+        isConnected: false,
+        id: '',
+      };
+      let isConnectOne = connectUsers.find(
+        (u) => u.requestedUserBasicId == uu.id,
+      );
+      // console.log(isConnectOne);
+
+      if (isConnectOne != null) {
+        (tempObj.isLiked = true),
+          (tempObj.requested = true),
+          (tempObj.isConnected =
+            isConnectOne.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectOne.id;
+      }
+      let isConnectTwo = connectUsers.find(
+        (u) => u.requestingUserBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isLiked = true),
+          (tempObj.sent = true),
+          (tempObj.isConnected =
+            isConnectTwo.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectTwo.id;
+      }
+      uu['interestStatus'] = tempObj;
+    });
+
+    // Get connect requestUser for call and message
+    const connectedUserForCall =
+      await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isConnected: false,
+        id: null,
+      };
+      let isConnectOne = connectedUserForCall.find(
+        (u) => u.userOneBasicId == uu.id,
+      );
+      if (isConnectOne != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+      }
+      let isConnectTwo = connectedUserForCall.find(
+        (u) => u.userTwoBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+      }
+      uu['connectStatus'] = tempObj;
+    });
+    return uniqueUsers;
   }
   async getProifleVisitedBy(userBasicId: string) {
-    return this.userService.getProifleVisitedBy(userBasicId);
+    let result = await this.userService.getProifleVisitedBy(userBasicId);
+    let uniqueUsers = [];
+    result.forEach((r: { id: any }) => {
+      let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+      if (_.isEmpty(dup)) {
+        uniqueUsers.push(r);
+      }
+    });
+    const connectUsers =
+      await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+        userBasicId,
+      );
+    console.log('connectUsers', connectUsers);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isLiked: false,
+        sent: false,
+        requested: false,
+        isConnected: false,
+        id: '',
+      };
+      let isConnectOne = connectUsers.find(
+        (u) => u.requestedUserBasicId == uu.id,
+      );
+      // console.log(isConnectOne);
+
+      if (isConnectOne != null) {
+        (tempObj.isLiked = true),
+          (tempObj.requested = true),
+          (tempObj.isConnected =
+            isConnectOne.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectOne.id;
+      }
+      let isConnectTwo = connectUsers.find(
+        (u) => u.requestingUserBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isLiked = true),
+          (tempObj.sent = true),
+          (tempObj.isConnected =
+            isConnectTwo.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectTwo.id;
+      }
+      uu['interestStatus'] = tempObj;
+    });
+
+    // Get connect requestUser for call and message
+    const connectedUserForCall =
+      await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isConnected: false,
+        id: null,
+      };
+      let isConnectOne = connectedUserForCall.find(
+        (u) => u.userOneBasicId == uu.id,
+      );
+      if (isConnectOne != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+      }
+      let isConnectTwo = connectedUserForCall.find(
+        (u) => u.userTwoBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+      }
+      uu['connectStatus'] = tempObj;
+    });
+    return uniqueUsers;
   }
   async getOnlineMembers(userBasicId: string) {
     return this.userService.getOnlineMembers(userBasicId);
   }
 
   async getPremiumMembers(userBasicId: string) {
-    return this.userService.getPremiumMembers(userBasicId);
+    const result = await this.userService.getPremiumMembers(userBasicId);
+    let uniqueUsers = [];
+    result.forEach((r: { id: any }) => {
+      let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+      if (_.isEmpty(dup)) {
+        uniqueUsers.push(r);
+      }
+    });
+    const connectUsers =
+      await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+        userBasicId,
+      );
+    console.log('connectUsers', connectUsers);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isLiked: false,
+        sent: false,
+        requested: false,
+        isConnected: false,
+        id: '',
+      };
+      let isConnectOne = connectUsers.find(
+        (u) => u.requestedUserBasicId == uu.id,
+      );
+      // console.log(isConnectOne);
+
+      if (isConnectOne != null) {
+        (tempObj.isLiked = true),
+          (tempObj.requested = true),
+          (tempObj.isConnected =
+            isConnectOne.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectOne.id;
+      }
+      let isConnectTwo = connectUsers.find(
+        (u) => u.requestingUserBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isLiked = true),
+          (tempObj.sent = true),
+          (tempObj.isConnected =
+            isConnectTwo.userRequestState == UserRequestState.Active
+              ? true
+              : false);
+        tempObj.id = isConnectTwo.id;
+      }
+      uu['interestStatus'] = tempObj;
+    });
+
+    // Get connect requestUser for call and message
+    const connectedUserForCall =
+      await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+    uniqueUsers.forEach((uu) => {
+      let tempObj = {
+        isConnected: false,
+        id: null,
+      };
+      let isConnectOne = connectedUserForCall.find(
+        (u) => u.userOneBasicId == uu.id,
+      );
+      if (isConnectOne != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+      }
+      let isConnectTwo = connectedUserForCall.find(
+        (u) => u.userTwoBasicId == uu.id,
+      );
+      if (isConnectTwo != null) {
+        (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+      }
+      uu['connectStatus'] = tempObj;
+    });
+    return uniqueUsers;
   }
 }

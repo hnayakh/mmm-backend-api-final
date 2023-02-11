@@ -101,15 +101,27 @@ export class UserController {
     return { data: userHabit, message: 'User habit registration successful.' };
   }
 
-    @Post('lifestyle')
-  async createUserLifeStyle(@Body() createUserLifestyleDto: CreateUserLifestyleDto) {
-    const userLifestyle = await this.userFacade.createUserLifestyle(createUserLifestyleDto);
-    return { data: userLifestyle, message: 'User Lifestyle registration successful.' };
+  @Post('lifestyle')
+  async createUserLifeStyle(
+    @Body() createUserLifestyleDto: CreateUserLifestyleDto,
+  ) {
+    const userLifestyle = await this.userFacade.createUserLifestyle(
+      createUserLifestyleDto,
+    );
+    return {
+      data: userLifestyle,
+      message: 'User Lifestyle registration successful.',
+    };
   }
-    @Post('hobbies')
+  @Post('hobbies')
   async createUserHobbies(@Body() createUserHobbiesDto: CreateUserHobbiesDto) {
-    const userHobbies = await this.userFacade.createUserHobbies(createUserHobbiesDto);
-    return { data: userHobbies, message: 'User Hobbies registration successful.' };
+    const userHobbies = await this.userFacade.createUserHobbies(
+      createUserHobbiesDto,
+    );
+    return {
+      data: userHobbies,
+      message: 'User Hobbies registration successful.',
+    };
   }
 
   @Post('religion')
@@ -481,5 +493,13 @@ export class UserController {
       data: response,
       message: ' Premium members profiles fetched.',
     };
+  }
+  @Post('block_user/:block_who/:block_whom')
+  async BlockUser(
+    @Param('block_who') @Param('block_whom') block_who: string,
+    block_whom: string,
+  ) {
+//const response = await this.userFacade.blockProfile(block_who,block_whom)
+
   }
 }

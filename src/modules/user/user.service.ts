@@ -529,6 +529,9 @@ export class UserService {
   async getPremiumMembers(userBaicId: string) {
     return await this.userRepo.getPremiumMembers(userBaicId);
   }
+  async blockProfile(block_who: string, block_whom: string) {
+    return await this.userRepo.blockProfile(block_who, block_whom);
+  }
 
   async generateAGoraToken(data: any) {
     console.log('check');
