@@ -613,10 +613,11 @@ let UserRepo = class UserRepo {
     async getUserPreferenceByUserId(userBasicId) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
-  
+    s.name as state,ums.name as maritalStatus ,c.name as country,
     up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
     occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
     FROM user_preferences up
+ 
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);
         console.log('userDet', userDet);
@@ -759,6 +760,10 @@ let UserRepo = class UserRepo {
         let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
         console.log('result', result);
         return result;
+    }
+    async blockProfile(block_who, block_whom) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = ``;
     }
     async createNotification(data) {
         return await this.notificationRepo.save(Object.assign({}, data));

@@ -79,11 +79,13 @@ let ConnectFacade = class ConnectFacade {
                 isConnected: false,
                 id: null,
             };
+            let requiredObj = {};
             if (userBasicId == input['requestedUserBasicId']) {
                 input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
                 let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
                 if (isConnectOne != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+                    requiredObj = isConnectOne;
                 }
             }
             else {
@@ -91,9 +93,11 @@ let ConnectFacade = class ConnectFacade {
                 let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
                 if (isConnectTwo != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+                    requiredObj = isConnectTwo;
                 }
             }
             input['user']['connectStatus'] = tempObj;
+            input['user']['UserRequestStatus'] = requiredObj;
         });
         return {
             activeSent,
