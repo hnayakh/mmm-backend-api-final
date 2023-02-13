@@ -28,7 +28,7 @@ export declare class UserController {
         data: {};
         message: string;
     }>;
-    getUserDeatailByDisplayId(displayId: string): Promise<{
+    getUserDeatailByDisplayId(displayId: string, myBasicId: string): Promise<{
         data: {};
         message: string;
     }>;
