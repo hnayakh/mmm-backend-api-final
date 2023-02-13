@@ -445,9 +445,11 @@ export class UserFacade {
         isConnected: false,
         id: '',
       };
+      let requiredObj = {};
       let isConnectOne = connectUsers.find(
         (u) => u.requestedUserBasicId == uu.id,
       );
+
       // console.log(isConnectOne);
 
       if (isConnectOne != null) {
@@ -458,6 +460,7 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectOne.id;
+        requiredObj = isConnectOne;
       }
       let isConnectTwo = connectUsers.find(
         (u) => u.requestingUserBasicId == uu.id,
@@ -470,13 +473,16 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectTwo.id;
+        requiredObj = isConnectTwo;
       }
       uu['interestStatus'] = tempObj;
+      uu['UserRequestStatus'] = requiredObj;
     });
-
+    console.log('UserRequestStatus', connectUsers);
     // Get connect requestUser for call and message
     const connectedUserForCall =
       await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+
     uniqueUsers.forEach((uu) => {
       let tempObj = {
         isConnected: false,
@@ -487,6 +493,7 @@ export class UserFacade {
       );
       if (isConnectOne != null) {
         (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+        // uu['UserRequestStatus'] = uu;
       }
       let isConnectTwo = connectedUserForCall.find(
         (u) => u.userTwoBasicId == uu.id,
@@ -496,6 +503,7 @@ export class UserFacade {
       }
       uu['connectStatus'] = tempObj;
     });
+    uniqueUsers['UserRequestStatus'] = connectedUserForCall;
     return uniqueUsers;
   }
 
@@ -644,14 +652,14 @@ export class UserFacade {
         userBasicId,
       );
       let userReqDet = [];
-      // if (myBasicId) {
-      //   console.log(myBasicId);
-      //   const entityManager = getManager();
-      //   const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
-      //   userReqDet = await entityManager.query(rawQuery);
-      //   console.log(rawQuery);
-      //   console.log('userReqDet', userReqDet);
-      // }
+      if (myBasicId) {
+        console.log(myBasicId);
+        const entityManager = getManager();
+        const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
+        userReqDet = await entityManager.query(rawQuery);
+        console.log(rawQuery);
+        console.log('userReqDet', userReqDet);
+      }
       if (userDetails.userCareers) {
         userDetails.userCareers = userDetails.userCareers.filter(
           (x) =>
@@ -825,6 +833,7 @@ export class UserFacade {
             isConnected: false,
             id: '',
           };
+          let requiredObj = {};
           let isConnectOne = connectUsers.find(
             (u) => u.requestedUserBasicId == uu.id,
           );
@@ -838,6 +847,7 @@ export class UserFacade {
                   ? true
                   : false);
             tempObj.id = isConnectOne.id;
+            requiredObj = isConnectOne;
           }
           let isConnectTwo = connectUsers.find(
             (u) => u.requestingUserBasicId == uu.id,
@@ -850,8 +860,10 @@ export class UserFacade {
                   ? true
                   : false);
             tempObj.id = isConnectTwo.id;
+            requiredObj = isConnectTwo;
           }
           uu['interestStatus'] = tempObj;
+          uu['UserRequestStatus'] = isConnectTwo;
         });
 
         // // Get connect requestUser for call and message
@@ -904,9 +916,9 @@ export class UserFacade {
         // return uniqueUsers;
       }
       if (userReqDet.length > 0) {
-        requiredData = { ...userDetails };
+        requiredData = { ...userDetails, UserRequestStatus: userReqDet };
       } else {
-        requiredData = { ...userDetails };
+        requiredData = { ...userDetails, UserRequestStatus: [] };
       }
 
       return requiredData;
@@ -1166,6 +1178,7 @@ export class UserFacade {
         isConnected: false,
         id: '',
       };
+      let requiredObj = {};
       let isConnectOne = connectUsers.find(
         (u) => u.requestedUserBasicId == uu.id,
       );
@@ -1179,6 +1192,7 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectOne.id;
+        requiredObj = isConnectOne;
       }
       let isConnectTwo = connectUsers.find(
         (u) => u.requestingUserBasicId == uu.id,
@@ -1191,8 +1205,10 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectTwo.id;
+        requiredObj = isConnectTwo;
       }
       uu['interestStatus'] = tempObj;
+      uu['UserRequestStatus'] = requiredObj;
     });
 
     // Get connect requestUser for call and message
@@ -1241,6 +1257,7 @@ export class UserFacade {
         isConnected: false,
         id: '',
       };
+      let requiredObj = {};
       let isConnectOne = connectUsers.find(
         (u) => u.requestedUserBasicId == uu.id,
       );
@@ -1254,6 +1271,7 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectOne.id;
+        requiredObj = isConnectOne;
       }
       let isConnectTwo = connectUsers.find(
         (u) => u.requestingUserBasicId == uu.id,
@@ -1266,8 +1284,10 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectTwo.id;
+        requiredObj = isConnectTwo;
       }
       uu['interestStatus'] = tempObj;
+      uu['UserRequestStatus'] = requiredObj;
     });
 
     // Get connect requestUser for call and message
@@ -1320,6 +1340,7 @@ export class UserFacade {
         isConnected: false,
         id: '',
       };
+      let requiredObj = {};
       let isConnectOne = connectUsers.find(
         (u) => u.requestedUserBasicId == uu.id,
       );
@@ -1333,6 +1354,7 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectOne.id;
+        requiredObj = isConnectOne;
       }
       let isConnectTwo = connectUsers.find(
         (u) => u.requestingUserBasicId == uu.id,
@@ -1345,8 +1367,10 @@ export class UserFacade {
               ? true
               : false);
         tempObj.id = isConnectTwo.id;
+        requiredObj = isConnectTwo;
       }
       uu['interestStatus'] = tempObj;
+      uu['UserRequestStatus'] = requiredObj;
     });
 
     // Get connect requestUser for call and message
