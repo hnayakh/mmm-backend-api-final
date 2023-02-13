@@ -73,11 +73,17 @@ let UserController = class UserController {
     }
     async createUserLifeStyle(createUserLifestyleDto) {
         const userLifestyle = await this.userFacade.createUserLifestyle(createUserLifestyleDto);
-        return { data: userLifestyle, message: 'User Lifestyle registration successful.' };
+        return {
+            data: userLifestyle,
+            message: 'User Lifestyle registration successful.',
+        };
     }
     async createUserHobbies(createUserHobbiesDto) {
         const userHobbies = await this.userFacade.createUserHobbies(createUserHobbiesDto);
-        return { data: userHobbies, message: 'User Hobbies registration successful.' };
+        return {
+            data: userHobbies,
+            message: 'User Hobbies registration successful.',
+        };
     }
     async createUserReligion(createUserReligionDto) {
         const userReligion = await this.userFacade.createUserReligion(createUserReligionDto);
@@ -260,6 +266,8 @@ let UserController = class UserController {
             data: response,
             message: ' Premium members profiles fetched.',
         };
+    }
+    async BlockUser(block_who, block_whom) {
     }
 };
 __decorate([
@@ -592,6 +600,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getPremiumMembers", null);
+__decorate([
+    common_1.Post('block_user/:block_who/:block_whom'),
+    __param(0, common_1.Param('block_who')),
+    __param(0, common_1.Param('block_whom')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "BlockUser", null);
 UserController = __decorate([
     swagger_1.ApiTags('User'),
     common_1.Controller('users'),

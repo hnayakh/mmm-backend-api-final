@@ -67,8 +67,8 @@ export declare class UserFacade {
         userImage: import("./entities/user-image.entity").UserImage;
     }>;
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
-    recentProfileViews(userBasicId: string): Promise<any>;
-    getProifleVisitedBy(userBasicId: string): Promise<any>;
+    recentProfileViews(userBasicId: string): Promise<any[]>;
+    getProifleVisitedBy(userBasicId: string): Promise<any[]>;
     getOnlineMembers(userBasicId: string): Promise<any>;
-    getPremiumMembers(userBasicId: string): Promise<any>;
+    getPremiumMembers(userBasicId: string): Promise<any[]>;
 }

@@ -245,6 +245,9 @@ let UserService = class UserService {
     async getPremiumMembers(userBaicId) {
         return await this.userRepo.getPremiumMembers(userBaicId);
     }
+    async blockProfile(block_who, block_whom) {
+        return await this.userRepo.blockProfile(block_who, block_whom);
+    }
     async generateAGoraToken(data) {
         console.log('check');
         const firebase_params = {

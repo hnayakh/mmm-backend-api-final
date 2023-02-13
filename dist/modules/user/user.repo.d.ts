@@ -147,6 +147,7 @@ export declare class UserRepo {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any>;
+    blockProfile(block_who: string, block_whom: string): Promise<void>;
     createNotification(data: any): Promise<any>;
     updateNotification(data: any): Promise<any>;
 }

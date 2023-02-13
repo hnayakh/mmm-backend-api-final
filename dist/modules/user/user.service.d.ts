@@ -97,6 +97,7 @@ export declare class UserService {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBaicId: string): Promise<any>;
+    blockProfile(block_who: string, block_whom: string): Promise<void>;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
         agoraToken: string;
         channelName: string;

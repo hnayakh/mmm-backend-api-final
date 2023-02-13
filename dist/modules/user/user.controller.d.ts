@@ -152,11 +152,11 @@ export declare class UserController {
         message: string;
     }>;
     recentProfileViews(userBasicId: string): Promise<{
-        data: any;
+        data: any[];
         message: string;
     }>;
     getProifleVisitedBy(userBasicId: string): Promise<{
-        data: any;
+        data: any[];
         message: string;
     }>;
     getOnlineMembers(userBasicId: string): Promise<{
@@ -164,7 +164,8 @@ export declare class UserController {
         message: string;
     }>;
     getPremiumMembers(userBasicId: string): Promise<{
-        data: any;
+        data: any[];
         message: string;
     }>;
+    BlockUser(block_who: string, block_whom: string): Promise<void>;
 }
