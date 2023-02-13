@@ -71,13 +71,17 @@ export class UserController {
       message: 'User basic details fetched successful.',
     };
   }
-  @Get('displaybasic/:displayId')
-  async getUserDeatailByDisplayId(@Param('displayId') displayId: string) {
+  @Post('displaybasic/:displayId')
+  async getUserDeatailByDisplayId(
+    @Param('displayId') displayId: string,
+    @Body('myBasicId') myBasicId: string,
+  ) {
     console.log('DISPLAY', displayId);
     let message = 'User basic details fetched successful.';
 
     const userBasic = await this.userFacade.getUserDeatailByDisplayId(
       displayId,
+      myBasicId!
     );
 
     if (!userBasic) {
@@ -499,7 +503,6 @@ export class UserController {
     @Param('block_who') @Param('block_whom') block_who: string,
     block_whom: string,
   ) {
-//const response = await this.userFacade.blockProfile(block_who,block_whom)
-
+    //const response = await this.userFacade.blockProfile(block_who,block_whom)
   }
 }

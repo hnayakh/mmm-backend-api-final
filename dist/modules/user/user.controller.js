@@ -51,10 +51,10 @@ let UserController = class UserController {
             message: 'User basic details fetched successful.',
         };
     }
-    async getUserDeatailByDisplayId(displayId) {
+    async getUserDeatailByDisplayId(displayId, myBasicId) {
         console.log('DISPLAY', displayId);
         let message = 'User basic details fetched successful.';
-        const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId);
+        const userBasic = await this.userFacade.getUserDeatailByDisplayId(displayId, myBasicId);
         if (!userBasic) {
             message = 'No user found for given DisplayId';
         }
@@ -298,10 +298,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserDeatailById", null);
 __decorate([
-    common_1.Get('displaybasic/:displayId'),
+    common_1.Post('displaybasic/:displayId'),
     __param(0, common_1.Param('displayId')),
+    __param(1, common_1.Body('myBasicId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getUserDeatailByDisplayId", null);
 __decorate([
