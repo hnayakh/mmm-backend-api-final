@@ -613,11 +613,10 @@ let UserRepo = class UserRepo {
     async getUserPreferenceByUserId(userBasicId) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
-    s.name as state,ums.name as maritalStatus ,c.name as country,
     up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
     occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
     FROM user_preferences up
- 
+
     where up.userBasicId= '${userBasicId}'`;
         const userDet = await entityManager.query(rawQuery);
         console.log('userDet', userDet);
