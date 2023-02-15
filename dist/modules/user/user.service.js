@@ -216,6 +216,9 @@ let UserService = class UserService {
         this.userRepo.updateUserBasic(updatedUserBasic);
         return await this.userRepo.createUserPreference(userPreference);
     }
+    async getUserPartnerPreferences(userBasicId) {
+        return await this.userRepo.getUserPreferenceByUserId(userBasicId);
+    }
     async getAllUserDetailsById(userBasicId) {
         return await this.userRepo.getAllUserDetailsById(userBasicId);
     }
