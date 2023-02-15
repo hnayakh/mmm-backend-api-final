@@ -645,6 +645,12 @@ export class UserFacade {
     delete res.userBasic;
     return res;
   }
+  async getUserPartnerPreferences(userBasicId: string) {
+    const userBasic = await this.userService.getUserById(userBasicId);
+    const res = await this.userService.getUserPartnerPreferences(userBasicId);
+    // delete res.userBasic;
+    return res;
+  }
 
   async getUserDeatailById(userBasicId: string, myBasicId: string) {
     try {
@@ -810,6 +816,7 @@ export class UserFacade {
                   : false);
             tempObj.id = isConnectOne.id;
             requiredObj = isConnectOne;
+            uu['UserRequestStatus'] = isConnectOne;
           }
           let isConnectTwo = connectUsers.find(
             (u) => u.requestingUserBasicId == uu.id,
@@ -823,9 +830,9 @@ export class UserFacade {
                   : false);
             tempObj.id = isConnectTwo.id;
             requiredObj = isConnectTwo;
+            uu['UserRequestStatus'] = isConnectTwo;
           }
           uu['interestStatus'] = tempObj;
-          uu['UserRequestStatus'] = isConnectTwo;
         });
 
         // // Get connect requestUser for call and message

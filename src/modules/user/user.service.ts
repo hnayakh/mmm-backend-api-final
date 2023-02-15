@@ -258,8 +258,8 @@ export class UserService {
     // const updatedUserBasic = userBasic.updateRegistrationStep(
     //   RegistrationSteps.Preferences,
     // );
-   // this.userRepo.updateUserBasic(updatedUserBasic);
-   console.log('userImages')
+    // this.userRepo.updateUserBasic(updatedUserBasic);
+    console.log('userImages');
     this.userRepo.createUserImages(userImages);
     return await this.userRepo.createUserBio(userBio);
   }
@@ -492,6 +492,10 @@ export class UserService {
     );
     this.userRepo.updateUserBasic(updatedUserBasic);
     return await this.userRepo.createUserPreference(userPreference);
+  }
+
+  async getUserPartnerPreferences(userBasicId: string) {
+    return await this.userRepo.getUserPreferenceByUserId(userBasicId);
   }
 
   async getAllUserDetailsById(userBasicId: string) {

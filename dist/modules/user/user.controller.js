@@ -106,6 +106,13 @@ let UserController = class UserController {
             message: 'User preference created successfully.',
         };
     }
+    async getUserPartnerPreferences(userBasicId) {
+        const userPreference = await this.userFacade.getUserPartnerPreferences(userBasicId);
+        return {
+            data: userPreference,
+            message: 'User preference Fetched successfully.',
+        };
+    }
     async createUserFamilyBackground(createUserFamilyBgDto) {
         const userFamilyBg = await this.userFacade.createUserFamilyBackground(createUserFamilyBgDto);
         return {
@@ -354,6 +361,13 @@ __decorate([
     __metadata("design:paramtypes", [create_user_preference_dto_1.CreateUserPreferenceDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserPreference", null);
+__decorate([
+    common_1.Get('preference/:userBasicId'),
+    __param(0, common_1.Param('userBasicId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getUserPartnerPreferences", null);
 __decorate([
     common_1.Post('familyBackground'),
     __param(0, common_1.Body()),

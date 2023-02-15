@@ -386,6 +386,11 @@ let UserFacade = class UserFacade {
         delete res.userBasic;
         return res;
     }
+    async getUserPartnerPreferences(userBasicId) {
+        const userBasic = await this.userService.getUserById(userBasicId);
+        const res = await this.userService.getUserPartnerPreferences(userBasicId);
+        return res;
+    }
     async getUserDeatailById(userBasicId, myBasicId) {
         try {
             const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
@@ -489,6 +494,7 @@ let UserFacade = class UserFacade {
                                     : false);
                         tempObj.id = isConnectOne.id;
                         requiredObj = isConnectOne;
+                        uu['UserRequestStatus'] = isConnectOne;
                     }
                     let isConnectTwo = connectUsers.find((u) => u.requestingUserBasicId == uu.id);
                     if (isConnectTwo != null) {
@@ -500,9 +506,9 @@ let UserFacade = class UserFacade {
                                     : false);
                         tempObj.id = isConnectTwo.id;
                         requiredObj = isConnectTwo;
+                        uu['UserRequestStatus'] = isConnectTwo;
                     }
                     uu['interestStatus'] = tempObj;
-                    uu['UserRequestStatus'] = isConnectTwo;
                 });
                 const connectedUserForCallAndMessage = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
                 uniqueUsers.forEach((uu) => {

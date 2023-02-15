@@ -81,7 +81,7 @@ export class UserController {
 
     const userBasic = await this.userFacade.getUserDeatailByDisplayId(
       displayId,
-      myBasicId!
+      myBasicId!,
     );
 
     if (!userBasic) {
@@ -162,6 +162,18 @@ export class UserController {
     return {
       data: userPreference,
       message: 'User preference created successfully.',
+    };
+  }
+  @Get('preference/:userBasicId')
+  async getUserPartnerPreferences(
+    @Param('userBasicId') userBasicId: string,
+  ) {
+    const userPreference = await this.userFacade.getUserPartnerPreferences(
+      userBasicId,
+    );
+    return {
+      data: userPreference,
+      message: 'User preference Fetched successfully.',
     };
   }
 

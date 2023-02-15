@@ -83,6 +83,7 @@ export declare class UserService {
     createAdminUser(createAdminUserDto: CreateAdminUserDto): Promise<AdminUser>;
     updateAdminUser(adminUser: AdminUser): Promise<any>;
     createUserPreference(userBasic: UserBasic, cupd: CreateUserPreferenceDto): Promise<UserPreference>;
+    getUserPartnerPreferences(userBasicId: string): Promise<UserPreference>;
     getAllUserDetailsById(userBasicId: string): Promise<UserBasic>;
     getRequiredLoginDetails(userBasicId: string): Promise<any>;
     getAppUsersForAdmin(quesryString: string): Promise<any>;

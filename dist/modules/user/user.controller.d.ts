@@ -60,6 +60,10 @@ export declare class UserController {
         data: import("./entities/user-preference.entity").UserPreference;
         message: string;
     }>;
+    getUserPartnerPreferences(userBasicId: string): Promise<{
+        data: import("./entities/user-preference.entity").UserPreference;
+        message: string;
+    }>;
     createUserFamilyBackground(createUserFamilyBgDto: CreateUserFamilyBgDto): Promise<{
         data: any;
         message: string;
