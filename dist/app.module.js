@@ -55,6 +55,7 @@ const user_docs_entity_1 = require("./modules/user/entities/user-docs.entity");
 const notification_entity_1 = require("./modules/user/entities/notification.entity");
 const user_lifestyle_entity_1 = require("./modules/user/entities/user-lifestyle.entity");
 const user_hobbies_entity_1 = require("./modules/user/entities/user-hobbies.entity");
+const block_user_entity_1 = require("./modules/user/entities/block-user.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -95,6 +96,7 @@ AppModule = __decorate([
                     user_connect_entity_1.UserConnect,
                     user_connect_log_entity_1.UserConnectLog,
                     user_request_entity_1.UserRequest,
+                    block_user_entity_1.UserBlock,
                     recharge_history_entity_1.RechargeHistory,
                     faq_entity_1.faq,
                     chat_entity_1.Chat,

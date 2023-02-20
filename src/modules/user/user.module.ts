@@ -14,6 +14,7 @@ import { UserConnect } from '../connect/entities/user-connect.entity';
 import { UserRequest } from '../connect/entities/user-request.entity';
 import { MasterModule } from '../master/master.module';
 import { AdminUser } from './entities/admin-user.entity';
+import { UserBlock } from './entities/block-user.entity';
 import { Notification } from './entities/notification.entity';
 import { Otp } from './entities/otp.entity';
 import { UserAbout } from './entities/user-about.entity';
@@ -42,8 +43,8 @@ import { UserService } from './user.service';
     forwardRef(() => SharedModule),
     forwardRef(() => ConnectModule),
     JwtModule.register({
-      secret: "MakeyMyMarry123####",
-      signOptions: {expiresIn: '1800s'}
+      secret: 'MakeyMyMarry123####',
+      signOptions: { expiresIn: '1800s' },
     }),
     TypeOrmModule.forFeature([
       UserBasic,
@@ -61,6 +62,7 @@ import { UserService } from './user.service';
       UserLogin,
       UserPreference,
       UserRequest,
+      UserBlock,
       UserConnect,
       UserConnectLog,
       RechargeHistory,
@@ -70,11 +72,18 @@ import { UserService } from './user.service';
       ProfileVisit,
       Notification,
       UserLifestyle,
-      UserHobbies
+      UserHobbies,
     ]),
   ],
   controllers: [UserController],
-  providers: [UserFacade, UserService, UserRepo, ConnectService, ConnectRepo,Notification],
-  exports: [UserService ],
+  providers: [
+    UserFacade,
+    UserService,
+    UserRepo,
+    ConnectService,
+    ConnectRepo,
+    Notification,
+  ],
+  exports: [UserService],
 })
-export class UserModule { }
+export class UserModule {}

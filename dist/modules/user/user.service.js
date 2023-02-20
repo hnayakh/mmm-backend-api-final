@@ -248,8 +248,20 @@ let UserService = class UserService {
     async getPremiumMembers(userBaicId) {
         return await this.userRepo.getPremiumMembers(userBaicId);
     }
-    async blockProfile(block_who, block_whom) {
-        return await this.userRepo.blockProfile(block_who, block_whom);
+    async blockProfile(ucl) {
+        return await this.userRepo.blockProfile(ucl);
+    }
+    async unBlockUser(id) {
+        return await this.userRepo.unBlockUser(id);
+    }
+    async getBlockedUsers(id) {
+        return await this.userRepo.getBlockedUsers(id);
+    }
+    async getBlockedUsersForAll(id) {
+        return await this.userRepo.getBlockedUsersForAll(id);
+    }
+    async checkIfBlocked(myBasicId, userBasicId) {
+        return await this.userRepo.checkIfBlocked(myBasicId, userBasicId);
     }
     async generateAGoraToken(data) {
         console.log('check');

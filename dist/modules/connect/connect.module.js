@@ -40,7 +40,7 @@ ConnectModule = __decorate([
                 recharge_history_entity_1.RechargeHistory,
                 user_connect_duration_log_1.UserConnectDurationLog,
                 user_connect_duration_entity_1.UserConnectDuration,
-                connect_transaction_entity_1.ConnectTransactionEntity
+                connect_transaction_entity_1.ConnectTransactionEntity,
             ]),
         ],
         controllers: [connect_controller_1.ConnectController],

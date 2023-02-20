@@ -46,6 +46,7 @@ import { UserDocs } from './modules/user/entities/user-docs.entity';
 import { Notification } from './modules/user/entities/notification.entity';
 import { UserLifestyle } from './modules/user/entities/user-lifestyle.entity';
 import { UserHobbies } from './modules/user/entities/user-hobbies.entity';
+import { UserBlock } from './modules/user/entities/block-user.entity';
 @Module({
   imports: [
     Logger,
@@ -83,6 +84,7 @@ import { UserHobbies } from './modules/user/entities/user-hobbies.entity';
         UserConnect,
         UserConnectLog,
         UserRequest,
+        UserBlock,
         RechargeHistory,
         faq,
         Chat,

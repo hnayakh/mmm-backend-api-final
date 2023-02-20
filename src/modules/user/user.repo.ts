@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ta } from 'date-fns/locale';
+import { id, ta } from 'date-fns/locale';
 import {
   ProfileUpdationStatus,
   RegistrationSteps,
@@ -27,6 +27,7 @@ import { UserDocs } from './entities/user-docs.entity';
 import { Notification } from './entities/notification.entity';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { UserHobbies } from './entities/user-hobbies.entity';
+import { UserBlock } from './entities/block-user.entity';
 
 @Injectable()
 export class UserRepo {
@@ -65,6 +66,8 @@ export class UserRepo {
     private readonly adminUserRepo: Repository<AdminUser>,
     @InjectRepository(UserPreference)
     private readonly userPreferenceRepo: Repository<UserPreference>,
+    @InjectRepository(UserBlock)
+    private readonly userBlockRepo: Repository<UserBlock>,
 
     @InjectRepository(ProfileVisit)
     private readonly userProfileVisitRepo: Repository<ProfileVisit>,
@@ -883,7 +886,7 @@ export class UserRepo {
     // and userBasicId = '${userBasicId}'`;
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
- 
+
     const entityManager = getManager();
     const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
     up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
@@ -1068,9 +1071,55 @@ export class UserRepo {
     console.log('result', result);
     return result;
   }
-  async blockProfile(block_who: string, block_whom: string) {
-    const entityManager = getManager();
-    const rawQuery = ``
+  async blockProfile(ucl) {
+    let ifBlocked = await this.userBlockRepo.findOne({
+      where: {
+        block_who: ucl.block_who,
+        block_whom: ucl.block_whom,
+      },
+    });
+    if (ifBlocked) {
+      return { message: 'Already Blocked' };
+    } else {
+      return await this.userBlockRepo.save(ucl);
+    }
+  }
+  async unBlockUser(id) {
+    let ifBlocked = await this.userBlockRepo.findOne({
+      where: {
+        id: id,
+      },
+    });
+    console.log(id);
+    console.log(ifBlocked);
+    if (ifBlocked) {
+      return await this.userBlockRepo.delete(ifBlocked);
+    } else {
+      return 'No record found';
+    }
+  }
+  async getBlockedUsers(id) {
+    return await this.userBlockRepo.findOne({
+      where: {
+        block_who: id,
+      },
+    });
+  }
+  async getBlockedUsersForAll(id) {
+    return await this.userBlockRepo.find({
+      where: {
+        block_who: id,
+        block_whom: id,
+      },
+    });
+  }
+  async checkIfBlocked(myBasicId: string, userBasicId: string) {
+    return await this.userBlockRepo.findOne({
+      where: {
+        block_who: myBasicId,
+        block_whom: userBasicId,
+      },
+    });
   }
   async createNotification(data: any) {
     return await this.notificationRepo.save({ ...data });

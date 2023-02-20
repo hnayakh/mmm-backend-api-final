@@ -25,6 +25,7 @@ const typeorm_1 = require("typeorm");
 const religion_1 = require("../../shared/constants/profile-master-data/religion");
 const mother_tongue_1 = require("../../shared/constants/profile-master-data/mother-tongue");
 const cast_subcaste_1 = require("../../shared/constants/profile-master-data/cast-subcaste");
+const block_user_entity_1 = require("./entities/block-user.entity");
 let UserFacade = class UserFacade {
     constructor(userService, masterService, s3Service, connectService) {
         this.userService = userService;
@@ -211,7 +212,6 @@ let UserFacade = class UserFacade {
     }
     async getProfilesByPreference(userBasicId, queryObj) {
         let userGenderAndPreference = await this.userService.getUserGenderAndPreference(userBasicId);
-        console.log('USERGENDERPREF', userGenderAndPreference);
         let genderPreference = 0;
         if (userGenderAndPreference.gender == 0) {
             genderPreference = 1;
@@ -230,7 +230,8 @@ let UserFacade = class UserFacade {
             }
         });
         const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(userBasicId);
-        console.log('connectUsers', connectUsers);
+        const blockedUser = await this.getBlockedUsersForAll(userBasicId);
+        console.log('blockedUser', blockedUser);
         uniqueUsers.forEach((uu) => {
             let tempObj = {
                 isLiked: false,
@@ -239,8 +240,22 @@ let UserFacade = class UserFacade {
                 isConnected: false,
                 id: '',
             };
+            let blockObj = {
+                isBlocked: false,
+                id: '',
+            };
             let requiredObj = {};
             let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == uu.id);
+            let isBlockedOne = blockedUser.find((u) => u.block_whom == uu.id);
+            let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
+            if (isBlockedOne != null) {
+                blockObj.isBlocked = true;
+                blockObj.id = isBlockedOne.id;
+            }
+            if (isBlockedTwo != null) {
+                blockObj.isBlocked = true;
+                blockObj.id = isBlockedOne.id;
+            }
             if (isConnectOne != null) {
                 (tempObj.isLiked = true),
                     (tempObj.requested = true),
@@ -264,6 +279,7 @@ let UserFacade = class UserFacade {
             }
             uu['interestStatus'] = tempObj;
             uu['UserRequestStatus'] = requiredObj;
+            uu['BlockStatus'] = blockObj;
         });
         console.log('UserRequestStatus', connectUsers);
         const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
@@ -394,6 +410,11 @@ let UserFacade = class UserFacade {
     async getUserDeatailById(userBasicId, myBasicId) {
         try {
             const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
+            let blockStatus = {};
+            let blockDetails = {
+                isBlocked: false,
+                id: '',
+            };
             let userReqDet = [];
             if (myBasicId) {
                 console.log(myBasicId);
@@ -402,6 +423,13 @@ let UserFacade = class UserFacade {
                 userReqDet = await entityManager.query(rawQuery);
                 console.log(rawQuery);
                 console.log('userReqDet', userReqDet);
+                let blockRes = await this.userService.checkIfBlocked(myBasicId, userBasicId);
+                blockStatus = blockRes;
+                console.log('blockRes', blockStatus);
+                if (blockDetails) {
+                    blockDetails.isBlocked = true;
+                    blockDetails.id = blockRes.id;
+                }
             }
             if (userDetails.userCareers) {
                 userDetails.userCareers = userDetails.userCareers.filter((x) => x.profileUpdationStatus == miscellaneous_enum_1.ProfileUpdationStatus.Current ||
@@ -547,10 +575,10 @@ let UserFacade = class UserFacade {
                 console.log('uniqueUsers', uniqueUsers);
             }
             if (userReqDet.length > 0) {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet, blockStatus: blockStatus, blockDetails: blockDetails });
             }
             else {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [] });
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [], blockStatus: blockStatus, blockDetails: blockDetails });
             }
             return requiredData;
         }
@@ -1018,6 +1046,19 @@ let UserFacade = class UserFacade {
             uu['connectStatus'] = tempObj;
         });
         return uniqueUsers;
+    }
+    async blockProfile(block_who, block_whom) {
+        const ucl = block_user_entity_1.UserBlock.createUserBlock(block_who, block_whom);
+        return await this.userService.blockProfile(ucl);
+    }
+    async unBlockUser(id) {
+        return await this.userService.unBlockUser(id);
+    }
+    async getBlockedUsers(id) {
+        return await this.userService.getBlockedUsers(id);
+    }
+    async getBlockedUsersForAll(id) {
+        return await this.userService.getBlockedUsersForAll(id);
     }
 };
 UserFacade = __decorate([

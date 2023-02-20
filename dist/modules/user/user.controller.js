@@ -275,6 +275,25 @@ let UserController = class UserController {
         };
     }
     async BlockUser(block_who, block_whom) {
+        const response = await this.userFacade.blockProfile(block_who, block_whom);
+        return {
+            data: response,
+            message: ' Blocked Successfully.',
+        };
+    }
+    async unBlockUser(id) {
+        const response = await this.userFacade.unBlockUser(id);
+        return {
+            data: response,
+            message: ' Unblocked Successfully.',
+        };
+    }
+    async getBlockedUsers(basicId) {
+        const response = await this.userFacade.getBlockedUsers(basicId);
+        return {
+            data: response,
+            message: ' Unblocked Successfully.',
+        };
     }
 };
 __decorate([
@@ -616,13 +635,27 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getPremiumMembers", null);
 __decorate([
-    common_1.Post('block_user/:block_who/:block_whom'),
+    common_1.Get('block_user/:block_who/:block_whom'),
     __param(0, common_1.Param('block_who')),
-    __param(0, common_1.Param('block_whom')),
+    __param(1, common_1.Param('block_whom')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "BlockUser", null);
+__decorate([
+    common_1.Delete('unblock_user/:block_id'),
+    __param(0, common_1.Param('block_id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "unBlockUser", null);
+__decorate([
+    common_1.Get('blocked_users/:basicId'),
+    __param(0, common_1.Param('basicId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getBlockedUsers", null);
 UserController = __decorate([
     swagger_1.ApiTags('User'),
     common_1.Controller('users'),
