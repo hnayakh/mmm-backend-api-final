@@ -36,8 +36,9 @@ const user_docs_entity_1 = require("./entities/user-docs.entity");
 const notification_entity_1 = require("./entities/notification.entity");
 const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
 const user_hobbies_entity_1 = require("./entities/user-hobbies.entity");
+const block_user_entity_1 = require("./entities/block-user.entity");
 let UserRepo = class UserRepo {
-    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userLifestyleRepo, userHobbiesRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userProfileVisitRepo, notificationRepo) {
+    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userLifestyleRepo, userHobbiesRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userBlockRepo, userProfileVisitRepo, notificationRepo) {
         this.jwtstategy = jwtstategy;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
@@ -55,6 +56,7 @@ let UserRepo = class UserRepo {
         this.userLoginRepo = userLoginRepo;
         this.adminUserRepo = adminUserRepo;
         this.userPreferenceRepo = userPreferenceRepo;
+        this.userBlockRepo = userBlockRepo;
         this.userProfileVisitRepo = userProfileVisitRepo;
         this.notificationRepo = notificationRepo;
     }
@@ -760,9 +762,57 @@ let UserRepo = class UserRepo {
         console.log('result', result);
         return result;
     }
-    async blockProfile(block_who, block_whom) {
-        const entityManager = typeorm_2.getManager();
-        const rawQuery = ``;
+    async blockProfile(ucl) {
+        let ifBlocked = await this.userBlockRepo.findOne({
+            where: {
+                block_who: ucl.block_who,
+                block_whom: ucl.block_whom,
+            },
+        });
+        if (ifBlocked) {
+            return { message: 'Already Blocked' };
+        }
+        else {
+            return await this.userBlockRepo.save(ucl);
+        }
+    }
+    async unBlockUser(id) {
+        let ifBlocked = await this.userBlockRepo.findOne({
+            where: {
+                id: id,
+            },
+        });
+        console.log(id);
+        console.log(ifBlocked);
+        if (ifBlocked) {
+            return await this.userBlockRepo.delete(ifBlocked);
+        }
+        else {
+            return 'No record found';
+        }
+    }
+    async getBlockedUsers(id) {
+        return await this.userBlockRepo.findOne({
+            where: {
+                block_who: id,
+            },
+        });
+    }
+    async getBlockedUsersForAll(id) {
+        return await this.userBlockRepo.find({
+            where: {
+                block_who: id,
+                block_whom: id,
+            },
+        });
+    }
+    async checkIfBlocked(myBasicId, userBasicId) {
+        return await this.userBlockRepo.findOne({
+            where: {
+                block_who: myBasicId,
+                block_whom: userBasicId,
+            },
+        });
     }
     async createNotification(data) {
         return await this.notificationRepo.save(Object.assign({}, data));
@@ -789,9 +839,11 @@ UserRepo = __decorate([
     __param(14, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
     __param(15, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
     __param(16, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
-    __param(17, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
-    __param(18, typeorm_1.InjectRepository(notification_entity_1.Notification)),
+    __param(17, typeorm_1.InjectRepository(block_user_entity_1.UserBlock)),
+    __param(18, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __param(19, typeorm_1.InjectRepository(notification_entity_1.Notification)),
     __metadata("design:paramtypes", [jwt_1.JwtService,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

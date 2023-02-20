@@ -165,9 +165,7 @@ export class UserController {
     };
   }
   @Get('preference/:userBasicId')
-  async getUserPartnerPreferences(
-    @Param('userBasicId') userBasicId: string,
-  ) {
+  async getUserPartnerPreferences(@Param('userBasicId') userBasicId: string) {
     const userPreference = await this.userFacade.getUserPartnerPreferences(
       userBasicId,
     );
@@ -510,11 +508,31 @@ export class UserController {
       message: ' Premium members profiles fetched.',
     };
   }
-  @Post('block_user/:block_who/:block_whom')
+  @Get('block_user/:block_who/:block_whom')
   async BlockUser(
-    @Param('block_who') @Param('block_whom') block_who: string,
-    block_whom: string,
+    @Param('block_who') block_who: string,
+    @Param('block_whom') block_whom: string,
   ) {
-    //const response = await this.userFacade.blockProfile(block_who,block_whom)
+    const response = await this.userFacade.blockProfile(block_who, block_whom);
+    return {
+      data: response,
+      message: ' Blocked Successfully.',
+    };
+  }
+  @Delete('unblock_user/:block_id')
+  async unBlockUser(@Param('block_id') id: string) {
+    const response = await this.userFacade.unBlockUser(id);
+    return {
+      data: response,
+      message: ' Unblocked Successfully.',
+    };
+  }
+  @Get('blocked_users/:basicId')
+  async getBlockedUsers(@Param('basicId') basicId: string) {
+    const response = await this.userFacade.getBlockedUsers(basicId);
+    return {
+      data: response,
+      message: ' Unblocked Successfully.',
+    };
   }
 }

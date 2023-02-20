@@ -17,6 +17,7 @@ import { ConnectService } from '../connect/connect.service';
 import { AdminUser } from './entities/admin-user.entity';
 import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
+import { UserBlock } from './entities/block-user.entity';
 export declare class UserFacade {
     private readonly userService;
     private readonly masterService;
@@ -72,4 +73,8 @@ export declare class UserFacade {
     getProifleVisitedBy(userBasicId: string): Promise<any[]>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any[]>;
+    blockProfile(block_who: string, block_whom: string): Promise<any>;
+    unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
+    getBlockedUsers(id: string): Promise<UserBlock>;
+    getBlockedUsersForAll(id: string): Promise<UserBlock[]>;
 }

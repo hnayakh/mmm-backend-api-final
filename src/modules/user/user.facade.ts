@@ -38,6 +38,7 @@ import { castSubcaste } from 'src/shared/constants/profile-master-data/cast-subc
 import { AdminUser } from './entities/admin-user.entity';
 import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
+import { UserBlock } from './entities/block-user.entity';
 
 @Injectable()
 export class UserFacade {
@@ -361,7 +362,7 @@ export class UserFacade {
   async getProfilesByPreference(userBasicId: string, queryObj: any) {
     let userGenderAndPreference =
       await this.userService.getUserGenderAndPreference(userBasicId);
-    console.log('USERGENDERPREF', userGenderAndPreference);
+    // console.log('USERGENDERPREF', userGenderAndPreference);
     //console.log("USERGENDERPREF",JSON.parse(userGenderAndPreference.religion).split(','));
     // let queryString = `SELECT * FROM users_view uv WHERE uv.registrationStep = 10;`
     // const religionInClause =JSON.parse(userGenderAndPreference.religion.toString().replace("'",'')).map((religion) => "'" + religion + "'").join();
@@ -436,7 +437,9 @@ export class UserFacade {
       await this.connectService.getUserRequestStatusForAppPrefAndFilter(
         userBasicId,
       );
-    console.log('connectUsers', connectUsers);
+    const blockedUser = await this.getBlockedUsersForAll(userBasicId);
+    console.log('blockedUser', blockedUser);
+    // console.log('connectUsers', connectUsers);
     uniqueUsers.forEach((uu) => {
       let tempObj = {
         isLiked: false,
@@ -445,13 +448,25 @@ export class UserFacade {
         isConnected: false,
         id: '',
       };
+      let blockObj = {
+        isBlocked: false,
+        id: '',
+      };
       let requiredObj = {};
       let isConnectOne = connectUsers.find(
         (u) => u.requestedUserBasicId == uu.id,
       );
-
+      let isBlockedOne = blockedUser.find((u) => u.block_whom == uu.id);
+      let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
       // console.log(isConnectOne);
-
+      if (isBlockedOne != null) {
+        blockObj.isBlocked = true;
+        blockObj.id = isBlockedOne.id;
+      }
+      if (isBlockedTwo != null) {
+        blockObj.isBlocked = true;
+        blockObj.id = isBlockedOne.id;
+      }
       if (isConnectOne != null) {
         (tempObj.isLiked = true),
           (tempObj.requested = true),
@@ -477,6 +492,7 @@ export class UserFacade {
       }
       uu['interestStatus'] = tempObj;
       uu['UserRequestStatus'] = requiredObj;
+      uu['BlockStatus'] = blockObj;
     });
     console.log('UserRequestStatus', connectUsers);
     // Get connect requestUser for call and message
@@ -657,6 +673,11 @@ export class UserFacade {
       const userDetails = await this.userService.getAllUserDetailsById(
         userBasicId,
       );
+      let blockStatus = {};
+      let blockDetails = {
+        isBlocked: false,
+        id: '',
+      };
       let userReqDet = [];
       if (myBasicId) {
         console.log(myBasicId);
@@ -665,6 +686,17 @@ export class UserFacade {
         userReqDet = await entityManager.query(rawQuery);
         console.log(rawQuery);
         console.log('userReqDet', userReqDet);
+        let blockRes = await this.userService.checkIfBlocked(
+          myBasicId,
+          userBasicId,
+        );
+        blockStatus = blockRes;
+        console.log('blockRes', blockStatus);
+        if (blockDetails) {
+          blockDetails.isBlocked = true;
+          blockDetails.id = blockRes.id;
+        }
+        // blockStatus = blockRes;
       }
       if (userDetails.userCareers) {
         userDetails.userCareers = userDetails.userCareers.filter(
@@ -884,10 +916,21 @@ export class UserFacade {
         console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
       }
+
       if (userReqDet.length > 0) {
-        requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+        requiredData = {
+          ...userDetails,
+          UserRequestStatus: userReqDet,
+          blockStatus: blockStatus,
+          blockDetails: blockDetails,
+        };
       } else {
-        requiredData = { ...userDetails, UserRequestStatus: [] };
+        requiredData = {
+          ...userDetails,
+          UserRequestStatus: [],
+          blockStatus: blockStatus,
+          blockDetails: blockDetails,
+        };
       }
 
       return requiredData;
@@ -1476,5 +1519,21 @@ export class UserFacade {
       uu['connectStatus'] = tempObj;
     });
     return uniqueUsers;
+  }
+  async blockProfile(block_who: string, block_whom: string) {
+    const ucl = UserBlock.createUserBlock(block_who, block_whom);
+    return await this.userService.blockProfile(ucl);
+  }
+  async unBlockUser(id: string) {
+    // const ucl = UserBlock.createUserBlock(block_who, block_whom);
+    return await this.userService.unBlockUser(id);
+  }
+  async getBlockedUsers(id: string) {
+    // const ucl = UserBlock.createUserBlock(block_who, block_whom);
+    return await this.userService.getBlockedUsers(id);
+  }
+  async getBlockedUsersForAll(id: string) {
+    // const ucl = UserBlock.createUserBlock(block_who, block_whom);
+    return await this.userService.getBlockedUsersForAll(id);
   }
 }

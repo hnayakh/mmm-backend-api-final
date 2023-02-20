@@ -23,6 +23,7 @@ const user_connect_entity_1 = require("../connect/entities/user-connect.entity")
 const user_request_entity_1 = require("../connect/entities/user-request.entity");
 const master_module_1 = require("../master/master.module");
 const admin_user_entity_1 = require("./entities/admin-user.entity");
+const block_user_entity_1 = require("./entities/block-user.entity");
 const notification_entity_1 = require("./entities/notification.entity");
 const otp_entity_1 = require("./entities/otp.entity");
 const user_about_entity_1 = require("./entities/user-about.entity");
@@ -53,8 +54,8 @@ UserModule = __decorate([
             common_1.forwardRef(() => shared_module_1.SharedModule),
             common_1.forwardRef(() => connect_module_1.ConnectModule),
             jwt_1.JwtModule.register({
-                secret: "MakeyMyMarry123####",
-                signOptions: { expiresIn: '1800s' }
+                secret: 'MakeyMyMarry123####',
+                signOptions: { expiresIn: '1800s' },
             }),
             typeorm_1.TypeOrmModule.forFeature([
                 user_basic_entity_1.UserBasic,
@@ -72,6 +73,7 @@ UserModule = __decorate([
                 user_login_entity_1.UserLogin,
                 user_preference_entity_1.UserPreference,
                 user_request_entity_1.UserRequest,
+                block_user_entity_1.UserBlock,
                 user_connect_entity_1.UserConnect,
                 user_connect_log_entity_1.UserConnectLog,
                 recharge_history_entity_1.RechargeHistory,
@@ -81,11 +83,18 @@ UserModule = __decorate([
                 user_profile_visit_1.ProfileVisit,
                 notification_entity_1.Notification,
                 user_lifestyle_entity_1.UserLifestyle,
-                user_hobbies_entity_1.UserHobbies
+                user_hobbies_entity_1.UserHobbies,
             ]),
         ],
         controllers: [user_controller_1.UserController],
-        providers: [user_facade_1.UserFacade, user_service_1.UserService, user_repo_1.UserRepo, connect_service_1.ConnectService, connect_repo_1.ConnectRepo, notification_entity_1.Notification],
+        providers: [
+            user_facade_1.UserFacade,
+            user_service_1.UserService,
+            user_repo_1.UserRepo,
+            connect_service_1.ConnectService,
+            connect_repo_1.ConnectRepo,
+            notification_entity_1.Notification,
+        ],
         exports: [user_service_1.UserService],
     })
 ], UserModule);

@@ -19,6 +19,7 @@ import { UserDocs } from './entities/user-docs.entity';
 import { Notification } from './entities/notification.entity';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { UserHobbies } from './entities/user-hobbies.entity';
+import { UserBlock } from './entities/block-user.entity';
 export declare class UserRepo {
     private readonly jwtstategy;
     private readonly userBasicRepo;
@@ -37,9 +38,10 @@ export declare class UserRepo {
     private readonly userLoginRepo;
     private readonly adminUserRepo;
     private readonly userPreferenceRepo;
+    private readonly userBlockRepo;
     private readonly userProfileVisitRepo;
     private readonly notificationRepo;
-    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userLifestyleRepo: Repository<UserLifestyle>, userHobbiesRepo: Repository<UserHobbies>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
+    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userLifestyleRepo: Repository<UserLifestyle>, userHobbiesRepo: Repository<UserHobbies>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userBlockRepo: Repository<UserBlock>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;
@@ -147,7 +149,11 @@ export declare class UserRepo {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any>;
-    blockProfile(block_who: string, block_whom: string): Promise<void>;
+    blockProfile(ucl: any): Promise<any>;
+    unBlockUser(id: any): Promise<import("typeorm").DeleteResult | "No record found">;
+    getBlockedUsers(id: any): Promise<UserBlock>;
+    getBlockedUsersForAll(id: any): Promise<UserBlock[]>;
+    checkIfBlocked(myBasicId: string, userBasicId: string): Promise<UserBlock>;
     createNotification(data: any): Promise<any>;
     updateNotification(data: any): Promise<any>;
 }

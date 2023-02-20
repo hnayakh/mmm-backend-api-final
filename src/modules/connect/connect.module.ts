@@ -29,11 +29,11 @@ import { UserRequest } from './entities/user-request.entity';
       RechargeHistory,
       UserConnectDurationLog,
       UserConnectDuration,
-      ConnectTransactionEntity
+      ConnectTransactionEntity,
     ]),
   ],
   controllers: [ConnectController],
   providers: [ConnectService, ConnectFacade, ConnectRepo],
   exports: [ConnectService, ConnectRepo],
 })
-export class ConnectModule { }
+export class ConnectModule {}

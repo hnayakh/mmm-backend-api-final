@@ -171,5 +171,16 @@ export declare class UserController {
         data: any[];
         message: string;
     }>;
-    BlockUser(block_who: string, block_whom: string): Promise<void>;
+    BlockUser(block_who: string, block_whom: string): Promise<{
+        data: any;
+        message: string;
+    }>;
+    unBlockUser(id: string): Promise<{
+        data: string | import("typeorm").DeleteResult;
+        message: string;
+    }>;
+    getBlockedUsers(basicId: string): Promise<{
+        data: import("./entities/block-user.entity").UserBlock;
+        message: string;
+    }>;
 }

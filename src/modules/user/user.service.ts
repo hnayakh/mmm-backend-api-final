@@ -533,8 +533,20 @@ export class UserService {
   async getPremiumMembers(userBaicId: string) {
     return await this.userRepo.getPremiumMembers(userBaicId);
   }
-  async blockProfile(block_who: string, block_whom: string) {
-    return await this.userRepo.blockProfile(block_who, block_whom);
+  async blockProfile(ucl) {
+    return await this.userRepo.blockProfile(ucl);
+  }
+  async unBlockUser(id: string) {
+    return await this.userRepo.unBlockUser(id);
+  }
+  async getBlockedUsers(id: string) {
+    return await this.userRepo.getBlockedUsers(id);
+  }
+  async getBlockedUsersForAll(id: string) {
+    return await this.userRepo.getBlockedUsersForAll(id);
+  }
+  async checkIfBlocked(myBasicId: string, userBasicId: string) {
+    return await this.userRepo.checkIfBlocked(myBasicId, userBasicId);
   }
 
   async generateAGoraToken(data: any) {

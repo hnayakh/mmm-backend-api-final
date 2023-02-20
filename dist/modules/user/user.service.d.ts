@@ -98,7 +98,11 @@ export declare class UserService {
     getProifleVisitedBy(userBasicId: string): Promise<any>;
     getOnlineMembers(userBasicId: string): Promise<any>;
     getPremiumMembers(userBaicId: string): Promise<any>;
-    blockProfile(block_who: string, block_whom: string): Promise<void>;
+    blockProfile(ucl: any): Promise<any>;
+    unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
+    getBlockedUsers(id: string): Promise<import("./entities/block-user.entity").UserBlock>;
+    getBlockedUsersForAll(id: string): Promise<import("./entities/block-user.entity").UserBlock[]>;
+    checkIfBlocked(myBasicId: string, userBasicId: string): Promise<import("./entities/block-user.entity").UserBlock>;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
         agoraToken: string;
         channelName: string;
