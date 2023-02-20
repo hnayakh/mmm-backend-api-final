@@ -692,7 +692,7 @@ export class UserFacade {
         );
         blockStatus = blockRes;
         console.log('blockRes', blockStatus);
-        if (blockDetails) {
+        if (blockRes) {
           blockDetails.isBlocked = true;
           blockDetails.id = blockRes.id;
         }
@@ -907,9 +907,9 @@ export class UserFacade {
           let isConnectTwo = connectedUserForCall.find(
             (u) => u.userTwoBasicId == uu.id,
           );
-          if (isConnectTwo != null) {
+          if (isConnectTwo) {
             (tempObj.isConnectedForCallMessage = true),
-              (tempObj.userConnectRequestId = isConnectOne.id);
+              (tempObj.userConnectRequestId = isConnectTwo.id);
           }
           uu['connectRequestCallMessageStatus'] = tempObj;
         });

@@ -426,7 +426,7 @@ let UserFacade = class UserFacade {
                 let blockRes = await this.userService.checkIfBlocked(myBasicId, userBasicId);
                 blockStatus = blockRes;
                 console.log('blockRes', blockStatus);
-                if (blockDetails) {
+                if (blockRes) {
                     blockDetails.isBlocked = true;
                     blockDetails.id = blockRes.id;
                 }
@@ -566,9 +566,9 @@ let UserFacade = class UserFacade {
                             (tempObj.userConnectRequestId = isConnectOne.id);
                     }
                     let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == uu.id);
-                    if (isConnectTwo != null) {
+                    if (isConnectTwo) {
                         (tempObj.isConnectedForCallMessage = true),
-                            (tempObj.userConnectRequestId = isConnectOne.id);
+                            (tempObj.userConnectRequestId = isConnectTwo.id);
                     }
                     uu['connectRequestCallMessageStatus'] = tempObj;
                 });
