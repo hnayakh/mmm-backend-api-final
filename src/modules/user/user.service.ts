@@ -487,10 +487,10 @@ export class UserService {
       JSON.stringify(cupd.challenged),
       userBasic,
     );
-    const updatedUserBasic = userBasic.updateRegistrationStep(
-      RegistrationSteps.PendingVerification,
-    );
-    this.userRepo.updateUserBasic(updatedUserBasic);
+    // const updatedUserBasic = userBasic.updateRegistrationStep(
+    //   RegistrationSteps.PendingVerification,
+    // );
+    // this.userRepo.updateUserBasic(updatedUserBasic);
     return await this.userRepo.createUserPreference(userPreference);
   }
 

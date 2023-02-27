@@ -659,6 +659,7 @@ export class UserFacade {
       userBasic,
       createUserPreferenceDto,
     );
+    console.log('result',res)
     delete res.userBasic;
     return res;
   }

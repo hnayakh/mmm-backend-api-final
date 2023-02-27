@@ -616,20 +616,18 @@ let UserRepo = class UserRepo {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `SELECT up.userBasicId, up.minAge, up.maxAge, up.minHeight, up.maxHeight, up.maritalStatus, up.country,
     up.state,up.city, up.religion, up.caste, up.motherTongue, up.highestEducation, up.
-    occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome  
+    occupation, up.dietaryHabits, up.drinkingHabits, up.smokingHabits, up.challenged, up.maxIncome, up.minIncome ,up.createdAt
     FROM user_preferences up
-
-    where up.userBasicId= '${userBasicId}'`;
+    where up.userBasicId= '${userBasicId}' ORDER by up.createdAt DESC`;
         const userDet = await entityManager.query(rawQuery);
         console.log('userDet', userDet);
         let userPreferenc = new user_preference_entity_1.UserPreference();
-        userDet.forEach((record) => {
-            console.log('record', Object.keys(record));
-            Object.keys(record).forEach((key) => {
+        if (userDet.length > 0) {
+            Object.keys(userDet[0]).forEach((key) => {
                 console.log('key', key);
-                let recordValue = record[key].toString().indexOf('[') == 0
-                    ? String(JSON.parse(record[key]))
-                    : record[key];
+                let recordValue = userDet[0][key].toString().indexOf('[') == 0
+                    ? String(JSON.parse(userDet[0][key]))
+                    : userDet[0][key];
                 console.log('recordValue', recordValue);
                 if (key != 'userBasicId' && userPreferenc[key] != recordValue) {
                     if (userPreferenc[key]) {
@@ -643,8 +641,8 @@ let UserRepo = class UserRepo {
                     }
                 }
             });
-        });
-        console.log('userDet', userDet);
+        }
+        console.log('userDet3', userDet);
         return userPreferenc;
     }
     async getMatchPercentage(userBasicId, otherUserBasicId) {
@@ -653,6 +651,8 @@ let UserRepo = class UserRepo {
         let userDetails = await this.getAllUserDetailsById(userBasicId);
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
+        console.log('userPreference', userPreference);
+        console.log('otherUserPreference', otherUserPreference);
         console.log('userDetails', userDetails.userImages[0]);
         let excludedFields = [
             'createdAt',
