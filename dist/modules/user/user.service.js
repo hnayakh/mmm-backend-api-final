@@ -211,7 +211,7 @@ let UserService = class UserService {
         return this.userRepo.updateAdminUser(adminUser);
     }
     async createUserPreference(userBasic, cupd) {
-        const userPreference = user_preference_entity_1.UserPreference.createPreference(cupd.minAge, cupd.maxAge, cupd.minHeight, cupd.maxHeight, cupd.maritalStatus, cupd.country, cupd.state, cupd.city, cupd.religion, cupd.caste, cupd.motherTongue, cupd.highestEducation, cupd.occupation, cupd.maxIncome, cupd.minIncome, cupd.dietaryHabits, cupd.drinkingHabits, cupd.smokingHabits, cupd.challenged, userBasic);
+        const userPreference = user_preference_entity_1.UserPreference.createPreference(cupd.minAge, cupd.maxAge, cupd.minHeight, cupd.maxHeight, JSON.stringify(cupd.maritalStatus), JSON.stringify(cupd.country), JSON.stringify(cupd.state), JSON.stringify(cupd.city), JSON.stringify(cupd.religion), JSON.stringify(cupd.caste), JSON.stringify(cupd.motherTongue), JSON.stringify(cupd.highestEducation), JSON.stringify(cupd.occupation), JSON.stringify(cupd.maxIncome), JSON.stringify(cupd.minIncome), JSON.stringify(cupd.dietaryHabits), JSON.stringify(cupd.drinkingHabits), JSON.stringify(cupd.smokingHabits), JSON.stringify(cupd.challenged), userBasic);
         const updatedUserBasic = userBasic.updateRegistrationStep(miscellaneous_enum_1.RegistrationSteps.PendingVerification);
         this.userRepo.updateUserBasic(updatedUserBasic);
         return await this.userRepo.createUserPreference(userPreference);
