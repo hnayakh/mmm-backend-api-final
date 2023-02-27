@@ -399,6 +399,7 @@ let UserFacade = class UserFacade {
     async createUserPreference(createUserPreferenceDto) {
         const userBasic = await this.userService.getUserById(createUserPreferenceDto.userBasicId);
         const res = await this.userService.createUserPreference(userBasic, createUserPreferenceDto);
+        console.log('result', res);
         delete res.userBasic;
         return res;
     }
