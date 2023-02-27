@@ -334,7 +334,7 @@ export class UserService {
   }
 
   async updateUserBasic(user: UserBasic) {
-    await this.userRepo.updateUserBasic(user);
+    return await this.userRepo.updateUserBasic(user);
   }
   async updateTokenToUserBasic(fireBaseToken: string, id: string) {
     await this.userRepo.updateToken(fireBaseToken, id);
