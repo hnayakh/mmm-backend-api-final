@@ -454,10 +454,17 @@ export class UserController {
   @Post('app/users/updateRegistrationStep/:userBasicId/:step')
   async updateRegistrationStep(
     @Param('userBasicId') userBasicId: string,
-    @Param('userBasicId') step: number,
+    @Param('step') step: number,
   ) {
-    await this.userFacade.updateUserRegistrationStep(userBasicId, step);
-    return { data: {}, message: 'Registration step updated successfully.' };
+    const userDetails = await this.userFacade.updateUserRegistrationStep(
+      userBasicId,
+      step,
+    );
+    console.log(userDetails);
+    return {
+      data: userDetails,
+      message: 'Registration step updated successfully.',
+    };
   }
   @ApiQuery({ name: 'visitedBy', required: true })
   @ApiQuery({ name: 'visitedTo', required: true })
