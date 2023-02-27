@@ -61,7 +61,7 @@ export class UserFacade {
   }
   async updateUserRegistrationStep(userBasicId, step) {
     const user = await this.userService.getUserById(userBasicId);
-    user.updateRegistrationStep(RegistrationSteps.Completed);
+    user.updateRegistrationStep(step);
     await this.userService.updateUserBasic(user);
   }
   async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
