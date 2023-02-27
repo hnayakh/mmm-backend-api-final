@@ -147,7 +147,7 @@ let UserService = class UserService {
         return await this.userRepo.getUserById(userBasicId);
     }
     async updateUserBasic(user) {
-        await this.userRepo.updateUserBasic(user);
+        return await this.userRepo.updateUserBasic(user);
     }
     async updateTokenToUserBasic(fireBaseToken, id) {
         await this.userRepo.updateToken(fireBaseToken, id);

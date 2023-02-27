@@ -238,8 +238,12 @@ let UserController = class UserController {
         return { data: filteredUsers, message: 'Users fetched successfully.' };
     }
     async updateRegistrationStep(userBasicId, step) {
-        await this.userFacade.updateUserRegistrationStep(userBasicId, step);
-        return { data: {}, message: 'Registration step updated successfully.' };
+        const userDetails = await this.userFacade.updateUserRegistrationStep(userBasicId, step);
+        console.log(userDetails);
+        return {
+            data: userDetails,
+            message: 'Registration step updated successfully.',
+        };
     }
     async visitedProfile(visitedBy, visitedTo) {
         const response = await this.userFacade.visistedProfile(visitedBy, visitedTo);
@@ -591,7 +595,7 @@ __decorate([
 __decorate([
     common_1.Post('app/users/updateRegistrationStep/:userBasicId/:step'),
     __param(0, common_1.Param('userBasicId')),
-    __param(1, common_1.Param('userBasicId')),
+    __param(1, common_1.Param('step')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number]),
     __metadata("design:returntype", Promise)
