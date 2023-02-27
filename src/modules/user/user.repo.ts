@@ -934,6 +934,7 @@ export class UserRepo {
     let otherUserPreference = await this.getUserPreferenceByUserId(
       otherUserBasicId,
     );
+
     console.log('userDetails', userDetails.userImages[0]);
     let excludedFields = [
       'createdAt',
