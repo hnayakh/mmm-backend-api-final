@@ -143,6 +143,7 @@ export declare class UserRepo {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        requiredMatchDetails: any[];
         userImage: UserImage;
     }>;
     getRecentViews(userBasicId: string): Promise<any>;

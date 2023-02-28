@@ -1022,8 +1022,8 @@ export class UserRepo {
       100
     ).toFixed(0);
     return {
-      // matchingFields: matchingFields,
-      // differentFields: differentFields,
+      matchingFields: matchingFields,
+      differentFields: differentFields,
       match_percentage: match_percentage,
       requiredMatchDetails: requiredMatchDetails,
       userImage: userDetails.userImages[0],

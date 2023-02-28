@@ -131,6 +131,7 @@ export declare class UserService {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        requiredMatchDetails: any[];
         userImage: UserImage;
     }>;
     recentProfileViews(userBasicId: string): Promise<any>;
