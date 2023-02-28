@@ -140,7 +140,7 @@ export declare class UserService {
     getPremiumMembers(userBaicId: string): Promise<any>;
     blockProfile(ucl: any): Promise<any>;
     unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
-    getBlockedUsers(id: string): Promise<import("./entities/block-user.entity").UserBlock>;
+    getBlockedUsers(id: string): Promise<import("./entities/block-user.entity").UserBlock[]>;
     getBlockedUsersForAll(id: string): Promise<import("./entities/block-user.entity").UserBlock[]>;
     checkIfBlocked(myBasicId: string, userBasicId: string): Promise<import("./entities/block-user.entity").UserBlock>;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {

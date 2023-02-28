@@ -1126,7 +1126,6 @@ export class UserFacade {
     JOIN user_logins as ul 
     ON uv.id = ul.userBasicId
     WHERE uv.isActive = true `;
-
     if (filterObj['gender'] != undefined) {
       queryString = queryString + ` AND uv.gender = ${filterObj['gender']}`;
     }

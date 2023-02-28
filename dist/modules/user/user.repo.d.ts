@@ -152,7 +152,7 @@ export declare class UserRepo {
     getPremiumMembers(userBasicId: string): Promise<any>;
     blockProfile(ucl: any): Promise<any>;
     unBlockUser(id: any): Promise<import("typeorm").DeleteResult | "No record found">;
-    getBlockedUsers(id: any): Promise<UserBlock>;
+    getBlockedUsers(id: any): Promise<UserBlock[]>;
     getBlockedUsersForAll(id: any): Promise<UserBlock[]>;
     checkIfBlocked(myBasicId: string, userBasicId: string): Promise<UserBlock>;
     createNotification(data: any): Promise<any>;

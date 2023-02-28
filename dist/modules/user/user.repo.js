@@ -824,7 +824,7 @@ let UserRepo = class UserRepo {
         }
     }
     async getBlockedUsers(id) {
-        return await this.userBlockRepo.findOne({
+        return await this.userBlockRepo.find({
             where: {
                 block_who: id,
             },

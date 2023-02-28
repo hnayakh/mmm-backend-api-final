@@ -218,7 +218,7 @@ export declare class UserController {
         message: string;
     }>;
     getBlockedUsers(basicId: string): Promise<{
-        data: import("./entities/block-user.entity").UserBlock;
+        data: import("./entities/block-user.entity").UserBlock[];
         message: string;
     }>;
 }
