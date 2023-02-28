@@ -104,6 +104,7 @@ export declare class UserFacade {
         matchingFields: any[];
         differentFields: any[];
         match_percentage: string;
+        requiredMatchDetails: any[];
         userImage: import("./entities/user-image.entity").UserImage;
     }>;
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
@@ -113,6 +114,6 @@ export declare class UserFacade {
     getPremiumMembers(userBasicId: string): Promise<any[]>;
     blockProfile(block_who: string, block_whom: string): Promise<any>;
     unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
-    getBlockedUsers(id: string): Promise<UserBlock>;
+    getBlockedUsers(id: string): Promise<UserBlock[]>;
     getBlockedUsersForAll(id: string): Promise<UserBlock[]>;
 }

@@ -948,14 +948,70 @@ export class UserRepo {
       'updatedBy',
       'id',
     ];
+    let requiredMatchDetails = [];
+
     Object.keys(userPreference)
       .filter((x) => excludedFields.indexOf(x) == -1)
       .forEach((filed) => {
+        var matchField = {
+          field: '',
+          value: '',
+          isMatching: false,
+        };
         if (userPreference[filed]) {
           if (userPreference[filed] === otherUserPreference[filed]) {
-            console.log('fdfdfddf', userPreference);
+            console.log('fdfdfddf', filed);
+            if (filed === 'minAge' || filed === 'maxAge') {
+              // matchField.field = 'age';
+              // matchField.value = `${otherUserPreference[filed]}`;
+              // matchField.isMatching = true;
+              requiredMatchDetails.map((p) =>
+                p.field === 'age'
+                  ? {
+                      ...p,
+                      filed: 'age',
+                      value: `${otherUserPreference[filed]}`,
+                      isMatching: true,
+                    }
+                  : {
+                      filed: 'age',
+                      value: `${otherUserPreference[filed]}`,
+                      isMatching: true,
+                    },
+              );
+            } else {
+              matchField.field = filed;
+              matchField.value = otherUserPreference[filed];
+              matchField.isMatching = true;
+            }
+            requiredMatchDetails.push(matchField);
             matchingFields.push({ filed, value: userPreference[filed] });
           } else {
+            if (filed === 'minAge' || filed === 'maxAge') {
+              // matchField.field = 'age';
+              // matchField.value = `${otherUserPreference[filed]}`;
+              // matchField.isMatching = false;
+              requiredMatchDetails.map((p) => {
+                return p.field === 'age'
+                  ? {
+                      ...p,
+                      filed: 'age',
+                      value: `${otherUserPreference[filed]}`,
+                      isMatching: false,
+                    }
+                  : {
+                      ...p,
+                      filed: 'age',
+                      value: `${otherUserPreference[filed]}`,
+                      isMatching: false,
+                    };
+              });
+            } else {
+              matchField.field = filed;
+              matchField.value = otherUserPreference[filed];
+            }
+
+            requiredMatchDetails.push(matchField);
             differentFields.push({ filed, value: userPreference[filed] });
           }
         }
@@ -969,6 +1025,7 @@ export class UserRepo {
       matchingFields: matchingFields,
       differentFields: differentFields,
       match_percentage: match_percentage,
+      requiredMatchDetails: requiredMatchDetails,
       userImage: userDetails.userImages[0],
     };
   }
@@ -1104,7 +1161,7 @@ export class UserRepo {
     }
   }
   async getBlockedUsers(id) {
-    return await this.userBlockRepo.findOne({
+    return await this.userBlockRepo.find({
       where: {
         block_who: id,
       },

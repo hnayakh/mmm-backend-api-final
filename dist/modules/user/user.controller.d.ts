@@ -127,6 +127,7 @@ export declare class UserController {
             matchingFields: any[];
             differentFields: any[];
             match_percentage: string;
+            requiredMatchDetails: any[];
             userImage: import("./entities/user-image.entity").UserImage;
         };
         message: string;
@@ -217,7 +218,7 @@ export declare class UserController {
         message: string;
     }>;
     getBlockedUsers(basicId: string): Promise<{
-        data: import("./entities/block-user.entity").UserBlock;
+        data: import("./entities/block-user.entity").UserBlock[];
         message: string;
     }>;
 }

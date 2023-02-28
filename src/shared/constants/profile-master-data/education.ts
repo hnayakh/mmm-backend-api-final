@@ -57,7 +57,7 @@ export const education = [
   {
     id: 'Associate',
     text: 'Associate',
-    fullform: 'Associate',
+    fullform: '',
   },
   {
     id: 'B.A',
@@ -127,7 +127,7 @@ export const education = [
   {
     id: 'Bachelor',
     text: 'Bachelor',
-    fullform: 'Bachelor',
+    fullform: '',
   },
   {
     id: 'BAMS',
@@ -252,7 +252,7 @@ export const education = [
   {
     id: 'Diploma',
     text: 'Diploma',
-    fullform: 'Diploma',
+    fullform: '',
   },
   {
     id: 'DipSc',
@@ -267,7 +267,7 @@ export const education = [
   {
     id: 'Doctorate',
     text: 'Doctorate',
-    fullform: 'Doctorate',
+    fullform: '',
   },
   {
     id: 'Engineering Diploma',
@@ -277,12 +277,12 @@ export const education = [
   {
     id: 'High school',
     text: 'High school',
-    fullform: 'High school',
+    fullform: '',
   },
   {
     id: 'Honours',
     text: 'Honours',
-    fullform: 'Honours',
+    fullform: '',
   },
   {
     id: 'IT Diploma',
@@ -292,7 +292,7 @@ export const education = [
   {
     id: 'Less than high school',
     text: 'Less than high school',
-    fullform: 'Less than high school',
+    fullform: '',
   },
   {
     id: 'LLB (Hons)',
@@ -367,7 +367,7 @@ export const education = [
   {
     id: 'Master',
     text: 'Master',
-    fullform: 'Master',
+    fullform: '',
   },
   {
     id: 'MBA',

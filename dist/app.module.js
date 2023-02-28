@@ -56,6 +56,7 @@ const notification_entity_1 = require("./modules/user/entities/notification.enti
 const user_lifestyle_entity_1 = require("./modules/user/entities/user-lifestyle.entity");
 const user_hobbies_entity_1 = require("./modules/user/entities/user-hobbies.entity");
 const block_user_entity_1 = require("./modules/user/entities/block-user.entity");
+const meet_module_1 = require("./modules/meet/meet.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -119,6 +120,7 @@ AppModule = __decorate([
             common_1.CacheModule.register({
                 isGlobal: true,
             }),
+            meet_module_1.MeetModule,
         ],
         providers: [
             {

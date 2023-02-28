@@ -47,6 +47,7 @@ import { Notification } from './modules/user/entities/notification.entity';
 import { UserLifestyle } from './modules/user/entities/user-lifestyle.entity';
 import { UserHobbies } from './modules/user/entities/user-hobbies.entity';
 import { UserBlock } from './modules/user/entities/block-user.entity';
+import { MeetModule } from './modules/meet/meet.module';
 @Module({
   imports: [
     Logger,
@@ -107,6 +108,7 @@ import { UserBlock } from './modules/user/entities/block-user.entity';
     CacheModule.register({
       isGlobal: true,
     }),
+    MeetModule,
   ],
   providers: [
     {
