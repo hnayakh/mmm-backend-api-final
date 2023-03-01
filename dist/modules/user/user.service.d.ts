@@ -30,13 +30,15 @@ import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
 import { UserHobbies } from './entities/user-hobbies.entity';
+import { JwtService } from '@nestjs/jwt';
 export declare class UserService {
     private readonly userRepo;
+    private jwtService;
     private readonly notificationRepo;
-    constructor(userRepo: UserRepo, notificationRepo: Repository<Notification>);
+    constructor(userRepo: UserRepo, jwtService: JwtService, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
-    createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
+    createUserBasic(fireBaseToken: any, createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
     createUserAbout(userBasic: UserBasic, createUserAboutDto: CreateUserAboutDto): Promise<any>;
     createUserHabit(userBasic: UserBasic, createUserHabitDto: CreateUserHabitDto): Promise<any>;

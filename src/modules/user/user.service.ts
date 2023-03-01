@@ -46,10 +46,12 @@ import { CreateUserLifestyleDto } from './dtos/create-user-lifestyle.dto';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { CreateUserHobbiesDto } from './dtos/create-user-hobbies.dto';
 import { UserHobbies } from './entities/user-hobbies.entity';
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepo: UserRepo,
+    private jwtService: JwtService,
     @InjectRepository(Notification)
     private readonly notificationRepo: Repository<Notification>, // private readonly notificationRepo:Notification
   ) {}
@@ -62,7 +64,7 @@ export class UserService {
     return await this.userRepo.getUsersByIds(userBasicIds);
   }
 
-  async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
+  async createUserBasic(fireBaseToken:any,createUserBasicDto: CreateUserBasicDto) {
     const userBasic = UserBasic.createUserBasic(
       createUserBasicDto.email,
       createUserBasicDto.gender,
@@ -72,7 +74,15 @@ export class UserService {
       createUserBasicDto.relationship,
       createUserBasicDto.fireBaseToken,
     );
-    return await this.userRepo.createUserBasic(userBasic);
+    let userBasicDetails = await this.userRepo.createUserBasic(userBasic);
+    const payload = {
+      username: userBasicDetails.email,
+      sub: userBasicDetails.id,
+    };
+    let authToken = this.jwtService.sign(payload);
+    this.createUserLogin('M', '12e34', authToken, userBasicDetails);
+    this.updateTokenToUserBasic(fireBaseToken,userBasicDetails.id)
+    return userBasicDetails;
   }
 
   async getUserBasicById(userBasicId: string) {

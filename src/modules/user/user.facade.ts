@@ -65,7 +65,10 @@ export class UserFacade {
     user.updateRegistrationStep(step);
     return await this.userService.updateUserBasic(user);
   }
-  async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
+  async createUserBasic(
+    fireBaseToken: any,
+    createUserBasicDto: CreateUserBasicDto,
+  ) {
     const user = await this.userService.getUserBasicByEmail(
       createUserBasicDto.email,
     );
@@ -75,7 +78,10 @@ export class UserFacade {
         HttpStatus.EXPECTATION_FAILED,
       );
     }
-    return await this.userService.createUserBasic(createUserBasicDto);
+    return await this.userService.createUserBasic(
+      fireBaseToken,
+      createUserBasicDto,
+    );
   }
 
   async createUserAbout(createUserAboutDto: CreateUserAboutDto) {
@@ -659,7 +665,7 @@ export class UserFacade {
       userBasic,
       createUserPreferenceDto,
     );
-    console.log('result',res)
+    console.log('result', res);
     delete res.userBasic;
     return res;
   }
@@ -1531,7 +1537,12 @@ export class UserFacade {
   }
   async getBlockedUsers(id: string) {
     // const ucl = UserBlock.createUserBlock(block_who, block_whom);
-    return await this.userService.getBlockedUsers(id);
+
+    let listOfBLockedUsers = await this.userService.getBlockedUsers(id);
+    listOfBLockedUsers.forEach(async (e) => {
+      const user = await this.userService.getUserById(e.block_who);
+      listOfBLockedUsers[''];
+    });
   }
   async getBlockedUsersForAll(id: string) {
     // const ucl = UserBlock.createUserBlock(block_who, block_whom);
