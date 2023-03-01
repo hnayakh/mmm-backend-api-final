@@ -31,7 +31,7 @@ import { UserLogin } from './entities/user-login.entity';
 import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { UserRepo } from './user.repo';
-import firebaseAdmin from 'firebase-admin';
+import firebaseAdmin, { firestore } from 'firebase-admin';
 import {
   RtcTokenBuilder,
   RtmTokenBuilder,
@@ -64,7 +64,10 @@ export class UserService {
     return await this.userRepo.getUsersByIds(userBasicIds);
   }
 
-  async createUserBasic(fireBaseToken:any,createUserBasicDto: CreateUserBasicDto) {
+  async createUserBasic(
+    fireBaseToken: any,
+    createUserBasicDto: CreateUserBasicDto,
+  ) {
     const userBasic = UserBasic.createUserBasic(
       createUserBasicDto.email,
       createUserBasicDto.gender,
@@ -81,7 +84,7 @@ export class UserService {
     };
     let authToken = this.jwtService.sign(payload);
     this.createUserLogin('M', '12e34', authToken, userBasicDetails);
-    this.updateTokenToUserBasic(fireBaseToken,userBasicDetails.id)
+    this.updateTokenToUserBasic(fireBaseToken, userBasicDetails.id);
     return userBasicDetails;
   }
 
@@ -537,6 +540,37 @@ export class UserService {
     return await this.userRepo.getProifleVisitedBy(userBasicId);
   }
   async getOnlineMembers(userBasicId: string) {
+    const firebase_params = {
+      type: FIREBASE_SERVICE_ACCOUNT.type,
+      projectId: FIREBASE_SERVICE_ACCOUNT.project_id,
+      privateKeyId: FIREBASE_SERVICE_ACCOUNT.private_key_id,
+      privateKey: FIREBASE_SERVICE_ACCOUNT.private_key,
+      clientEmail: FIREBASE_SERVICE_ACCOUNT.client_email,
+      clientId: FIREBASE_SERVICE_ACCOUNT.client_id,
+      authUri: FIREBASE_SERVICE_ACCOUNT.auth_uri,
+      tokenUri: FIREBASE_SERVICE_ACCOUNT.token_uri,
+      authProviderX509CertUrl:
+        FIREBASE_SERVICE_ACCOUNT.auth_provider_x509_cert_url,
+      clientC509CertUrl: FIREBASE_SERVICE_ACCOUNT.client_x509_cert_url,
+    };
+
+    console.log('firebase');
+    if (!firebaseAdmin.apps.length) {
+      firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(firebase_params),
+        // databaseURL: process.env.FIREBASE_DB_URL
+      });
+    } else {
+      firebaseAdmin.app(); // if already initialized, use that one
+    }
+    firebaseAdmin
+      .firestore()
+      .collection('users')
+      .doc()
+      .get()
+      .then((document) => {
+        console.log('document', document);
+      });
     return await this.userRepo.getOnlineMembers(userBasicId);
   }
 

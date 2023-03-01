@@ -750,8 +750,8 @@ let UserRepo = class UserRepo {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
     pv.createdAt as visitedAt
-    from users_view pv
-    join users_view uv
+    from users_view_admin pv
+    join users_view_admin uv
     WHERE uv.id = '${userBasicId}'
     and pv.isActive = 1
     and pv.id != '${userBasicId}'

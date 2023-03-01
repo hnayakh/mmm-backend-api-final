@@ -422,7 +422,6 @@ let UserFacade = class UserFacade {
                 const entityManager = typeorm_1.getManager();
                 const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
                 userReqDet = await entityManager.query(rawQuery);
-                console.log(rawQuery);
                 console.log('userReqDet', userReqDet);
                 let blockRes = await this.userService.checkIfBlocked(myBasicId, userBasicId);
                 blockStatus = blockRes;
@@ -573,10 +572,11 @@ let UserFacade = class UserFacade {
                     }
                     uu['connectRequestCallMessageStatus'] = tempObj;
                 });
-                console.log('uniqueUsers', uniqueUsers);
+                console.log('uniqueUsers', uniqueUsers[0]);
+                userReqDet = uniqueUsers;
             }
             if (userReqDet.length > 0) {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet, blockStatus: blockStatus, blockDetails: blockDetails });
+                requiredData = userReqDet[0];
             }
             else {
                 requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [], blockStatus: blockStatus, blockDetails: blockDetails });
@@ -656,49 +656,16 @@ let UserFacade = class UserFacade {
                     requiredObj = isConnectTwo;
                 }
                 uu['interestStatus'] = tempObj;
-                uu['UserRequestStatus'] = isConnectTwo;
-            });
-            const connectedUserForCallAndMessage = await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-            uniqueUsers.forEach((uu) => {
-                let tempObj = {
-                    isConnected: false,
-                    id: null,
-                };
-                let isConnectOne = connectedUserForCallAndMessage.find((u) => u.userOneBasicId == uu.id);
-                if (isConnectOne != null) {
-                    (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-                }
-                let isConnectTwo = connectedUserForCallAndMessage.find((u) => u.userTwoBasicId == uu.id);
-                if (isConnectTwo != null) {
-                    (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-                }
-                uu['connectStatus'] = tempObj;
-            });
-            const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-            uniqueUsers.forEach((uu) => {
-                let tempObj = {
-                    isConnectedForCallMessage: false,
-                    userConnectRequestId: null,
-                };
-                let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == uu.id);
-                if (isConnectOne != null) {
-                    (tempObj.isConnectedForCallMessage = true),
-                        (tempObj.userConnectRequestId = isConnectOne.id);
-                }
-                let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == uu.id);
-                if (isConnectTwo != null) {
-                    (tempObj.isConnectedForCallMessage = true),
-                        (tempObj.userConnectRequestId = isConnectOne.id);
-                }
-                uu['connectRequestCallMessageStatus'] = tempObj;
+                uu['UserRequestStatus'] = isConnectOne ? isConnectOne : isConnectTwo;
             });
             console.log('uniqueUsers', uniqueUsers);
+            userReqDet = uniqueUsers;
         }
         if (userReqDet.length > 0) {
-            requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+            requiredData = Object.assign({}, userDetails);
         }
         else {
-            requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [] });
+            requiredData = Object.assign({}, userDetails);
         }
         return requiredData;
     }

@@ -692,7 +692,6 @@ export class UserFacade {
         const entityManager = getManager();
         const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
         userReqDet = await entityManager.query(rawQuery);
-        console.log(rawQuery);
         console.log('userReqDet', userReqDet);
         let blockRes = await this.userService.checkIfBlocked(
           myBasicId,
@@ -921,17 +920,13 @@ export class UserFacade {
           }
           uu['connectRequestCallMessageStatus'] = tempObj;
         });
-        console.log('uniqueUsers', uniqueUsers);
+        console.log('uniqueUsers', uniqueUsers[0]);
         // return uniqueUsers;
+        userReqDet = uniqueUsers;
       }
 
       if (userReqDet.length > 0) {
-        requiredData = {
-          ...userDetails,
-          UserRequestStatus: userReqDet,
-          blockStatus: blockStatus,
-          blockDetails: blockDetails,
-        };
+        requiredData = userReqDet[0];
       } else {
         requiredData = {
           ...userDetails,
@@ -1050,62 +1045,63 @@ export class UserFacade {
           requiredObj = isConnectTwo;
         }
         uu['interestStatus'] = tempObj;
-        uu['UserRequestStatus'] = isConnectTwo;
+        uu['UserRequestStatus'] = isConnectOne ? isConnectOne : isConnectTwo;
       });
 
       // // Get connect requestUser for call and message
-      const connectedUserForCallAndMessage =
-        await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-      uniqueUsers.forEach((uu) => {
-        let tempObj = {
-          isConnected: false,
-          id: null,
-        };
-        let isConnectOne = connectedUserForCallAndMessage.find(
-          (u) => u.userOneBasicId == uu.id,
-        );
-        if (isConnectOne != null) {
-          (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-        }
-        let isConnectTwo = connectedUserForCallAndMessage.find(
-          (u) => u.userTwoBasicId == uu.id,
-        );
-        if (isConnectTwo != null) {
-          (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-        }
-        uu['connectStatus'] = tempObj;
-      });
+      // const connectedUserForCallAndMessage =
+      //   await this.connectService.getUserConnectRequestsByUserId(myBasicId);
+      // uniqueUsers.forEach((uu) => {
+      //   let tempObj = {
+      //     isConnected: false,
+      //     id: null,
+      //   };
+      //   let isConnectOne = connectedUserForCallAndMessage.find(
+      //     (u) => u.userOneBasicId == uu.id,
+      //   );
+      //   if (isConnectOne != null) {
+      //     (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+      //   }
+      //   let isConnectTwo = connectedUserForCallAndMessage.find(
+      //     (u) => u.userTwoBasicId == uu.id,
+      //   );
+      //   if (isConnectTwo != null) {
+      //     (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+      //   }
+      //   uu['connectStatus'] = tempObj;
+      // });
       // Get connect requestUser for call and message
-      const connectedUserForCall =
-        await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-      uniqueUsers.forEach((uu) => {
-        let tempObj = {
-          isConnectedForCallMessage: false,
-          userConnectRequestId: null,
-        };
-        let isConnectOne = connectedUserForCall.find(
-          (u) => u.userOneBasicId == uu.id,
-        );
-        if (isConnectOne != null) {
-          (tempObj.isConnectedForCallMessage = true),
-            (tempObj.userConnectRequestId = isConnectOne.id);
-        }
-        let isConnectTwo = connectedUserForCall.find(
-          (u) => u.userTwoBasicId == uu.id,
-        );
-        if (isConnectTwo != null) {
-          (tempObj.isConnectedForCallMessage = true),
-            (tempObj.userConnectRequestId = isConnectOne.id);
-        }
-        uu['connectRequestCallMessageStatus'] = tempObj;
-      });
+      // const connectedUserForCall =
+      //   await this.connectService.getUserConnectRequestsByUserId(myBasicId);
+      // uniqueUsers.forEach((uu) => {
+      //   let tempObj = {
+      //     isConnectedForCallMessage: false,
+      //     userConnectRequestId: null,
+      //   };
+      //   let isConnectOne = connectedUserForCall.find(
+      //     (u) => u.userOneBasicId == uu.id,
+      //   );
+      //   if (isConnectOne != null) {
+      //     (tempObj.isConnectedForCallMessage = true),
+      //       (tempObj.userConnectRequestId = isConnectOne.id);
+      //   }
+      //   let isConnectTwo = connectedUserForCall.find(
+      //     (u) => u.userTwoBasicId == uu.id,
+      //   );
+      //   if (isConnectTwo != null) {
+      //     (tempObj.isConnectedForCallMessage = true),
+      //       (tempObj.userConnectRequestId = isConnectOne.id);
+      //   }
+      //   uu['connectRequestCallMessageStatus'] = tempObj;
+      // });
       console.log('uniqueUsers', uniqueUsers);
+      userReqDet = uniqueUsers;
       // return uniqueUsers;
     }
     if (userReqDet.length > 0) {
-      requiredData = { ...userDetails, UserRequestStatus: userReqDet };
+      requiredData = { ...userDetails };
     } else {
-      requiredData = { ...userDetails, UserRequestStatus: [] };
+      requiredData = { ...userDetails };
     }
 
     return requiredData;
