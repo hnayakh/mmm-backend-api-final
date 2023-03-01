@@ -90,7 +90,7 @@ export declare class UserFacade {
     createUserPreference(createUserPreferenceDto: CreateUserPreferenceDto): Promise<import("./entities/user-preference.entity").UserPreference>;
     getUserPartnerPreferences(userBasicId: string): Promise<import("./entities/user-preference.entity").UserPreference>;
     getUserDeatailById(userBasicId: string, myBasicId: string): Promise<{}>;
-    getUserDeatailByDisplayId(displayId: string, myBasicId: string): Promise<{}>;
+    getUserDeatailByDisplayId(displayId: string, myBasicId: string): Promise<any>;
     getAppUsersForAdmin(filterObj: any): Promise<{
         users: any[];
         count: number;

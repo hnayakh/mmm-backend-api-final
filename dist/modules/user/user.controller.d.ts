@@ -29,7 +29,7 @@ export declare class UserController {
         message: string;
     }>;
     getUserDeatailByDisplayId(displayId: string, myBasicId: string): Promise<{
-        data: {};
+        data: any;
         message: string;
     }>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<{
