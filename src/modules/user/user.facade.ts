@@ -1108,7 +1108,7 @@ export class UserFacade {
       if (userReqDet.length > 0) {
         requiredData = { ...userDetails, UserRequestStatus: userReqDet };
       } else {
-        requiredData = { ...userDetails, UserRequestStatus: {} };
+        requiredData = { ...userDetails, UserRequestStatus: [] };
       }
 
       return requiredData;

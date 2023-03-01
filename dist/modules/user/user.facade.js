@@ -701,7 +701,7 @@ let UserFacade = class UserFacade {
                 requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
             }
             else {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: {} });
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [] });
             }
             return requiredData;
         }
