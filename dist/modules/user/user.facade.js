@@ -572,8 +572,7 @@ let UserFacade = class UserFacade {
                     }
                     uu['connectRequestCallMessageStatus'] = tempObj;
                 });
-                console.log('uniqueUsers', uniqueUsers[0]);
-                userReqDet = uniqueUsers;
+                console.log('uniqueUsers', uniqueUsers);
             }
             if (userReqDet.length > 0) {
                 requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet, blockStatus: blockStatus, blockDetails: blockDetails });
