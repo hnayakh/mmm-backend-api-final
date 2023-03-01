@@ -412,7 +412,6 @@ let UserFacade = class UserFacade {
         try {
             const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
             let blockStatus = {};
-            let userReqObj = {};
             let blockDetails = {
                 isBlocked: false,
                 id: '',
@@ -423,6 +422,7 @@ let UserFacade = class UserFacade {
                 const entityManager = typeorm_1.getManager();
                 const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
                 userReqDet = await entityManager.query(rawQuery);
+                console.log(rawQuery);
                 console.log('userReqDet', userReqDet);
                 let blockRes = await this.userService.checkIfBlocked(myBasicId, userBasicId);
                 blockStatus = blockRes;
@@ -499,10 +499,9 @@ let UserFacade = class UserFacade {
                 userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
             }
             let requiredData = {};
-            let requiredDetailsforUser = {};
+            let uniqueUsers = [userDetails];
             if (myBasicId) {
                 console.log('userReqDet', userReqDet);
-                let uniqueUsers = [userDetails];
                 const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(myBasicId);
                 console.log('connectUsers', connectUsers);
                 uniqueUsers.forEach((uu) => {
@@ -575,13 +574,14 @@ let UserFacade = class UserFacade {
                     uu['connectRequestCallMessageStatus'] = tempObj;
                 });
                 console.log('uniqueUsers', uniqueUsers);
-                requiredDetailsforUser = uniqueUsers[0];
             }
             if (userReqDet.length > 0) {
-                requiredData = Object.assign(Object.assign({}, requiredDetailsforUser), { blockStatus: blockStatus, blockDetails: blockDetails });
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: uniqueUsers[0]['UserRequestStatus'], blockStatus: blockStatus, blockDetails: blockDetails });
             }
             else {
-                requiredData = Object.assign(Object.assign({}, requiredDetailsforUser), { blockStatus: blockStatus, blockDetails: blockDetails });
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: uniqueUsers.length
+                        ? uniqueUsers[0]['UserRequestStatus']
+                        : {}, blockStatus: blockStatus, blockDetails: blockDetails });
             }
             return requiredData;
         }
