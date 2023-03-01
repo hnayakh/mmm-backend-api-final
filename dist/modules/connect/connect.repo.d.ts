@@ -58,6 +58,7 @@ export declare class ConnectRepo {
     getActiveSentRequest(userBasicId: string): Promise<UserRequest[]>;
     getActiveInvites(userBasicId: string): Promise<UserRequest[]>;
     getActiveConnections(userBasicId: string): Promise<UserRequest[]>;
+    getActiveSentConnections(userBasicId: string): Promise<UserRequest[]>;
     createUserConnectDuration(userConnectDuration: UserConnectDuration): Promise<UserConnectDuration>;
     updateUserConnectDuration(userConnectDuration: UserConnectDuration): Promise<{
         userOneBasicId: string;

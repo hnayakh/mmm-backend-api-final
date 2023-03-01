@@ -104,6 +104,9 @@ let ConnectService = class ConnectService {
     async getActiveConnections(userBasicId) {
         return await this.connectRepo.getActiveConnections(userBasicId);
     }
+    async getActiveSentConnections(userBasicId) {
+        return await this.connectRepo.getActiveSentConnections(userBasicId);
+    }
     async getUserRequestStatusForAppPrefAndFilter(userBasicId) {
         return await this.connectRepo.getUserRequestStatusForAppPrefAndFilter(userBasicId);
     }

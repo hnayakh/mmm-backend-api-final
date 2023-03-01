@@ -26,11 +26,7 @@ export declare class ConnectController {
         message: string;
     }>;
     getUserRequestDetails(userBasicId: string): Promise<{
-        data: {
-            activeSent: import("./entities/user-request.entity").UserRequest[];
-            activeconnections: import("./entities/user-request.entity").UserRequest[];
-            activeInvites: import("./entities/user-request.entity").UserRequest[];
-        };
+        data: any;
         message: string;
     }>;
     createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<{
