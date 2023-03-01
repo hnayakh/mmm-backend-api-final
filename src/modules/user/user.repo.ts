@@ -1067,22 +1067,17 @@ export class UserRepo {
   }
 
   async getOnlineMembers(userBasicId: string) {
-    // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
-    // return result;
-
     const entityManager = getManager();
     const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
     pv.createdAt as visitedAt
-    from users_view pv
-    join users_view uv
+    from users_view_admin pv
+    join users_view_admin uv
     WHERE uv.id = '${userBasicId}'
     and pv.isActive = 1
     and pv.id != '${userBasicId}'
     and pv.gender != uv.gender
     group by pv.id
 `;
-    // const userDet = await entityManager.query(rawQuery);
-    // return userDet;
     const userDet = await entityManager.query(rawQuery);
     console.log('requiredConnectionData', userDet);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
@@ -1100,6 +1095,9 @@ export class UserRepo {
         c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1),
     );
     return result;
+
+
+    
   }
 
   async getPremiumMembers(userBasicId: string) {
