@@ -55,41 +55,54 @@ let ConnectService = class ConnectService {
         return await this.connectRepo.addConnectTransaction(userOneBasic, operation, externalId);
     }
     async createOrUpdateUserRequest(userRequestDto) {
-        const userRequest = await this.connectRepo.getUserRequestById(userRequestDto.userRequestId);
-        if (userRequest != null)
-            userRequest.operation = userRequestDto.operation;
-        switch (userRequestDto.operation) {
-            case 0:
-                const existingRequest = await this.connectRepo.getRequestValidation(userRequestDto.requestedUserBasicId, userRequestDto.requestingUserBasicId);
-                if (existingRequest != null) {
-                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Pending;
+        try {
+            const userRequest = await this.connectRepo.getUserRequestById(userRequestDto.userRequestId);
+            if (userRequest != null)
+                userRequest.operation = userRequestDto.operation;
+            switch (userRequestDto.operation) {
+                case 0:
+                    const existingRequest = await this.connectRepo.getRequestValidation(userRequestDto.requestedUserBasicId, userRequestDto.requestingUserBasicId);
+                    console.log('userRequest', userRequest);
+                    console.log('userRequest', existingRequest);
+                    if (existingRequest != null) {
+                        existingRequest.requestingUserBasicId =
+                            userRequestDto.requestingUserBasicId;
+                        existingRequest.requestedUserBasicId =
+                            userRequestDto.requestedUserBasicId;
+                        existingRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Pending;
+                        existingRequest.userRequestState = miscellaneous_enum_1.UserRequestState.NotConnected;
+                        return await this.connectRepo.updateUserRequest(existingRequest);
+                    }
+                    const userReq = user_request_entity_1.UserRequest.createUserRequest(userRequestDto.requestingUserBasicId, userRequestDto.requestedUserBasicId);
+                    return await this.connectRepo.createUserRequest(userReq);
+                case 1:
+                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Accepted;
+                    userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.Active;
+                    return await this.connectRepo.updateUserRequest(userRequest);
+                case 2:
+                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Rejected;
                     userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.NotConnected;
                     return await this.connectRepo.updateUserRequest(userRequest);
-                }
-                const userReq = user_request_entity_1.UserRequest.createUserRequest(userRequestDto.requestingUserBasicId, userRequestDto.requestedUserBasicId);
-                return await this.connectRepo.createUserRequest(userReq);
-            case 1:
-                userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Accepted;
-                userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.Active;
-                return await this.connectRepo.updateUserRequest(userRequest);
-            case 2:
-                userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Rejected;
-                userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.NotConnected;
-                return await this.connectRepo.updateUserRequest(userRequest);
-            case 3:
-                userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Reverted;
-                userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.NotConnected;
-                return await this.connectRepo.updateUserRequest(userRequest);
-            case 4:
-                userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Reverted;
-                userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.RemovedByRequestingUser;
-                return await this.connectRepo.updateUserRequest(userRequest);
-            case 5:
-                userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Rejected;
-                userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.RemovedByRequestedUser;
-                return await this.connectRepo.updateUserRequest(userRequest);
-            default:
-                return userRequest;
+                case 3:
+                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Reverted;
+                    userRequest.userRequestState = miscellaneous_enum_1.UserRequestState.NotConnected;
+                    return await this.connectRepo.updateUserRequest(userRequest);
+                case 4:
+                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Reverted;
+                    userRequest.userRequestState =
+                        miscellaneous_enum_1.UserRequestState.RemovedByRequestingUser;
+                    return await this.connectRepo.updateUserRequest(userRequest);
+                case 5:
+                    userRequest.userRequestStatus = miscellaneous_enum_1.UserRequestStatus.Rejected;
+                    userRequest.userRequestState =
+                        miscellaneous_enum_1.UserRequestState.RemovedByRequestedUser;
+                    return await this.connectRepo.updateUserRequest(userRequest);
+                default:
+                    return userRequest;
+            }
+        }
+        catch (error) {
+            console.log(error);
         }
     }
     async getUserRequestById(id) {
