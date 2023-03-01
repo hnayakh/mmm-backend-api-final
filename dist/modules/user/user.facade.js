@@ -447,7 +447,7 @@ let UserFacade = class UserFacade {
                 let city = await this.masterService.getCity(userDetails.userCareers[i].city);
                 userDetails.userCareers[i]['countryName'] = country['name'];
                 userDetails.userCareers[i]['stateName'] = state['name'];
-                userDetails.userCareers[i]['cityName'] = city['name'];
+                userDetails.userCareers[i]['cityName'] = city ? city['name'] : null;
             }
             if (userDetails.userReligions && userDetails.userReligions.length) {
                 for (let i = 0; i < userDetails.userReligions.length; i++) {
@@ -621,6 +621,7 @@ let UserFacade = class UserFacade {
                 console.log('userReqDet', userReqDet);
                 let uniqueUsers = [userDetails];
                 const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(myBasicId);
+                console.log('connectUsers', connectUsers);
                 let tempObj = {
                     isLiked: false,
                     sent: false,
@@ -628,7 +629,9 @@ let UserFacade = class UserFacade {
                     isConnected: false,
                     id: '',
                 };
+                let requiredObj = {};
                 let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == userDetails.id);
+                console.log('isConnectOne', isConnectOne);
                 if (isConnectOne != null) {
                     (tempObj.isLiked = true),
                         (tempObj.requested = true),
@@ -638,9 +641,10 @@ let UserFacade = class UserFacade {
                                 : false);
                     tempObj.id = isConnectOne.id;
                     requiredObj = isConnectOne;
+                    userDetails['UserRequestStatus'] = isConnectOne ? [isConnectOne] : [];
                 }
                 let isConnectTwo = connectUsers.find((u) => u.requestingUserBasicId == userDetails.id);
-                console.log(isConnectTwo);
+                console.log('isConnectTwo', isConnectTwo);
                 if (isConnectTwo != null) {
                     (tempObj.isLiked = true),
                         (tempObj.sent = true),
@@ -650,10 +654,9 @@ let UserFacade = class UserFacade {
                                 : false);
                     tempObj.id = isConnectTwo.id;
                     requiredObj = isConnectTwo;
+                    userDetails['UserRequestStatus'] = isConnectTwo ? [isConnectTwo] : [];
                 }
                 userDetails['interestStatus'] = tempObj;
-                userDetails['UserRequestStatus'] = requiredObj;
-                console.log('connectUsers', connectUsers);
                 uniqueUsers.forEach((uu) => {
                     console.log(isConnectOne);
                 });
@@ -695,10 +698,10 @@ let UserFacade = class UserFacade {
             }
             console.log('userDetails', userDetails);
             if (userReqDet.length > 0) {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet });
+                requiredData = Object.assign({}, userDetails);
             }
             else {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [] });
+                requiredData = Object.assign({}, userDetails);
             }
             return requiredData;
         }
