@@ -64,7 +64,7 @@ export declare class UserFacade {
         updatedBy: string;
         isActive: boolean;
     } & UserBasic>;
-    createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
+    createUserBasic(fireBaseToken: any, createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     createUserAbout(createUserAboutDto: CreateUserAboutDto): Promise<any>;
     createUserHabit(createUserHabitDto: CreateUserHabitDto): Promise<any>;
     createUserLifestyle(createUserLifestyleDto: CreateUserLifestyleDto): Promise<any>;
@@ -114,6 +114,6 @@ export declare class UserFacade {
     getPremiumMembers(userBasicId: string): Promise<any[]>;
     blockProfile(block_who: string, block_whom: string): Promise<any>;
     unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
-    getBlockedUsers(id: string): Promise<UserBlock[]>;
+    getBlockedUsers(id: string): Promise<void>;
     getBlockedUsersForAll(id: string): Promise<UserBlock[]>;
 }

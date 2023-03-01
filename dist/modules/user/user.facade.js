@@ -47,12 +47,12 @@ let UserFacade = class UserFacade {
         user.updateRegistrationStep(step);
         return await this.userService.updateUserBasic(user);
     }
-    async createUserBasic(createUserBasicDto) {
+    async createUserBasic(fireBaseToken, createUserBasicDto) {
         const user = await this.userService.getUserBasicByEmail(createUserBasicDto.email);
         if (!_.isEmpty(user)) {
             throw new common_1.HttpException('Email is already registred.', common_1.HttpStatus.EXPECTATION_FAILED);
         }
-        return await this.userService.createUserBasic(createUserBasicDto);
+        return await this.userService.createUserBasic(fireBaseToken, createUserBasicDto);
     }
     async createUserAbout(createUserAboutDto) {
         const userBasic = await this.userService.getUserBasicById(createUserAboutDto.userBasicId);
@@ -1056,7 +1056,11 @@ let UserFacade = class UserFacade {
         return await this.userService.unBlockUser(id);
     }
     async getBlockedUsers(id) {
-        return await this.userService.getBlockedUsers(id);
+        let listOfBLockedUsers = await this.userService.getBlockedUsers(id);
+        listOfBLockedUsers.forEach(async (e) => {
+            const user = await this.userService.getUserById(e.block_who);
+            listOfBLockedUsers[''];
+        });
     }
     async getBlockedUsersForAll(id) {
         return await this.userService.getBlockedUsersForAll(id);

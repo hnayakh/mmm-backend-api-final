@@ -38,9 +38,11 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
 const user_hobbies_entity_1 = require("./entities/user-hobbies.entity");
+const jwt_1 = require("@nestjs/jwt");
 let UserService = class UserService {
-    constructor(userRepo, notificationRepo) {
+    constructor(userRepo, jwtService, notificationRepo) {
         this.userRepo = userRepo;
+        this.jwtService = jwtService;
         this.notificationRepo = notificationRepo;
     }
     async getAllUsers(skip, take) {
@@ -49,9 +51,17 @@ let UserService = class UserService {
     async getUsersByIds(userBasicIds) {
         return await this.userRepo.getUsersByIds(userBasicIds);
     }
-    async createUserBasic(createUserBasicDto) {
+    async createUserBasic(fireBaseToken, createUserBasicDto) {
         const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.fireBaseToken);
-        return await this.userRepo.createUserBasic(userBasic);
+        let userBasicDetails = await this.userRepo.createUserBasic(userBasic);
+        const payload = {
+            username: userBasicDetails.email,
+            sub: userBasicDetails.id,
+        };
+        let authToken = this.jwtService.sign(payload);
+        this.createUserLogin('M', '12e34', authToken, userBasicDetails);
+        this.updateTokenToUserBasic(fireBaseToken, userBasicDetails.id);
+        return userBasicDetails;
     }
     async getUserBasicById(userBasicId) {
         return await this.userRepo.getUserBasicById(userBasicId);
@@ -370,8 +380,9 @@ let UserService = class UserService {
 };
 UserService = __decorate([
     common_1.Injectable(),
-    __param(1, typeorm_2.InjectRepository(notification_entity_1.Notification)),
+    __param(2, typeorm_2.InjectRepository(notification_entity_1.Notification)),
     __metadata("design:paramtypes", [user_repo_1.UserRepo,
+        jwt_1.JwtService,
         typeorm_1.Repository])
 ], UserService);
 exports.UserService = UserService;

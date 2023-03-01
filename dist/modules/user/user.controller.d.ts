@@ -20,7 +20,7 @@ export declare class UserController {
         data: import("./entities/user-basic.entity").UserBasic[];
         message: string;
     }>;
-    createUserBasic(createUserBasicDto: CreateUserBasicDto): Promise<{
+    createUserBasic(createUserBasicDto: CreateUserBasicDto, fireBaseToken: any): Promise<{
         data: import("./entities/user-basic.entity").UserBasic;
         message: string;
     }>;
@@ -218,7 +218,7 @@ export declare class UserController {
         message: string;
     }>;
     getBlockedUsers(basicId: string): Promise<{
-        data: import("./entities/block-user.entity").UserBlock[];
+        data: void;
         message: string;
     }>;
 }
