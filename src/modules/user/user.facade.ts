@@ -682,7 +682,6 @@ export class UserFacade {
         userBasicId,
       );
       let blockStatus = {};
-      let userReqObj = {};
       let blockDetails = {
         isBlocked: false,
         id: '',
@@ -693,6 +692,7 @@ export class UserFacade {
         const entityManager = getManager();
         const rawQuery = `SELECT * from user_requests where requestingUserBasicId='${myBasicId}' AND requestedUserBasicId='${userBasicId}'`;
         userReqDet = await entityManager.query(rawQuery);
+        console.log(rawQuery);
         console.log('userReqDet', userReqDet);
         let blockRes = await this.userService.checkIfBlocked(
           myBasicId,
@@ -822,10 +822,10 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
       }
       let requiredData = {};
-      let requiredDetailsforUser = {};
+      let uniqueUsers = [userDetails];
       if (myBasicId) {
         console.log('userReqDet', userReqDet);
-        let uniqueUsers = [userDetails];
+
         // Get blocked users
         // Get liked users
         const connectUsers =
@@ -923,18 +923,21 @@ export class UserFacade {
         });
         console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
-        requiredDetailsforUser = uniqueUsers[0];
       }
 
       if (userReqDet.length > 0) {
         requiredData = {
-          ...requiredDetailsforUser,
+          ...userDetails,
+          UserRequestStatus: uniqueUsers[0]['UserRequestStatus'],
           blockStatus: blockStatus,
           blockDetails: blockDetails,
         };
       } else {
         requiredData = {
-          ...requiredDetailsforUser,
+          ...userDetails,
+          UserRequestStatus: uniqueUsers.length
+            ? uniqueUsers[0]['UserRequestStatus']
+            : {},
           blockStatus: blockStatus,
           blockDetails: blockDetails,
         };
