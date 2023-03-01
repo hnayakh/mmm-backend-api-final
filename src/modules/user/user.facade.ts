@@ -682,6 +682,7 @@ export class UserFacade {
         userBasicId,
       );
       let blockStatus = {};
+      let userReqObj = {};
       let blockDetails = {
         isBlocked: false,
         id: '',
@@ -821,7 +822,7 @@ export class UserFacade {
         userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
       }
       let requiredData = {};
-
+      let requiredDetailsforUser = {};
       if (myBasicId) {
         console.log('userReqDet', userReqDet);
         let uniqueUsers = [userDetails];
@@ -922,19 +923,18 @@ export class UserFacade {
         });
         console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
+        requiredDetailsforUser = uniqueUsers[0];
       }
 
       if (userReqDet.length > 0) {
         requiredData = {
-          ...userDetails,
-          UserRequestStatus: userReqDet,
+          ...requiredDetailsforUser,
           blockStatus: blockStatus,
           blockDetails: blockDetails,
         };
       } else {
         requiredData = {
-          ...userDetails,
-          UserRequestStatus: [],
+          ...requiredDetailsforUser,
           blockStatus: blockStatus,
           blockDetails: blockDetails,
         };
@@ -1445,9 +1445,6 @@ export class UserFacade {
     return uniqueUsers;
   }
   async getOnlineMembers(userBasicId: string) {
-
-
-
     return this.userService.getOnlineMembers(userBasicId);
   }
 

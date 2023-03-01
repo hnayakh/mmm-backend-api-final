@@ -412,6 +412,7 @@ let UserFacade = class UserFacade {
         try {
             const userDetails = await this.userService.getAllUserDetailsById(userBasicId);
             let blockStatus = {};
+            let userReqObj = {};
             let blockDetails = {
                 isBlocked: false,
                 id: '',
@@ -498,6 +499,7 @@ let UserFacade = class UserFacade {
                 userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
             }
             let requiredData = {};
+            let requiredDetailsforUser = {};
             if (myBasicId) {
                 console.log('userReqDet', userReqDet);
                 let uniqueUsers = [userDetails];
@@ -573,12 +575,13 @@ let UserFacade = class UserFacade {
                     uu['connectRequestCallMessageStatus'] = tempObj;
                 });
                 console.log('uniqueUsers', uniqueUsers);
+                requiredDetailsforUser = uniqueUsers[0];
             }
             if (userReqDet.length > 0) {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet, blockStatus: blockStatus, blockDetails: blockDetails });
+                requiredData = Object.assign(Object.assign({}, requiredDetailsforUser), { blockStatus: blockStatus, blockDetails: blockDetails });
             }
             else {
-                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [], blockStatus: blockStatus, blockDetails: blockDetails });
+                requiredData = Object.assign(Object.assign({}, requiredDetailsforUser), { blockStatus: blockStatus, blockDetails: blockDetails });
             }
             return requiredData;
         }
