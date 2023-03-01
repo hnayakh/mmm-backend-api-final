@@ -138,8 +138,6 @@ export class ConnectRepo {
     return await this.userRequestRepo.save(userRequest);
   }
 
-  
-
   async getRequestValidation(
     requestedUserBasicId: string,
     requestingUserBasicId: string,
@@ -193,6 +191,14 @@ export class ConnectRepo {
     return await this.userRequestRepo.find({
       where: {
         requestedUserBasicId: userBasicId,
+        userRequestStatus: UserRequestStatus.Accepted,
+      },
+    });
+  }
+  async getActiveSentConnections(userBasicId: string) {
+    return await this.userRequestRepo.find({
+      where: {
+        requestingUserBasicId: userBasicId,
         userRequestStatus: UserRequestStatus.Accepted,
       },
     });

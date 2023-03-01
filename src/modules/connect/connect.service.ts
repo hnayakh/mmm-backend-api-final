@@ -165,6 +165,9 @@ export class ConnectService {
   async getActiveConnections(userBasicId: string) {
     return await this.connectRepo.getActiveConnections(userBasicId);
   }
+  async getActiveSentConnections(userBasicId: string) {
+    return await this.connectRepo.getActiveSentConnections(userBasicId);
+  }
 
   async getUserRequestStatusForAppPrefAndFilter(userBasicId: string) {
     return await this.connectRepo.getUserRequestStatusForAppPrefAndFilter(
