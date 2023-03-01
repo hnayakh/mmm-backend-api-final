@@ -576,7 +576,7 @@ let UserFacade = class UserFacade {
                 userReqDet = uniqueUsers;
             }
             if (userReqDet.length > 0) {
-                requiredData = userReqDet[0];
+                requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: userReqDet, blockStatus: blockStatus, blockDetails: blockDetails });
             }
             else {
                 requiredData = Object.assign(Object.assign({}, userDetails), { UserRequestStatus: [], blockStatus: blockStatus, blockDetails: blockDetails });
