@@ -25,7 +25,49 @@ export declare class UserController {
         message: string;
     }>;
     getUserDeatailById(userBasicId: string, myBasicId: string): Promise<{
-        data: {};
+        data: {
+            blockStatus: {};
+            blockDetails: {
+                isBlocked: boolean;
+                id: string;
+            };
+            relationship: import("../../shared/enums/user-profile.enum").Relationship;
+            email: string;
+            gender: import("../../shared/enums/user-profile.enum").Gender;
+            countryCode: string;
+            phoneNumber: string;
+            password: string;
+            displayId: string;
+            activationStatus: import("../../shared/enums/miscellaneous.enum").ActivationStatus;
+            lifecycleStatus: import("../../shared/enums/miscellaneous.enum").LifecycleStatus;
+            fireBaseToken: string;
+            registrationStep: import("../../shared/enums/miscellaneous.enum").RegistrationSteps;
+            userBios: import("./entities/user-bio.entity").UserBio[];
+            userAbouts: import("./entities/user-about.entity").UserAbout[];
+            userHabits: import("./entities/user-habit.entity").UserHabit[];
+            userLifestyle: import("./entities/user-lifestyle.entity").UserLifestyle[];
+            userHobbies: import("./entities/user-hobbies.entity").UserHobbies[];
+            userReligions: import("./entities/user-religion.entity").UserReligion[];
+            visitedBy: import("./entities/user.profile.visit").ProfileVisit[];
+            visitedTo: import("./entities/user.profile.visit").ProfileVisit[];
+            userCareers: import("./entities/user-career.entity").UserCareer[];
+            userFamilyBackgrounds: import("./entities/user-family-background.entity").UserFamilyBackground[];
+            userFamilyDetails: import("./entities/user-family-detail.entity").UserFamilyDetail[];
+            userImages: import("./entities/user-image.entity").UserImage[];
+            userDocs: import("./entities/user-docs.entity").UserDocs[];
+            userConnects: import("../connect/entities/user-connect.entity").UserConnect[];
+            connectTransaction: import("../connect/entities/connect-transaction-entity").ConnectTransactionEntity[];
+            rechargeHistory: import("../connect/entities/recharge-history.entity").RechargeHistory[];
+            userConnectLogs: import("../connect/entities/recharge-history.entity").RechargeHistory[];
+            userPreferences: import("./entities/user-preference.entity").UserPreference[];
+            userLogins: import("./entities/user-login.entity").UserLogin[];
+            id: string;
+            createdAt: string;
+            createdBy: string;
+            updatedAt: string;
+            updatedBy: string;
+            isActive: boolean;
+        };
         message: string;
     }>;
     getUserDeatailByDisplayId(displayId: string, myBasicId: string): Promise<{

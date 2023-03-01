@@ -833,47 +833,47 @@ export class UserFacade {
             myBasicId,
           );
         console.log('connectUsers', connectUsers);
-        uniqueUsers.forEach((uu) => {
-          let tempObj = {
-            isLiked: false,
-            sent: false,
-            requested: false,
-            isConnected: false,
-            id: '',
-          };
-          let requiredObj = {};
-          let isConnectOne = connectUsers.find(
-            (u) => u.requestedUserBasicId == uu.id,
-          );
-          // console.log(isConnectOne);
+        let tempObj = {
+          isLiked: false,
+          sent: false,
+          requested: false,
+          isConnected: false,
+          id: '',
+        };
+        let requiredObj = {};
+        let isConnectOne = connectUsers.find(
+          (u) => u.requestedUserBasicId == userDetails.id,
+        );
+        console.log('isConnectOne', isConnectOne);
 
-          if (isConnectOne != null) {
-            (tempObj.isLiked = true),
-              (tempObj.requested = true),
-              (tempObj.isConnected =
-                isConnectOne.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectOne.id;
-            requiredObj = isConnectOne;
-            uu['UserRequestStatus'] = isConnectOne;
-          }
-          let isConnectTwo = connectUsers.find(
-            (u) => u.requestingUserBasicId == uu.id,
-          );
-          if (isConnectTwo != null) {
-            (tempObj.isLiked = true),
-              (tempObj.sent = true),
-              (tempObj.isConnected =
-                isConnectTwo.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectTwo.id;
-            requiredObj = isConnectTwo;
-            uu['UserRequestStatus'] = isConnectTwo;
-          }
-          uu['interestStatus'] = tempObj;
-        });
+        if (isConnectOne != null) {
+          (tempObj.isLiked = true),
+            (tempObj.requested = true),
+            (tempObj.isConnected =
+              isConnectOne.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectOne.id;
+          requiredObj = isConnectOne;
+          userDetails['UserRequestStatus'] = isConnectOne ? [isConnectOne] : [];
+        }
+        let isConnectTwo = connectUsers.find(
+          (u) => u.requestingUserBasicId == userDetails.id,
+        );
+        console.log('isConnectTwo', isConnectTwo);
+        if (isConnectTwo != null) {
+          (tempObj.isLiked = true),
+            (tempObj.sent = true),
+            (tempObj.isConnected =
+              isConnectTwo.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectTwo.id;
+          requiredObj = isConnectTwo;
+          userDetails['UserRequestStatus'] = isConnectTwo ? [isConnectTwo] : [];
+        }
+        userDetails['interestStatus'] = tempObj;
+        uniqueUsers.forEach((uu) => {});
 
         // // Get connect requestUser for call and message
         const connectedUserForCallAndMessage =
@@ -924,24 +924,28 @@ export class UserFacade {
         console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
       }
+      console.log('userDetails', userDetails);
+      // if (userReqDet.length > 0) {
+      //   requiredData = {
+      //     ...userDetails,
+      //     UserRequestStatus: userReqDet,
+      //     blockStatus: blockStatus,
+      //     blockDetails: blockDetails,
+      //   };
+      // } else {
+      //   requiredData = {
+      //     ...userDetails,
+      //     UserRequestStatus: [],
+      //     blockStatus: blockStatus,
+      //     blockDetails: blockDetails,
+      //   };
+      // }
 
-      if (userReqDet.length > 0) {
-        requiredData = {
-          ...userDetails,
-          UserRequestStatus: userReqDet,
-          blockStatus: blockStatus,
-          blockDetails: blockDetails,
-        };
-      } else {
-        requiredData = {
-          ...userDetails,
-          UserRequestStatus: [],
-          blockStatus: blockStatus,
-          blockDetails: blockDetails,
-        };
-      }
-
-      return requiredData;
+      return {
+        ...userDetails,
+        blockStatus: blockStatus,
+        blockDetails: blockDetails,
+      };
     } catch (err) {
       console.log('ERRRRRROR', err);
     }
@@ -1004,6 +1008,7 @@ export class UserFacade {
 
       let requiredData = {};
       let userReqDet = [];
+      let requiredObj = {};
       if (myBasicId) {
         console.log('userReqDet', userReqDet);
         let uniqueUsers = [userDetails];
@@ -1013,47 +1018,45 @@ export class UserFacade {
           await this.connectService.getUserRequestStatusForAppPrefAndFilter(
             myBasicId,
           );
+        let tempObj = {
+          isLiked: false,
+          sent: false,
+          requested: false,
+          isConnected: false,
+          id: '',
+        };
+        let isConnectOne = connectUsers.find(
+          (u) => u.requestedUserBasicId == userDetails.id,
+        );
+        if (isConnectOne != null) {
+          (tempObj.isLiked = true),
+            (tempObj.requested = true),
+            (tempObj.isConnected =
+              isConnectOne.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectOne.id;
+          requiredObj = isConnectOne;
+        }
+        let isConnectTwo = connectUsers.find(
+          (u) => u.requestingUserBasicId == userDetails.id,
+        );
+        console.log(isConnectTwo);
+        if (isConnectTwo != null) {
+          (tempObj.isLiked = true),
+            (tempObj.sent = true),
+            (tempObj.isConnected =
+              isConnectTwo.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectTwo.id;
+          requiredObj = isConnectTwo;
+        }
+        userDetails['interestStatus'] = tempObj;
+        userDetails['UserRequestStatus'] = requiredObj;
         console.log('connectUsers', connectUsers);
         uniqueUsers.forEach((uu) => {
-          let tempObj = {
-            isLiked: false,
-            sent: false,
-            requested: false,
-            isConnected: false,
-            id: '',
-          };
-          let requiredObj = {};
-          let isConnectOne = connectUsers.find(
-            (u) => u.requestedUserBasicId == uu.id,
-          );
           console.log(isConnectOne);
-
-          if (isConnectOne != null) {
-            (tempObj.isLiked = true),
-              (tempObj.requested = true),
-              (tempObj.isConnected =
-                isConnectOne.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectOne.id;
-            requiredObj = isConnectOne;
-          }
-          let isConnectTwo = connectUsers.find(
-            (u) => u.requestingUserBasicId == uu.id,
-          );
-          console.log(isConnectTwo);
-          if (isConnectTwo != null) {
-            (tempObj.isLiked = true),
-              (tempObj.sent = true),
-              (tempObj.isConnected =
-                isConnectTwo.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectTwo.id;
-            requiredObj = isConnectTwo;
-          }
-          uu['interestStatus'] = tempObj;
-          uu['UserRequestStatus'] = isConnectTwo;
         });
 
         // // Get connect requestUser for call and message
@@ -1102,9 +1105,10 @@ export class UserFacade {
           }
           uu['connectRequestCallMessageStatus'] = tempObj;
         });
-        console.log('uniqueUsers', uniqueUsers);
+        console.log('uniqueUsers324324324', uniqueUsers);
         // return uniqueUsers;
       }
+      console.log('userDetails', userDetails);
       if (userReqDet.length > 0) {
         requiredData = { ...userDetails, UserRequestStatus: userReqDet };
       } else {
