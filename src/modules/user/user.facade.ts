@@ -920,9 +920,8 @@ export class UserFacade {
           }
           uu['connectRequestCallMessageStatus'] = tempObj;
         });
-        console.log('uniqueUsers', uniqueUsers[0]);
+        console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
-        userReqDet = uniqueUsers;
       }
 
       if (userReqDet.length > 0) {
@@ -1446,6 +1445,9 @@ export class UserFacade {
     return uniqueUsers;
   }
   async getOnlineMembers(userBasicId: string) {
+
+
+
     return this.userService.getOnlineMembers(userBasicId);
   }
 
