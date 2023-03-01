@@ -926,7 +926,12 @@ export class UserFacade {
       }
 
       if (userReqDet.length > 0) {
-        requiredData = userReqDet[0];
+        requiredData = {
+          ...userDetails,
+          UserRequestStatus: userReqDet,
+          blockStatus: blockStatus,
+          blockDetails: blockDetails,
+        };
       } else {
         requiredData = {
           ...userDetails,
