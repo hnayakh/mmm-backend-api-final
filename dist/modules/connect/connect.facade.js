@@ -24,86 +24,100 @@ let ConnectFacade = class ConnectFacade {
         this.masterService = masterService;
     }
     async getUserRequestDetails(userBasicId) {
-        const activeSent = await this.connectService.getActiveSentRequest(userBasicId);
-        const activeInvites = await this.connectService.getActiveInvites(userBasicId);
-        const activeconnections = await this.connectService.getActiveConnections(userBasicId);
-        let userBasicIds = [];
-        activeSent.forEach((input) => {
-            userBasicIds.push(input.requestedUserBasicId);
-            userBasicIds.push(input.requestingUserBasicId);
-        });
-        activeInvites.forEach((input) => {
-            userBasicIds.push(input.requestedUserBasicId);
-            userBasicIds.push(input.requestingUserBasicId);
-        });
-        activeconnections.forEach((input) => {
-            userBasicIds.push(input.requestedUserBasicId);
-            userBasicIds.push(input.requestingUserBasicId);
-        });
-        const users = await this.userService.getUsersByIds(userBasicIds);
-        const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
-        activeSent.forEach((input) => {
-            input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
-            let tempObj = {
-                isConnected: false,
-                id: null,
-            };
-            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
-            if (isConnectOne != null) {
-                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-            }
-            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
-            if (isConnectTwo != null) {
-                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-            }
-            input['user']['connectStatus'] = tempObj;
-        });
-        activeInvites.forEach((input) => {
-            input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
-            let tempObj = {
-                isConnected: false,
-                id: null,
-            };
-            let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
-            if (isConnectOne != null) {
-                (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-            }
-            let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestingUserBasicId']);
-            if (isConnectTwo != null) {
-                (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-            }
-            input['user']['connectStatus'] = tempObj;
-        });
-        activeconnections.forEach((input) => {
-            let tempObj = {
-                isConnected: false,
-                id: null,
-            };
-            let requiredObj = {};
-            if (userBasicId == input['requestedUserBasicId']) {
-                input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
-                let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
+        try {
+            const activeSent = await this.connectService.getActiveSentRequest(userBasicId);
+            const activeInvites = await this.connectService.getActiveInvites(userBasicId);
+            const activeconnections = await this.connectService.getActiveConnections(userBasicId);
+            const activeSentconnections = await this.connectService.getActiveSentConnections(userBasicId);
+            console.log('activeconnections', activeSentconnections);
+            let requiredConnection = [...activeconnections, ...activeSentconnections];
+            let userBasicIds = [];
+            activeSent.forEach((input) => {
+                userBasicIds.push(input.requestedUserBasicId);
+                userBasicIds.push(input.requestingUserBasicId);
+            });
+            activeInvites.forEach((input) => {
+                userBasicIds.push(input.requestedUserBasicId);
+                userBasicIds.push(input.requestingUserBasicId);
+            });
+            requiredConnection.forEach((input) => {
+                userBasicIds.push(input.requestedUserBasicId);
+                userBasicIds.push(input.requestingUserBasicId);
+            });
+            const users = await this.userService.getUsersByIds(userBasicIds);
+            const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+            activeSent.forEach((input) => {
+                input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                let tempObj = {
+                    isConnected: false,
+                    id: null,
+                };
+                let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
                 if (isConnectOne != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-                    requiredObj = isConnectOne;
                 }
-            }
-            else {
-                input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
                 let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
                 if (isConnectTwo != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-                    requiredObj = isConnectTwo;
                 }
-            }
-            input['user']['connectStatus'] = tempObj;
-            input['user']['UserRequestStatus'] = requiredObj;
-        });
-        return {
-            activeSent,
-            activeconnections,
-            activeInvites,
-        };
+                input['user']['connectStatus'] = tempObj;
+                input['requestingUserDeatails'] = users.find((x) => x.id == input['requestingUserBasicId']);
+            });
+            activeInvites.forEach((input) => {
+                input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
+                let tempObj = {
+                    isConnected: false,
+                    id: null,
+                };
+                let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
+                if (isConnectOne != null) {
+                    (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+                }
+                let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestingUserBasicId']);
+                if (isConnectTwo != null) {
+                    (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+                }
+                input['user']['connectStatus'] = tempObj;
+            });
+            requiredConnection.forEach((input) => {
+                let tempObj = {
+                    isConnected: false,
+                    id: null,
+                };
+                let requiredObj = {};
+                if (userBasicId == input['requestedUserBasicId']) {
+                    input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
+                    let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
+                    if (isConnectOne != null) {
+                        (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+                        requiredObj = isConnectOne;
+                    }
+                }
+                else {
+                    input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                    let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
+                    if (isConnectTwo != null) {
+                        (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+                        requiredObj = isConnectTwo;
+                    }
+                }
+                input['user']['connectStatus'] = tempObj;
+                input['user']['UserRequestStatus'] = requiredObj;
+                input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                input['requestingUserDeatails'] = users.find((x) => x.id == input['requestingUserBasicId']);
+            });
+            console.log('activeconactiveconnections', requiredConnection);
+            return {
+                activeSent,
+                activeconnections: requiredConnection,
+                activeInvites,
+            };
+        }
+        catch (err) {
+            console.log(err);
+            return err;
+        }
     }
     async createOrUpdateUserRequest(userRequestDto) {
         return await this.connectService.createOrUpdateUserRequest(userRequestDto);

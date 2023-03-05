@@ -52,8 +52,14 @@ export class UserController {
   }
 
   @Post('basic')
-  async createUserBasic(@Body() createUserBasicDto: CreateUserBasicDto) {
-    const userBasic = await this.userFacade.createUserBasic(createUserBasicDto);
+  async createUserBasic(
+    @Body() createUserBasicDto: CreateUserBasicDto,
+    @Body() fireBaseToken: any,
+  ) {
+    const userBasic = await this.userFacade.createUserBasic(
+      fireBaseToken,
+      createUserBasicDto,
+    );
     return { data: userBasic, message: 'User basic registration successful.' };
   }
 

@@ -748,28 +748,27 @@ let UserRepo = class UserRepo {
     }
     async getOnlineMembers(userBasicId, onlineUserIds) {
         const entityManager = typeorm_2.getManager();
+        let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
+from users_view_admin pv
+where pv.id = '${userBasicId}'
+`;
+        const currentUserDet = await entityManager.query(currentuserQuery);
+        let requiredOnlineUserIds = onlineUserIds.map(x => `'${x}'`);
         const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
-    pv.createdAt as visitedAt
-    from users_view pv
-    join users_view uv
-    WHERE uv.id = '${userBasicId}'
-    and pv.isActive = 1
-    and pv.id != '${userBasicId}'
-    and pv.gender != uv.gender
-   
-    group by pv.id
+pv.createdAt as visitedAt
+from users_view_admin pv
+Where  pv.id  != '${userBasicId}'
+and pv.gender != ${currentUserDet[0].gender}
+and  pv.id in (${requiredOnlineUserIds})
 `;
         const userDet = await entityManager.query(rawQuery);
-        //console.log('requiredConnectionData', userDet);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log('requiredReligionData', requiredReligionData);
         let userReligions = [].concat(...requiredReligionData
             .map((x) => JSON.parse(x.religion))
             .filter((y) => y != null));
-        console.log('userReligions', userReligions);
         let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
-        return result;
+        return userDet;
     }
     async getPremiumMembers(userBasicId) {
         const entityManager = typeorm_2.getManager();
@@ -785,14 +784,11 @@ let UserRepo = class UserRepo {
      group by ucl.userBasicId 
      ;`;
         const requiredConnectionData = await entityManager.query(rawQuery);
-       // console.log('requiredConnectionData', requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-       // console.log('requiredReligionData', requiredReligionData);
         let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)));
-        //console.log('userReligions', userReligions);
         let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
-       // console.log('result', result);
+        console.log('result', result);
         return result;
     }
     async blockProfile(ucl) {
@@ -825,7 +821,7 @@ let UserRepo = class UserRepo {
         }
     }
     async getBlockedUsers(id) {
-        return await this.userBlockRepo.findOne({
+        return await this.userBlockRepo.find({
             where: {
                 block_who: id,
             },

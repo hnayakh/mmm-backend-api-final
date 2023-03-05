@@ -36,6 +36,7 @@ export declare class ConnectService {
     getActiveSentRequest(userBasicId: string): Promise<UserRequest[]>;
     getActiveInvites(userBasicId: string): Promise<UserRequest[]>;
     getActiveConnections(userBasicId: string): Promise<UserRequest[]>;
+    getActiveSentConnections(userBasicId: string): Promise<UserRequest[]>;
     getUserRequestStatusForAppPrefAndFilter(userBasicId: string): Promise<UserRequest[]>;
     createUserConnectDuration(input: UserConnectDurationDto, masterConnect: Connect): Promise<UserConnectDuration>;
     createUserConnectDurationLog(input: UserConnectDurationDto, userConnectReqObj: UserConnectDuration): Promise<UserConnectDurationLog>;

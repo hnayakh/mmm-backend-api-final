@@ -104,49 +104,61 @@ export class ConnectService {
     // 3 = Revert
     // 4 = RemovedByRequestedUser
     // 5 = RemovedByRequestingUser
-    const userRequest = await this.connectRepo.getUserRequestById(
-      userRequestDto.userRequestId,
-    );
-    if (userRequest != null) userRequest.operation = userRequestDto.operation;
-    switch (userRequestDto.operation) {
-      case 0:
-        const existingRequest = await this.connectRepo.getRequestValidation(
-          userRequestDto.requestedUserBasicId,
-          userRequestDto.requestingUserBasicId,
-        );
-        // TODO: This needs to be checked from both side.
-        if (existingRequest != null) {
-          userRequest.userRequestStatus = UserRequestStatus.Pending;
+    try {
+      const userRequest = await this.connectRepo.getUserRequestById(
+        userRequestDto.userRequestId,
+      );
+      if (userRequest != null) userRequest.operation = userRequestDto.operation;
+      switch (userRequestDto.operation) {
+        case 0:
+          const existingRequest = await this.connectRepo.getRequestValidation(
+            userRequestDto.requestedUserBasicId,
+            userRequestDto.requestingUserBasicId,
+          );
+          console.log('userRequest', userRequest);
+          console.log('userRequest', existingRequest);
+          // TODO: This needs to be checked from both side.
+          if (existingRequest != null) {
+            existingRequest.requestingUserBasicId =
+              userRequestDto.requestingUserBasicId;
+            existingRequest.requestedUserBasicId =
+              userRequestDto.requestedUserBasicId;
+            existingRequest.userRequestStatus = UserRequestStatus.Pending;
+            existingRequest.userRequestState = UserRequestState.NotConnected;
+            return await this.connectRepo.updateUserRequest(existingRequest);
+          }
+          const userReq = UserRequest.createUserRequest(
+            userRequestDto.requestingUserBasicId,
+            userRequestDto.requestedUserBasicId,
+          );
+          return await this.connectRepo.createUserRequest(userReq);
+        case 1:
+          userRequest.userRequestStatus = UserRequestStatus.Accepted;
+          userRequest.userRequestState = UserRequestState.Active;
+          return await this.connectRepo.updateUserRequest(userRequest);
+        case 2:
+          userRequest.userRequestStatus = UserRequestStatus.Rejected;
           userRequest.userRequestState = UserRequestState.NotConnected;
           return await this.connectRepo.updateUserRequest(userRequest);
-        }
-        const userReq = UserRequest.createUserRequest(
-          userRequestDto.requestingUserBasicId,
-          userRequestDto.requestedUserBasicId,
-        );
-        return await this.connectRepo.createUserRequest(userReq);
-      case 1:
-        userRequest.userRequestStatus = UserRequestStatus.Accepted;
-        userRequest.userRequestState = UserRequestState.Active;
-        return await this.connectRepo.updateUserRequest(userRequest);
-      case 2:
-        userRequest.userRequestStatus = UserRequestStatus.Rejected;
-        userRequest.userRequestState = UserRequestState.NotConnected;
-        return await this.connectRepo.updateUserRequest(userRequest);
-      case 3:
-        userRequest.userRequestStatus = UserRequestStatus.Reverted;
-        userRequest.userRequestState = UserRequestState.NotConnected;
-        return await this.connectRepo.updateUserRequest(userRequest);
-      case 4:
-        userRequest.userRequestStatus = UserRequestStatus.Reverted;
-        userRequest.userRequestState = UserRequestState.RemovedByRequestingUser;
-        return await this.connectRepo.updateUserRequest(userRequest);
-      case 5:
-        userRequest.userRequestStatus = UserRequestStatus.Rejected;
-        userRequest.userRequestState = UserRequestState.RemovedByRequestedUser;
-        return await this.connectRepo.updateUserRequest(userRequest);
-      default:
-        return userRequest;
+        case 3:
+          userRequest.userRequestStatus = UserRequestStatus.Reverted;
+          userRequest.userRequestState = UserRequestState.NotConnected;
+          return await this.connectRepo.updateUserRequest(userRequest);
+        case 4:
+          userRequest.userRequestStatus = UserRequestStatus.Reverted;
+          userRequest.userRequestState =
+            UserRequestState.RemovedByRequestingUser;
+          return await this.connectRepo.updateUserRequest(userRequest);
+        case 5:
+          userRequest.userRequestStatus = UserRequestStatus.Rejected;
+          userRequest.userRequestState =
+            UserRequestState.RemovedByRequestedUser;
+          return await this.connectRepo.updateUserRequest(userRequest);
+        default:
+          return userRequest;
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -164,6 +176,9 @@ export class ConnectService {
 
   async getActiveConnections(userBasicId: string) {
     return await this.connectRepo.getActiveConnections(userBasicId);
+  }
+  async getActiveSentConnections(userBasicId: string) {
+    return await this.connectRepo.getActiveSentConnections(userBasicId);
   }
 
   async getUserRequestStatusForAppPrefAndFilter(userBasicId: string) {
@@ -270,15 +285,17 @@ export class ConnectService {
     input: UserConnectRequestDto,
     masterConnect: Connect,
   ) {
-    console.log('ewhjgewjh')
+    console.log('ewhjgewjh');
     let connectDuration = await this.connectRepo.getConnectDurationById(
       input.userConnectRequestId,
     );
     // connectDuration.isActive = false;
     try {
-      console.log('connectDuration',connectDuration)
-      let result= await this.connectRepo.updateUserConnectDuration(connectDuration);
-      return result
+      console.log('connectDuration', connectDuration);
+      let result = await this.connectRepo.updateUserConnectDuration(
+        connectDuration,
+      );
+      return result;
     } catch (error) {
       return error;
     }

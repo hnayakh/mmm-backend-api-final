@@ -1086,9 +1086,9 @@ let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
 from users_view_admin pv
 where pv.id = '${userBasicId}'
 `;
-console.log("currentUserQuery", currentuserQuery)
+
 const currentUserDet = await entityManager.query(currentuserQuery);
-console.log("currentUser", currentUserDet)
+
 let requiredOnlineUserIds=onlineUserIds.map(x=>`'${x}'`);
 const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
 pv.createdAt as visitedAt
@@ -1098,7 +1098,6 @@ and pv.gender != ${currentUserDet[0].gender}
 and  pv.id in (${requiredOnlineUserIds})
 `;
 
-console.log("rawquery", rawQuery);
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
     const userDet = await entityManager.query(rawQuery);
@@ -1106,13 +1105,13 @@ console.log("rawquery", rawQuery);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
 
     let requiredReligionData = await entityManager.query(userReligionQuery);
-    console.log('requiredReligionData', requiredReligionData);
+    
     let userReligions = [].concat(
       ...requiredReligionData
         .map((x) => JSON.parse(x.religion))
         .filter((y) => y != null),
     );
-    console.log('userReligions', userReligions);
+
     let result = userDet.filter(
       (c) =>
         c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1),
@@ -1179,7 +1178,7 @@ console.log("rawquery", rawQuery);
     }
   }
   async getBlockedUsers(id) {
-    return await this.userBlockRepo.findOne({
+    return await this.userBlockRepo.find({
       where: {
         block_who: id,
       },

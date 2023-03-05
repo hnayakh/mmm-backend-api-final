@@ -65,7 +65,10 @@ export class UserFacade {
     user.updateRegistrationStep(step);
     return await this.userService.updateUserBasic(user);
   }
-  async createUserBasic(createUserBasicDto: CreateUserBasicDto) {
+  async createUserBasic(
+    fireBaseToken: any,
+    createUserBasicDto: CreateUserBasicDto,
+  ) {
     const user = await this.userService.getUserBasicByEmail(
       createUserBasicDto.email,
     );
@@ -75,7 +78,10 @@ export class UserFacade {
         HttpStatus.EXPECTATION_FAILED,
       );
     }
-    return await this.userService.createUserBasic(createUserBasicDto);
+    return await this.userService.createUserBasic(
+      fireBaseToken,
+      createUserBasicDto,
+    );
   }
 
   async createUserAbout(createUserAboutDto: CreateUserAboutDto) {
@@ -659,7 +665,7 @@ export class UserFacade {
       userBasic,
       createUserPreferenceDto,
     );
-    console.log('result',res)
+    console.log('result', res);
     delete res.userBasic;
     return res;
   }
@@ -727,7 +733,7 @@ export class UserFacade {
         );
         userDetails.userCareers[i]['countryName'] = country['name'];
         userDetails.userCareers[i]['stateName'] = state['name'];
-        userDetails.userCareers[i]['cityName'] = city['name'];
+        userDetails.userCareers[i]['cityName'] = city ? city['name'] : null;
       }
       if (userDetails.userReligions && userDetails.userReligions.length) {
         for (let i = 0; i < userDetails.userReligions.length; i++) {
@@ -827,47 +833,47 @@ export class UserFacade {
             myBasicId,
           );
         console.log('connectUsers', connectUsers);
-        uniqueUsers.forEach((uu) => {
-          let tempObj = {
-            isLiked: false,
-            sent: false,
-            requested: false,
-            isConnected: false,
-            id: '',
-          };
-          let requiredObj = {};
-          let isConnectOne = connectUsers.find(
-            (u) => u.requestedUserBasicId == uu.id,
-          );
-          // console.log(isConnectOne);
+        let tempObj = {
+          isLiked: false,
+          sent: false,
+          requested: false,
+          isConnected: false,
+          id: '',
+        };
+        let requiredObj = {};
+        let isConnectOne = connectUsers.find(
+          (u) => u.requestedUserBasicId == userDetails.id,
+        );
+        console.log('isConnectOne', isConnectOne);
 
-          if (isConnectOne != null) {
-            (tempObj.isLiked = true),
-              (tempObj.requested = true),
-              (tempObj.isConnected =
-                isConnectOne.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectOne.id;
-            requiredObj = isConnectOne;
-            uu['UserRequestStatus'] = isConnectOne;
-          }
-          let isConnectTwo = connectUsers.find(
-            (u) => u.requestingUserBasicId == uu.id,
-          );
-          if (isConnectTwo != null) {
-            (tempObj.isLiked = true),
-              (tempObj.sent = true),
-              (tempObj.isConnected =
-                isConnectTwo.userRequestState == UserRequestState.Active
-                  ? true
-                  : false);
-            tempObj.id = isConnectTwo.id;
-            requiredObj = isConnectTwo;
-            uu['UserRequestStatus'] = isConnectTwo;
-          }
-          uu['interestStatus'] = tempObj;
-        });
+        if (isConnectOne != null) {
+          (tempObj.isLiked = true),
+            (tempObj.requested = true),
+            (tempObj.isConnected =
+              isConnectOne.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectOne.id;
+          requiredObj = isConnectOne;
+          userDetails['UserRequestStatus'] = isConnectOne ? [isConnectOne] : [];
+        }
+        let isConnectTwo = connectUsers.find(
+          (u) => u.requestingUserBasicId == userDetails.id,
+        );
+        console.log('isConnectTwo', isConnectTwo);
+        if (isConnectTwo != null) {
+          (tempObj.isLiked = true),
+            (tempObj.sent = true),
+            (tempObj.isConnected =
+              isConnectTwo.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectTwo.id;
+          requiredObj = isConnectTwo;
+          userDetails['UserRequestStatus'] = isConnectTwo ? [isConnectTwo] : [];
+        }
+        userDetails['interestStatus'] = tempObj;
+        uniqueUsers.forEach((uu) => {});
 
         // // Get connect requestUser for call and message
         const connectedUserForCallAndMessage =
@@ -918,95 +924,101 @@ export class UserFacade {
         console.log('uniqueUsers', uniqueUsers);
         // return uniqueUsers;
       }
+      console.log('userDetails', userDetails);
+      // if (userReqDet.length > 0) {
+      //   requiredData = {
+      //     ...userDetails,
+      //     UserRequestStatus: userReqDet,
+      //     blockStatus: blockStatus,
+      //     blockDetails: blockDetails,
+      //   };
+      // } else {
+      //   requiredData = {
+      //     ...userDetails,
+      //     UserRequestStatus: [],
+      //     blockStatus: blockStatus,
+      //     blockDetails: blockDetails,
+      //   };
+      // }
 
-      if (userReqDet.length > 0) {
-        requiredData = {
-          ...userDetails,
-          UserRequestStatus: userReqDet,
-          blockStatus: blockStatus,
-          blockDetails: blockDetails,
-        };
-      } else {
-        requiredData = {
-          ...userDetails,
-          UserRequestStatus: [],
-          blockStatus: blockStatus,
-          blockDetails: blockDetails,
-        };
-      }
-
-      return requiredData;
+      return {
+        ...userDetails,
+        blockStatus: blockStatus,
+        blockDetails: blockDetails,
+      };
     } catch (err) {
       console.log('ERRRRRROR', err);
     }
   }
   async getUserDeatailByDisplayId(displayId: string, myBasicId: string) {
-    const entityManager = getManager();
-    const rawQuery = `SELECT id from user_basics where displayId='${displayId}'`;
-    const userDet = await entityManager.query(rawQuery);
-    console.log('USERDET', userDet);
-    if (userDet.length == 0) {
-      return undefined;
-    }
-    const userDetails = await this.userService.getAllUserDetailsById(
-      userDet[0].id,
-    );
-    userDetails.userCareers = userDetails.userCareers.filter(
-      (x) =>
-        x.profileUpdationStatus == ProfileUpdationStatus.Current ||
-        x.profileUpdationStatus == ProfileUpdationStatus.Pending,
-    );
-    userDetails.userFamilyBackgrounds =
-      userDetails.userFamilyBackgrounds.filter(
+    try {
+      const entityManager = getManager();
+
+      const rawQuery = `SELECT id from user_basics where displayId='${displayId}'`;
+      const userDet = await entityManager.query(rawQuery);
+      console.log('USERDET', userDet);
+      if (userDet.length == 0) {
+        return undefined;
+      }
+      const userDetails = await this.userService.getAllUserDetailsById(
+        userDet[0].id,
+      );
+      userDetails.userCareers = userDetails.userCareers.filter(
         (x) =>
           x.profileUpdationStatus == ProfileUpdationStatus.Current ||
           x.profileUpdationStatus == ProfileUpdationStatus.Pending,
       );
-    for (let i = 0; i < userDetails.userCareers.length; i++) {
-      let country = await this.masterService.getCountry(
-        userDetails.userCareers[i].country,
-      );
-      let state = await this.masterService.getState(
-        userDetails.userCareers[i].state,
-      );
-      let city = await this.masterService.getCity(
-        userDetails.userCareers[i].city,
-      );
-      userDetails.userCareers[i]['countryName'] = country['name'];
-      userDetails.userCareers[i]['stateName'] = state['name'];
-      userDetails.userCareers[i]['cityName'] = city['name'];
-    }
-
-    for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
-      let country = await this.masterService.getCountry(
-        userDetails.userFamilyBackgrounds[i].country,
-      );
-      let state = await this.masterService.getState(
-        userDetails.userFamilyBackgrounds[i].state,
-      );
-      let city = await this.masterService.getCity(
-        userDetails.userFamilyBackgrounds[i].city,
-      );
-      userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
-      userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
-      userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
-    }
-
-    // return userDetails;
-
-    let requiredData = {};
-    let userReqDet = [];
-    if (myBasicId) {
-      console.log('userReqDet', userReqDet);
-      let uniqueUsers = [userDetails];
-      // Get blocked users
-      // Get liked users
-      const connectUsers =
-        await this.connectService.getUserRequestStatusForAppPrefAndFilter(
-          myBasicId,
+      userDetails.userFamilyBackgrounds =
+        userDetails.userFamilyBackgrounds.filter(
+          (x) =>
+            x.profileUpdationStatus == ProfileUpdationStatus.Current ||
+            x.profileUpdationStatus == ProfileUpdationStatus.Pending,
         );
-      console.log('connectUsers', connectUsers);
-      uniqueUsers.forEach((uu) => {
+      for (let i = 0; i < userDetails.userCareers.length; i++) {
+        let country = await this.masterService.getCountry(
+          userDetails.userCareers[i].country,
+        );
+        let state = await this.masterService.getState(
+          userDetails.userCareers[i].state,
+        );
+        let city = await this.masterService.getCity(
+          userDetails.userCareers[i].city,
+        );
+        userDetails.userCareers[i]['countryName'] = country['name'];
+        userDetails.userCareers[i]['stateName'] = state['name'];
+        userDetails.userCareers[i]['cityName'] = city['name'];
+      }
+
+      for (let i = 0; i < userDetails.userFamilyBackgrounds.length; i++) {
+        let country = await this.masterService.getCountry(
+          userDetails.userFamilyBackgrounds[i].country,
+        );
+        let state = await this.masterService.getState(
+          userDetails.userFamilyBackgrounds[i].state,
+        );
+        let city = await this.masterService.getCity(
+          userDetails.userFamilyBackgrounds[i].city,
+        );
+        userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
+        userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
+        userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+      }
+
+      // return userDetails;
+
+      let requiredData = {};
+      let userReqDet = [];
+      let requiredObj = {};
+      if (myBasicId) {
+        console.log('userReqDet', userReqDet);
+        let uniqueUsers = [userDetails];
+        // Get blocked users
+        // Get liked users
+        const connectUsers =
+          await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+            myBasicId,
+          );
+        console.log('connectUsers', connectUsers);
         let tempObj = {
           isLiked: false,
           sent: false,
@@ -1016,9 +1028,9 @@ export class UserFacade {
         };
         let requiredObj = {};
         let isConnectOne = connectUsers.find(
-          (u) => u.requestedUserBasicId == uu.id,
+          (u) => u.requestedUserBasicId == userDetails.id,
         );
-        // console.log(isConnectOne);
+        console.log('isConnectOne', isConnectOne);
 
         if (isConnectOne != null) {
           (tempObj.isLiked = true),
@@ -1029,10 +1041,12 @@ export class UserFacade {
                 : false);
           tempObj.id = isConnectOne.id;
           requiredObj = isConnectOne;
+          userDetails['UserRequestStatus'] = isConnectOne ? [isConnectOne] : [];
         }
         let isConnectTwo = connectUsers.find(
-          (u) => u.requestingUserBasicId == uu.id,
+          (u) => u.requestingUserBasicId == userDetails.id,
         );
+        console.log('isConnectTwo', isConnectTwo);
         if (isConnectTwo != null) {
           (tempObj.isLiked = true),
             (tempObj.sent = true),
@@ -1042,67 +1056,74 @@ export class UserFacade {
                 : false);
           tempObj.id = isConnectTwo.id;
           requiredObj = isConnectTwo;
+          userDetails['UserRequestStatus'] = isConnectTwo ? [isConnectTwo] : [];
         }
-        uu['interestStatus'] = tempObj;
-        uu['UserRequestStatus'] = isConnectTwo;
-      });
+        userDetails['interestStatus'] = tempObj;
+        uniqueUsers.forEach((uu) => {
+          console.log(isConnectOne);
+        });
 
-      // // Get connect requestUser for call and message
-      const connectedUserForCallAndMessage =
-        await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-      uniqueUsers.forEach((uu) => {
-        let tempObj = {
-          isConnected: false,
-          id: null,
-        };
-        let isConnectOne = connectedUserForCallAndMessage.find(
-          (u) => u.userOneBasicId == uu.id,
-        );
-        if (isConnectOne != null) {
-          (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-        }
-        let isConnectTwo = connectedUserForCallAndMessage.find(
-          (u) => u.userTwoBasicId == uu.id,
-        );
-        if (isConnectTwo != null) {
-          (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-        }
-        uu['connectStatus'] = tempObj;
-      });
-      // Get connect requestUser for call and message
-      const connectedUserForCall =
-        await this.connectService.getUserConnectRequestsByUserId(myBasicId);
-      uniqueUsers.forEach((uu) => {
-        let tempObj = {
-          isConnectedForCallMessage: false,
-          userConnectRequestId: null,
-        };
-        let isConnectOne = connectedUserForCall.find(
-          (u) => u.userOneBasicId == uu.id,
-        );
-        if (isConnectOne != null) {
-          (tempObj.isConnectedForCallMessage = true),
-            (tempObj.userConnectRequestId = isConnectOne.id);
-        }
-        let isConnectTwo = connectedUserForCall.find(
-          (u) => u.userTwoBasicId == uu.id,
-        );
-        if (isConnectTwo != null) {
-          (tempObj.isConnectedForCallMessage = true),
-            (tempObj.userConnectRequestId = isConnectOne.id);
-        }
-        uu['connectRequestCallMessageStatus'] = tempObj;
-      });
-      console.log('uniqueUsers', uniqueUsers);
-      // return uniqueUsers;
-    }
-    if (userReqDet.length > 0) {
-      requiredData = { ...userDetails, UserRequestStatus: userReqDet };
-    } else {
-      requiredData = { ...userDetails, UserRequestStatus: [] };
-    }
+        // // Get connect requestUser for call and message
+        const connectedUserForCallAndMessage =
+          await this.connectService.getUserConnectRequestsByUserId(myBasicId);
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isConnected: false,
+            id: null,
+          };
+          let isConnectOne = connectedUserForCallAndMessage.find(
+            (u) => u.userOneBasicId == uu.id,
+          );
+          if (isConnectOne != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+          }
+          let isConnectTwo = connectedUserForCallAndMessage.find(
+            (u) => u.userTwoBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+          }
+          uu['connectStatus'] = tempObj;
+        });
+        // Get connect requestUser for call and message
+        const connectedUserForCall =
+          await this.connectService.getUserConnectRequestsByUserId(myBasicId);
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isConnectedForCallMessage: false,
+            userConnectRequestId: null,
+          };
+          let isConnectOne = connectedUserForCall.find(
+            (u) => u.userOneBasicId == uu.id,
+          );
+          if (isConnectOne != null) {
+            (tempObj.isConnectedForCallMessage = true),
+              (tempObj.userConnectRequestId = isConnectOne.id);
+          }
+          let isConnectTwo = connectedUserForCall.find(
+            (u) => u.userTwoBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isConnectedForCallMessage = true),
+              (tempObj.userConnectRequestId = isConnectOne.id);
+          }
+          uu['connectRequestCallMessageStatus'] = tempObj;
+        });
+        console.log('uniqueUsers324324324', uniqueUsers);
+        // return uniqueUsers;
+      }
+      console.log('userDetails', userDetails);
+      if (userReqDet.length > 0) {
+        requiredData = { ...userDetails };
+      } else {
+        requiredData = { ...userDetails };
+      }
 
-    return requiredData;
+      return requiredData;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   }
   async getAppUsersForAdmin(filterObj: any) {
     let queryString = `SELECT uv.id,
@@ -1126,7 +1147,6 @@ export class UserFacade {
     JOIN user_logins as ul 
     ON uv.id = ul.userBasicId
     WHERE uv.isActive = true `;
-
     if (filterObj['gender'] != undefined) {
       queryString = queryString + ` AND uv.gender = ${filterObj['gender']}`;
     }
@@ -1532,7 +1552,12 @@ export class UserFacade {
   }
   async getBlockedUsers(id: string) {
     // const ucl = UserBlock.createUserBlock(block_who, block_whom);
-    return await this.userService.getBlockedUsers(id);
+
+    let listOfBLockedUsers = await this.userService.getBlockedUsers(id);
+    listOfBLockedUsers.forEach(async (e) => {
+      const user = await this.userService.getUserById(e.block_who);
+      listOfBLockedUsers[''];
+    });
   }
   async getBlockedUsersForAll(id: string) {
     // const ucl = UserBlock.createUserBlock(block_who, block_whom);

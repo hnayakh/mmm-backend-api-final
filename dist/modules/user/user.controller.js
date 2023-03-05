@@ -40,8 +40,8 @@ let UserController = class UserController {
         const users = await this.userFacade.getAllUsers(skip, take, isVerified);
         return { data: users, message: 'All users fetched successfully.' };
     }
-    async createUserBasic(createUserBasicDto) {
-        const userBasic = await this.userFacade.createUserBasic(createUserBasicDto);
+    async createUserBasic(createUserBasicDto, fireBaseToken) {
+        const userBasic = await this.userFacade.createUserBasic(fireBaseToken, createUserBasicDto);
         return { data: userBasic, message: 'User basic registration successful.' };
     }
     async getUserDeatailById(userBasicId, myBasicId) {
@@ -316,8 +316,9 @@ __decorate([
 __decorate([
     common_1.Post('basic'),
     __param(0, common_1.Body()),
+    __param(1, common_1.Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_basic_dto_1.CreateUserBasicDto]),
+    __metadata("design:paramtypes", [create_user_basic_dto_1.CreateUserBasicDto, Object]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "createUserBasic", null);
 __decorate([

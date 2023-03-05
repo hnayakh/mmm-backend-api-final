@@ -170,6 +170,14 @@ let ConnectRepo = class ConnectRepo {
             },
         });
     }
+    async getActiveSentConnections(userBasicId) {
+        return await this.userRequestRepo.find({
+            where: {
+                requestingUserBasicId: userBasicId,
+                userRequestStatus: miscellaneous_enum_1.UserRequestStatus.Accepted,
+            },
+        });
+    }
     async createUserConnectDuration(userConnectDuration) {
         return await this.userConnectDurationRepo.save(userConnectDuration);
     }
