@@ -1439,8 +1439,8 @@ export class UserFacade {
     });
     return uniqueUsers;
   }
-  async getOnlineMembers(userBasicId: string) {
-    return this.userService.getOnlineMembers(userBasicId);
+  async getOnlineMembers(userBasicId: string, onlineUserIds: string []) {
+    return this.userService.getOnlineMembers(userBasicId, onlineUserIds);
   }
 
   async getPremiumMembers(userBasicId: string) {

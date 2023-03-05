@@ -263,8 +263,9 @@ let UserController = class UserController {
             message: 'Rencely Profile Visited By .',
         };
     }
-    async getOnlineMembers(userBasicId) {
-        const response = await this.userFacade.getOnlineMembers(userBasicId);
+    async getOnlineMembers(userBasicId, onlineUserIds) {
+        console.log("onlineUserIds", onlineUserIds);
+        const response = await this.userFacade.getOnlineMembers(userBasicId, onlineUserIds);
         return {
             data: response,
             message: 'Online Members .',
@@ -625,10 +626,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getProifleVisitedBy", null);
 __decorate([
-    common_1.Get('online_members/:userBasicId'),
+    common_1.Post('online_members/:userBasicId'),
     __param(0, common_1.Param('userBasicId')),
+    __param(1, common_1.Body('onlineUserIds')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Array]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getOnlineMembers", null);
 __decorate([

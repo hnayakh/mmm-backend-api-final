@@ -746,7 +746,7 @@ let UserRepo = class UserRepo {
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
-    async getOnlineMembers(userBasicId) {
+    async getOnlineMembers(userBasicId, onlineUserIds) {
         const entityManager = typeorm_2.getManager();
         const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
     pv.createdAt as visitedAt
@@ -756,10 +756,11 @@ let UserRepo = class UserRepo {
     and pv.isActive = 1
     and pv.id != '${userBasicId}'
     and pv.gender != uv.gender
+   
     group by pv.id
 `;
         const userDet = await entityManager.query(rawQuery);
-        console.log('requiredConnectionData', userDet);
+        //console.log('requiredConnectionData', userDet);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
         console.log('requiredReligionData', requiredReligionData);
@@ -784,14 +785,14 @@ let UserRepo = class UserRepo {
      group by ucl.userBasicId 
      ;`;
         const requiredConnectionData = await entityManager.query(rawQuery);
-        console.log('requiredConnectionData', requiredConnectionData);
+       // console.log('requiredConnectionData', requiredConnectionData);
         const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
         let requiredReligionData = await entityManager.query(userReligionQuery);
-        console.log('requiredReligionData', requiredReligionData);
+       // console.log('requiredReligionData', requiredReligionData);
         let userReligions = [].concat(...requiredReligionData.map((x) => JSON.parse(x.religion)));
-        console.log('userReligions', userReligions);
+        //console.log('userReligions', userReligions);
         let result = requiredConnectionData.filter((c) => userReligions.some((r) => c.religion.indexOf(r) > -1));
-        console.log('result', result);
+       // console.log('result', result);
         return result;
     }
     async blockProfile(ucl) {

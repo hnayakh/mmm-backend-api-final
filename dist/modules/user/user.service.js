@@ -240,8 +240,8 @@ let UserService = class UserService {
     async getProifleVisitedBy(userBasicId) {
         return await this.userRepo.getProifleVisitedBy(userBasicId);
     }
-    async getOnlineMembers(userBasicId) {
-        return await this.userRepo.getOnlineMembers(userBasicId);
+    async getOnlineMembers(userBasicId, onlineUserIds) {
+        return await this.userRepo.getOnlineMembers(userBasicId, onlineUserIds);
     }
     async getPremiumMembers(userBaicId) {
         return await this.userRepo.getPremiumMembers(userBaicId);

@@ -1066,25 +1066,43 @@ export class UserRepo {
     return userDet;
   }
 
-  async getOnlineMembers(userBasicId: string) {
+  async getOnlineMembers(userBasicId: string, onlineUserIds: string []) {
     // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
     // return result;
 
     const entityManager = getManager();
-    const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
-    pv.createdAt as visitedAt
-    from users_view pv
-    join users_view uv
-    WHERE uv.id = '${userBasicId}'
-    and pv.isActive = 1
-    and pv.id != '${userBasicId}'
-    and pv.gender != uv.gender
-    group by pv.id
+//     const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+//     pv.createdAt as visitedAt
+//     from users_view pv
+//     join users_view uv
+//     on pv.id = uv.id
+//     and pv.isActive = 1
+//     and pv.id != '${userBasicId}'
+//     and pv.gender != uv.gender
+   
+//     group by pv.id
+// `;
+let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
+from users_view_admin pv
+where pv.id = '${userBasicId}'
 `;
+console.log("currentUserQuery", currentuserQuery)
+const currentUserDet = await entityManager.query(currentuserQuery);
+console.log("currentUser", currentUserDet)
+let requiredOnlineUserIds=onlineUserIds.map(x=>`'${x}'`);
+const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+pv.createdAt as visitedAt
+from users_view_admin pv
+Where  pv.id  != '${userBasicId}'
+and pv.gender != ${currentUserDet[0].gender}
+and  pv.id in (${requiredOnlineUserIds})
+`;
+
+console.log("rawquery", rawQuery);
     // const userDet = await entityManager.query(rawQuery);
     // return userDet;
     const userDet = await entityManager.query(rawQuery);
-    console.log('requiredConnectionData', userDet);
+    //console.log('requiredConnectionData', userDet);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
 
     let requiredReligionData = await entityManager.query(userReligionQuery);
@@ -1099,7 +1117,7 @@ export class UserRepo {
       (c) =>
         c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1),
     );
-    return result;
+    return userDet;
   }
 
   async getPremiumMembers(userBasicId: string) {
@@ -1116,15 +1134,15 @@ export class UserRepo {
      group by ucl.userBasicId 
      ;`;
     const requiredConnectionData = await entityManager.query(rawQuery);
-    console.log('requiredConnectionData', requiredConnectionData);
+    //console.log('requiredConnectionData', requiredConnectionData);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
 
     let requiredReligionData = await entityManager.query(userReligionQuery);
-    console.log('requiredReligionData', requiredReligionData);
+  //  console.log('requiredReligionData', requiredReligionData);
     let userReligions = [].concat(
       ...requiredReligionData.map((x) => JSON.parse(x.religion)),
     );
-    console.log('userReligions', userReligions);
+   // console.log('userReligions', userReligions);
     let result = requiredConnectionData.filter((c) =>
       userReligions.some((r) => c.religion.indexOf(r) > -1),
     );

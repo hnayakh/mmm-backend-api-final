@@ -110,7 +110,7 @@ export declare class UserFacade {
     visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
     recentProfileViews(userBasicId: string): Promise<any[]>;
     getProifleVisitedBy(userBasicId: string): Promise<any[]>;
-    getOnlineMembers(userBasicId: string): Promise<any>;
+    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any[]>;
     blockProfile(block_who: string, block_whom: string): Promise<any>;
     unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
