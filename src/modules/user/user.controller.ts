@@ -503,9 +503,10 @@ export class UserController {
       message: 'Rencely Profile Visited By .',
     };
   }
-  @Get('online_members/:userBasicId')
-  async getOnlineMembers(@Param('userBasicId') userBasicId: string) {
-    const response = await this.userFacade.getOnlineMembers(userBasicId);
+  @Post('online_members/:userBasicId')
+  async getOnlineMembers(@Param('userBasicId') userBasicId: string, @Body('onlineUserIds') onlineUserIds: string [],) {
+    console.log("onlineUserIds", onlineUserIds)
+    const response = await this.userFacade.getOnlineMembers(userBasicId, onlineUserIds);
     return {
       data: response,
       message: 'Online Members .',

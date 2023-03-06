@@ -990,8 +990,8 @@ let UserFacade = class UserFacade {
         });
         return uniqueUsers;
     }
-    async getOnlineMembers(userBasicId) {
-        return this.userService.getOnlineMembers(userBasicId);
+    async getOnlineMembers(userBasicId, onlineUserIds) {
+        return this.userService.getOnlineMembers(userBasicId, onlineUserIds);
     }
     async getPremiumMembers(userBasicId) {
         const result = await this.userService.getPremiumMembers(userBasicId);

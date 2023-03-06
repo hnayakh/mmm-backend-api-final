@@ -243,7 +243,7 @@ export declare class UserController {
         data: any[];
         message: string;
     }>;
-    getOnlineMembers(userBasicId: string): Promise<{
+    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<{
         data: any;
         message: string;
     }>;

@@ -250,37 +250,8 @@ let UserService = class UserService {
     async getProifleVisitedBy(userBasicId) {
         return await this.userRepo.getProifleVisitedBy(userBasicId);
     }
-    async getOnlineMembers(userBasicId) {
-        const firebase_params = {
-            type: FIREBASE_SERVICE_ACCOUNT.type,
-            projectId: FIREBASE_SERVICE_ACCOUNT.project_id,
-            privateKeyId: FIREBASE_SERVICE_ACCOUNT.private_key_id,
-            privateKey: FIREBASE_SERVICE_ACCOUNT.private_key,
-            clientEmail: FIREBASE_SERVICE_ACCOUNT.client_email,
-            clientId: FIREBASE_SERVICE_ACCOUNT.client_id,
-            authUri: FIREBASE_SERVICE_ACCOUNT.auth_uri,
-            tokenUri: FIREBASE_SERVICE_ACCOUNT.token_uri,
-            authProviderX509CertUrl: FIREBASE_SERVICE_ACCOUNT.auth_provider_x509_cert_url,
-            clientC509CertUrl: FIREBASE_SERVICE_ACCOUNT.client_x509_cert_url,
-        };
-        console.log('firebase');
-        if (!firebase_admin_1.default.apps.length) {
-            firebase_admin_1.default.initializeApp({
-                credential: firebase_admin_1.default.credential.cert(firebase_params),
-            });
-        }
-        else {
-            firebase_admin_1.default.app();
-        }
-        firebase_admin_1.default
-            .firestore()
-            .collection('users')
-            .doc()
-            .get()
-            .then((document) => {
-            console.log('document', document);
-        });
-        return await this.userRepo.getOnlineMembers(userBasicId);
+    async getOnlineMembers(userBasicId, onlineUserIds) {
+        return await this.userRepo.getOnlineMembers(userBasicId, onlineUserIds);
     }
     async getPremiumMembers(userBaicId) {
         return await this.userRepo.getPremiumMembers(userBaicId);

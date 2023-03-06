@@ -22,18 +22,20 @@ import { UserPreference } from './entities/user-preference.entity';
 import { UserReligion } from './entities/user-religion.entity';
 import { ProfileVisit } from './entities/user.profile.visit';
 import { UserService } from './user.service';
-import { isArray } from 'lodash';
+import { forEach, isArray } from 'lodash';
 import { UserDocs } from './entities/user-docs.entity';
 import { Notification } from './entities/notification.entity';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { UserHobbies } from './entities/user-hobbies.entity';
 import { UserBlock } from './entities/block-user.entity';
+import { MasterService } from '../master/master.service';
 
 @Injectable()
 export class UserRepo {
   constructor(
     // @Inject(JwtService)
     private readonly jwtstategy: JwtService,
+    private masterService: MasterService,
     @InjectRepository(UserBasic)
     private readonly userBasicRepo: Repository<UserBasic>,
     @InjectRepository(UserAbout)
@@ -923,8 +925,8 @@ export class UserRepo {
       });
       // });
     }
-
     console.log('userDet3', userDet);
+
     return userPreferenc;
   }
 
@@ -936,10 +938,6 @@ export class UserRepo {
     let otherUserPreference = await this.getUserPreferenceByUserId(
       otherUserBasicId,
     );
-
-    console.log('userPreference', userPreference);
-    console.log('otherUserPreference', otherUserPreference);
-    console.log('userDetails', userDetails.userImages[0]);
     let excludedFields = [
       'createdAt',
       'updatedAt',
@@ -949,6 +947,23 @@ export class UserRepo {
       'id',
     ];
     let requiredMatchDetails = [];
+    //
+    // let city = await this.masterService.getCity(userDet.city);
+    let country1 = await this.masterService.getCountry(
+      parseInt(userPreference.country),
+    );
+    let state1 = await this.masterService.getState(
+      parseInt(userPreference.state),
+    );
+    console.log('state1', state1);
+    userPreference.country = country1.name;
+    let country2 = await this.masterService.getCountry(
+      parseInt(otherUserPreference.country),
+    );
+    let state2 = await this.masterService.getState(
+      parseInt(otherUserPreference.state),
+    );
+    otherUserPreference.country = country2.name;
 
     Object.keys(userPreference)
       .filter((x) => excludedFields.indexOf(x) == -1)
@@ -958,6 +973,7 @@ export class UserRepo {
           value: '',
           isMatching: false,
         };
+
         if (userPreference[filed]) {
           if (userPreference[filed] === otherUserPreference[filed]) {
             console.log('fdfdfddf', filed);
@@ -965,6 +981,7 @@ export class UserRepo {
               // matchField.field = 'age';
               // matchField.value = `${otherUserPreference[filed]}`;
               // matchField.isMatching = true;
+
               requiredMatchDetails.map((p) =>
                 p.field === 'age'
                   ? {
@@ -985,6 +1002,7 @@ export class UserRepo {
               matchField.isMatching = true;
             }
             requiredMatchDetails.push(matchField);
+
             matchingFields.push({ filed, value: userPreference[filed] });
           } else {
             if (filed === 'minAge' || filed === 'maxAge') {
@@ -1021,6 +1039,26 @@ export class UserRepo {
         (matchingFields.length + differentFields.length)) *
       100
     ).toFixed(0);
+    // let country = '';
+    // matchingFields.forEach(async (element) => {
+    //   console.log('here check', element);
+    //   if (element.filed == 'country') {
+    //     console.log('matchingFields', element.value);
+    //     country = await this.masterService.getCountry(element.value);
+    //     console.log('country', country['name']);
+    //   }
+    // });
+    // const index = matchingFields.findIndex(
+    //   (project) => project.filed === 'country',
+    // );
+    // matchingFields[index].value = country['name'];
+
+    // let country = await this.masterService.getCountry(requiredMatchDetails.country);
+    // let state = await this.masterService.getState(userDet.state);
+    // let city = await this.masterService.getCity(userDet.city);
+    // res['countryName'] = country['name'];
+    // res['stateName'] = state['name'];
+    // res['cityName'] = city['name'];
     return {
       matchingFields: matchingFields,
       differentFields: differentFields,
@@ -1066,38 +1104,57 @@ export class UserRepo {
     return userDet;
   }
 
-  async getOnlineMembers(userBasicId: string) {
+  async getOnlineMembers(userBasicId: string, onlineUserIds: string[]) {
+    // const result = await this.userProfileVisitRepo.find({ where: { visitedBy: { id: userBasicId }, }, });
+    // return result;
+
     const entityManager = getManager();
-    const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
-    pv.createdAt as visitedAt
-    from users_view_admin pv
-    join users_view_admin uv
-    WHERE uv.id = '${userBasicId}'
-    and pv.isActive = 1
-    and pv.id != '${userBasicId}'
-    and pv.gender != uv.gender
-    group by pv.id
+    //     const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+    //     pv.createdAt as visitedAt
+    //     from users_view pv
+    //     join users_view uv
+    //     on pv.id = uv.id
+    //     and pv.isActive = 1
+    //     and pv.id != '${userBasicId}'
+    //     and pv.gender != uv.gender
+
+    //     group by pv.id
+    // `;
+    let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
+from users_view_admin pv
+where pv.id = '${userBasicId}'
 `;
+
+    const currentUserDet = await entityManager.query(currentuserQuery);
+
+    let requiredOnlineUserIds = onlineUserIds.map((x) => `'${x}'`);
+    const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+pv.createdAt as visitedAt
+from users_view_admin pv
+Where  pv.id  != '${userBasicId}'
+and pv.gender != ${currentUserDet[0].gender}
+and  pv.id in (${requiredOnlineUserIds})
+`;
+
+    // const userDet = await entityManager.query(rawQuery);
+    // return userDet;
     const userDet = await entityManager.query(rawQuery);
-    console.log('requiredConnectionData', userDet);
+    //console.log('requiredConnectionData', userDet);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
 
     let requiredReligionData = await entityManager.query(userReligionQuery);
-    console.log('requiredReligionData', requiredReligionData);
+
     let userReligions = [].concat(
       ...requiredReligionData
         .map((x) => JSON.parse(x.religion))
         .filter((y) => y != null),
     );
-    console.log('userReligions', userReligions);
+
     let result = userDet.filter(
       (c) =>
         c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1),
     );
-    return result;
-
-
-    
+    return userDet;
   }
 
   async getPremiumMembers(userBasicId: string) {
@@ -1114,15 +1171,15 @@ export class UserRepo {
      group by ucl.userBasicId 
      ;`;
     const requiredConnectionData = await entityManager.query(rawQuery);
-    console.log('requiredConnectionData', requiredConnectionData);
+    //console.log('requiredConnectionData', requiredConnectionData);
     const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
 
     let requiredReligionData = await entityManager.query(userReligionQuery);
-    console.log('requiredReligionData', requiredReligionData);
+    //  console.log('requiredReligionData', requiredReligionData);
     let userReligions = [].concat(
       ...requiredReligionData.map((x) => JSON.parse(x.religion)),
     );
-    console.log('userReligions', userReligions);
+    // console.log('userReligions', userReligions);
     let result = requiredConnectionData.filter((c) =>
       userReligions.some((r) => c.religion.indexOf(r) > -1),
     );
