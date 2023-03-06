@@ -20,8 +20,10 @@ import { Notification } from './entities/notification.entity';
 import { UserLifestyle } from './entities/user-lifestyle.entity';
 import { UserHobbies } from './entities/user-hobbies.entity';
 import { UserBlock } from './entities/block-user.entity';
+import { MasterService } from '../master/master.service';
 export declare class UserRepo {
     private readonly jwtstategy;
+    private masterService;
     private readonly userBasicRepo;
     private readonly userAboutRepo;
     private readonly userHabitRepo;
@@ -41,7 +43,7 @@ export declare class UserRepo {
     private readonly userBlockRepo;
     private readonly userProfileVisitRepo;
     private readonly notificationRepo;
-    constructor(jwtstategy: JwtService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userLifestyleRepo: Repository<UserLifestyle>, userHobbiesRepo: Repository<UserHobbies>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userBlockRepo: Repository<UserBlock>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
+    constructor(jwtstategy: JwtService, masterService: MasterService, userBasicRepo: Repository<UserBasic>, userAboutRepo: Repository<UserAbout>, userHabitRepo: Repository<UserHabit>, userLifestyleRepo: Repository<UserLifestyle>, userHobbiesRepo: Repository<UserHobbies>, userReligionRepo: Repository<UserReligion>, userCareerRepo: Repository<UserCareer>, userFamilyBackgroundRepo: Repository<UserFamilyBackground>, userFamilyDetailRepo: Repository<UserFamilyDetail>, userImageRepo: Repository<UserImage>, userDocRepo: Repository<UserDocs>, userBioRepo: Repository<UserBio>, otpRepo: Repository<Otp>, userLoginRepo: Repository<UserLogin>, adminUserRepo: Repository<AdminUser>, userPreferenceRepo: Repository<UserPreference>, userBlockRepo: Repository<UserBlock>, userProfileVisitRepo: Repository<ProfileVisit>, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     createUserBasic(userBasic: UserBasic): Promise<UserBasic>;

@@ -37,9 +37,11 @@ const notification_entity_1 = require("./entities/notification.entity");
 const user_lifestyle_entity_1 = require("./entities/user-lifestyle.entity");
 const user_hobbies_entity_1 = require("./entities/user-hobbies.entity");
 const block_user_entity_1 = require("./entities/block-user.entity");
+const master_service_1 = require("../master/master.service");
 let UserRepo = class UserRepo {
-    constructor(jwtstategy, userBasicRepo, userAboutRepo, userHabitRepo, userLifestyleRepo, userHobbiesRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userBlockRepo, userProfileVisitRepo, notificationRepo) {
+    constructor(jwtstategy, masterService, userBasicRepo, userAboutRepo, userHabitRepo, userLifestyleRepo, userHobbiesRepo, userReligionRepo, userCareerRepo, userFamilyBackgroundRepo, userFamilyDetailRepo, userImageRepo, userDocRepo, userBioRepo, otpRepo, userLoginRepo, adminUserRepo, userPreferenceRepo, userBlockRepo, userProfileVisitRepo, notificationRepo) {
         this.jwtstategy = jwtstategy;
+        this.masterService = masterService;
         this.userBasicRepo = userBasicRepo;
         this.userAboutRepo = userAboutRepo;
         this.userHabitRepo = userHabitRepo;
@@ -651,9 +653,6 @@ let UserRepo = class UserRepo {
         let userDetails = await this.getAllUserDetailsById(userBasicId);
         let userPreference = await this.getUserPreferenceByUserId(userBasicId);
         let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-        console.log('userPreference', userPreference);
-        console.log('otherUserPreference', otherUserPreference);
-        console.log('userDetails', userDetails.userImages[0]);
         let excludedFields = [
             'createdAt',
             'updatedAt',
@@ -663,6 +662,13 @@ let UserRepo = class UserRepo {
             'id',
         ];
         let requiredMatchDetails = [];
+        let country1 = await this.masterService.getCountry(parseInt(userPreference.country));
+        let state1 = await this.masterService.getState(parseInt(userPreference.state));
+        console.log('state1', state1);
+        userPreference.country = country1.name;
+        let country2 = await this.masterService.getCountry(parseInt(otherUserPreference.country));
+        let state2 = await this.masterService.getState(parseInt(otherUserPreference.state));
+        otherUserPreference.country = country2.name;
         Object.keys(userPreference)
             .filter((x) => excludedFields.indexOf(x) == -1)
             .forEach((filed) => {
@@ -753,7 +759,7 @@ from users_view_admin pv
 where pv.id = '${userBasicId}'
 `;
         const currentUserDet = await entityManager.query(currentuserQuery);
-        let requiredOnlineUserIds = onlineUserIds.map(x => `'${x}'`);
+        let requiredOnlineUserIds = onlineUserIds.map((x) => `'${x}'`);
         const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
 pv.createdAt as visitedAt
 from users_view_admin pv
@@ -852,26 +858,27 @@ and  pv.id in (${requiredOnlineUserIds})
 };
 UserRepo = __decorate([
     common_1.Injectable(),
-    __param(1, typeorm_1.InjectRepository(user_basic_entity_1.UserBasic)),
-    __param(2, typeorm_1.InjectRepository(user_about_entity_1.UserAbout)),
-    __param(3, typeorm_1.InjectRepository(user_habit_entity_1.UserHabit)),
-    __param(4, typeorm_1.InjectRepository(user_lifestyle_entity_1.UserLifestyle)),
-    __param(5, typeorm_1.InjectRepository(user_hobbies_entity_1.UserHobbies)),
-    __param(6, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
-    __param(7, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
-    __param(8, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
-    __param(9, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
-    __param(10, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
-    __param(11, typeorm_1.InjectRepository(user_docs_entity_1.UserDocs)),
-    __param(12, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
-    __param(13, typeorm_1.InjectRepository(otp_entity_1.Otp)),
-    __param(14, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
-    __param(15, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
-    __param(16, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
-    __param(17, typeorm_1.InjectRepository(block_user_entity_1.UserBlock)),
-    __param(18, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
-    __param(19, typeorm_1.InjectRepository(notification_entity_1.Notification)),
+    __param(2, typeorm_1.InjectRepository(user_basic_entity_1.UserBasic)),
+    __param(3, typeorm_1.InjectRepository(user_about_entity_1.UserAbout)),
+    __param(4, typeorm_1.InjectRepository(user_habit_entity_1.UserHabit)),
+    __param(5, typeorm_1.InjectRepository(user_lifestyle_entity_1.UserLifestyle)),
+    __param(6, typeorm_1.InjectRepository(user_hobbies_entity_1.UserHobbies)),
+    __param(7, typeorm_1.InjectRepository(user_religion_entity_1.UserReligion)),
+    __param(8, typeorm_1.InjectRepository(user_career_entity_1.UserCareer)),
+    __param(9, typeorm_1.InjectRepository(user_family_background_entity_1.UserFamilyBackground)),
+    __param(10, typeorm_1.InjectRepository(user_family_detail_entity_1.UserFamilyDetail)),
+    __param(11, typeorm_1.InjectRepository(user_image_entity_1.UserImage)),
+    __param(12, typeorm_1.InjectRepository(user_docs_entity_1.UserDocs)),
+    __param(13, typeorm_1.InjectRepository(user_bio_entity_1.UserBio)),
+    __param(14, typeorm_1.InjectRepository(otp_entity_1.Otp)),
+    __param(15, typeorm_1.InjectRepository(user_login_entity_1.UserLogin)),
+    __param(16, typeorm_1.InjectRepository(admin_user_entity_1.AdminUser)),
+    __param(17, typeorm_1.InjectRepository(user_preference_entity_1.UserPreference)),
+    __param(18, typeorm_1.InjectRepository(block_user_entity_1.UserBlock)),
+    __param(19, typeorm_1.InjectRepository(user_profile_visit_1.ProfileVisit)),
+    __param(20, typeorm_1.InjectRepository(notification_entity_1.Notification)),
     __metadata("design:paramtypes", [jwt_1.JwtService,
+        master_service_1.MasterService,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
