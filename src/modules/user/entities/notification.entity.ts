@@ -14,6 +14,12 @@ export class Notification extends AbstarctEntity {
   @Column({})
   message: string;
 
+  @Column({})
+  header: string;
+
+  @Column({})
+  image: string;
+
   @Column({ default: NotificationStatus.missed })
   status: NotificationStatus;
 

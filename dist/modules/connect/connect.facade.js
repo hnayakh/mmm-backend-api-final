@@ -27,7 +27,9 @@ let ConnectFacade = class ConnectFacade {
         try {
             return await this.userService.getAllNotification(userBasicId);
         }
-        catch (err) { }
+        catch (err) {
+            console.log(err);
+        }
     }
     async getUserRequestDetails(userBasicId) {
         try {
