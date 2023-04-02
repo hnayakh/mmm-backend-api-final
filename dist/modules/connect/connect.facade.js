@@ -23,6 +23,12 @@ let ConnectFacade = class ConnectFacade {
         this.userService = userService;
         this.masterService = masterService;
     }
+    async getAllNotification(userBasicId) {
+        try {
+            return await this.userService.getAllNotification(userBasicId);
+        }
+        catch (err) { }
+    }
     async getUserRequestDetails(userBasicId) {
         try {
             const activeSent = await this.connectService.getActiveSentRequest(userBasicId);

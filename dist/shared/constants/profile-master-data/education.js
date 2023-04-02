@@ -60,7 +60,7 @@ exports.education = [
     {
         id: 'Associate',
         text: 'Associate',
-        fullform: '',
+        fullform: 'Associate',
     },
     {
         id: 'B.A',
@@ -126,11 +126,6 @@ exports.education = [
         id: 'BA Computer Science',
         text: 'BA Computer Science',
         fullform: 'Bachelor of Arts in Computer Science',
-    },
-    {
-        id: 'Bachelor',
-        text: 'Bachelor',
-        fullform: '',
     },
     {
         id: 'BAMS',
@@ -255,7 +250,7 @@ exports.education = [
     {
         id: 'Diploma',
         text: 'Diploma',
-        fullform: '',
+        fullform: 'Diploma',
     },
     {
         id: 'DipSc',
@@ -270,7 +265,7 @@ exports.education = [
     {
         id: 'Doctorate',
         text: 'Doctorate',
-        fullform: '',
+        fullform: 'Doctorate',
     },
     {
         id: 'Engineering Diploma',
@@ -280,12 +275,12 @@ exports.education = [
     {
         id: 'High school',
         text: 'High school',
-        fullform: '',
+        fullform: 'High school',
     },
     {
         id: 'Honours',
         text: 'Honours',
-        fullform: '',
+        fullform: 'Honours',
     },
     {
         id: 'IT Diploma',
@@ -295,7 +290,7 @@ exports.education = [
     {
         id: 'Less than high school',
         text: 'Less than high school',
-        fullform: '',
+        fullform: 'Less than high school',
     },
     {
         id: 'LLB (Hons)',
@@ -366,11 +361,6 @@ exports.education = [
         id: 'M.Sc',
         text: 'M.Sc',
         fullform: 'Master of Science',
-    },
-    {
-        id: 'Master',
-        text: 'Master',
-        fullform: '',
     },
     {
         id: 'MBA',

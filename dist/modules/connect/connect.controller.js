@@ -60,6 +60,13 @@ let ConnectController = class ConnectController {
             message: 'Operation successfully completed.',
         };
     }
+    async getAllNotification(userBasicId) {
+        const userRequestDetails = await this.connectFacade.getAllNotification(userBasicId);
+        return {
+            data: userRequestDetails,
+            message: 'Operation successfully completed.',
+        };
+    }
     async createOrUpdateUserConnectRequest(userConnectRequestDto) {
         const resp = await this.connectFacade.createOrUpdateUserConnectRequest(userConnectRequestDto);
         console.log('resp', resp);
@@ -145,6 +152,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ConnectController.prototype, "getUserRequestDetails", null);
+__decorate([
+    common_1.Get('user_notifications/:userBasicId'),
+    __param(0, common_1.Param('userBasicId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ConnectController.prototype, "getAllNotification", null);
 __decorate([
     common_1.Post('user_connect_request'),
     __param(0, common_1.Body()),
