@@ -1127,14 +1127,18 @@ let UserFacade = class UserFacade {
         let listOfBLockedUsers = await this.userService.getBlockedUsers(id);
         let userList = [];
         let user;
-        await listOfBLockedUsers.forEach(async (e) => {
-            user = await this.userService.getUserById(e.block_who);
-            listOfBLockedUsers['block_who'] = user;
-            console.log(listOfBLockedUsers);
-            console.log(user);
-            userList.push(listOfBLockedUsers);
-        });
-        return listOfBLockedUsers;
+        let generatedResponse = [];
+        await Promise.all(listOfBLockedUsers.map(async (elem, i) => {
+            try {
+                let insertResponse = await this.userService.getUserById(elem.block_who);
+                listOfBLockedUsers[i]['block_user_details'] = insertResponse;
+                generatedResponse.push(insertResponse);
+            }
+            catch (error) {
+                console.log('error' + error);
+            }
+        }));
+        return await listOfBLockedUsers;
     }
     async getBlockedUsersForAll(id) {
         return await this.userService.getBlockedUsersForAll(id);
