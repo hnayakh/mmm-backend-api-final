@@ -594,6 +594,7 @@ export class UserService {
       firebaseAdmin.app(); // if already initialized, use that one
     }
     const APP_ID = '2408d5882f0445ec82566323785cfb66';
+
     const APP_CERTIFICATE = 'c18a5201243a44ebb6c3c95f124f9798';
     const { senderId, receiverId, callType } = data;
     console.log('here');
