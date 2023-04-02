@@ -297,7 +297,7 @@ let UserController = class UserController {
         const response = await this.userFacade.getBlockedUsers(basicId);
         return {
             data: response,
-            message: ' Unblocked Successfully.',
+            message: 'Successfully Fetched.',
         };
     }
 };
