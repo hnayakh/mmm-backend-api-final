@@ -36,6 +36,14 @@ __decorate([
     __metadata("design:type", String)
 ], Notification.prototype, "message", void 0);
 __decorate([
+    typeorm_1.Column({}),
+    __metadata("design:type", String)
+], Notification.prototype, "header", void 0);
+__decorate([
+    typeorm_1.Column({}),
+    __metadata("design:type", String)
+], Notification.prototype, "image", void 0);
+__decorate([
     typeorm_1.Column({ default: user_profile_enum_1.NotificationStatus.missed }),
     __metadata("design:type", Number)
 ], Notification.prototype, "status", void 0);
