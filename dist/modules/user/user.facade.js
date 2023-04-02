@@ -214,13 +214,27 @@ let UserFacade = class UserFacade {
         console.log('queryObj', queryObj);
         let userGenderAndPreference = await this.userService.getUserGenderAndPreference(userBasicId);
         console.log('USERGENDERPREF', userGenderAndPreference);
-        const religionInClause = JSON.parse(userGenderAndPreference.religion.toString().replace("'", '')).map((religion) => "'" + religion + "'").join();
-        const casteInClause = JSON.parse(userGenderAndPreference.caste.toString().replace("'", '')).map((caste) => "'" + caste + "'").join();
-        const motherTongueClause = JSON.parse(userGenderAndPreference.motherTongue.toString().replace("'", '')).map((mothertongue) => "'" + mothertongue + "'").join();
-        const eatingHabitClause = JSON.parse(userGenderAndPreference.dietaryHabits.toString().replace("'", '')).map((eatinghabit) => "'" + eatinghabit + "'").join();
-        const drinkingHabitClause = JSON.parse(userGenderAndPreference.drinkingHabits.toString().replace("'", '')).map((drinkinghabit) => "'" + drinkinghabit + "'").join();
-        const smokingHabitClause = JSON.parse(userGenderAndPreference.smokingHabits.toString().replace("'", '')).map((smokinghabit) => "'" + smokinghabit + "'").join();
-        const maritalStatusClause = JSON.parse(userGenderAndPreference.maritalStatus.toString().replace("'", '')).map((maritalstatus) => "'" + maritalstatus + "'").join();
+        const religionInClause = JSON.parse(userGenderAndPreference.religion.toString().replace("'", ''))
+            .map((religion) => "'" + religion + "'")
+            .join();
+        const casteInClause = JSON.parse(userGenderAndPreference.caste.toString().replace("'", ''))
+            .map((caste) => "'" + caste + "'")
+            .join();
+        const motherTongueClause = JSON.parse(userGenderAndPreference.motherTongue.toString().replace("'", ''))
+            .map((mothertongue) => "'" + mothertongue + "'")
+            .join();
+        const eatingHabitClause = JSON.parse(userGenderAndPreference.dietaryHabits.toString().replace("'", ''))
+            .map((eatinghabit) => "'" + eatinghabit + "'")
+            .join();
+        const drinkingHabitClause = JSON.parse(userGenderAndPreference.drinkingHabits.toString().replace("'", ''))
+            .map((drinkinghabit) => "'" + drinkinghabit + "'")
+            .join();
+        const smokingHabitClause = JSON.parse(userGenderAndPreference.smokingHabits.toString().replace("'", ''))
+            .map((smokinghabit) => "'" + smokinghabit + "'")
+            .join();
+        const maritalStatusClause = JSON.parse(userGenderAndPreference.maritalStatus.toString().replace("'", ''))
+            .map((maritalstatus) => "'" + maritalstatus + "'")
+            .join();
         const minIncomeClause = JSON.parse(userGenderAndPreference.minIncome.toString());
         const maxIncomeClause = JSON.parse(userGenderAndPreference.minIncome.toString());
         let genderPreference = 0;
@@ -235,25 +249,32 @@ let UserFacade = class UserFacade {
             queryString = queryString + ` AND uv.religion in (${religionInClause})`;
         }
         if (motherTongueClause.length > 0) {
-            queryString = queryString + ` AND uv.motherTongue in (${motherTongueClause})`;
+            queryString =
+                queryString + ` AND uv.motherTongue in (${motherTongueClause})`;
         }
         if (smokingHabitClause.length) {
-            queryString = queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`;
+            queryString =
+                queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`;
         }
         if (eatingHabitClause.length) {
-            queryString = queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`;
+            queryString =
+                queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`;
         }
         if (drinkingHabitClause.length) {
-            queryString = queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`;
+            queryString =
+                queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`;
         }
         if (maritalStatusClause.length) {
-            queryString = queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`;
+            queryString =
+                queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`;
         }
         if (minIncomeClause.length) {
-            queryString = queryString + ` AND uv.annualIncome >= ${(minIncomeClause[0])}`;
+            queryString =
+                queryString + ` AND uv.annualIncome >= ${minIncomeClause[0]}`;
         }
         if (maxIncomeClause.length) {
-            queryString = queryString + ` AND uv.annualIncome <= ${(maxIncomeClause[0])}`;
+            queryString =
+                queryString + ` AND uv.annualIncome <= ${maxIncomeClause[0]}`;
         }
         console.log('queryString', queryString);
         queryString =
@@ -1104,10 +1125,16 @@ let UserFacade = class UserFacade {
     }
     async getBlockedUsers(id) {
         let listOfBLockedUsers = await this.userService.getBlockedUsers(id);
-        listOfBLockedUsers.forEach(async (e) => {
-            const user = await this.userService.getUserById(e.block_who);
-            listOfBLockedUsers[''];
+        let userList = [];
+        let user;
+        await listOfBLockedUsers.forEach(async (e) => {
+            user = await this.userService.getUserById(e.block_who);
+            listOfBLockedUsers['block_who'] = user;
+            console.log(listOfBLockedUsers);
+            console.log(user);
+            userList.push(listOfBLockedUsers);
         });
+        return listOfBLockedUsers;
     }
     async getBlockedUsersForAll(id) {
         return await this.userService.getBlockedUsersForAll(id);
