@@ -29,6 +29,10 @@ export declare class ConnectController {
         data: any;
         message: string;
     }>;
+    getAllNotification(userBasicId: string): Promise<{
+        data: import("../user/entities/notification.entity").Notification[];
+        message: string;
+    }>;
     createOrUpdateUserConnectRequest(userConnectRequestDto: UserConnectRequestDto): Promise<{
         data: any;
         message: string;

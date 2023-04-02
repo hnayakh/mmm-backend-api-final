@@ -38,6 +38,7 @@ export declare class UserService {
     constructor(userRepo: UserRepo, jwtService: JwtService, notificationRepo: Repository<Notification>);
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
+    getAllNotification(userBasicId: string): Promise<Notification[]>;
     createUserBasic(fireBaseToken: any, createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
     createUserAbout(userBasic: UserBasic, createUserAboutDto: CreateUserAboutDto): Promise<any>;

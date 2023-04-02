@@ -51,6 +51,13 @@ let UserService = class UserService {
     async getUsersByIds(userBasicIds) {
         return await this.userRepo.getUsersByIds(userBasicIds);
     }
+    async getAllNotification(userBasicId) {
+        return await this.notificationRepo.find({
+            where: {
+                receiverId: userBasicId,
+            },
+        });
+    }
     async createUserBasic(fireBaseToken, createUserBasicDto) {
         const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.fireBaseToken);
         let userBasicDetails = await this.userRepo.createUserBasic(userBasic);
