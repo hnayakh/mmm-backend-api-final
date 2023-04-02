@@ -71,6 +71,16 @@ export class ConnectController {
       message: 'Operation successfully completed.',
     };
   }
+  @Get('user_notifications/:userBasicId')
+  async getAllNotification(@Param('userBasicId') userBasicId: string) {
+    const userRequestDetails = await this.connectFacade.getAllNotification(
+      userBasicId,
+    );
+    return {
+      data: userRequestDetails,
+      message: 'Operation successfully completed.',
+    };
+  }
 
   @Post('user_connect_request')
   async createOrUpdateUserConnectRequest(
@@ -147,6 +157,4 @@ export class ConnectController {
       message: 'Transactions  fetched successfully!',
     };
   }
-
-  
 }

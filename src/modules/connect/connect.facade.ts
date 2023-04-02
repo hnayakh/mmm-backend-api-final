@@ -25,7 +25,11 @@ export class ConnectFacade {
     private readonly userService: UserService,
     private readonly masterService: MasterService,
   ) {}
-
+  async getAllNotification(userBasicId: string) {
+    try {
+      return await this.userService.getAllNotification(userBasicId);
+    } catch (err) {}
+  }
   async getUserRequestDetails(userBasicId: string) {
     try {
       const activeSent = await this.connectService.getActiveSentRequest(

@@ -369,65 +369,65 @@ export class UserFacade {
   async getProfilesByPreference(userBasicId: string, queryObj: any) {
     let userGenderAndPreference =
       await this.userService.getUserGenderAndPreference(userBasicId);
-    // console.log('USERGENDERPREF', userGenderAndPreference);
-    //console.log("USERGENDERPREF",JSON.parse(userGenderAndPreference.religion).split(','));
-    // let queryString = `SELECT * FROM users_view uv WHERE uv.registrationStep = 10;`
-    // const religionInClause =JSON.parse(userGenderAndPreference.religion.toString().replace("'",'')).map((religion) => "'" + religion + "'").join();
-    // const casteInClause =JSON.parse(userGenderAndPreference.caste.toString().replace("'",'')).map((caste) => "'" + caste + "'").join();
-    // const motherTongueClause =JSON.parse(userGenderAndPreference.motherTongue.toString().replace("'",'')).map((mothertongue) => "'" + mothertongue + "'").join();
-    // const eatingHabitClause =JSON.parse(userGenderAndPreference.dietaryHabits.toString().replace("'",'')).map((eatinghabit) => "'" + eatinghabit + "'").join();
-    // const drinkingHabitClause =JSON.parse(userGenderAndPreference.drinkingHabits.toString().replace("'",'')).map((drinkinghabit) => "'" + drinkinghabit + "'").join();
-    // const smokingHabitClause =JSON.parse(userGenderAndPreference.smokingHabits.toString().replace("'",'')).map((smokinghabit) => "'" + smokinghabit + "'").join();
-    // const maritalStatusClause =JSON.parse(userGenderAndPreference.maritalStatus.toString().replace("'",'')).map((maritalstatus) => "'" + maritalstatus + "'").join();
-    // const minIncomeClause =JSON.parse(userGenderAndPreference.minIncome.toString());
-    // const maxIncomeClause =JSON.parse(userGenderAndPreference.minIncome.toString());
-    // console.log("religionInClause",religionInClause);
-    // console.log("motherInClause",motherTongueClause);
-    // console.log("eatingInClause",eatingHabitClause);
+    console.log('USERGENDERPREF', userGenderAndPreference);
+    console.log("USERGENDERPREF",JSON.parse(userGenderAndPreference.religion).split(','));
+    let queryString = `SELECT * FROM users_view uv WHERE uv.registrationStep = 10;`
+    const religionInClause =JSON.parse(userGenderAndPreference.religion.toString().replace("'",'')).map((religion) => "'" + religion + "'").join();
+    const casteInClause =JSON.parse(userGenderAndPreference.caste.toString().replace("'",'')).map((caste) => "'" + caste + "'").join();
+    const motherTongueClause =JSON.parse(userGenderAndPreference.motherTongue.toString().replace("'",'')).map((mothertongue) => "'" + mothertongue + "'").join();
+    const eatingHabitClause =JSON.parse(userGenderAndPreference.dietaryHabits.toString().replace("'",'')).map((eatinghabit) => "'" + eatinghabit + "'").join();
+    const drinkingHabitClause =JSON.parse(userGenderAndPreference.drinkingHabits.toString().replace("'",'')).map((drinkinghabit) => "'" + drinkinghabit + "'").join();
+    const smokingHabitClause =JSON.parse(userGenderAndPreference.smokingHabits.toString().replace("'",'')).map((smokinghabit) => "'" + smokinghabit + "'").join();
+    const maritalStatusClause =JSON.parse(userGenderAndPreference.maritalStatus.toString().replace("'",'')).map((maritalstatus) => "'" + maritalstatus + "'").join();
+    const minIncomeClause =JSON.parse(userGenderAndPreference.minIncome.toString());
+    const maxIncomeClause =JSON.parse(userGenderAndPreference.minIncome.toString());
+    console.log("religionInClause",religionInClause);
+    console.log("motherInClause",motherTongueClause);
+    console.log("eatingInClause",eatingHabitClause);
     let genderPreference = 0;
     if (userGenderAndPreference.gender == 0) {
       genderPreference = 1;
     }
-    let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
-    // if (userGenderAndPreference.minAge != null) {
-    //   queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
-    // }
-    // if (userGenderAndPreference.maxAge != null) {
-    //   queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
-    // }
-    // if (userGenderAndPreference.minHeight != null) {
-    //   queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
-    // }
-    // if (userGenderAndPreference.maxHeight != null) {
-    //   queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
-    // }
-    // if (casteInClause.length) {
-    //   queryString = queryString + ` AND uv.cast in (${casteInClause})`
-    // }
-    // if (religionInClause) {
-    //   queryString = queryString + ` AND uv.religion in (${religionInClause})`
-    // }
-    // if (motherTongueClause.length) {
-    //   queryString = queryString + ` AND uv.motherTongue in (${motherTongueClause})`
-    // }
-    // if (smokingHabitClause.length) {
-    //   queryString = queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`
-    // }
-    // if (eatingHabitClause.length) {
-    //   queryString = queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`
-    // }
-    // if (drinkingHabitClause.length) {
-    //   queryString = queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`
-    // }
-    // if (maritalStatusClause.length) {
-    //   queryString = queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`
-    // }
-    // if (minIncomeClause.length) {
-    //   queryString = queryString + ` AND uv.annualIncome >= ${(minIncomeClause[0])}`
-    // }
-    // if (maxIncomeClause.length) {
-    //   queryString = queryString + ` AND uv.annualIncome <= ${(maxIncomeClause[0])}`
-    // }
+    // let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
+    if (userGenderAndPreference.minAge != null) {
+      queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
+    }
+    if (userGenderAndPreference.maxAge != null) {
+      queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
+    }
+    if (userGenderAndPreference.minHeight != null) {
+      queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
+    }
+    if (userGenderAndPreference.maxHeight != null) {
+      queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
+    }
+    if (casteInClause.length) {
+      queryString = queryString + ` AND uv.cast in (${casteInClause})`
+    }
+    if (religionInClause) {
+      queryString = queryString + ` AND uv.religion in (${religionInClause})`
+    }
+    if (motherTongueClause.length) {
+      queryString = queryString + ` AND uv.motherTongue in (${motherTongueClause})`
+    }
+    if (smokingHabitClause.length) {
+      queryString = queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`
+    }
+    if (eatingHabitClause.length) {
+      queryString = queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`
+    }
+    if (drinkingHabitClause.length) {
+      queryString = queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`
+    }
+    if (maritalStatusClause.length) {
+      queryString = queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`
+    }
+    if (minIncomeClause.length) {
+      queryString = queryString + ` AND uv.annualIncome >= ${(minIncomeClause[0])}`
+    }
+    if (maxIncomeClause.length) {
+      queryString = queryString + ` AND uv.annualIncome <= ${(maxIncomeClause[0])}`
+    }
     queryString =
       queryString +
       ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
@@ -671,8 +671,10 @@ export class UserFacade {
   }
   async getUserPartnerPreferences(userBasicId: string) {
     const userBasic = await this.userService.getUserById(userBasicId);
+
     const res = await this.userService.getUserPartnerPreferences(userBasicId);
     // delete res.userBasic;
+
     return res;
   }
 
@@ -1459,7 +1461,7 @@ export class UserFacade {
     });
     return uniqueUsers;
   }
-  async getOnlineMembers(userBasicId: string, onlineUserIds: string []) {
+  async getOnlineMembers(userBasicId: string, onlineUserIds: string[]) {
     return this.userService.getOnlineMembers(userBasicId, onlineUserIds);
   }
 

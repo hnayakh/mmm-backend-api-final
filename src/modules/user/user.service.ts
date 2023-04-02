@@ -63,7 +63,13 @@ export class UserService {
   async getUsersByIds(userBasicIds: string[]) {
     return await this.userRepo.getUsersByIds(userBasicIds);
   }
-
+  async getAllNotification(userBasicId: string) {
+    return await this.notificationRepo.find({
+      where: {
+        receiverId: userBasicId,
+      },
+    });
+  }
   async createUserBasic(
     fireBaseToken: any,
     createUserBasicDto: CreateUserBasicDto,
@@ -539,7 +545,7 @@ export class UserService {
   async getProifleVisitedBy(userBasicId: string) {
     return await this.userRepo.getProifleVisitedBy(userBasicId);
   }
-  async getOnlineMembers(userBasicId: string, onlineUserIds: string []) {
+  async getOnlineMembers(userBasicId: string, onlineUserIds: string[]) {
     return await this.userRepo.getOnlineMembers(userBasicId, onlineUserIds);
   }
 
