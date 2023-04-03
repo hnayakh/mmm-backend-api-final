@@ -71,12 +71,14 @@ let UserRepo = class UserRepo {
         });
     }
     async getUsersByIds(userBasicIds) {
+        console.log(userBasicIds);
         let tempQuery = `SELECT * FROM users_view_admin au WHERE au.id IN (`;
         userBasicIds.forEach((u) => {
             tempQuery += `'${u}',`;
         });
         let query = tempQuery.slice(0, -1);
         query += `);`;
+        console.log('query', query);
         const entityManager = typeorm_2.getManager();
         const users = await entityManager.query(query);
         return users;
