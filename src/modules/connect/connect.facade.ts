@@ -29,7 +29,7 @@ export class ConnectFacade {
     try {
       return await this.userService.getAllNotification(userBasicId);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   }
   async getUserRequestDetails(userBasicId: string) {
@@ -48,6 +48,7 @@ export class ConnectFacade {
       console.log('activeconnections', activeSentconnections);
 
       let requiredConnection = [...activeconnections, ...activeSentconnections];
+      console.log('requiredConnection', requiredConnection);
       let userBasicIds = [];
       // Get userBasicIds
       activeSent.forEach((input) => {
@@ -164,7 +165,7 @@ export class ConnectFacade {
       };
     } catch (err) {
       console.log(err);
-      return err;
+      return {};
     }
   }
 

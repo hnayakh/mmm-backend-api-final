@@ -26,7 +26,15 @@ export declare class ConnectController {
         message: string;
     }>;
     getUserRequestDetails(userBasicId: string): Promise<{
-        data: any;
+        data: {
+            activeSent: import("./entities/user-request.entity").UserRequest[];
+            activeconnections: import("./entities/user-request.entity").UserRequest[];
+            activeInvites: import("./entities/user-request.entity").UserRequest[];
+        } | {
+            activeSent?: undefined;
+            activeconnections?: undefined;
+            activeInvites?: undefined;
+        };
         message: string;
     }>;
     getAllNotification(userBasicId: string): Promise<{

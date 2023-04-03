@@ -39,6 +39,7 @@ let ConnectFacade = class ConnectFacade {
             const activeSentconnections = await this.connectService.getActiveSentConnections(userBasicId);
             console.log('activeconnections', activeSentconnections);
             let requiredConnection = [...activeconnections, ...activeSentconnections];
+            console.log('requiredConnection', requiredConnection);
             let userBasicIds = [];
             activeSent.forEach((input) => {
                 userBasicIds.push(input.requestedUserBasicId);
@@ -124,7 +125,7 @@ let ConnectFacade = class ConnectFacade {
         }
         catch (err) {
             console.log(err);
-            return err;
+            return {};
         }
     }
     async createOrUpdateUserRequest(userRequestDto) {

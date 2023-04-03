@@ -10,7 +10,15 @@ export declare class ConnectFacade {
     private readonly masterService;
     constructor(connectService: ConnectService, userService: UserService, masterService: MasterService);
     getAllNotification(userBasicId: string): Promise<import("../user/entities/notification.entity").Notification[]>;
-    getUserRequestDetails(userBasicId: string): Promise<any>;
+    getUserRequestDetails(userBasicId: string): Promise<{
+        activeSent: import("./entities/user-request.entity").UserRequest[];
+        activeconnections: import("./entities/user-request.entity").UserRequest[];
+        activeInvites: import("./entities/user-request.entity").UserRequest[];
+    } | {
+        activeSent?: undefined;
+        activeconnections?: undefined;
+        activeInvites?: undefined;
+    }>;
     createOrUpdateUserRequest(userRequestDto: UserRequestDto): Promise<import("./entities/user-request.entity").UserRequest>;
     getRechargeHistory(userBasicId: string): Promise<import("./entities/recharge-history.entity").RechargeHistory[]>;
     getAllRechargeHistory(): Promise<import("./entities/recharge-history.entity").RechargeHistory[]>;
