@@ -648,80 +648,97 @@ let UserRepo = class UserRepo {
         return userPreferenc;
     }
     async getMatchPercentage(userBasicId, otherUserBasicId) {
-        let matchingFields = [];
-        let differentFields = [];
-        let userDetails = await this.getAllUserDetailsById(userBasicId);
-        let userPreference = await this.getUserPreferenceByUserId(userBasicId);
-        let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
-        let excludedFields = [
-            'createdAt',
-            'updatedAt',
-            'isActive',
-            'createdBy',
-            'updatedBy',
-            'id',
-        ];
-        let requiredMatchDetails = [];
-        let country1 = await this.masterService.getCountry(parseInt(userPreference.country));
-        let state1 = await this.masterService.getState(parseInt(userPreference.state));
-        console.log('state1', state1);
-        userPreference.country = country1.name;
-        let country2 = await this.masterService.getCountry(parseInt(otherUserPreference.country));
-        let state2 = await this.masterService.getState(parseInt(otherUserPreference.state));
-        otherUserPreference.country = country2.name;
-        Object.keys(userPreference)
-            .filter((x) => excludedFields.indexOf(x) == -1)
-            .forEach((filed) => {
-            var matchField = {
-                field: '',
-                value: '',
-                isMatching: false,
-            };
-            if (userPreference[filed]) {
-                if (userPreference[filed] === otherUserPreference[filed]) {
-                    console.log('fdfdfddf', filed);
-                    if (filed === 'minAge' || filed === 'maxAge') {
-                        requiredMatchDetails.map((p) => p.field === 'age'
-                            ? Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: true }) : {
-                            filed: 'age',
-                            value: `${otherUserPreference[filed]}`,
-                            isMatching: true,
-                        });
-                    }
-                    else {
-                        matchField.field = filed;
-                        matchField.value = otherUserPreference[filed];
-                        matchField.isMatching = true;
-                    }
-                    requiredMatchDetails.push(matchField);
-                    matchingFields.push({ filed, value: userPreference[filed] });
-                }
-                else {
-                    if (filed === 'minAge' || filed === 'maxAge') {
-                        requiredMatchDetails.map((p) => {
-                            return p.field === 'age'
-                                ? Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: false }) : Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: false });
-                        });
-                    }
-                    else {
-                        matchField.field = filed;
-                        matchField.value = otherUserPreference[filed];
-                    }
-                    requiredMatchDetails.push(matchField);
-                    differentFields.push({ filed, value: userPreference[filed] });
-                }
+        try {
+            let matchingFields = [];
+            let differentFields = [];
+            let userDetails = await this.getAllUserDetailsById(userBasicId);
+            let userPreference = await this.getUserPreferenceByUserId(userBasicId);
+            let otherUserPreference = await this.getUserPreferenceByUserId(otherUserBasicId);
+            let excludedFields = [
+                'createdAt',
+                'updatedAt',
+                'isActive',
+                'createdBy',
+                'updatedBy',
+                'id',
+            ];
+            let requiredMatchDetails = [];
+            let country1;
+            if (userPreference.country.length > 0) {
+                country1 = await this.masterService.getCountry(parseInt(userPreference.country));
             }
-        });
-        let match_percentage = ((matchingFields.length /
-            (matchingFields.length + differentFields.length)) *
-            100).toFixed(0);
-        return {
-            matchingFields: matchingFields,
-            differentFields: differentFields,
-            match_percentage: match_percentage,
-            requiredMatchDetails: requiredMatchDetails,
-            userImage: userDetails.userImages[0],
-        };
+            let state1;
+            if (userPreference.state.length > 0) {
+                state1 = await this.masterService.getState(parseInt(userPreference.state));
+            }
+            console.log('state1', state1);
+            userPreference.country = country1.name;
+            let country2;
+            if (otherUserPreference.country.length > 0) {
+                country2 = await this.masterService.getCountry(parseInt(otherUserPreference.country));
+            }
+            let state2;
+            if (userPreference.state.length > 0) {
+                state2 = await this.masterService.getState(parseInt(userPreference.state));
+            }
+            otherUserPreference.country = country2.name;
+            Object.keys(userPreference)
+                .filter((x) => excludedFields.indexOf(x) == -1)
+                .forEach((filed) => {
+                var matchField = {
+                    field: '',
+                    value: '',
+                    isMatching: false,
+                };
+                if (userPreference[filed]) {
+                    if (userPreference[filed] === otherUserPreference[filed]) {
+                        console.log('fdfdfddf', filed);
+                        if (filed === 'minAge' || filed === 'maxAge') {
+                            requiredMatchDetails.map((p) => p.field === 'age'
+                                ? Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: true }) : {
+                                filed: 'age',
+                                value: `${otherUserPreference[filed]}`,
+                                isMatching: true,
+                            });
+                        }
+                        else {
+                            matchField.field = filed;
+                            matchField.value = otherUserPreference[filed];
+                            matchField.isMatching = true;
+                        }
+                        requiredMatchDetails.push(matchField);
+                        matchingFields.push({ filed, value: userPreference[filed] });
+                    }
+                    else {
+                        if (filed === 'minAge' || filed === 'maxAge') {
+                            requiredMatchDetails.map((p) => {
+                                return p.field === 'age'
+                                    ? Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: false }) : Object.assign(Object.assign({}, p), { filed: 'age', value: `${otherUserPreference[filed]}`, isMatching: false });
+                            });
+                        }
+                        else {
+                            matchField.field = filed;
+                            matchField.value = otherUserPreference[filed];
+                        }
+                        requiredMatchDetails.push(matchField);
+                        differentFields.push({ filed, value: userPreference[filed] });
+                    }
+                }
+            });
+            let match_percentage = ((matchingFields.length /
+                (matchingFields.length + differentFields.length)) *
+                100).toFixed(0);
+            return {
+                matchingFields: matchingFields,
+                differentFields: differentFields,
+                match_percentage: match_percentage,
+                requiredMatchDetails: requiredMatchDetails,
+                userImage: userDetails.userImages[0],
+            };
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
     async getRecentViews(userBasicId) {
         const entityManager = typeorm_2.getManager();
@@ -830,7 +847,7 @@ and  pv.id in (${requiredOnlineUserIds})
         return await this.userBlockRepo.find({
             where: {
                 block_who: id,
-            }
+            },
         });
     }
     async getBlockedUsersForAll(id) {
