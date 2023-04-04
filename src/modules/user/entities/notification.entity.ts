@@ -30,9 +30,11 @@ export class Notification extends AbstarctEntity {
     senderId: string,
     receiverId: string,
     message: string,
+    image: string
   ) {
     const notificationObj = new Notification();
     notificationObj.senderId = senderId;
+    notificationObj.image=image;
     notificationObj.message = message;
     notificationObj.receiverId = receiverId;
     return notificationObj;

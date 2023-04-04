@@ -68,6 +68,7 @@ export class UserService {
       where: {
         receiverId: userBasicId,
       },
+      order: { createdAt: 'DESC' },
     });
   }
   async createUserBasic(
@@ -639,7 +640,7 @@ export class UserService {
       const channelName = receiverData.id.toString() + receiverData.email;
       const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
       let sender = await this.userRepo.getUserBasicById(senderId);
-      console.log(sender)
+      console.log(sender);
       if (!sender) {
         return {
           status: 0,
@@ -667,8 +668,10 @@ export class UserService {
       const notificationCreated = await this.userRepo.createNotification({
         senderId: senderId,
         receiverId: receiverId,
-        message: callType,
+        message: sender.userAbouts[0].name + ' is trying to contact you',
         status: 0,
+        image: sender.userImages[0].imageURL,
+        header: callType + ' call',
       });
 
       // .createNotification({

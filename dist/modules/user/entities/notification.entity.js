@@ -15,9 +15,10 @@ const typeorm_1 = require("typeorm");
 const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const user_profile_enum_1 = require("../../../shared/enums/user-profile.enum");
 let Notification = Notification_1 = class Notification extends abstract_entity_1.AbstarctEntity {
-    static createNotification(senderId, receiverId, message) {
+    static createNotification(senderId, receiverId, message, image) {
         const notificationObj = new Notification_1();
         notificationObj.senderId = senderId;
+        notificationObj.image = image;
         notificationObj.message = message;
         notificationObj.receiverId = receiverId;
         return notificationObj;
