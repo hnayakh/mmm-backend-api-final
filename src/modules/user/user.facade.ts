@@ -373,202 +373,208 @@ export class UserFacade {
     console.log('USERGENDERPREF', userGenderAndPreference);
     //console.log("USERGENDERPREF",JSON.parse(userGenderAndPreference.religion).split(','));
     // let queryString = `SELECT * FROM users_view uv WHERE uv.registrationStep = 10;`
-    const religionInClause = JSON.parse(
-      userGenderAndPreference.religion.toString().replace("'", ''),
-    )
-      .map((religion) => "'" + religion + "'")
-      .join();
-    const casteInClause = JSON.parse(
-      userGenderAndPreference.caste.toString().replace("'", ''),
-    )
-      .map((caste) => "'" + caste + "'")
-      .join();
-    const motherTongueClause = JSON.parse(
-      userGenderAndPreference.motherTongue.toString().replace("'", ''),
-    )
-      .map((mothertongue) => "'" + mothertongue + "'")
-      .join();
-    const eatingHabitClause = JSON.parse(
-      userGenderAndPreference.dietaryHabits.toString().replace("'", ''),
-    )
-      .map((eatinghabit) => "'" + eatinghabit + "'")
-      .join();
-    const drinkingHabitClause = JSON.parse(
-      userGenderAndPreference.drinkingHabits.toString().replace("'", ''),
-    )
-      .map((drinkinghabit) => "'" + drinkinghabit + "'")
-      .join();
-    const smokingHabitClause = JSON.parse(
-      userGenderAndPreference.smokingHabits.toString().replace("'", ''),
-    )
-      .map((smokinghabit) => "'" + smokinghabit + "'")
-      .join();
-    const maritalStatusClause = JSON.parse(
-      userGenderAndPreference.maritalStatus.toString().replace("'", ''),
-    )
-      .map((maritalstatus) => "'" + maritalstatus + "'")
-      .join();
-    const minIncomeClause = JSON.parse(
-      userGenderAndPreference.minIncome.toString(),
-    );
-    const maxIncomeClause = JSON.parse(
-      userGenderAndPreference.minIncome.toString(),
-    );
-    // console.log("religionInClause",religionInClause);
-    // console.log("motherInClause",motherTongueClause);
-    // console.log("eatingInClause",eatingHabitClause);
-    let genderPreference = 0;
-    if (userGenderAndPreference.gender == 0) {
-      genderPreference = 1;
-    }
-    let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
-    // if (userGenderAndPreference.minAge != null) {
-    //   queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
-    // }
-    // if (userGenderAndPreference.maxAge != null) {
-    //   queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
-    // }
-    // if (userGenderAndPreference.minHeight != null) {
-    //   queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
-    // }
-    // if (userGenderAndPreference.maxHeight != null) {
-    //   queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
-    // }
-    if (casteInClause.length > 0) {
-      queryString = queryString + ` AND uv.cast in (${casteInClause})`;
-    }
-    if (religionInClause.length > 0) {
-      queryString = queryString + ` AND uv.religion in (${religionInClause})`;
-    }
-    if (motherTongueClause.length > 0) {
-      queryString =
-        queryString + ` AND uv.motherTongue in (${motherTongueClause})`;
-    }
-    if (smokingHabitClause.length) {
-      queryString =
-        queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`;
-    }
-    if (eatingHabitClause.length) {
-      queryString =
-        queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`;
-    }
-    if (drinkingHabitClause.length) {
-      queryString =
-        queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`;
-    }
-    if (maritalStatusClause.length) {
-      queryString =
-        queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`;
-    }
-    if (minIncomeClause.length) {
-      queryString =
-        queryString + ` AND uv.annualIncome >= ${minIncomeClause[0]}`;
-    }
-    if (maxIncomeClause.length) {
-      queryString =
-        queryString + ` AND uv.annualIncome <= ${maxIncomeClause[0]}`;
-    }
-    console.log('queryString', queryString);
-    queryString =
-      queryString +
-      ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
-    console.log(queryString);
-    const result = await this.userService.getProfilesByPreference(queryString);
-    let uniqueUsers = [];
-    result.forEach((r: { id: any }) => {
-      let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
-      if (_.isEmpty(dup)) {
-        uniqueUsers.push(r);
-      }
-    });
-    const connectUsers =
-      await this.connectService.getUserRequestStatusForAppPrefAndFilter(
-        userBasicId,
+    if (userGenderAndPreference) {
+      const religionInClause = JSON.parse(
+        userGenderAndPreference.religion.toString().replace("'", ''),
+      )
+        .map((religion) => "'" + religion + "'")
+        .join();
+      const casteInClause = JSON.parse(
+        userGenderAndPreference.caste.toString().replace("'", ''),
+      )
+        .map((caste) => "'" + caste + "'")
+        .join();
+      const motherTongueClause = JSON.parse(
+        userGenderAndPreference.motherTongue.toString().replace("'", ''),
+      )
+        .map((mothertongue) => "'" + mothertongue + "'")
+        .join();
+      const eatingHabitClause = JSON.parse(
+        userGenderAndPreference.dietaryHabits.toString().replace("'", ''),
+      )
+        .map((eatinghabit) => "'" + eatinghabit + "'")
+        .join();
+      const drinkingHabitClause = JSON.parse(
+        userGenderAndPreference.drinkingHabits.toString().replace("'", ''),
+      )
+        .map((drinkinghabit) => "'" + drinkinghabit + "'")
+        .join();
+      const smokingHabitClause = JSON.parse(
+        userGenderAndPreference.smokingHabits.toString().replace("'", ''),
+      )
+        .map((smokinghabit) => "'" + smokinghabit + "'")
+        .join();
+      const maritalStatusClause = JSON.parse(
+        userGenderAndPreference.maritalStatus.toString().replace("'", ''),
+      )
+        .map((maritalstatus) => "'" + maritalstatus + "'")
+        .join();
+      const minIncomeClause = JSON.parse(
+        userGenderAndPreference.minIncome.toString(),
       );
-    const blockedUser = await this.getBlockedUsersForAll(userBasicId);
-    console.log('blockedUser', blockedUser);
-    // console.log('connectUsers', connectUsers);
-    uniqueUsers.forEach((uu) => {
-      let tempObj = {
-        isLiked: false,
-        sent: false,
-        requested: false,
-        isConnected: false,
-        id: '',
-      };
-      let blockObj = {
-        isBlocked: false,
-        id: '',
-      };
-      let requiredObj = {};
-      let isConnectOne = connectUsers.find(
-        (u) => u.requestedUserBasicId == uu.id,
+      const maxIncomeClause = JSON.parse(
+        userGenderAndPreference.minIncome.toString(),
       );
-      let isBlockedOne = blockedUser.find((u) => u.block_whom == uu.id);
-      let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
-      // console.log(isConnectOne);
-      if (isBlockedOne != null) {
-        blockObj.isBlocked = true;
-        blockObj.id = isBlockedOne.id;
+      // console.log("religionInClause",religionInClause);
+      // console.log("motherInClause",motherTongueClause);
+      // console.log("eatingInClause",eatingHabitClause);
+      let genderPreference = 0;
+      if (userGenderAndPreference.gender == 0) {
+        genderPreference = 1;
       }
-      if (isBlockedTwo != null) {
-        blockObj.isBlocked = true;
-        blockObj.id = isBlockedOne.id;
+      let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
+      // if (userGenderAndPreference.minAge != null) {
+      //   queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
+      // }
+      // if (userGenderAndPreference.maxAge != null) {
+      //   queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
+      // }
+      // if (userGenderAndPreference.minHeight != null) {
+      //   queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
+      // }
+      // if (userGenderAndPreference.maxHeight != null) {
+      //   queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
+      // }
+      if (casteInClause.length > 0) {
+        queryString = queryString + ` AND uv.cast in (${casteInClause})`;
       }
-      if (isConnectOne != null) {
-        (tempObj.isLiked = true),
-          (tempObj.requested = true),
-          (tempObj.isConnected =
-            isConnectOne.userRequestState == UserRequestState.Active
-              ? true
-              : false);
-        tempObj.id = isConnectOne.id;
-        requiredObj = isConnectOne;
+      if (religionInClause.length > 0) {
+        queryString = queryString + ` AND uv.religion in (${religionInClause})`;
       }
-      let isConnectTwo = connectUsers.find(
-        (u) => u.requestingUserBasicId == uu.id,
+      if (motherTongueClause.length > 0) {
+        queryString =
+          queryString + ` AND uv.motherTongue in (${motherTongueClause})`;
+      }
+      if (smokingHabitClause.length) {
+        queryString =
+          queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`;
+      }
+      if (eatingHabitClause.length) {
+        queryString =
+          queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`;
+      }
+      if (drinkingHabitClause.length) {
+        queryString =
+          queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`;
+      }
+      if (maritalStatusClause.length) {
+        queryString =
+          queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`;
+      }
+      if (minIncomeClause.length) {
+        queryString =
+          queryString + ` AND uv.annualIncome >= ${minIncomeClause[0]}`;
+      }
+      if (maxIncomeClause.length) {
+        queryString =
+          queryString + ` AND uv.annualIncome <= ${maxIncomeClause[0]}`;
+      }
+      console.log('queryString', queryString);
+      queryString =
+        queryString +
+        ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
+      console.log(queryString);
+      const result = await this.userService.getProfilesByPreference(
+        queryString,
       );
-      if (isConnectTwo != null) {
-        (tempObj.isLiked = true),
-          (tempObj.sent = true),
-          (tempObj.isConnected =
-            isConnectTwo.userRequestState == UserRequestState.Active
-              ? true
-              : false);
-        tempObj.id = isConnectTwo.id;
-        requiredObj = isConnectTwo;
-      }
-      uu['interestStatus'] = tempObj;
-      uu['UserRequestStatus'] = requiredObj;
-      uu['BlockStatus'] = blockObj;
-    });
-    console.log('UserRequestStatus', connectUsers);
-    // Get connect requestUser for call and message
-    const connectedUserForCall =
-      await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+      let uniqueUsers = [];
+      result.forEach((r: { id: any }) => {
+        let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+        if (_.isEmpty(dup)) {
+          uniqueUsers.push(r);
+        }
+      });
+      const connectUsers =
+        await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+          userBasicId,
+        );
+      const blockedUser = await this.getBlockedUsersForAll(userBasicId);
+      console.log('blockedUser', blockedUser);
+      // console.log('connectUsers', connectUsers);
+      uniqueUsers.forEach((uu) => {
+        let tempObj = {
+          isLiked: false,
+          sent: false,
+          requested: false,
+          isConnected: false,
+          id: '',
+        };
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let requiredObj = {};
+        let isConnectOne = connectUsers.find(
+          (u) => u.requestedUserBasicId == uu.id,
+        );
+        let isBlockedOne = blockedUser.find((u) => u.block_whom == uu.id);
+        let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
+        // console.log(isConnectOne);
+        if (isBlockedOne != null) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isConnectOne != null) {
+          (tempObj.isLiked = true),
+            (tempObj.requested = true),
+            (tempObj.isConnected =
+              isConnectOne.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectOne.id;
+          requiredObj = isConnectOne;
+        }
+        let isConnectTwo = connectUsers.find(
+          (u) => u.requestingUserBasicId == uu.id,
+        );
+        if (isConnectTwo != null) {
+          (tempObj.isLiked = true),
+            (tempObj.sent = true),
+            (tempObj.isConnected =
+              isConnectTwo.userRequestState == UserRequestState.Active
+                ? true
+                : false);
+          tempObj.id = isConnectTwo.id;
+          requiredObj = isConnectTwo;
+        }
+        uu['interestStatus'] = tempObj;
+        uu['UserRequestStatus'] = requiredObj;
+        uu['BlockStatus'] = blockObj;
+      });
+      console.log('UserRequestStatus', connectUsers);
+      // Get connect requestUser for call and message
+      const connectedUserForCall =
+        await this.connectService.getUserConnectRequestsByUserId(userBasicId);
 
-    uniqueUsers.forEach((uu) => {
-      let tempObj = {
-        isConnected: false,
-        id: null,
-      };
-      let isConnectOne = connectedUserForCall.find(
-        (u) => u.userOneBasicId == uu.id,
-      );
-      if (isConnectOne != null) {
-        (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
-        // uu['UserRequestStatus'] = uu;
-      }
-      let isConnectTwo = connectedUserForCall.find(
-        (u) => u.userTwoBasicId == uu.id,
-      );
-      if (isConnectTwo != null) {
-        (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
-      }
-      uu['connectStatus'] = tempObj;
-    });
-    uniqueUsers['UserRequestStatus'] = connectedUserForCall;
-    return uniqueUsers;
+      uniqueUsers.forEach((uu) => {
+        let tempObj = {
+          isConnected: false,
+          id: null,
+        };
+        let isConnectOne = connectedUserForCall.find(
+          (u) => u.userOneBasicId == uu.id,
+        );
+        if (isConnectOne != null) {
+          (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+          // uu['UserRequestStatus'] = uu;
+        }
+        let isConnectTwo = connectedUserForCall.find(
+          (u) => u.userTwoBasicId == uu.id,
+        );
+        if (isConnectTwo != null) {
+          (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+        }
+        uu['connectStatus'] = tempObj;
+      });
+      uniqueUsers['UserRequestStatus'] = connectedUserForCall;
+      return uniqueUsers;
+    } else {
+      return [];
+    }
   }
 
   async getFilteredUsers(userFilterDto: UserFilterDto) {
@@ -1508,7 +1514,7 @@ export class UserFacade {
 
   async getPremiumMembers(userBasicId: string) {
     const result = await this.userService.getPremiumMembers(userBasicId);
-    console.log('result',result)
+    console.log('result', result);
     let uniqueUsers = [];
     result.forEach((r: { id: any }) => {
       let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
@@ -1606,7 +1612,7 @@ export class UserFacade {
     // });
     let generatedResponse = [];
     await Promise.all(
-      listOfBLockedUsers.map(async (elem,i) => {
+      listOfBLockedUsers.map(async (elem, i) => {
         try {
           // here candidate data is inserted into
           let insertResponse = await this.userService.getUserById(
