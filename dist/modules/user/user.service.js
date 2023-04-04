@@ -56,6 +56,7 @@ let UserService = class UserService {
             where: {
                 receiverId: userBasicId,
             },
+            order: { createdAt: 'DESC' },
         });
     }
     async createUserBasic(fireBaseToken, createUserBasicDto) {
@@ -363,8 +364,10 @@ let UserService = class UserService {
             const notificationCreated = await this.userRepo.createNotification({
                 senderId: senderId,
                 receiverId: receiverId,
-                message: callType,
+                message: sender.userAbouts[0].name + ' is trying to contact you',
                 status: 0,
+                image: sender.userImages[0].imageURL,
+                header: callType + ' call',
             });
             console.log(notificationCreated);
             console.log(sender);

@@ -8,5 +8,5 @@ export declare class Notification extends AbstarctEntity {
     image: string;
     status: NotificationStatus;
     duration: string;
-    static createNotification(senderId: string, receiverId: string, message: string): Notification;
+    static createNotification(senderId: string, receiverId: string, message: string, image: string): Notification;
 }
