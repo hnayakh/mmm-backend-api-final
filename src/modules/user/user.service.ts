@@ -564,6 +564,9 @@ export class UserService {
   async getBlockedUsersForAll(id: string) {
     return await this.userRepo.getBlockedUsersForAll(id);
   }
+  async getBlockedUsersWhom(id: string) {
+    return await this.userRepo.getBlockedUsersWhom(id);
+  }
   async checkIfBlocked(myBasicId: string, userBasicId: string) {
     return await this.userRepo.checkIfBlocked(myBasicId, userBasicId);
   }

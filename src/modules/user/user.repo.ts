@@ -1245,6 +1245,13 @@ and  pv.id in (${requiredOnlineUserIds})
       },
     });
   }
+  async getBlockedUsersWhom(id) {
+    return await this.userBlockRepo.find({
+      where: {
+        block_whom: id,
+      },
+    });
+  }
   async getBlockedUsersForAll(id) {
     return await this.userBlockRepo.find({
       where: {
