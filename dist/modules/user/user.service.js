@@ -275,6 +275,9 @@ let UserService = class UserService {
     async getBlockedUsersForAll(id) {
         return await this.userRepo.getBlockedUsersForAll(id);
     }
+    async getBlockedUsersWhom(id) {
+        return await this.userRepo.getBlockedUsersWhom(id);
+    }
     async checkIfBlocked(myBasicId, userBasicId) {
         return await this.userRepo.checkIfBlocked(myBasicId, userBasicId);
     }
