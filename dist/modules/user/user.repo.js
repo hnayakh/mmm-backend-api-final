@@ -772,28 +772,17 @@ let UserRepo = class UserRepo {
         return userDet;
     }
     async getOnlineMembers(userBasicId, onlineUserIds) {
-        const entityManager = typeorm_2.getManager();
-        let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
-from users_view_admin pv
-where pv.id = '${userBasicId}'
-`;
-        const currentUserDet = await entityManager.query(currentuserQuery);
-        let requiredOnlineUserIds = onlineUserIds.map((x) => `'${x}'`);
-        const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
-pv.createdAt as visitedAt
-from users_view_admin pv
-Where  pv.id  != '${userBasicId}'
-and pv.gender != ${currentUserDet[0].gender}
-and  pv.id in (${requiredOnlineUserIds})
-`;
-        const userDet = await entityManager.query(rawQuery);
-        const userReligionQuery = `select religion  from user_preferences where userBasicId='${userBasicId}'`;
-        let requiredReligionData = await entityManager.query(userReligionQuery);
-        let userReligions = [].concat(...requiredReligionData
-            .map((x) => JSON.parse(x.religion))
-            .filter((y) => y != null));
-        let result = userDet.filter((c) => c.religion && userReligions.some((r) => c.religion.indexOf(r) > -1));
-        return userDet;
+        let generatedResponse = [];
+        await Promise.all(onlineUserIds.map(async (elem, i) => {
+            try {
+                let insertResponse = await this.getUserById(elem);
+                generatedResponse.push(insertResponse);
+            }
+            catch (error) {
+                console.log('error' + error);
+            }
+        }));
+        return generatedResponse;
     }
     async getPremiumMembers(userBasicId) {
         const entityManager = typeorm_2.getManager();

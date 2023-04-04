@@ -139,7 +139,7 @@ export declare class UserService {
     }>;
     recentProfileViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
-    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any>;
+    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any[]>;
     getPremiumMembers(userBaicId: string): Promise<any>;
     blockProfile(ucl: any): Promise<any>;
     unBlockUser(id: string): Promise<import("typeorm").DeleteResult | "No record found">;
