@@ -1155,6 +1155,7 @@ where pv.id = '${userBasicId}'
 pv.createdAt as visitedAt
 from users_view_admin pv
 Where  pv.id  != '${userBasicId}'
+and pv.activationStatus=1
 and pv.gender != ${currentUserDet[0].gender}
 and  pv.id in (${requiredOnlineUserIds})
 group by pv.id
