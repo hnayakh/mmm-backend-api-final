@@ -1609,7 +1609,7 @@ export class UserFacade {
         try {
           // here candidate data is inserted into
           let insertResponse = await this.userService.getUserById(
-            elem.block_who,
+            elem.block_whom,
           );
           // and response need to be added into final response array
           listOfBLockedUsers[i]['block_user_details'] = insertResponse;

@@ -1130,7 +1130,7 @@ let UserFacade = class UserFacade {
         let generatedResponse = [];
         await Promise.all(listOfBLockedUsers.map(async (elem, i) => {
             try {
-                let insertResponse = await this.userService.getUserById(elem.block_who);
+                let insertResponse = await this.userService.getUserById(elem.block_whom);
                 listOfBLockedUsers[i]['block_user_details'] = insertResponse;
                 generatedResponse.push(insertResponse);
             }
