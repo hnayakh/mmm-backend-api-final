@@ -1183,7 +1183,7 @@ export class UserRepo {
       onlineUserIds.map(async (elem, i) => {
         try {
           // here candidate data is inserted into
-          let insertResponse = await this.getUserById(elem);
+          let insertResponse = await this.getAllUserDetailsById(elem);
           // and response need to be added into final response array
           // onlineUserIds[i]['block_user_details'] = insertResponse;
           generatedResponse.push(insertResponse);

@@ -775,7 +775,7 @@ let UserRepo = class UserRepo {
         let generatedResponse = [];
         await Promise.all(onlineUserIds.map(async (elem, i) => {
             try {
-                let insertResponse = await this.getUserById(elem);
+                let insertResponse = await this.getAllUserDetailsById(elem);
                 generatedResponse.push(insertResponse);
             }
             catch (error) {
