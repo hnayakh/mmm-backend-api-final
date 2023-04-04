@@ -36,8 +36,8 @@ export declare class UserBasic extends AbstarctEntity {
     userLifestyle: UserLifestyle[];
     userHobbies: UserHobbies[];
     userReligions: UserReligion[];
-    visitedBy: ProfileVisit[];
-    visitedTo: ProfileVisit[];
+    visitedById: ProfileVisit[];
+    visitedToId: ProfileVisit[];
     userCareers: UserCareer[];
     userFamilyBackgrounds: UserFamilyBackground[];
     userFamilyDetails: UserFamilyDetail[];

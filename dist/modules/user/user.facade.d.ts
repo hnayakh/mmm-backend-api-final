@@ -44,8 +44,8 @@ export declare class UserFacade {
         userLifestyle: import("./entities/user-lifestyle.entity").UserLifestyle[];
         userHobbies: import("./entities/user-hobbies.entity").UserHobbies[];
         userReligions: import("./entities/user-religion.entity").UserReligion[];
-        visitedBy: import("./entities/user.profile.visit").ProfileVisit[];
-        visitedTo: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedById: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedToId: import("./entities/user.profile.visit").ProfileVisit[];
         userCareers: import("./entities/user-career.entity").UserCareer[];
         userFamilyBackgrounds: import("./entities/user-family-background.entity").UserFamilyBackground[];
         userFamilyDetails: import("./entities/user-family-detail.entity").UserFamilyDetail[];
@@ -112,8 +112,8 @@ export declare class UserFacade {
         userLifestyle: import("./entities/user-lifestyle.entity").UserLifestyle[];
         userHobbies: import("./entities/user-hobbies.entity").UserHobbies[];
         userReligions: import("./entities/user-religion.entity").UserReligion[];
-        visitedBy: import("./entities/user.profile.visit").ProfileVisit[];
-        visitedTo: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedById: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedToId: import("./entities/user.profile.visit").ProfileVisit[];
         userCareers: import("./entities/user-career.entity").UserCareer[];
         userFamilyBackgrounds: import("./entities/user-family-background.entity").UserFamilyBackground[];
         userFamilyDetails: import("./entities/user-family-detail.entity").UserFamilyDetail[];

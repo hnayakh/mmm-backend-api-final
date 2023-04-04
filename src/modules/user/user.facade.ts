@@ -1508,6 +1508,7 @@ export class UserFacade {
 
   async getPremiumMembers(userBasicId: string) {
     const result = await this.userService.getPremiumMembers(userBasicId);
+    console.log('result',result)
     let uniqueUsers = [];
     result.forEach((r: { id: any }) => {
       let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);

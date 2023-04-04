@@ -81,11 +81,11 @@ export class UserBasic extends AbstarctEntity {
   @OneToMany((type) => UserReligion, (userReligions) => userReligions.userBasic)
   userReligions: UserReligion[];
 
-  @OneToMany((type) => ProfileVisit, (visit) => visit.visitedBy)
-  visitedBy: ProfileVisit[];
+  @OneToMany((type) => ProfileVisit, (visit) => visit.visitedById)
+  visitedById: ProfileVisit[];
 
-  @OneToMany((type) => ProfileVisit, (visit) => visit.visitedTo)
-  visitedTo: ProfileVisit[];
+  @OneToMany((type) => ProfileVisit, (visit) => visit.visitedToId)
+  visitedToId: ProfileVisit[];
 
   @OneToMany((type) => UserCareer, (userCareers) => userCareers.userBasic)
   userCareers: UserCareer[];

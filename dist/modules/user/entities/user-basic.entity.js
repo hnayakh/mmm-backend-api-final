@@ -134,13 +134,13 @@ __decorate([
     __metadata("design:type", Array)
 ], UserBasic.prototype, "userReligions", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => user_profile_visit_1.ProfileVisit, (visit) => visit.visitedBy),
+    typeorm_1.OneToMany((type) => user_profile_visit_1.ProfileVisit, (visit) => visit.visitedById),
     __metadata("design:type", Array)
-], UserBasic.prototype, "visitedBy", void 0);
+], UserBasic.prototype, "visitedById", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => user_profile_visit_1.ProfileVisit, (visit) => visit.visitedTo),
+    typeorm_1.OneToMany((type) => user_profile_visit_1.ProfileVisit, (visit) => visit.visitedToId),
     __metadata("design:type", Array)
-], UserBasic.prototype, "visitedTo", void 0);
+], UserBasic.prototype, "visitedToId", void 0);
 __decorate([
     typeorm_1.OneToMany((type) => user_career_entity_1.UserCareer, (userCareers) => userCareers.userBasic),
     __metadata("design:type", Array)

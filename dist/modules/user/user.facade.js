@@ -1055,6 +1055,7 @@ let UserFacade = class UserFacade {
     }
     async getPremiumMembers(userBasicId) {
         const result = await this.userService.getPremiumMembers(userBasicId);
+        console.log('result', result);
         let uniqueUsers = [];
         result.forEach((r) => {
             let dup = uniqueUsers.find((re) => re.id == r.id);

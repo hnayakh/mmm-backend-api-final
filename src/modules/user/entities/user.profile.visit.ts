@@ -5,16 +5,16 @@ import { UserBasic } from "./user-basic.entity";
 @Entity("profile_visit")
 export class ProfileVisit extends AbstarctEntity {
 
-    @ManyToOne((type) => UserBasic, (userBasic) => userBasic.visitedBy)
-    visitedBy: UserBasic;
+    @ManyToOne((type) => UserBasic, (userBasic) => userBasic.visitedById)
+    visitedById: UserBasic;
 
-    @ManyToOne((type) => UserBasic, (userBasic) => userBasic.visitedTo)
-    visitedTo: UserBasic;
+    @ManyToOne((type) => UserBasic, (userBasic) => userBasic.visitedToId)
+    visitedToId: UserBasic;
 
     static createVisit(visitedBy, visitedTo): ProfileVisit {
         const visitedObj = new ProfileVisit();
-        visitedObj.visitedBy = visitedBy;
-        visitedObj.visitedTo = visitedTo;
+        visitedObj.visitedById = visitedBy;
+        visitedObj.visitedToId = visitedTo;
         return visitedObj;
     }
 }
