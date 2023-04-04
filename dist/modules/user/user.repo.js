@@ -772,17 +772,24 @@ let UserRepo = class UserRepo {
         return userDet;
     }
     async getOnlineMembers(userBasicId, onlineUserIds) {
-        let generatedResponse = [];
-        await Promise.all(onlineUserIds.map(async (elem, i) => {
-            try {
-                let insertResponse = await this.getAllUserDetailsById(elem);
-                generatedResponse.push(insertResponse);
-            }
-            catch (error) {
-                console.log('error' + error);
-            }
-        }));
-        return generatedResponse;
+        const entityManager = typeorm_2.getManager();
+        let currentuserQuery = `select distinct(pv.id) as userBasicId, pv.*
+from users_view_admin pv
+where pv.id = '${userBasicId}'
+`;
+        const currentUserDet = await entityManager.query(currentuserQuery);
+        console.log('currentUserDet', currentUserDet);
+        let requiredOnlineUserIds = onlineUserIds.map((x) => `'${x}'`);
+        const rawQuery = `select distinct(pv.id) as userBasicId, pv.*,
+pv.createdAt as visitedAt
+from users_view_admin pv
+Where  pv.id  != '${userBasicId}'
+and pv.gender != ${currentUserDet[0].gender}
+and  pv.id in (${requiredOnlineUserIds})
+group by pv.id
+`;
+        const userDet = await entityManager.query(rawQuery);
+        return userDet;
     }
     async getPremiumMembers(userBasicId) {
         const entityManager = typeorm_2.getManager();
