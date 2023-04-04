@@ -1241,7 +1241,7 @@ and  pv.id in (${requiredOnlineUserIds})
   async getBlockedUsers(id) {
     return await this.userBlockRepo.find({
       where: {
-        block_whom: id,
+        block_who: id,
       },
     });
   }
