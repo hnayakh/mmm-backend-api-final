@@ -1249,7 +1249,7 @@ and  pv.id in (${requiredOnlineUserIds})
     return await this.userBlockRepo.find({
       where: {
         block_who: id,
-        block_whom: id,
+        // block_whom: id,
       },
     });
   }
