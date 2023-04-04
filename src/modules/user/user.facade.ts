@@ -1631,8 +1631,9 @@ export class UserFacade {
       listOfBLockedUsers.map(async (elem, i) => {
         try {
           // here candidate data is inserted into
-          let insertResponse = await this.userService.getUserById(
+          let insertResponse = await this.getUserDeatailById(
             elem.block_whom,
+            '',
           );
           // and response need to be added into final response array
           listOfBLockedUsers[i]['block_user_details'] = insertResponse;

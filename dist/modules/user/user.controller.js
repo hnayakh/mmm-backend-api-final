@@ -264,7 +264,7 @@ let UserController = class UserController {
         };
     }
     async getOnlineMembers(userBasicId, onlineUserIds) {
-        console.log("onlineUserIds", onlineUserIds);
+        console.log('onlineUserIds', onlineUserIds);
         const response = await this.userFacade.getOnlineMembers(userBasicId, onlineUserIds);
         return {
             data: response,
@@ -297,7 +297,7 @@ let UserController = class UserController {
         const response = await this.userFacade.getBlockedUsers(basicId);
         return {
             data: response,
-            message: 'Successfully Fetched.',
+            message: 'Successfully Fetched !.',
         };
     }
 };

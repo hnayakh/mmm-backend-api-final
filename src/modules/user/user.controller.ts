@@ -504,9 +504,15 @@ export class UserController {
     };
   }
   @Post('online_members/:userBasicId')
-  async getOnlineMembers(@Param('userBasicId') userBasicId: string, @Body('onlineUserIds') onlineUserIds: string [],) {
-    console.log("onlineUserIds", onlineUserIds)
-    const response = await this.userFacade.getOnlineMembers(userBasicId, onlineUserIds);
+  async getOnlineMembers(
+    @Param('userBasicId') userBasicId: string,
+    @Body('onlineUserIds') onlineUserIds: string[],
+  ) {
+    console.log('onlineUserIds', onlineUserIds);
+    const response = await this.userFacade.getOnlineMembers(
+      userBasicId,
+      onlineUserIds,
+    );
     return {
       data: response,
       message: 'Online Members .',
@@ -546,7 +552,7 @@ export class UserController {
     const response = await this.userFacade.getBlockedUsers(basicId);
     return {
       data: response,
-      message: 'Successfully Fetched.',
+      message: 'Successfully Fetched !.',
     };
   }
 }
