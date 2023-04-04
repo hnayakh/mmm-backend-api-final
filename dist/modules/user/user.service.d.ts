@@ -88,8 +88,8 @@ export declare class UserService {
         userLifestyle: UserLifestyle[];
         userHobbies: UserHobbies[];
         userReligions: UserReligion[];
-        visitedBy: import("./entities/user.profile.visit").ProfileVisit[];
-        visitedTo: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedById: import("./entities/user.profile.visit").ProfileVisit[];
+        visitedToId: import("./entities/user.profile.visit").ProfileVisit[];
         userCareers: UserCareer[];
         userFamilyBackgrounds: UserFamilyBackground[];
         userFamilyDetails: UserFamilyDetail[];

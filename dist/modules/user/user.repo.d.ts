@@ -65,8 +65,8 @@ export declare class UserRepo {
         userLifestyle: UserLifestyle[];
         userHobbies: UserHobbies[];
         userReligions: UserReligion[];
-        visitedBy: ProfileVisit[];
-        visitedTo: ProfileVisit[];
+        visitedById: ProfileVisit[];
+        visitedToId: ProfileVisit[];
         userCareers: UserCareer[];
         userFamilyBackgrounds: UserFamilyBackground[];
         userFamilyDetails: UserFamilyDetail[];

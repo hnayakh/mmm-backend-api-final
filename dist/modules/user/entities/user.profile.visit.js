@@ -17,19 +17,19 @@ const user_basic_entity_1 = require("./user-basic.entity");
 let ProfileVisit = ProfileVisit_1 = class ProfileVisit extends abstract_entity_1.AbstarctEntity {
     static createVisit(visitedBy, visitedTo) {
         const visitedObj = new ProfileVisit_1();
-        visitedObj.visitedBy = visitedBy;
-        visitedObj.visitedTo = visitedTo;
+        visitedObj.visitedById = visitedBy;
+        visitedObj.visitedToId = visitedTo;
         return visitedObj;
     }
 };
 __decorate([
-    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.visitedBy),
+    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.visitedById),
     __metadata("design:type", user_basic_entity_1.UserBasic)
-], ProfileVisit.prototype, "visitedBy", void 0);
+], ProfileVisit.prototype, "visitedById", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.visitedTo),
+    typeorm_1.ManyToOne((type) => user_basic_entity_1.UserBasic, (userBasic) => userBasic.visitedToId),
     __metadata("design:type", user_basic_entity_1.UserBasic)
-], ProfileVisit.prototype, "visitedTo", void 0);
+], ProfileVisit.prototype, "visitedToId", void 0);
 ProfileVisit = ProfileVisit_1 = __decorate([
     typeorm_1.Entity("profile_visit")
 ], ProfileVisit);
