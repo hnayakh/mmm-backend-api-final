@@ -150,7 +150,7 @@ export declare class UserRepo {
     }>;
     getRecentViews(userBasicId: string): Promise<any>;
     getProifleVisitedBy(userBasicId: string): Promise<any>;
-    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any[]>;
+    getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any>;
     getPremiumMembers(userBasicId: string): Promise<any>;
     blockProfile(ucl: any): Promise<any>;
     unBlockUser(id: any): Promise<import("typeorm").DeleteResult | "No record found">;
