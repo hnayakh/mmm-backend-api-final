@@ -571,6 +571,32 @@ export class UserService {
     return await this.userRepo.checkIfBlocked(myBasicId, userBasicId);
   }
 
+  async sendNotification() {
+    const firebase_params = {
+      type: FIREBASE_SERVICE_ACCOUNT.type,
+      projectId: FIREBASE_SERVICE_ACCOUNT.project_id,
+      privateKeyId: FIREBASE_SERVICE_ACCOUNT.private_key_id,
+      privateKey: FIREBASE_SERVICE_ACCOUNT.private_key,
+      clientEmail: FIREBASE_SERVICE_ACCOUNT.client_email,
+      clientId: FIREBASE_SERVICE_ACCOUNT.client_id,
+      authUri: FIREBASE_SERVICE_ACCOUNT.auth_uri,
+      tokenUri: FIREBASE_SERVICE_ACCOUNT.token_uri,
+      authProviderX509CertUrl:
+        FIREBASE_SERVICE_ACCOUNT.auth_provider_x509_cert_url,
+      clientC509CertUrl: FIREBASE_SERVICE_ACCOUNT.client_x509_cert_url,
+    };
+
+    console.log('firebase');
+    if (!firebaseAdmin.apps.length) {
+      firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert(firebase_params),
+        // databaseURL: process.env.FIREBASE_DB_URL
+      });
+    } else {
+      firebaseAdmin.app(); // if already initialized, use that one
+    }
+  }
+
   async generateAGoraToken(data: any) {
     console.log('check');
     const firebase_params = {
@@ -613,6 +639,7 @@ export class UserService {
       const channelName = receiverData.id.toString() + receiverData.email;
       const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds;
       let sender = await this.userRepo.getUserBasicById(senderId);
+      console.log(sender)
       if (!sender) {
         return {
           status: 0,

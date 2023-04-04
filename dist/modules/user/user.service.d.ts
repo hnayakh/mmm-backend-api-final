@@ -147,6 +147,7 @@ export declare class UserService {
     getBlockedUsersForAll(id: string): Promise<import("./entities/block-user.entity").UserBlock[]>;
     getBlockedUsersWhom(id: string): Promise<import("./entities/block-user.entity").UserBlock[]>;
     checkIfBlocked(myBasicId: string, userBasicId: string): Promise<import("./entities/block-user.entity").UserBlock>;
+    sendNotification(): Promise<void>;
     generateAGoraToken(data: any): Promise<"Receiver Data not found" | {
         agoraToken: string;
         channelName: string;
