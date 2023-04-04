@@ -291,7 +291,7 @@ let UserFacade = class UserFacade {
                 }
             });
             const connectUsers = await this.connectService.getUserRequestStatusForAppPrefAndFilter(userBasicId);
-            const blockedUser = await this.getBlockedUsersForAll(userBasicId);
+            const blockedUser = await this.userService.getBlockedUsersForAll(userBasicId);
             console.log('blockedUser', blockedUser);
             uniqueUsers.forEach((uu) => {
                 let tempObj = {
@@ -309,6 +309,8 @@ let UserFacade = class UserFacade {
                 let isConnectOne = connectUsers.find((u) => u.requestedUserBasicId == uu.id);
                 let isBlockedOne = blockedUser.find((u) => u.block_whom == uu.id);
                 let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
                 if (isBlockedOne != null) {
                     blockObj.isBlocked = true;
                     blockObj.id = isBlockedOne.id;
@@ -360,6 +362,11 @@ let UserFacade = class UserFacade {
                 uu['connectStatus'] = tempObj;
             });
             uniqueUsers['UserRequestStatus'] = connectedUserForCall;
+            if (blockedUser.length > 0) {
+                blockedUser.forEach((e) => {
+                    uniqueUsers = uniqueUsers.filter((x) => x.id != e.block_whom);
+                });
+            }
             return uniqueUsers;
         }
         else {
