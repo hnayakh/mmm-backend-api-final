@@ -268,6 +268,7 @@ export class UserService {
         isDefaultImage,
         userBasic,
       );
+      console.log('userImage',userImage)
       userImages.push(userImage);
       isDefaultImage = false;
     });

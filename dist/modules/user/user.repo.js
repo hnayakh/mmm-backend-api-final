@@ -409,7 +409,7 @@ let UserRepo = class UserRepo {
         return userBio;
     }
     async createUserImages(userImages) {
-        return await this.userImageRepo.save(userImages);
+        return await this.userImageRepo.save(Object.assign({}, userImages));
     }
     async createUserDocs(userImages) {
         return await this.userImageRepo.save(userImages);
