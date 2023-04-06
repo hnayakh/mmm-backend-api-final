@@ -119,6 +119,7 @@ let UserService = class UserService {
         let isDefaultImage = true;
         createUserBioImageDto.userImages.forEach((ui) => {
             const userImage = user_image_entity_1.UserImage.createUserImage(ui.imageUrl, isDefaultImage, userBasic);
+            console.log('userImage', userImage);
             userImages.push(userImage);
             isDefaultImage = false;
         });

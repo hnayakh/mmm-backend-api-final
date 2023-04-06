@@ -198,6 +198,7 @@ export class UserFacade {
     const userBasic = await this.userService.getUserBasicById(
       createUserBioImageDto.userBasicId,
     );
+    console.log('createUserBioImageDto',createUserBioImageDto)
     const res = await this.userService.createUserBioWithImages(
       userBasic,
       createUserBioImageDto,

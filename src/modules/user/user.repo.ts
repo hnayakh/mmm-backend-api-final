@@ -651,7 +651,7 @@ export class UserRepo {
   // }
 
   async createUserImages(userImages: UserImage[]) {
-    return await this.userImageRepo.save(userImages);
+    return await this.userImageRepo.save({...userImages});
   }
   async createUserDocs(userImages: UserDocs[]) {
     return await this.userImageRepo.save(userImages);

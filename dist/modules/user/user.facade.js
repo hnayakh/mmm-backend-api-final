@@ -114,6 +114,7 @@ let UserFacade = class UserFacade {
     }
     async createUserBioWithImages(createUserBioImageDto) {
         const userBasic = await this.userService.getUserBasicById(createUserBioImageDto.userBasicId);
+        console.log('createUserBioImageDto', createUserBioImageDto);
         const res = await this.userService.createUserBioWithImages(userBasic, createUserBioImageDto);
         return res;
     }
