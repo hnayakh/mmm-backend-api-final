@@ -1111,7 +1111,8 @@ export class UserRepo {
     // const result = await this.userBasicRepo.find()
     const entityManager = getManager();
     // const rawQuery = `select pv.id as visitId,
-    const rawQuery = `select pv.id as userBasicId,
+    const rawQuery = `select pv.id as profile_visit_id,
+    uva.id as userBasicId,
     uva.*,
     pv.updatedAt as visitedAt
     from profile_visit pv
