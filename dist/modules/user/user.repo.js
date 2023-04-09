@@ -754,7 +754,8 @@ let UserRepo = class UserRepo {
     }
     async getRecentViews(userBasicId) {
         const entityManager = typeorm_2.getManager();
-        const rawQuery = `select pv.id as userBasicId,
+        const rawQuery = `select pv.id as profile_visit_id,
+    uva.id as userBasicId,
     uva.*,
     pv.updatedAt as visitedAt
     from profile_visit pv
