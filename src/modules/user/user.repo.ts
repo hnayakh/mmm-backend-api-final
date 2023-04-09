@@ -650,8 +650,22 @@ export class UserRepo {
   //  // return await this.userBioRepo.save({ ...userBio });
   // }
 
-  async createUserImages(userImages: UserImage[]) {
-    return await this.userImageRepo.save({...userImages});
+  async createUserImages(userImages: UserImage[], userBasic: UserBasic) {
+    let userImagesPrev = await this.userImageRepo.find({
+      where: {
+        userBasic: userBasic,
+        isActive: true,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    // console.log('userImagesPrev', userImagesPrev);
+
+    // console.log('userImages for update', userImages);
+
+    // return true;
+    return await this.userImageRepo.save(userImages);
   }
   async createUserDocs(userImages: UserDocs[]) {
     return await this.userImageRepo.save(userImages);
@@ -776,8 +790,9 @@ export class UserRepo {
                       from user_basics ub
                       left join user_preferences up
                       on up.userBasicId = ub.id
-                      WHERE up.userBasicId = '${userBasicId}'`;
+                      WHERE up.userBasicId = '${userBasicId}' order by up.createdAt desc`;
     const users = await entityManager.query(rawQuery);
+    console.log('users',users)
     return users[0];
   }
 

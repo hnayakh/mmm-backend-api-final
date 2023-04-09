@@ -106,7 +106,7 @@ export declare class UserRepo {
     updateUserReligion(userReligion: UserReligion): Promise<UserReligion>;
     createUserBio(userBio: UserBio): Promise<any>;
     updateUserBio(userBio: UserBio): Promise<UserBio>;
-    createUserImages(userImages: UserImage[]): Promise<UserImage[]>;
+    createUserImages(userImages: UserImage[], userBasic: UserBasic): Promise<UserImage[]>;
     createUserDocs(userImages: UserDocs[]): Promise<(UserDocs & UserImage)[]>;
     updateUserImages(userDocRepo: UserDocs[]): Promise<UserDocs[]>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;

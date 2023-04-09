@@ -408,8 +408,17 @@ let UserRepo = class UserRepo {
         await this.userBioRepo.update({ userBasic: userBio.userBasic }, Object.assign({}, userBio));
         return userBio;
     }
-    async createUserImages(userImages) {
-        return await this.userImageRepo.save(Object.assign({}, userImages));
+    async createUserImages(userImages, userBasic) {
+        let userImagesPrev = await this.userImageRepo.find({
+            where: {
+                userBasic: userBasic,
+                isActive: true,
+            },
+            order: {
+                createdAt: 'DESC',
+            },
+        });
+        return await this.userImageRepo.save(userImages);
     }
     async createUserDocs(userImages) {
         return await this.userImageRepo.save(userImages);
@@ -528,8 +537,9 @@ let UserRepo = class UserRepo {
                       from user_basics ub
                       left join user_preferences up
                       on up.userBasicId = ub.id
-                      WHERE up.userBasicId = '${userBasicId}'`;
+                      WHERE up.userBasicId = '${userBasicId}' order by up.createdAt desc`;
         const users = await entityManager.query(rawQuery);
+        console.log('users', users);
         return users[0];
     }
     async getAppUsersForAdmin(queryString) {
