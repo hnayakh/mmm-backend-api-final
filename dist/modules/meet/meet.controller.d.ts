@@ -10,8 +10,16 @@ export declare class MeetController {
         data: import("./entities/meet.entity").Meet;
         message: string;
     }>;
-    getMeet(): Promise<{
-        data: void;
+    getMeet(userBasicId: string): Promise<{
+        data: {
+            activeSent: import("./entities/meet.entity").Meet[];
+            activeconnections: import("./entities/meet.entity").Meet[];
+            activeInvites: import("./entities/meet.entity").Meet[];
+        } | {
+            activeSent?: undefined;
+            activeconnections?: undefined;
+            activeInvites?: undefined;
+        };
         message: string;
     }>;
 }

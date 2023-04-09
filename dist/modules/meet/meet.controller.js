@@ -28,8 +28,8 @@ let MeetController = class MeetController {
         const result = await this.meetFacade.updateMeet(meetId, meetData);
         return { data: result, message: 'Meet updated' };
     }
-    async getMeet() {
-        const result = await this.meetFacade.getMeet();
+    async getMeet(userBasicId) {
+        const result = await this.meetFacade.getMeet(userBasicId);
         return { data: result, message: 'Meet fetched' };
     }
 };
@@ -49,9 +49,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MeetController.prototype, "updateMeet", null);
 __decorate([
-    common_1.Get(),
+    common_1.Get('get/:userBasicId'),
+    __param(0, common_1.Param('userBasicId')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], MeetController.prototype, "getMeet", null);
 MeetController = __decorate([

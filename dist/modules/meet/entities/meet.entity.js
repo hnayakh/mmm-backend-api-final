@@ -15,7 +15,7 @@ const typeorm_1 = require("typeorm");
 const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 let Meet = Meet_1 = class Meet extends abstract_entity_1.AbstarctEntity {
-    static createMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address) {
+    static createMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address, type) {
         const meetObj = new Meet_1();
         meetObj.status = status;
         meetObj.scheduleTime = scheduleTime;
@@ -25,9 +25,10 @@ let Meet = Meet_1 = class Meet extends abstract_entity_1.AbstarctEntity {
         meetObj.link = link;
         meetObj.lat = lat;
         meetObj.long = long;
+        meetObj.type = type;
         return meetObj;
     }
-    updateMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address) {
+    updateMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address, type) {
         this.status = status;
         this.scheduleTime = scheduleTime;
         this.requestedId = requestedId;
@@ -36,6 +37,7 @@ let Meet = Meet_1 = class Meet extends abstract_entity_1.AbstarctEntity {
         this.link = link;
         this.lat = lat;
         this.long = long;
+        this.type = type;
         return this;
     }
 };
@@ -51,6 +53,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
 ], Meet.prototype, "long", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Meet.prototype, "type", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
