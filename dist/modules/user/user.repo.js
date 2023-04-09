@@ -758,12 +758,12 @@ let UserRepo = class UserRepo {
     uva.*,
     pv.updatedAt as visitedAt
     from profile_visit pv
-     join users_view_admin uva on
-    pv.visitedToId = uva.id
+    join users_view_admin uva on
+    pv.visitedToIdId = uva.id
     WHERE pv.isActive
-    and pv.visitedById = '${userBasicId}'
+    and pv.visitedByIdId = '${userBasicId}'
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
-    group by pv.visitedToId`;
+    group by pv.visitedToIdId`;
         const userDet = await entityManager.query(rawQuery);
         console.log('userDet', userDet);
         return userDet;
@@ -775,10 +775,10 @@ let UserRepo = class UserRepo {
     pv.updatedAt as visitedAt
     from profile_visit pv
      join users_view_admin uva on
-    pv.visitedById = uva.id
-    and pv.visitedToId = '${userBasicId}'
+    pv.visitedByIdId = uva.id
+    and pv.visitedToIdId = '${userBasicId}'
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
-    group by pv.visitedById;`;
+    group by pv.visitedByIdId;`;
         const userDet = await entityManager.query(rawQuery);
         return userDet;
     }
