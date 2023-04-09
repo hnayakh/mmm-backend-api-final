@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRequestState = exports.UserRequestStatus = exports.ModeOfPayment = exports.PaymentStatus = exports.OtpType = exports.AdminRoles = exports.RegistrationSteps = exports.TemplateEnum = exports.DiscountType = exports.LifecycleStatus = exports.ActivationStatus = exports.ProfileUpdationStatus = void 0;
+exports.UserRequestState = exports.UserMeetStatus = exports.UserRequestStatus = exports.ModeOfPayment = exports.PaymentStatus = exports.OtpType = exports.AdminRoles = exports.RegistrationSteps = exports.TemplateEnum = exports.DiscountType = exports.LifecycleStatus = exports.ActivationStatus = exports.ProfileUpdationStatus = void 0;
 var ProfileUpdationStatus;
 (function (ProfileUpdationStatus) {
     ProfileUpdationStatus[ProfileUpdationStatus["Current"] = 0] = "Current";
@@ -73,6 +73,13 @@ var UserRequestStatus;
     UserRequestStatus[UserRequestStatus["Rejected"] = 2] = "Rejected";
     UserRequestStatus[UserRequestStatus["Reverted"] = 3] = "Reverted";
 })(UserRequestStatus = exports.UserRequestStatus || (exports.UserRequestStatus = {}));
+var UserMeetStatus;
+(function (UserMeetStatus) {
+    UserMeetStatus[UserMeetStatus["Pending"] = 0] = "Pending";
+    UserMeetStatus[UserMeetStatus["Accepted"] = 1] = "Accepted";
+    UserMeetStatus[UserMeetStatus["Rejected"] = 2] = "Rejected";
+    UserMeetStatus[UserMeetStatus["Reverted"] = 3] = "Reverted";
+})(UserMeetStatus = exports.UserMeetStatus || (exports.UserMeetStatus = {}));
 var UserRequestState;
 (function (UserRequestState) {
     UserRequestState[UserRequestState["Active"] = 0] = "Active";
