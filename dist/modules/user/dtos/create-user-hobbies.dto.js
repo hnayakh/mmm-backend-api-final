@@ -20,9 +20,5 @@ __decorate([
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
 ], CreateUserHobbiesDto.prototype, "userBasicId", void 0);
-__decorate([
-    class_validator_1.IsNotEmpty({ message: 'hobbies can not be empty.' }),
-    __metadata("design:type", String)
-], CreateUserHobbiesDto.prototype, "hobbies", void 0);
 exports.CreateUserHobbiesDto = CreateUserHobbiesDto;
 //# sourceMappingURL=create-user-hobbies.dto.js.map
