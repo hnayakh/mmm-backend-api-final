@@ -118,6 +118,7 @@ export class ConnectFacade {
         }
         input['user']['connectStatus'] = tempObj;
       });
+      console.log('requiredConnection', requiredConnection);
 
       requiredConnection.forEach((input) => {
         let tempObj = {
@@ -127,10 +128,16 @@ export class ConnectFacade {
         let requiredObj = {};
         if (userBasicId == input['requestedUserBasicId']) {
           input['user'] = users.find(
-            (x) => x.id == input['requestingUserBasicId'],
+            (x) => x.id == input['requestedUserBasicId'],
           );
           let isConnectOne = connectedUserForCall.find(
-            (u) => u.userOneBasicId == input['requestingUserBasicId'],
+            (u) => u.userOneBasicId == input['requestedUserBasicId'],
+          );
+          console.log('connectedUserForCall', connectedUserForCall);
+          console.log('isConnectOne', isConnectOne);
+          console.log(
+            `'input['requestedUserBasicId']' `,
+            input['requestedUserBasicId'],
           );
           if (isConnectOne != null) {
             (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
@@ -138,11 +145,12 @@ export class ConnectFacade {
           }
         } else {
           input['user'] = users.find(
-            (x) => x.id == input['requestedUserBasicId'],
+            (x) => x.id == input['requestingUserBasicId'],
           );
           let isConnectTwo = connectedUserForCall.find(
-            (u) => u.userTwoBasicId == input['requestedUserBasicId'],
+            (u) => u.userTwoBasicId == input['requestingUserBasicId'],
           );
+          console.log('isConnectTwo inside requiredConnection', isConnectTwo);
           if (isConnectTwo != null) {
             (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             requiredObj = isConnectTwo;
@@ -156,6 +164,7 @@ export class ConnectFacade {
         input['requestingUserDeatails'] = users.find(
           (x) => x.id == input['requestingUserBasicId'],
         );
+        console.log('tempObj', tempObj);
       });
       console.log('activeconactiveconnections', requiredConnection);
       return {
@@ -164,7 +173,7 @@ export class ConnectFacade {
         activeInvites,
       };
     } catch (err) {
-      console.log(err);   
+      console.log(err);
       return {};
     }
   }

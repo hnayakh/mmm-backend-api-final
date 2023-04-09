@@ -5,4 +5,5 @@ export declare class MeetService {
     constructor(meet: Repository<Meet>);
     createMeet(meeObject: any): Promise<Meet>;
     updateMeet(meetId: any, meetData: any): Promise<Meet>;
+    getMeet(): Promise<void>;
 }
