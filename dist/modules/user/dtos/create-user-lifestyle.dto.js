@@ -20,9 +20,5 @@ __decorate([
     swagger_1.ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' }),
     __metadata("design:type", String)
 ], CreateUserLifestyleDto.prototype, "userBasicId", void 0);
-__decorate([
-    class_validator_1.IsNotEmpty({ message: 'Lifestyle can not be empty.' }),
-    __metadata("design:type", String)
-], CreateUserLifestyleDto.prototype, "lifestyle", void 0);
 exports.CreateUserLifestyleDto = CreateUserLifestyleDto;
 //# sourceMappingURL=create-user-lifestyle.dto.js.map
