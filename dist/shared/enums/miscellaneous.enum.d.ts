@@ -59,6 +59,12 @@ export declare enum UserRequestStatus {
     Rejected = 2,
     Reverted = 3
 }
+export declare enum UserMeetStatus {
+    Pending = 0,
+    Accepted = 1,
+    Rejected = 2,
+    Reverted = 3
+}
 export declare enum UserRequestState {
     Active = 0,
     RemovedByRequestingUser = 1,

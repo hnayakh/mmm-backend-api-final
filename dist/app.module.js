@@ -57,6 +57,7 @@ const user_lifestyle_entity_1 = require("./modules/user/entities/user-lifestyle.
 const user_hobbies_entity_1 = require("./modules/user/entities/user-hobbies.entity");
 const block_user_entity_1 = require("./modules/user/entities/block-user.entity");
 const meet_module_1 = require("./modules/meet/meet.module");
+const meet_entity_1 = require("./modules/meet/entities/meet.entity");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -108,6 +109,7 @@ AppModule = __decorate([
                     connect_transaction_entity_1.ConnectTransactionEntity,
                     user_profile_visit_1.ProfileVisit,
                     notification_entity_1.Notification,
+                    meet_entity_1.Meet
                 ],
                 synchronize: false,
             }),
@@ -117,10 +119,10 @@ AppModule = __decorate([
             connect_module_1.ConnectModule,
             cms_module_1.CmsModule,
             chat_module_1.ChatModule,
+            meet_module_1.MeetModule,
             common_1.CacheModule.register({
                 isGlobal: true,
             }),
-            meet_module_1.MeetModule,
         ],
         providers: [
             {
