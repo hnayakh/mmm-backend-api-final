@@ -27,10 +27,10 @@ let MeetService = class MeetService {
     }
     async updateMeet(meetId, meetData) {
         let meetResult = await this.meet.findOne({ id: meetId });
-        console.log('meetResult', meetResult);
-        console.log('meetData', meetData);
         meetResult.updateMeet(meetData.lat, meetData.status, meetData.long, meetData.requestedId, meetData.requestingId, meetData.link, meetData.scheduleTime, meetData.address);
         return await this.meet.save(meetResult);
+    }
+    async getMeet() {
     }
 };
 MeetService = __decorate([

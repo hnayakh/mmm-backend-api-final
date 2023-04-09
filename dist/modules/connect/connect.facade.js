@@ -89,6 +89,7 @@ let ConnectFacade = class ConnectFacade {
                 }
                 input['user']['connectStatus'] = tempObj;
             });
+            console.log('requiredConnection', requiredConnection);
             requiredConnection.forEach((input) => {
                 let tempObj = {
                     isConnected: false,
@@ -96,16 +97,20 @@ let ConnectFacade = class ConnectFacade {
                 };
                 let requiredObj = {};
                 if (userBasicId == input['requestedUserBasicId']) {
-                    input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
-                    let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
+                    input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
+                    let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
+                    console.log('connectedUserForCall', connectedUserForCall);
+                    console.log('isConnectOne', isConnectOne);
+                    console.log(`'input['requestedUserBasicId']' `, input['requestedUserBasicId']);
                     if (isConnectOne != null) {
                         (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
                         requiredObj = isConnectOne;
                     }
                 }
                 else {
-                    input['user'] = users.find((x) => x.id == input['requestedUserBasicId']);
-                    let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestedUserBasicId']);
+                    input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
+                    let isConnectTwo = connectedUserForCall.find((u) => u.userTwoBasicId == input['requestingUserBasicId']);
+                    console.log('isConnectTwo inside requiredConnection', isConnectTwo);
                     if (isConnectTwo != null) {
                         (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
                         requiredObj = isConnectTwo;
@@ -115,6 +120,7 @@ let ConnectFacade = class ConnectFacade {
                 input['user']['UserRequestStatus'] = requiredObj;
                 input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedUserBasicId']);
                 input['requestingUserDeatails'] = users.find((x) => x.id == input['requestingUserBasicId']);
+                console.log('tempObj', tempObj);
             });
             console.log('activeconactiveconnections', requiredConnection);
             return {

@@ -26,8 +26,6 @@ export class MeetService {
 
   async updateMeet(meetId, meetData) {
     let meetResult = await this.meet.findOne({ id: meetId });
-    console.log('meetResult', meetResult);
-    console.log('meetData', meetData);
     meetResult.updateMeet(
       meetData.lat,
       meetData.status,
@@ -39,5 +37,8 @@ export class MeetService {
       meetData.address,
     );
     return await this.meet.save(meetResult);
+  }
+  async getMeet(){
+
   }
 }
