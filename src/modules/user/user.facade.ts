@@ -1365,6 +1365,12 @@ export class UserFacade {
   }
 
   async visistedProfile(visitedBy: string, visitedTo: string) {
+    if(!visitedBy){
+      return 'Visited By Id is Missing'
+    }
+    if(!visitedTo){
+      return 'Visited To Id is Missing'
+    }
     return this.userService.visitedProfile(visitedBy, visitedTo);
   }
   async recentProfileViews(userBasicId: string) {

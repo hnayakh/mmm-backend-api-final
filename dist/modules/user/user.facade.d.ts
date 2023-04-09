@@ -149,7 +149,7 @@ export declare class UserFacade {
         requiredMatchDetails: any[];
         userImage: import("./entities/user-image.entity").UserImage;
     }>;
-    visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit>;
+    visistedProfile(visitedBy: string, visitedTo: string): Promise<import("./entities/user.profile.visit").ProfileVisit | "Visited By Id is Missing" | "Visited To Id is Missing">;
     recentProfileViews(userBasicId: string): Promise<any[]>;
     getProifleVisitedBy(userBasicId: string): Promise<any[]>;
     getOnlineMembers(userBasicId: string, onlineUserIds: string[]): Promise<any>;

@@ -941,6 +941,12 @@ let UserFacade = class UserFacade {
         return this.userService.getMatchPercentage(userBasicId, otherUserBasicId);
     }
     async visistedProfile(visitedBy, visitedTo) {
+        if (!visitedBy) {
+            return 'Visited By Id is Missing';
+        }
+        if (!visitedTo) {
+            return 'Visited To Id is Missing';
+        }
         return this.userService.visitedProfile(visitedBy, visitedTo);
     }
     async recentProfileViews(userBasicId) {

@@ -232,7 +232,7 @@ export declare class UserController {
         message: string;
     }>;
     visitedProfile(visitedBy: string, visitedTo: string): Promise<{
-        data: import("./entities/user.profile.visit").ProfileVisit;
+        data: string | import("./entities/user.profile.visit").ProfileVisit;
         message: string;
     }>;
     recentProfileViews(userBasicId: string): Promise<{
