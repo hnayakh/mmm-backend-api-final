@@ -13,13 +13,13 @@ export class MeetController {
     return { data: result, message: 'Meet created' };
   }
   @Post('update/:meetId')
-  async updateMeet(@Param('meetId') meetId: number ,@Body() meetData: object) {
-    const result = await this.meetFacade.updateMeet(meetId,meetData);
+  async updateMeet(@Param('meetId') meetId: number, @Body() meetData: object) {
+    const result = await this.meetFacade.updateMeet(meetId, meetData);
     return { data: result, message: 'Meet updated' };
   }
-  @Get()
-  async getMeet() {
-    const result = await this.meetFacade.getMeet();
+  @Get('get/:userBasicId')
+  async getMeet(@Param('userBasicId') userBasicId: string) {
+    const result = await this.meetFacade.getMeet(userBasicId);
     return { data: result, message: 'Meet fetched' };
   }
 }

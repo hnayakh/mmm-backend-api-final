@@ -24,7 +24,8 @@ let MeetFacade = class MeetFacade {
     async updateMeet(meetId, meetData) {
         return await this.meetService.updateMeet(meetId, meetData);
     }
-    async getMeet() {
+    async getMeet(userBasicId) {
+        return await this.meetService.getMeet(userBasicId);
     }
 };
 MeetFacade = __decorate([
