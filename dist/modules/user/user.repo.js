@@ -765,6 +765,7 @@ let UserRepo = class UserRepo {
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
     group by pv.visitedToId`;
         const userDet = await entityManager.query(rawQuery);
+        console.log('userDet', userDet);
         return userDet;
     }
     async getProifleVisitedBy(userBasicId) {
