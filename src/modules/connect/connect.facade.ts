@@ -235,14 +235,14 @@ export class ConnectFacade {
       if (blockedUser.length > 0) {
         blockedUser.forEach((e) => {
           requiredConnection = requiredConnection.filter(
-            (x: any) => x.requestedUserDeatails.id != e.block_whom,
+            (x: any) => x.requestedUserDeatails.id != e.block_who,
           );
         });
       }
       if (blockedUserWhom.length > 0) {
         blockedUserWhom.forEach((e) => {
           requiredConnection = requiredConnection.filter(
-            (x: any) => x.requestedUserDeatails.id != e.block_who,
+            (x: any) => x.requestedUserDeatails.id != e.block_whom,
           );
         });
       }

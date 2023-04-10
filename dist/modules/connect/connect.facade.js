@@ -175,12 +175,12 @@ let ConnectFacade = class ConnectFacade {
             console.log('activeconactiveconnections', requiredConnection.map((x) => x));
             if (blockedUser.length > 0) {
                 blockedUser.forEach((e) => {
-                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_whom);
+                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_who);
                 });
             }
             if (blockedUserWhom.length > 0) {
                 blockedUserWhom.forEach((e) => {
-                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_who);
+                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_whom);
                 });
             }
             return {
