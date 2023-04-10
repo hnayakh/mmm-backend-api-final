@@ -244,6 +244,18 @@ let UserFacade = class UserFacade {
                 genderPreference = 1;
             }
             let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
+            if (userGenderAndPreference.minAge != null) {
+                queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`;
+            }
+            if (userGenderAndPreference.maxAge != null) {
+                queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`;
+            }
+            if (userGenderAndPreference.minHeight != null) {
+                queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`;
+            }
+            if (userGenderAndPreference.maxHeight != null) {
+                queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`;
+            }
             if (casteInClause.length > 0) {
                 queryString = queryString + ` AND uv.cast in (${casteInClause})`;
             }
