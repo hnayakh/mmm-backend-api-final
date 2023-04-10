@@ -53,6 +53,10 @@ let ConnectFacade = class ConnectFacade {
                 userBasicIds.push(input.requestedUserBasicId);
                 userBasicIds.push(input.requestingUserBasicId);
             });
+            const blockedUser = await this.userService.getBlockedUsersForAll(userBasicId);
+            const blockedUserWhom = await this.userService.getBlockedUsersWhom(userBasicId);
+            console.log('blockedUserWhom', blockedUserWhom);
+            console.log('blockedUser', blockedUser);
             const users = await this.userService.getUsersByIds(userBasicIds);
             const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
             activeSent.forEach((input) => {
@@ -61,6 +65,22 @@ let ConnectFacade = class ConnectFacade {
                     isConnected: false,
                     id: null,
                 };
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
                 let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
                 if (isConnectOne != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
@@ -79,6 +99,22 @@ let ConnectFacade = class ConnectFacade {
                     isConnected: false,
                     id: null,
                 };
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
                 let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestingUserBasicId']);
                 if (isConnectOne != null) {
                     (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
@@ -96,6 +132,22 @@ let ConnectFacade = class ConnectFacade {
                     id: null,
                 };
                 let requiredObj = {};
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
                 if (userBasicId == input['requestedUserBasicId']) {
                     input['user'] = users.find((x) => x.id == input['requestingUserBasicId']);
                     let isConnectOne = connectedUserForCall.find((u) => u.userOneBasicId == input['requestedUserBasicId']);
@@ -120,7 +172,17 @@ let ConnectFacade = class ConnectFacade {
                 input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedUserBasicId']);
                 input['requestingUserDeatails'] = users.find((x) => x.id == input['requestingUserBasicId']);
             });
-            console.log('activeconactiveconnections', requiredConnection);
+            console.log('activeconactiveconnections', requiredConnection.map((x) => x));
+            if (blockedUser.length > 0) {
+                blockedUser.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_whom);
+                });
+            }
+            if (blockedUserWhom.length > 0) {
+                blockedUserWhom.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestedUserDeatails.id != e.block_who);
+                });
+            }
             return {
                 activeSent,
                 activeconnections: requiredConnection,

@@ -63,7 +63,14 @@ export class ConnectFacade {
         userBasicIds.push(input.requestedUserBasicId);
         userBasicIds.push(input.requestingUserBasicId);
       });
-
+      const blockedUser = await this.userService.getBlockedUsersForAll(
+        userBasicId,
+      );
+      const blockedUserWhom = await this.userService.getBlockedUsersWhom(
+        userBasicId,
+      );
+      console.log('blockedUserWhom', blockedUserWhom);
+      console.log('blockedUser', blockedUser);
       const users = await this.userService.getUsersByIds(userBasicIds);
       const connectedUserForCall =
         await this.connectService.getUserConnectRequestsByUserId(userBasicId);
@@ -75,6 +82,26 @@ export class ConnectFacade {
           isConnected: false,
           id: null,
         };
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWhom.find(
+          (u) => u.block_whom == input['requestingUserBasicId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingUserBasicId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
         let isConnectOne = connectedUserForCall.find(
           (u) => u.userOneBasicId == input['requestedUserBasicId'],
         );
@@ -104,6 +131,26 @@ export class ConnectFacade {
           isConnected: false,
           id: null,
         };
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWhom.find(
+          (u) => u.block_whom == input['requestingUserBasicId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingUserBasicId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
         let isConnectOne = connectedUserForCall.find(
           (u) => u.userOneBasicId == input['requestingUserBasicId'],
         );
@@ -118,7 +165,7 @@ export class ConnectFacade {
         }
         input['user']['connectStatus'] = tempObj;
       });
-      console.log('requiredConnection',requiredConnection)
+      console.log('requiredConnection', requiredConnection);
 
       requiredConnection.forEach((input) => {
         let tempObj = {
@@ -126,6 +173,26 @@ export class ConnectFacade {
           id: null,
         };
         let requiredObj = {};
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWhom.find(
+          (u) => u.block_whom == input['requestingUserBasicId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingUserBasicId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
         if (userBasicId == input['requestedUserBasicId']) {
           input['user'] = users.find(
             (x) => x.id == input['requestingUserBasicId'],
@@ -133,8 +200,8 @@ export class ConnectFacade {
           let isConnectOne = connectedUserForCall.find(
             (u) => u.userOneBasicId == input['requestedUserBasicId'],
           );
-          console.log('connectedUserForCall',connectedUserForCall)
-          console.log('isConnectOne',isConnectOne)
+          console.log('connectedUserForCall', connectedUserForCall);
+          console.log('isConnectOne', isConnectOne);
           if (isConnectOne != null) {
             (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
             requiredObj = isConnectOne;
@@ -146,7 +213,7 @@ export class ConnectFacade {
           let isConnectTwo = connectedUserForCall.find(
             (u) => u.userTwoBasicId == input['requestingUserBasicId'],
           );
-          console.log('isConnectTwo inside requiredConnection',isConnectTwo)
+          console.log('isConnectTwo inside requiredConnection', isConnectTwo);
           if (isConnectTwo != null) {
             (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
             requiredObj = isConnectTwo;
@@ -160,16 +227,32 @@ export class ConnectFacade {
         input['requestingUserDeatails'] = users.find(
           (x) => x.id == input['requestingUserBasicId'],
         );
-        
       });
-      console.log('activeconactiveconnections', requiredConnection);
+      console.log(
+        'activeconactiveconnections',
+        requiredConnection.map((x) => x),
+      );
+      if (blockedUser.length > 0) {
+        blockedUser.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestedUserDeatails.id != e.block_whom,
+          );
+        });
+      }
+      if (blockedUserWhom.length > 0) {
+        blockedUserWhom.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestedUserDeatails.id != e.block_who,
+          );
+        });
+      }
       return {
         activeSent,
         activeconnections: requiredConnection,
         activeInvites,
       };
     } catch (err) {
-      console.log(err);   
+      console.log(err);
       return {};
     }
   }
