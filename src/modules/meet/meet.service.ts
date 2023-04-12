@@ -53,12 +53,7 @@ export class MeetService {
       );
       const activeSentconnections =
         await this.meetRepo.getActiveSentConnections(userBasicId);
-      console.log('activeconnections', activeSentconnections);
-      console.log('activeSent', activeSent);
-      console.log('activeInvites', activeInvites);
-
       let requiredConnection = [...activeconnections, ...activeSentconnections];
-      console.log('requiredConnection', requiredConnection);
       let userBasicIds = [];
       // Get userBasicIds
       activeSent.forEach((input) => {

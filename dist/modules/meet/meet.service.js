@@ -40,11 +40,7 @@ let MeetService = class MeetService {
             const activeInvites = await this.meetRepo.getActiveInvites(userBasicId);
             const activeconnections = await this.meetRepo.getActiveConnections(userBasicId);
             const activeSentconnections = await this.meetRepo.getActiveSentConnections(userBasicId);
-            console.log('activeconnections', activeSentconnections);
-            console.log('activeSent', activeSent);
-            console.log('activeInvites', activeInvites);
             let requiredConnection = [...activeconnections, ...activeSentconnections];
-            console.log('requiredConnection', requiredConnection);
             let userBasicIds = [];
             activeSent.forEach((input) => {
                 userBasicIds.push(input.requestedId);
