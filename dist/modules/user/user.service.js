@@ -125,7 +125,7 @@ let UserService = class UserService {
         });
         const userBio = user_bio_entity_1.UserBio.createUserBio(createUserBioImageDto.aboutMe, userBasic);
         console.log('userImages');
-        this.userRepo.createUserImages(userImages, userBasic);
+        await this.userRepo.createUserImages(userImages, userBasic);
         return await this.userRepo.createUserBio(userBio);
     }
     async updateUserBioWithDocs(userBasic, createUserBioImageDto) {

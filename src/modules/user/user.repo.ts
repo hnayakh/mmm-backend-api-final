@@ -660,7 +660,14 @@ export class UserRepo {
         createdAt: 'DESC',
       },
     });
-    // console.log('userImagesPrev', userImagesPrev);
+    console.log('userImagesPrev', userImagesPrev);
+    if (userImagesPrev.length > 0 && userImages.length > 0) {
+      await Promise.all(
+        userImagesPrev.map(async (imgElem) => {
+          await this.userImageRepo.delete(imgElem.id);
+        }),
+      );
+    }
 
     // console.log('userImages for update', userImages);
 
@@ -792,7 +799,7 @@ export class UserRepo {
                       on up.userBasicId = ub.id
                       WHERE up.userBasicId = '${userBasicId}' order by up.createdAt desc`;
     const users = await entityManager.query(rawQuery);
-    console.log('users',users)
+    console.log('users', users);
     return users[0];
   }
 
@@ -1123,7 +1130,7 @@ export class UserRepo {
     and pv.updatedAt > NOW() - INTERVAL (select value  from settings where name = 'RecentProfileVisitDuratinThreshholdInDays' ) DAY
     group by pv.visitedToIdId`;
     const userDet = await entityManager.query(rawQuery);
-    console.log('userDet',userDet)
+    console.log('userDet', userDet);
     return userDet;
   }
   async getProifleVisitedBy(userBasicId: string) {

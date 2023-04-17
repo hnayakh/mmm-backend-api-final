@@ -281,7 +281,7 @@ export class UserService {
     // );
     // this.userRepo.updateUserBasic(updatedUserBasic);
     console.log('userImages');
-    this.userRepo.createUserImages(userImages,userBasic);
+    await this.userRepo.createUserImages(userImages,userBasic);
     return await this.userRepo.createUserBio(userBio);
   }
 
