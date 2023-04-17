@@ -418,6 +418,12 @@ let UserRepo = class UserRepo {
                 createdAt: 'DESC',
             },
         });
+        console.log('userImagesPrev', userImagesPrev);
+        if (userImagesPrev.length > 0 && userImages.length > 0) {
+            await Promise.all(userImagesPrev.map(async (imgElem) => {
+                await this.userImageRepo.delete(imgElem.id);
+            }));
+        }
         return await this.userImageRepo.save(userImages);
     }
     async createUserDocs(userImages) {
