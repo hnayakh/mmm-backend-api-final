@@ -198,7 +198,7 @@ export class UserFacade {
     const userBasic = await this.userService.getUserBasicById(
       createUserBioImageDto.userBasicId,
     );
-    console.log('createUserBioImageDto',createUserBioImageDto)
+    console.log('createUserBioImageDto', createUserBioImageDto);
     const res = await this.userService.createUserBioWithImages(
       userBasic,
       createUserBioImageDto,
@@ -425,16 +425,22 @@ export class UserFacade {
       }
       let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
       if (userGenderAndPreference.minAge != null) {
-        queryString = queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`
+        queryString =
+          queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`;
       }
       if (userGenderAndPreference.maxAge != null) {
-        queryString = queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`
+        queryString =
+          queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`;
       }
       if (userGenderAndPreference.minHeight != null) {
-        queryString = queryString + ` AND uv.height >= ${userGenderAndPreference.minHeight}`
+        queryString =
+          queryString +
+          ` AND uv.height >= ${userGenderAndPreference.minHeight}`;
       }
       if (userGenderAndPreference.maxHeight != null) {
-        queryString = queryString + ` AND uv.height <= ${userGenderAndPreference.maxHeight}`
+        queryString =
+          queryString +
+          ` AND uv.height <= ${userGenderAndPreference.maxHeight}`;
       }
       if (casteInClause.length > 0) {
         queryString = queryString + ` AND uv.cast in (${casteInClause})`;
@@ -594,6 +600,229 @@ export class UserFacade {
     }
   }
 
+  async getProfilesFilterByPreference(userBasicId: string, queryObj: any) {
+    try {
+      console.log('queryObj', queryObj);
+      let userGenderAndPreference = queryObj;
+      let userDetails = await this.userService.getUserGenderAndPreference(
+        userBasicId,
+      );
+      console.log('USERGENDERPREF', userDetails);
+      //console.log("USERGENDERPREF",JSON.parse(userGenderAndPreference.religion).split(','));
+      // let queryString = `SELECT * FROM users_view uv WHERE uv.registrationStep = 10;`
+      if (userGenderAndPreference) {
+        const religionInClause = userGenderAndPreference.religion
+          .map((religion) => "'" + religion + "'")
+          .join();
+        const casteInClause = userGenderAndPreference.caste
+          .map((caste) => "'" + caste + "'")
+          .join();
+        const motherTongueClause = userGenderAndPreference.motherTongue
+          .map((mothertongue) => "'" + mothertongue + "'")
+          .join();
+        const eatingHabitClause = userGenderAndPreference.dietaryHabits
+          .map((eatinghabit) => "'" + eatinghabit + "'")
+          .join();
+        const drinkingHabitClause = userGenderAndPreference.drinkingHabits
+          .map((drinkinghabit) => "'" + drinkinghabit + "'")
+          .join();
+        const smokingHabitClause = userGenderAndPreference.smokingHabits
+          .map((smokinghabit) => "'" + smokinghabit + "'")
+          .join();
+        const maritalStatusClause = userGenderAndPreference.maritalStatus
+          .map((maritalstatus) => "'" + maritalstatus + "'")
+          .join();
+        const minIncomeClause = userGenderAndPreference.minIncome;
+        const maxIncomeClause = userGenderAndPreference.minIncome;
+
+        // console.log("religionInClause",religionInClause);
+        // console.log("motherInClause",motherTongueClause);
+        // console.log("eatingInClause",eatingHabitClause);
+        let genderPreference = 0;
+        if (userGenderAndPreference.gender == 0) {
+          genderPreference = 1;
+        }
+        let queryString = `SELECT * FROM users_view_admin uv WHERE uv.gender = ${genderPreference}`;
+        if (userGenderAndPreference.minAge != null) {
+          queryString =
+            queryString + ` AND uv.age >= ${userGenderAndPreference.minAge}`;
+        }
+        if (userGenderAndPreference.maxAge != null) {
+          queryString =
+            queryString + ` AND uv.age <= ${userGenderAndPreference.maxAge}`;
+        }
+        if (userGenderAndPreference.minHeight != null) {
+          queryString =
+            queryString +
+            ` AND uv.height >= ${userGenderAndPreference.minHeight}`;
+        }
+        if (userGenderAndPreference.maxHeight != null) {
+          queryString =
+            queryString +
+            ` AND uv.height <= ${userGenderAndPreference.maxHeight}`;
+        }
+        if (casteInClause.length > 0) {
+          queryString = queryString + ` AND uv.cast in (${casteInClause})`;
+        }
+        if (religionInClause.length > 0) {
+          queryString =
+            queryString + ` AND uv.religion in (${religionInClause})`;
+        }
+        if (motherTongueClause.length > 0) {
+          queryString =
+            queryString + ` AND uv.motherTongue in (${motherTongueClause})`;
+        }
+        if (smokingHabitClause.length) {
+          queryString =
+            queryString + ` AND uv.smokingHabit in (${smokingHabitClause})`;
+        }
+        if (eatingHabitClause.length) {
+          queryString =
+            queryString + ` AND uv.eatingHabit in (${eatingHabitClause})`;
+        }
+        if (drinkingHabitClause.length) {
+          queryString =
+            queryString + ` AND uv.drinkingHabit in (${drinkingHabitClause})`;
+        }
+        if (maritalStatusClause.length) {
+          queryString =
+            queryString + ` AND uv.maritalStatus in (${maritalStatusClause})`;
+        }
+        if (minIncomeClause.length) {
+          queryString =
+            queryString + ` AND uv.annualIncome >= ${minIncomeClause[0]}`;
+        }
+        if (maxIncomeClause.length) {
+          queryString =
+            queryString + ` AND uv.annualIncome <= ${maxIncomeClause[0]}`;
+        }
+        console.log('queryString', queryString);
+        queryString =
+          queryString +
+          ` AND uv.registrationStep in (10, 11) AND uv.activationStatus = 1;`;
+        console.log(queryString);
+        const result = await this.userService.getProfilesByPreference(
+          queryString,
+        );
+        let uniqueUsers = [];
+        result.forEach((r: { id: any }) => {
+          let dup = uniqueUsers.find((re: { id: any }) => re.id == r.id);
+          if (_.isEmpty(dup)) {
+            uniqueUsers.push(r);
+          }
+        });
+        const connectUsers =
+          await this.connectService.getUserRequestStatusForAppPrefAndFilter(
+            userBasicId,
+          );
+        const blockedUser = await this.userService.getBlockedUsersForAll(
+          userBasicId,
+        );
+        const blockedUserWhom = await this.userService.getBlockedUsersWhom(
+          userBasicId,
+        );
+        console.log('blockedUser', blockedUser);
+        // console.log('connectUsers', connectUsers);
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isLiked: false,
+            sent: false,
+            requested: false,
+            isConnected: false,
+            id: '',
+          };
+          let blockObj = {
+            isBlocked: false,
+            id: '',
+          };
+          let requiredObj = {};
+          let isConnectOne = connectUsers.find(
+            (u) => u.requestedUserBasicId == uu.id,
+          );
+          let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == uu.id);
+          let isBlockedTwo = blockedUser.find((u) => u.block_who == uu.id);
+          console.log('isBlockedOne', isBlockedOne);
+          console.log('isBlockedTwo', isBlockedTwo);
+          if (isBlockedOne != null) {
+            blockObj.isBlocked = true;
+            blockObj.id = isBlockedOne.id;
+          }
+          if (isBlockedTwo != null) {
+            blockObj.isBlocked = true;
+            blockObj.id = isBlockedOne.id;
+          }
+          if (isConnectOne != null) {
+            (tempObj.isLiked = true),
+              (tempObj.requested = true),
+              (tempObj.isConnected =
+                isConnectOne.userRequestState == UserRequestState.Active
+                  ? true
+                  : false);
+            tempObj.id = isConnectOne.id;
+            requiredObj = isConnectOne;
+          }
+          let isConnectTwo = connectUsers.find(
+            (u) => u.requestingUserBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isLiked = true),
+              (tempObj.sent = true),
+              (tempObj.isConnected =
+                isConnectTwo.userRequestState == UserRequestState.Active
+                  ? true
+                  : false);
+            tempObj.id = isConnectTwo.id;
+            requiredObj = isConnectTwo;
+          }
+          uu['interestStatus'] = tempObj;
+          uu['UserRequestStatus'] = requiredObj;
+          uu['BlockStatus'] = blockObj;
+        });
+        console.log('UserRequestStatus', connectUsers);
+        // Get connect requestUser for call and message
+        const connectedUserForCall =
+          await this.connectService.getUserConnectRequestsByUserId(userBasicId);
+
+        uniqueUsers.forEach((uu) => {
+          let tempObj = {
+            isConnected: false,
+            id: null,
+          };
+          let isConnectOne = connectedUserForCall.find(
+            (u) => u.userOneBasicId == uu.id,
+          );
+          if (isConnectOne != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectOne.id);
+            // uu['UserRequestStatus'] = uu;
+          }
+          let isConnectTwo = connectedUserForCall.find(
+            (u) => u.userTwoBasicId == uu.id,
+          );
+          if (isConnectTwo != null) {
+            (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
+          }
+          uu['connectStatus'] = tempObj;
+        });
+        uniqueUsers['UserRequestStatus'] = connectedUserForCall;
+        if (blockedUser.length > 0) {
+          blockedUser.forEach((e) => {
+            uniqueUsers = uniqueUsers.filter((x) => x.id != e.block_whom);
+          });
+        }
+        if (blockedUserWhom.length > 0) {
+          blockedUserWhom.forEach((e) => {
+            uniqueUsers = uniqueUsers.filter((x) => x.id != e.block_who);
+          });
+        }
+        return uniqueUsers;
+      } else {
+        return [];
+      }
+    } catch (e) {
+      console.log(e);
+      return e
+    }
+  }
   async getFilteredUsers(userFilterDto: UserFilterDto) {
     let userGenderAndPreference =
       await this.userService.getUserGenderAndPreference(
@@ -1365,11 +1594,11 @@ export class UserFacade {
   }
 
   async visistedProfile(visitedBy: string, visitedTo: string) {
-    if(!visitedBy){
-      return 'Visited By Id is Missing'
+    if (!visitedBy) {
+      return 'Visited By Id is Missing';
     }
-    if(!visitedTo){
-      return 'Visited To Id is Missing'
+    if (!visitedTo) {
+      return 'Visited To Id is Missing';
     }
     return this.userService.visitedProfile(visitedBy, visitedTo);
   }

@@ -5,6 +5,7 @@ export declare class CreateUserFamilyBgDto {
     familyValues: FamilyValues;
     familyType: FamilyType;
     country: number;
+    isResidingWithFamily: number;
     state: number;
     city: number;
 }

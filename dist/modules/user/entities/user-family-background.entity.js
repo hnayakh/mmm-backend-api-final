@@ -17,13 +17,14 @@ const user_basic_entity_1 = require("./user-basic.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 const user_profile_enum_1 = require("../../../shared/enums/user-profile.enum");
 let UserFamilyBackground = UserFamilyBackground_1 = class UserFamilyBackground extends abstract_entity_1.AbstarctEntity {
-    static createUserFamilyBackground(familyStatus, familyValues, familyType, country, state, city, userBasic) {
+    static createUserFamilyBackground(familyStatus, familyValues, familyType, country, isResidingWithFamily, state, city, userBasic) {
         const ufb = new UserFamilyBackground_1();
         ufb.familyStatus = familyStatus;
         ufb.familyValues = familyValues;
         ufb.familyType = familyType;
         ufb.country = country;
         ufb.state = state;
+        ufb.isResidingWithFamily = isResidingWithFamily;
         ufb.city = city;
         ufb.userBasic = userBasic;
         ufb.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Pending;
@@ -58,6 +59,10 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)
 ], UserFamilyBackground.prototype, "city", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Number)
+], UserFamilyBackground.prototype, "isResidingWithFamily", void 0);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", Number)

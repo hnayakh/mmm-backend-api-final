@@ -82,6 +82,7 @@ export declare class UserFacade {
     private updateChildStatusesAfterAdminVerification;
     getUserFromDisplayId(userBasicId: string, displayId: string): Promise<any[]>;
     getProfilesByPreference(userBasicId: string, queryObj: any): Promise<any[]>;
+    getProfilesFilterByPreference(userBasicId: string, queryObj: any): Promise<any>;
     getFilteredUsers(userFilterDto: UserFilterDto): Promise<any[]>;
     getPresignedUrl(userBasicId: string, fileKey: string, contentType: string): Promise<string>;
     getAdminUsers(): Promise<AdminUser[]>;

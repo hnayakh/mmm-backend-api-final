@@ -23,15 +23,18 @@ export class CreateUserFamilyBgDto {
   @ApiProperty({ example: FamilyType.Joint })
   familyType: FamilyType;
 
-  @IsNotEmpty({ message: 'Country can not be empty.' })
+  // @IsNotEmpty({ message: 'Country can not be empty.' })
   @ApiProperty({ example: 2 })
   country: number;
+  
+  @ApiProperty({ example: 2 })
+  isResidingWithFamily: number;
 
-  @IsNotEmpty({ message: 'State can not be empty.' })
+  // @IsNotEmpty({ message: 'State can not be empty.' })
   @ApiProperty({ example: 1 })
   state: number;
 
-  @IsNotEmpty({ message: 'City can not be empty.' })
+  // @IsNotEmpty({ message: 'City can not be empty.' })
   @ApiProperty({ example: 3 })
   city: number;
 }

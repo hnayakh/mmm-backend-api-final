@@ -326,6 +326,17 @@ export class UserController {
     return { data: result, message: 'Preferred profiles fetched.' };
   }
 
+  @Get('filter-profiles/:userBasicId')
+  async getProfilesFilterByPreference(
+    @Param('userBasicId') userBasicId: string,
+    @Body() filterObj: any,
+  ) {
+    const result = await this.userFacade.getProfilesFilterByPreference(
+      userBasicId,
+      filterObj,
+    );
+    return { data: result, message: 'Preferred profiles fetched.' };
+  }
   @ApiQuery({ name: 'fileKey', required: true })
   @ApiQuery({ name: 'contentType', required: true })
   @Get('presignedUrl/:userBasicId')

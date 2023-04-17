@@ -100,7 +100,7 @@ let UserService = class UserService {
         return await this.userRepo.createUserFamilyDetail(ufd);
     }
     async createUserFamilyBackground(userBasic, createUserFamilyBgDto) {
-        const ufbg = user_family_background_entity_1.UserFamilyBackground.createUserFamilyBackground(createUserFamilyBgDto.familyStatus, createUserFamilyBgDto.familyValues, createUserFamilyBgDto.familyType, createUserFamilyBgDto.country, createUserFamilyBgDto.state, createUserFamilyBgDto.city, userBasic);
+        const ufbg = user_family_background_entity_1.UserFamilyBackground.createUserFamilyBackground(createUserFamilyBgDto.familyStatus, createUserFamilyBgDto.familyValues, createUserFamilyBgDto.familyType, createUserFamilyBgDto.country, createUserFamilyBgDto.isResidingWithFamily, createUserFamilyBgDto.state, createUserFamilyBgDto.city, userBasic);
         this.userRepo.updateUserBasic(userBasic);
         return await this.userRepo.createUserFamilyBackground(ufbg);
     }
