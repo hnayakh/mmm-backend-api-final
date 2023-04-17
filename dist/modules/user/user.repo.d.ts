@@ -107,7 +107,8 @@ export declare class UserRepo {
     createUserBio(userBio: UserBio): Promise<any>;
     updateUserBio(userBio: UserBio): Promise<UserBio>;
     createUserImages(userImages: UserImage[], userBasic: UserBasic): Promise<UserImage[]>;
-    createUserDocs(userImages: UserDocs[]): Promise<(UserDocs & UserImage)[]>;
+    createUserDocs(userImages: UserDocs[], userBasic: UserBasic): Promise<UserDocs[]>;
+    getUserDocs(userBasic: UserBasic): Promise<UserImage[]>;
     updateUserImages(userDocRepo: UserDocs[]): Promise<UserDocs[]>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;
     getUserById(userBasicId: string): Promise<UserBasic>;

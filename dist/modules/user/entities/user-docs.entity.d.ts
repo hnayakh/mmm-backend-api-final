@@ -7,6 +7,6 @@ export declare class UserDocs extends AbstarctEntity {
     isDefault: boolean;
     profileUpdationStatus: ProfileUpdationStatus;
     userBasic: UserBasic;
-    static createUserDocs(imageURL: string, userBasic: UserBasic): UserDocs;
+    static createUserDocs(imageURL: string, idProof: string, isDefault: boolean, userBasic: UserBasic): UserDocs;
     updateProfileUpdationStatus(profileUpdationStatus: ProfileUpdationStatus): this;
 }

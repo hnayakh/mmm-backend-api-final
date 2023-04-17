@@ -30,6 +30,14 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], CreateUserImageDocsDto.prototype, "imageUrl", void 0);
+__decorate([
+    swagger_1.ApiProperty({ example: 'My Passport' }),
+    __metadata("design:type", String)
+], CreateUserImageDocsDto.prototype, "idProof", void 0);
+__decorate([
+    swagger_1.ApiProperty({ example: false }),
+    __metadata("design:type", Boolean)
+], CreateUserImageDocsDto.prototype, "isDefaultImage", void 0);
 exports.CreateUserImageDocsDto = CreateUserImageDocsDto;
 class CreateUserBioImageDto {
 }
@@ -56,7 +64,6 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateUserDocsDto.prototype, "userBasicId", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Identification Proof can not be empty.' }),
     swagger_1.ApiProperty({ example: 'My Passport' }),
     __metadata("design:type", String)
 ], UpdateUserDocsDto.prototype, "idProof", void 0);

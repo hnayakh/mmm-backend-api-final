@@ -39,6 +39,10 @@ __decorate([
 ], UserBio.prototype, "aboutMe", void 0);
 __decorate([
     typeorm_1.Column(),
+    __metadata("design:type", String)
+], UserBio.prototype, "idProof", void 0);
+__decorate([
+    typeorm_1.Column(),
     __metadata("design:type", Number)
 ], UserBio.prototype, "profileUpdationStatus", void 0);
 __decorate([

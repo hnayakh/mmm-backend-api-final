@@ -7,6 +7,7 @@ import { ProfileUpdationStatus } from 'src/shared/enums/miscellaneous.enum';
 export class UserBio extends AbstarctEntity {
   @Column()
   aboutMe: string;
+  @Column()
   idProof: string;
   // imageUrl: string;
   @Column()

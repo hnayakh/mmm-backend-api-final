@@ -4,6 +4,8 @@ export declare class CreateUserImageDto {
 }
 export declare class CreateUserImageDocsDto {
     imageUrl: string;
+    idProof: string;
+    isDefaultImage: boolean;
 }
 export declare class CreateUserBioImageDto {
     userBasicId: string;
