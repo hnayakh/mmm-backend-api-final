@@ -50,7 +50,7 @@ export declare class UserService {
     createUserCareer(userBasic: UserBasic, createUserCareerDto: CreateUserCareerDto): Promise<any>;
     createUserReligion(userBasic: UserBasic, createUserReligionDto: CreateUserReligionDto): Promise<any>;
     createUserBioWithImages(userBasic: UserBasic, createUserBioImageDto: CreateUserBioImageDto): Promise<any>;
-    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<any>;
+    updateUserBioWithDocs(userBasic: UserBasic, createUserBioImageDto: UpdateUserDocsDto): Promise<void>;
     getUserBasicByEmail(email: string): Promise<UserBasic>;
     getUserBasicByPhone(phoneNumber: string): Promise<UserBasic>;
     createUserLogin(deviceType: string, deviceId: string, authToken: string, userBasic: UserBasic): Promise<UserLogin>;

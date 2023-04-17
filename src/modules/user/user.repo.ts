@@ -139,6 +139,7 @@ export class UserRepo {
         'userFamilyBackgrounds',
         'userFamilyDetails',
         'userImages',
+        'userDocs',
         'userLogins',
       ],
     });
@@ -669,13 +670,35 @@ export class UserRepo {
       );
     }
 
-    // console.log('userImages for update', userImages);
+    console.log('userImages for update', userImages);
 
     // return true;
     return await this.userImageRepo.save(userImages);
   }
-  async createUserDocs(userImages: UserDocs[]) {
-    return await this.userImageRepo.save(userImages);
+  async createUserDocs(userImages: UserDocs[],userBasic:UserBasic) {
+    let userImagesPrev = await this.userDocRepo.find({
+      where: {
+        userBasic: userBasic,
+        isActive: true,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    console.log('userImagesPrev', userImagesPrev);
+    if (userImagesPrev.length > 0 && userImages.length > 0) {
+      await Promise.all(
+        userImagesPrev.map(async (imgElem) => {
+          await this.userDocRepo.delete(imgElem.id);
+        }),
+      );
+    }
+    return await this.userDocRepo.save(userImages);
+  }
+  async getUserDocs(userBasic: UserBasic) {
+    return await this.userImageRepo.find({
+      where: { userBasic: userBasic },
+    });
   }
 
   async updateUserImages(userDocRepo: UserDocs[]) {
@@ -701,6 +724,7 @@ export class UserRepo {
         'userFamilyBackgrounds',
         'userFamilyDetails',
         'userImages',
+        'userDocs',
       ],
     });
   }
@@ -869,6 +893,7 @@ export class UserRepo {
         'userImages',
         'userHobbies',
         'userLifestyle',
+        'userDocs',
       ],
     });
   }

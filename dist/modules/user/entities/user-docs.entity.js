@@ -16,10 +16,13 @@ const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const user_basic_entity_1 = require("./user-basic.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 let UserDocs = UserDocs_1 = class UserDocs extends abstract_entity_1.AbstarctEntity {
-    static createUserDocs(imageURL, userBasic) {
+    static createUserDocs(imageURL, idProof, isDefault, userBasic) {
         const userImage = new UserDocs_1();
         userImage.imageURL = imageURL;
         userImage.userBasic = userBasic;
+        userImage.idProof = idProof;
+        userImage.isDefault = isDefault;
+        userImage.profileUpdationStatus = miscellaneous_enum_1.ProfileUpdationStatus.Pending;
         return userImage;
     }
     updateProfileUpdationStatus(profileUpdationStatus) {

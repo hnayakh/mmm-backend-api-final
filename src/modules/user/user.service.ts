@@ -269,7 +269,7 @@ export class UserService {
         isDefaultImage,
         userBasic,
       );
-      console.log('userImage',userImage)
+      console.log('userImage', userImage);
       userImages.push(userImage);
       isDefaultImage = false;
     });
@@ -282,7 +282,7 @@ export class UserService {
     // );
     // this.userRepo.updateUserBasic(updatedUserBasic);
     console.log('userImages');
-    await this.userRepo.createUserImages(userImages,userBasic);
+    await this.userRepo.createUserImages(userImages, userBasic);
     return await this.userRepo.createUserBio(userBio);
   }
 
@@ -292,24 +292,25 @@ export class UserService {
   ) {
     const userImages = [];
     // By default the first image would be the display image
-    // let isDefaultImage = true;
+    let isDefaultImage = true;
     console.log('Hello outside Doc', createUserBioImageDto.userDocImages);
 
     createUserBioImageDto.userDocImages.forEach((ui) => {
       console.log('Hello Doc', userBasic);
       const userImage = UserDocs.createUserDocs(
         ui.imageUrl,
-        //  ui.idProof,
-        // isDefaultImage,
+        createUserBioImageDto.idProof,
+        ui.isDefaultImage,
         userBasic,
       );
       userImages.push(userImage);
-
-      //  isDefaultImage = false;
+      isDefaultImage = false;
     });
-    const userBio = UserBio.createUserDocBio(createUserBioImageDto.idProof);
-    this.userRepo.updateUserImages(userImages);
-    return await this.userRepo.createUserBio(userBio);
+    console.log('userImage', userImages);
+    // const userBio = UserBio.createUserDocBio(createUserBioImageDto.idProof);
+    await this.userRepo.createUserDocs(userImages, userBasic);
+    // return await this.userRepo.createUserBio(userBio);
+    return;
   }
 
   async getUserBasicByEmail(email: string) {

@@ -15,11 +15,11 @@ export class CreateUserImageDocsDto {
   imageUrl: string;
 
   // @IsNotEmpty({ message: 'Identification Proof can not be empty.' })
-  // @ApiProperty({ example: 'My Passport' })
-  // idProof: string;
+  @ApiProperty({ example: 'My Passport' })
+  idProof: string;
 
-  // @ApiProperty({ example: false })
-  // isDefault: boolean;
+  @ApiProperty({ example: false })
+  isDefaultImage: boolean;
 }
 
 export class CreateUserBioImageDto {
@@ -39,7 +39,7 @@ export class UpdateUserDocsDto {
   @ApiProperty({ example: 'c6feebb2-f5db-4958-b719-1edfca0d603e' })
   userBasicId: string;
 
-  @IsNotEmpty({ message: 'Identification Proof can not be empty.' })
+  // @IsNotEmpty({ message: 'Identification Proof can not be empty.' })
   @ApiProperty({ example: 'My Passport' })
   idProof: string;
 

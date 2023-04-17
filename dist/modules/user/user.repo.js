@@ -110,6 +110,7 @@ let UserRepo = class UserRepo {
                 'userFamilyBackgrounds',
                 'userFamilyDetails',
                 'userImages',
+                'userDocs',
                 'userLogins',
             ],
         });
@@ -424,10 +425,31 @@ let UserRepo = class UserRepo {
                 await this.userImageRepo.delete(imgElem.id);
             }));
         }
+        console.log('userImages for update', userImages);
         return await this.userImageRepo.save(userImages);
     }
-    async createUserDocs(userImages) {
-        return await this.userImageRepo.save(userImages);
+    async createUserDocs(userImages, userBasic) {
+        let userImagesPrev = await this.userDocRepo.find({
+            where: {
+                userBasic: userBasic,
+                isActive: true,
+            },
+            order: {
+                createdAt: 'DESC',
+            },
+        });
+        console.log('userImagesPrev', userImagesPrev);
+        if (userImagesPrev.length > 0 && userImages.length > 0) {
+            await Promise.all(userImagesPrev.map(async (imgElem) => {
+                await this.userDocRepo.delete(imgElem.id);
+            }));
+        }
+        return await this.userDocRepo.save(userImages);
+    }
+    async getUserDocs(userBasic) {
+        return await this.userImageRepo.find({
+            where: { userBasic: userBasic },
+        });
     }
     async updateUserImages(userDocRepo) {
         return await this.userDocRepo.save(Object.assign({}, userDocRepo));
@@ -449,6 +471,7 @@ let UserRepo = class UserRepo {
                 'userFamilyBackgrounds',
                 'userFamilyDetails',
                 'userImages',
+                'userDocs',
             ],
         });
     }
@@ -607,6 +630,7 @@ let UserRepo = class UserRepo {
                 'userImages',
                 'userHobbies',
                 'userLifestyle',
+                'userDocs',
             ],
         });
     }

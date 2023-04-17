@@ -76,7 +76,7 @@ export declare class UserFacade {
     uploadUserImages(userId: string, files: any): Promise<any[]>;
     uploadUserDocImages(userId: string, files: any): Promise<any[]>;
     createUserBioWithImages(createUserBioImageDto: CreateUserBioImageDto): Promise<any>;
-    updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<any>;
+    updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<void>;
     rejectUserByAdmin(userBasicId: string): Promise<void>;
     verifyUserByAdmin(userBasicId: string): Promise<void>;
     private updateChildStatusesAfterAdminVerification;

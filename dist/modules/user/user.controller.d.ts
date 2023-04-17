@@ -127,7 +127,7 @@ export declare class UserController {
         message: string;
     }>;
     updateUserBioWithDocs(updateUserDocsDto: UpdateUserDocsDto): Promise<{
-        data: any;
+        data: void;
         message: string;
     }>;
     verifyUserByAdmin(userBasicId: string): Promise<{

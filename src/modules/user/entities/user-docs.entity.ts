@@ -22,33 +22,16 @@ export class UserDocs extends AbstarctEntity {
 
   static createUserDocs(
     imageURL: string,
-  //  idProof:string,
-  //  isDefault: boolean,
+   idProof:string,
+   isDefault: boolean,
     userBasic: UserBasic,
   ) {
-    // Random code
-    // let rand = Math.floor(Math.random() * 13);
-    // let images = ['https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.55+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.56+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.56+PM+(2).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.56+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.57+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.57+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.58+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.58+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.59+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.21.59+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.22.00+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.22.00+PM.jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.22.01+PM+(1).jpeg',
-    //   'https://mmm-user-image.s3.ap-south-1.amazonaws.com/WhatsApp+Image+2021-09-27+at+4.22.01+PM.jpeg'
-    // ]
     const userImage = new UserDocs();
     userImage.imageURL = imageURL;
-   // userImage.idProof = idProof;
-  //  userImage.isDefault = isDefault;
     userImage.userBasic = userBasic;
-    //userImage.profileUpdationStatus = ProfileUpdationStatus.Pending;
+    userImage.idProof=idProof;
+    userImage.isDefault=isDefault;
+    userImage.profileUpdationStatus = ProfileUpdationStatus.Pending;
     return userImage;
   }
 
