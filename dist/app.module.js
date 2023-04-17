@@ -111,7 +111,7 @@ AppModule = __decorate([
                     notification_entity_1.Notification,
                     meet_entity_1.Meet
                 ],
-                synchronize: false,
+                synchronize: true,
             }),
             user_module_1.UserModule,
             auth_module_1.AuthModule,

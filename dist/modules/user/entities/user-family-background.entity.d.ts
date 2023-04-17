@@ -9,8 +9,9 @@ export declare class UserFamilyBackground extends AbstarctEntity {
     country: number;
     state: number;
     city: number;
+    isResidingWithFamily: number;
     profileUpdationStatus: ProfileUpdationStatus;
     userBasic: UserBasic;
-    static createUserFamilyBackground(familyStatus: FamilyAfluenceLevel, familyValues: FamilyValues, familyType: FamilyType, country: number, state: number, city: number, userBasic: UserBasic): UserFamilyBackground;
+    static createUserFamilyBackground(familyStatus: FamilyAfluenceLevel, familyValues: FamilyValues, familyType: FamilyType, country: number, isResidingWithFamily: number, state: number, city: number, userBasic: UserBasic): UserFamilyBackground;
     updateProfileUpdationStatus(profileUpdationStatus: ProfileUpdationStatus): this;
 }

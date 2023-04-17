@@ -178,6 +178,10 @@ let UserController = class UserController {
         const result = await this.userFacade.getProfilesByPreference(userBasicId, queryObj);
         return { data: result, message: 'Preferred profiles fetched.' };
     }
+    async getProfilesFilterByPreference(userBasicId, filterObj) {
+        const result = await this.userFacade.getProfilesFilterByPreference(userBasicId, filterObj);
+        return { data: result, message: 'Preferred profiles fetched.' };
+    }
     async getPresignedUrl(userBasicId, fileKey, contentType) {
         const result = await this.userFacade.getPresignedUrl(userBasicId, fileKey, contentType);
         return { data: result, message: 'Presigned url generated successfully.' };
@@ -495,6 +499,14 @@ __decorate([
     __metadata("design:paramtypes", [String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String, String]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getProfilesByPreference", null);
+__decorate([
+    common_1.Get('filter-profiles/:userBasicId'),
+    __param(0, common_1.Param('userBasicId')),
+    __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "getProfilesFilterByPreference", null);
 __decorate([
     swagger_1.ApiQuery({ name: 'fileKey', required: true }),
     swagger_1.ApiQuery({ name: 'contentType', required: true }),

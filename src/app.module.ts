@@ -99,7 +99,7 @@ import { Meet } from './modules/meet/entities/meet.entity';
         Notification,
         Meet
       ],
-      synchronize: false,
+      synchronize: true,
     }),
     UserModule,
     AuthModule,

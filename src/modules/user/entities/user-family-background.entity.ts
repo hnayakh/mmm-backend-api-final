@@ -29,6 +29,9 @@ export class UserFamilyBackground extends AbstarctEntity {
   city: number;
 
   @Column()
+  isResidingWithFamily: number;
+
+  @Column()
   profileUpdationStatus: ProfileUpdationStatus;
 
   @ManyToOne(
@@ -42,6 +45,7 @@ export class UserFamilyBackground extends AbstarctEntity {
     familyValues: FamilyValues,
     familyType: FamilyType,
     country: number,
+    isResidingWithFamily: number,
     state: number,
     city: number,
     userBasic: UserBasic,
@@ -52,6 +56,7 @@ export class UserFamilyBackground extends AbstarctEntity {
     ufb.familyType = familyType;
     ufb.country = country;
     ufb.state = state;
+    ufb.isResidingWithFamily = isResidingWithFamily;
     ufb.city = city;
     ufb.userBasic = userBasic;
     ufb.profileUpdationStatus = ProfileUpdationStatus.Pending;

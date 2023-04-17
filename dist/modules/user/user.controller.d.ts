@@ -142,6 +142,10 @@ export declare class UserController {
         data: any[];
         message: string;
     }>;
+    getProfilesFilterByPreference(userBasicId: string, filterObj: any): Promise<{
+        data: any;
+        message: string;
+    }>;
     getPresignedUrl(userBasicId: string, fileKey: string, contentType: string): Promise<{
         data: string;
         message: string;

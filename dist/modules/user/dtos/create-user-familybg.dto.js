@@ -36,17 +36,18 @@ __decorate([
     __metadata("design:type", Number)
 ], CreateUserFamilyBgDto.prototype, "familyType", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Country can not be empty.' }),
     swagger_1.ApiProperty({ example: 2 }),
     __metadata("design:type", Number)
 ], CreateUserFamilyBgDto.prototype, "country", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'State can not be empty.' }),
+    swagger_1.ApiProperty({ example: 2 }),
+    __metadata("design:type", Number)
+], CreateUserFamilyBgDto.prototype, "isResidingWithFamily", void 0);
+__decorate([
     swagger_1.ApiProperty({ example: 1 }),
     __metadata("design:type", Number)
 ], CreateUserFamilyBgDto.prototype, "state", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'City can not be empty.' }),
     swagger_1.ApiProperty({ example: 3 }),
     __metadata("design:type", Number)
 ], CreateUserFamilyBgDto.prototype, "city", void 0);

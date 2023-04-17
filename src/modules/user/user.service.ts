@@ -201,6 +201,7 @@ export class UserService {
       createUserFamilyBgDto.familyValues,
       createUserFamilyBgDto.familyType,
       createUserFamilyBgDto.country,
+      createUserFamilyBgDto.isResidingWithFamily,
       createUserFamilyBgDto.state,
       createUserFamilyBgDto.city,
       userBasic,
