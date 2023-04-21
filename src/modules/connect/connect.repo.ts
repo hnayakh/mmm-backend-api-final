@@ -291,17 +291,19 @@ export class ConnectRepo {
     const rawQuery = `select uva.id as userId,
     ucd.id as connectId,
     uva.displayId,
+    ucd.usedDuration,
+    ucd.totalDuration,
     uva.activationStatus,
     uva.name,
     uva.imageURL,
     uva.thumbnailURL
-from user_connect_durations ucd
-      left join users_view_admin uva on
-     (ucd.userOneBasicId = uva.id and ucd.userOneBasicId <> '${userBasicId}')
-     or (ucd.userTwoBasicId = uva.id and ucd.userTwoBasicId <> '${userBasicId}')
-WHERE ucd.isActive
-AND (ucd.userOneBasicId = '${userBasicId}'
- OR ucd.userTwoBasicId = '${userBasicId}');`;
+    from user_connect_durations ucd
+    left join users_view_admin uva on
+    (ucd.userOneBasicId = uva.id and ucd.userOneBasicId <> '${userBasicId}')
+    or (ucd.userTwoBasicId = uva.id and ucd.userTwoBasicId <> '${userBasicId}')
+    WHERE ucd.isActive
+    AND (ucd.userOneBasicId = '${userBasicId}'
+    OR ucd.userTwoBasicId = '${userBasicId}');`;
     const userDet = await entityManager.query(rawQuery);
     return userDet;
   }

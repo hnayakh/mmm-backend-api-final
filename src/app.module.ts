@@ -49,6 +49,8 @@ import { UserHobbies } from './modules/user/entities/user-hobbies.entity';
 import { UserBlock } from './modules/user/entities/block-user.entity';
 import { MeetModule } from './modules/meet/meet.module';
 import { Meet } from './modules/meet/entities/meet.entity';
+import { SettingsModule } from './modules/settings/settings.module';
+import { Settings } from './modules/settings/entities/settings.entity';
 @Module({
   imports: [
     Logger,
@@ -97,7 +99,8 @@ import { Meet } from './modules/meet/entities/meet.entity';
         ConnectTransactionEntity,
         ProfileVisit,
         Notification,
-        Meet
+        Meet,
+        Settings
       ],
       synchronize: true,
     }),
@@ -111,6 +114,7 @@ import { Meet } from './modules/meet/entities/meet.entity';
     CacheModule.register({
       isGlobal: true,
     }),
+    SettingsModule,
    
   ],
   providers: [

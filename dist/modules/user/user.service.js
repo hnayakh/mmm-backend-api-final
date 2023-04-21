@@ -115,18 +115,24 @@ let UserService = class UserService {
         return await this.userRepo.createUserReligion(userReligion);
     }
     async createUserBioWithImages(userBasic, createUserBioImageDto) {
-        const userImages = [];
-        let isDefaultImage = true;
-        createUserBioImageDto.userImages.forEach((ui) => {
-            const userImage = user_image_entity_1.UserImage.createUserImage(ui.imageUrl, isDefaultImage, userBasic);
-            console.log('userImage', userImage);
-            userImages.push(userImage);
-            isDefaultImage = false;
-        });
-        const userBio = user_bio_entity_1.UserBio.createUserBio(createUserBioImageDto.aboutMe, userBasic);
-        console.log('userImages');
-        await this.userRepo.createUserImages(userImages, userBasic);
-        return await this.userRepo.createUserBio(userBio);
+        try {
+            const userImages = [];
+            let isDefaultImage = true;
+            createUserBioImageDto.userImages.forEach((ui) => {
+                const userImage = user_image_entity_1.UserImage.createUserImage(ui.imageUrl, isDefaultImage, userBasic);
+                console.log('userImage', userImage);
+                userImages.push(userImage);
+                isDefaultImage = false;
+            });
+            const userBio = user_bio_entity_1.UserBio.createUserBio(createUserBioImageDto.aboutMe, userBasic);
+            console.log('userImages');
+            await this.userRepo.createUserImages(userImages, userBasic);
+            return await this.userRepo.createUserBio(userBio);
+        }
+        catch (error) {
+            console.log(error);
+            return error;
+        }
     }
     async updateUserBioWithDocs(userBasic, createUserBioImageDto) {
         const userImages = [];

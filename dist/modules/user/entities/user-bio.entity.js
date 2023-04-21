@@ -34,7 +34,7 @@ let UserBio = UserBio_1 = class UserBio extends abstract_entity_1.AbstarctEntity
     }
 };
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: 'longtext' }),
     __metadata("design:type", String)
 ], UserBio.prototype, "aboutMe", void 0);
 __decorate([

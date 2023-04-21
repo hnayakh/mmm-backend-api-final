@@ -786,9 +786,15 @@ let UserFacade = class UserFacade {
                 let country = await this.masterService.getCountry(userDetails.userFamilyBackgrounds[i].country);
                 let state = await this.masterService.getState(userDetails.userFamilyBackgrounds[i].state);
                 let city = await this.masterService.getCity(userDetails.userFamilyBackgrounds[i].city);
-                userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
-                userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
-                userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+                if (country && country['name']) {
+                    userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
+                }
+                if (state && state['name']) {
+                    userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
+                }
+                if (city && city['name']) {
+                    userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+                }
             }
             let requiredData = {};
             if (myBasicId) {

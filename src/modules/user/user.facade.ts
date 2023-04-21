@@ -820,7 +820,7 @@ export class UserFacade {
       }
     } catch (e) {
       console.log(e);
-      return e
+      return e;
     }
   }
   async getFilteredUsers(userFilterDto: UserFilterDto) {
@@ -1112,9 +1112,15 @@ export class UserFacade {
         let city = await this.masterService.getCity(
           userDetails.userFamilyBackgrounds[i].city,
         );
-        userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
-        userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
-        userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+        if (country && country['name']) {
+          userDetails.userFamilyBackgrounds[i]['countryName'] = country['name'];
+        }
+        if (state && state['name']) {
+          userDetails.userFamilyBackgrounds[i]['stateName'] = state['name'];
+        }
+        if (city && city['name']) {
+          userDetails.userFamilyBackgrounds[i]['cityName'] = city['name'];
+        }
       }
       let requiredData = {};
 

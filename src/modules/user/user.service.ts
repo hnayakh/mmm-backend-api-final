@@ -260,30 +260,35 @@ export class UserService {
     userBasic: UserBasic,
     createUserBioImageDto: CreateUserBioImageDto,
   ) {
-    const userImages = [];
-    // By default the first image would be the display image
-    let isDefaultImage = true;
-    createUserBioImageDto.userImages.forEach((ui) => {
-      const userImage = UserImage.createUserImage(
-        ui.imageUrl,
-        isDefaultImage,
+    try {
+      const userImages = [];
+      // By default the first image would be the display image
+      let isDefaultImage = true;
+      createUserBioImageDto.userImages.forEach((ui) => {
+        const userImage = UserImage.createUserImage(
+          ui.imageUrl,
+          isDefaultImage,
+          userBasic,
+        );
+        console.log('userImage', userImage);
+        userImages.push(userImage);
+        isDefaultImage = false;
+      });
+      const userBio = UserBio.createUserBio(
+        createUserBioImageDto.aboutMe,
         userBasic,
       );
-      console.log('userImage', userImage);
-      userImages.push(userImage);
-      isDefaultImage = false;
-    });
-    const userBio = UserBio.createUserBio(
-      createUserBioImageDto.aboutMe,
-      userBasic,
-    );
-    // const updatedUserBasic = userBasic.updateRegistrationStep(
-    //   RegistrationSteps.Preferences,
-    // );
-    // this.userRepo.updateUserBasic(updatedUserBasic);
-    console.log('userImages');
-    await this.userRepo.createUserImages(userImages, userBasic);
-    return await this.userRepo.createUserBio(userBio);
+      // const updatedUserBasic = userBasic.updateRegistrationStep(
+      //   RegistrationSteps.Preferences,
+      // );
+      // this.userRepo.updateUserBasic(updatedUserBasic);
+      console.log('userImages');
+      await this.userRepo.createUserImages(userImages, userBasic);
+      return await this.userRepo.createUserBio(userBio);
+    } catch (error) {
+      console.log(error);
+      return error
+    }
   }
 
   async updateUserBioWithDocs(
