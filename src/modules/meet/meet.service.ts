@@ -46,8 +46,8 @@ export class MeetService {
   }
   async getMeet(userBasicId: string) {
     try {
-      const activeSent = await this.meetRepo.getActiveSentRequest(userBasicId);
-      const activeInvites = await this.meetRepo.getActiveInvites(userBasicId);
+      let activeSent = await this.meetRepo.getActiveSentRequest(userBasicId);
+      let activeInvites = await this.meetRepo.getActiveInvites(userBasicId);
       const activeconnections = await this.meetRepo.getActiveConnections(
         userBasicId,
       );
@@ -73,6 +73,12 @@ export class MeetService {
       const connectedUserForCall = await this.meetRepo.getMeetRequestByUserId(
         userBasicId,
       );
+      const blockedUser = await this.userService.getBlockedUsersForAll(
+        userBasicId,
+      );
+      const blockedUserWho = await this.userService.getBlockedUsersWhom(
+        userBasicId,
+      );
       activeSent.forEach((input) => {
         input['requestedUserDeatails'] = users.find(
           (x) => x.id == input['requestedId'],
@@ -82,6 +88,26 @@ export class MeetService {
           isConnected: false,
           id: null,
         };
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWho.find(
+          (u) => u.block_whom == input['requestingId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
         // let isConnectOne = connectedUserForCall.find(
         //   (u) => u.requestedId == input['requestedId'],
         // );
@@ -122,6 +148,26 @@ export class MeetService {
         //   (tempObj.isConnected = true), (tempObj.id = isConnectTwo.id);
         // }
         // input['user']['connectStatus'] = tempObj;
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWho.find(
+          (u) => u.block_whom == input['requestingId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
       });
       console.log('requiredConnection', requiredConnection);
 
@@ -130,7 +176,28 @@ export class MeetService {
           isConnected: false,
           id: null,
         };
+
         let requiredObj = {};
+        let blockObj = {
+          isBlocked: false,
+          id: '',
+        };
+        let isBlockedOne = blockedUserWho.find(
+          (u) => u.block_whom == input['requestingId'],
+        );
+        let isBlockedTwo = blockedUser.find(
+          (u) => u.block_who == input['requestingId'],
+        );
+        console.log('isBlockedOne', isBlockedOne);
+        console.log('isBlockedTwo', isBlockedTwo);
+        if (isBlockedOne != null || isBlockedOne != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedOne.id;
+        }
+        if (isBlockedTwo != null || isBlockedTwo != undefined) {
+          blockObj.isBlocked = true;
+          blockObj.id = isBlockedTwo.id;
+        }
         if (userBasicId == input['requestedId']) {
           input['requestedUserDeatails'] = users.find(
             (x) => x.id == input['requestedId'],
@@ -160,6 +227,32 @@ export class MeetService {
           }
         }
       });
+      if (blockedUserWho.length > 0) {
+        blockedUserWho.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestingUserDeatails.id != e.block_who,
+          );
+          activeInvites = activeInvites.filter(
+            (x: any) => x.user.id != e.block_who,
+          );
+          activeSent = activeSent.filter(
+            (x: any) => x.user.id != e.block_who,
+          );
+        });
+      }
+      if (blockedUser.length > 0) {
+        blockedUser.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestingUserDeatails.id != e.block_who,
+          );
+          activeInvites = activeInvites.filter(
+            (x: any) => x.user.id != e.block_who,
+          );
+          activeSent = activeSent.filter(
+            (x: any) => x.user.id != e.block_who,
+          );
+        });
+      }
       console.log('activeconactiveconnections', requiredConnection);
       return {
         activeSent,

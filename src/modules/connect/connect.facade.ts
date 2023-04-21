@@ -246,6 +246,13 @@ export class ConnectFacade {
           );
         });
       }
+      if (blockedUserWho.length > 0) {
+        blockedUserWho.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestingUserDeatails.id != e.block_whom,
+          );
+        });
+      }
       if (blockedUser.length > 0) {
         blockedUser.forEach((e) => {
           requiredConnection = requiredConnection.filter(

@@ -36,8 +36,8 @@ let MeetService = class MeetService {
     }
     async getMeet(userBasicId) {
         try {
-            const activeSent = await this.meetRepo.getActiveSentRequest(userBasicId);
-            const activeInvites = await this.meetRepo.getActiveInvites(userBasicId);
+            let activeSent = await this.meetRepo.getActiveSentRequest(userBasicId);
+            let activeInvites = await this.meetRepo.getActiveInvites(userBasicId);
             const activeconnections = await this.meetRepo.getActiveConnections(userBasicId);
             const activeSentconnections = await this.meetRepo.getActiveSentConnections(userBasicId);
             let requiredConnection = [...activeconnections, ...activeSentconnections];
@@ -56,6 +56,8 @@ let MeetService = class MeetService {
             });
             const users = await this.userService.getUsersByIds(userBasicIds);
             const connectedUserForCall = await this.meetRepo.getMeetRequestByUserId(userBasicId);
+            const blockedUser = await this.userService.getBlockedUsersForAll(userBasicId);
+            const blockedUserWho = await this.userService.getBlockedUsersWhom(userBasicId);
             activeSent.forEach((input) => {
                 input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedId']);
                 input['user'] = users.find((x) => x.id == input['requestedId']);
@@ -63,10 +65,42 @@ let MeetService = class MeetService {
                     isConnected: false,
                     id: null,
                 };
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
             });
             activeInvites.forEach((input) => {
                 input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedId']);
                 input['user'] = users.find((x) => x.id == input['requestingId']);
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
             });
             console.log('requiredConnection', requiredConnection);
             requiredConnection.forEach((input) => {
@@ -75,6 +109,22 @@ let MeetService = class MeetService {
                     id: null,
                 };
                 let requiredObj = {};
+                let blockObj = {
+                    isBlocked: false,
+                    id: '',
+                };
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingId']);
+                let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingId']);
+                console.log('isBlockedOne', isBlockedOne);
+                console.log('isBlockedTwo', isBlockedTwo);
+                if (isBlockedOne != null || isBlockedOne != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedOne.id;
+                }
+                if (isBlockedTwo != null || isBlockedTwo != undefined) {
+                    blockObj.isBlocked = true;
+                    blockObj.id = isBlockedTwo.id;
+                }
                 if (userBasicId == input['requestedId']) {
                     input['requestedUserDeatails'] = users.find((x) => x.id == input['requestedId']);
                     input['user'] = users.find((x) => x.id == input['requestingId']);
@@ -97,6 +147,20 @@ let MeetService = class MeetService {
                     }
                 }
             });
+            if (blockedUserWho.length > 0) {
+                blockedUserWho.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
+                    activeInvites = activeInvites.filter((x) => x.user.id != e.block_who);
+                    activeSent = activeSent.filter((x) => x.user.id != e.block_who);
+                });
+            }
+            if (blockedUser.length > 0) {
+                blockedUser.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
+                    activeInvites = activeInvites.filter((x) => x.user.id != e.block_who);
+                    activeSent = activeSent.filter((x) => x.user.id != e.block_who);
+                });
+            }
             console.log('activeconactiveconnections', requiredConnection);
             return {
                 activeSent,
