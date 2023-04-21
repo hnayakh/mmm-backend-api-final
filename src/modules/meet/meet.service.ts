@@ -235,9 +235,11 @@ export class MeetService {
           activeInvites = activeInvites.filter(
             (x: any) => x.user.id != e.block_who,
           );
-          activeSent = activeSent.filter(
-            (x: any) => x.user.id != e.block_who,
+          activeInvites = activeInvites.filter(
+            (x: any) => x.user.id != e.block_whom,
           );
+          activeSent = activeSent.filter((x: any) => x.user.id != e.block_who);
+          activeSent = activeSent.filter((x: any) => x.user.id != e.block_who);
         });
       }
       if (blockedUser.length > 0) {
@@ -251,12 +253,8 @@ export class MeetService {
           activeInvites = activeInvites.filter(
             (x: any) => x.user.id != e.block_whom,
           );
-          activeSent = activeSent.filter(
-            (x: any) => x.user.id != e.block_whom,
-          );
-          activeSent = activeSent.filter(
-            (x: any) => x.user.id != e.block_who,
-          );
+          activeSent = activeSent.filter((x: any) => x.user.id != e.block_whom);
+          activeSent = activeSent.filter((x: any) => x.user.id != e.block_who);
         });
       }
       console.log('activeconactiveconnections', requiredConnection);
