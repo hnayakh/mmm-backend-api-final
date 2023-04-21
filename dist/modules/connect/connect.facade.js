@@ -54,8 +54,8 @@ let ConnectFacade = class ConnectFacade {
                 userBasicIds.push(input.requestingUserBasicId);
             });
             const blockedUser = await this.userService.getBlockedUsersForAll(userBasicId);
-            const blockedUserWhom = await this.userService.getBlockedUsersWhom(userBasicId);
-            console.log('blockedUserWhom', blockedUserWhom);
+            const blockedUserWho = await this.userService.getBlockedUsersWhom(userBasicId);
+            console.log('blockedUserWhom', blockedUserWho);
             console.log('blockedUser', blockedUser);
             const users = await this.userService.getUsersByIds(userBasicIds);
             const connectedUserForCall = await this.connectService.getUserConnectRequestsByUserId(userBasicId);
@@ -69,7 +69,7 @@ let ConnectFacade = class ConnectFacade {
                     isBlocked: false,
                     id: '',
                 };
-                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingUserBasicId']);
                 let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
                 console.log('isBlockedOne', isBlockedOne);
                 console.log('isBlockedTwo', isBlockedTwo);
@@ -103,7 +103,7 @@ let ConnectFacade = class ConnectFacade {
                     isBlocked: false,
                     id: '',
                 };
-                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingUserBasicId']);
                 let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
                 console.log('isBlockedOne', isBlockedOne);
                 console.log('isBlockedTwo', isBlockedTwo);
@@ -136,7 +136,7 @@ let ConnectFacade = class ConnectFacade {
                     isBlocked: false,
                     id: '',
                 };
-                let isBlockedOne = blockedUserWhom.find((u) => u.block_whom == input['requestingUserBasicId']);
+                let isBlockedOne = blockedUserWho.find((u) => u.block_whom == input['requestingUserBasicId']);
                 let isBlockedTwo = blockedUser.find((u) => u.block_who == input['requestingUserBasicId']);
                 console.log('isBlockedOne', isBlockedOne);
                 console.log('isBlockedTwo', isBlockedTwo);
@@ -178,8 +178,13 @@ let ConnectFacade = class ConnectFacade {
                     requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_whom);
                 });
             }
-            if (blockedUserWhom.length > 0) {
-                blockedUserWhom.forEach((e) => {
+            if (blockedUserWho.length > 0) {
+                blockedUserWho.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
+                });
+            }
+            if (blockedUser.length > 0) {
+                blockedUser.forEach((e) => {
                     requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
                 });
             }

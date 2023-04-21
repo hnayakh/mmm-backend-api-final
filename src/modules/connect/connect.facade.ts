@@ -66,10 +66,10 @@ export class ConnectFacade {
       const blockedUser = await this.userService.getBlockedUsersForAll(
         userBasicId,
       );
-      const blockedUserWhom = await this.userService.getBlockedUsersWhom(
+      const blockedUserWho = await this.userService.getBlockedUsersWhom(
         userBasicId,
       );
-      console.log('blockedUserWhom', blockedUserWhom);
+      console.log('blockedUserWhom', blockedUserWho);
       console.log('blockedUser', blockedUser);
       const users = await this.userService.getUsersByIds(userBasicIds);
       const connectedUserForCall =
@@ -86,7 +86,7 @@ export class ConnectFacade {
           isBlocked: false,
           id: '',
         };
-        let isBlockedOne = blockedUserWhom.find(
+        let isBlockedOne = blockedUserWho.find(
           (u) => u.block_whom == input['requestingUserBasicId'],
         );
         let isBlockedTwo = blockedUser.find(
@@ -135,7 +135,7 @@ export class ConnectFacade {
           isBlocked: false,
           id: '',
         };
-        let isBlockedOne = blockedUserWhom.find(
+        let isBlockedOne = blockedUserWho.find(
           (u) => u.block_whom == input['requestingUserBasicId'],
         );
         let isBlockedTwo = blockedUser.find(
@@ -177,7 +177,7 @@ export class ConnectFacade {
           isBlocked: false,
           id: '',
         };
-        let isBlockedOne = blockedUserWhom.find(
+        let isBlockedOne = blockedUserWho.find(
           (u) => u.block_whom == input['requestingUserBasicId'],
         );
         let isBlockedTwo = blockedUser.find(
@@ -239,8 +239,15 @@ export class ConnectFacade {
           );
         });
       }
-      if (blockedUserWhom.length > 0) {
-        blockedUserWhom.forEach((e) => {
+      if (blockedUserWho.length > 0) {
+        blockedUserWho.forEach((e) => {
+          requiredConnection = requiredConnection.filter(
+            (x: any) => x.requestingUserDeatails.id != e.block_who,
+          );
+        });
+      }
+      if (blockedUser.length > 0) {
+        blockedUser.forEach((e) => {
           requiredConnection = requiredConnection.filter(
             (x: any) => x.requestingUserDeatails.id != e.block_who,
           );
