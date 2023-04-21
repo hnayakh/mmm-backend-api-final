@@ -30,7 +30,7 @@ let UserHobbies = UserHobbies_1 = class UserHobbies extends abstract_entity_1.Ab
     }
 };
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: 'longtext' }),
     __metadata("design:type", String)
 ], UserHobbies.prototype, "hobbies", void 0);
 __decorate([
