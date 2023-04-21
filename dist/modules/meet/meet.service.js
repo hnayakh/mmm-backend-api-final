@@ -158,7 +158,9 @@ let MeetService = class MeetService {
                 blockedUser.forEach((e) => {
                     requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
                     activeInvites = activeInvites.filter((x) => x.user.id != e.block_who);
+                    activeInvites = activeInvites.filter((x) => x.user.id != e.block_whom);
                     activeSent = activeSent.filter((x) => x.user.id != e.block_whom);
+                    activeSent = activeSent.filter((x) => x.user.id != e.block_who);
                 });
             }
             console.log('activeconactiveconnections', requiredConnection);

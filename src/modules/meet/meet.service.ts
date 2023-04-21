@@ -248,8 +248,14 @@ export class MeetService {
           activeInvites = activeInvites.filter(
             (x: any) => x.user.id != e.block_who,
           );
+          activeInvites = activeInvites.filter(
+            (x: any) => x.user.id != e.block_whom,
+          );
           activeSent = activeSent.filter(
             (x: any) => x.user.id != e.block_whom,
+          );
+          activeSent = activeSent.filter(
+            (x: any) => x.user.id != e.block_who,
           );
         });
       }
