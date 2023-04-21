@@ -183,6 +183,11 @@ let ConnectFacade = class ConnectFacade {
                     requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
                 });
             }
+            if (blockedUserWho.length > 0) {
+                blockedUserWho.forEach((e) => {
+                    requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_whom);
+                });
+            }
             if (blockedUser.length > 0) {
                 blockedUser.forEach((e) => {
                     requiredConnection = requiredConnection.filter((x) => x.requestingUserDeatails.id != e.block_who);
