@@ -249,7 +249,7 @@ export class MeetService {
             (x: any) => x.user.id != e.block_who,
           );
           activeSent = activeSent.filter(
-            (x: any) => x.user.id != e.block_who,
+            (x: any) => x.user.id != e.block_whom,
           );
         });
       }
