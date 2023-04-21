@@ -12,7 +12,7 @@ import {
 
 @Entity('user_hobbies')
 export class UserHobbies extends AbstarctEntity {
-  @Column()
+  @Column({ type: 'longtext' })
   hobbies: string;
 
   @Column()
@@ -21,10 +21,7 @@ export class UserHobbies extends AbstarctEntity {
   @ManyToOne((type) => UserBasic, (userBasic) => userBasic.userHobbies)
   userBasic: UserBasic;
 
-  static createUserLifestyle(
-    hobbies: string,
-    userBasic: UserBasic,
-  ) {
+  static createUserLifestyle(hobbies: string, userBasic: UserBasic) {
     const userHobbies = new UserHobbies();
     userHobbies.hobbies = hobbies;
     userHobbies.profileUpdationStatus = ProfileUpdationStatus.Pending;

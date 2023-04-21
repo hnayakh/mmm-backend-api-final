@@ -7,10 +7,10 @@ export class Meet extends AbstarctEntity {
   @Column()
   status: UserMeetStatus;
 
-  @Column()
+  @Column({ type: 'double' })
   lat: number;
 
-  @Column()
+  @Column({ type: 'double' })
   long: number;
 
   @Column()
@@ -40,7 +40,7 @@ export class Meet extends AbstarctEntity {
     link: string,
     scheduleTime: string,
     address: string,
-    type:string,
+    type: string,
   ) {
     const meetObj = new Meet();
     meetObj.status = status;
@@ -51,7 +51,7 @@ export class Meet extends AbstarctEntity {
     meetObj.link = link;
     meetObj.lat = lat;
     meetObj.long = long;
-    meetObj.type=type;
+    meetObj.type = type;
     return meetObj;
   }
 
@@ -64,7 +64,7 @@ export class Meet extends AbstarctEntity {
     link: string,
     scheduleTime: string,
     address: string,
-    type:string,
+    type: string,
   ) {
     this.status = status;
     this.scheduleTime = scheduleTime;
@@ -74,7 +74,7 @@ export class Meet extends AbstarctEntity {
     this.link = link;
     this.lat = lat;
     this.long = long;
-    this.type=type;
+    this.type = type;
     return this;
   }
 }

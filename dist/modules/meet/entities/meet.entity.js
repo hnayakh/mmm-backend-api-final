@@ -46,11 +46,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Meet.prototype, "status", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: 'double' }),
     __metadata("design:type", Number)
 ], Meet.prototype, "lat", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: 'double' }),
     __metadata("design:type", Number)
 ], Meet.prototype, "long", void 0);
 __decorate([
