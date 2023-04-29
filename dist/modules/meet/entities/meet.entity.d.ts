@@ -10,6 +10,6 @@ export declare class Meet extends AbstarctEntity {
     link: string;
     scheduleTime: string;
     address: string;
-    static createMeet(lat: number, status: UserMeetStatus, long: number, requestedId: string, requestingId: string, link: string, scheduleTime: string, address: string, type: string): Meet;
-    updateMeet(lat: number, status: UserMeetStatus, long: number, requestedId: string, requestingId: string, link: string, scheduleTime: string, address: string, type: string): this;
+    static createMeet(status: UserMeetStatus, long: number, lat: number, requestedId: string, requestingId: string, link: string, scheduleTime: string, address: string, type: string): Meet;
+    updateMeet(status: UserMeetStatus, long: number, lat: number, requestedId: string, requestingId: string, link: string, scheduleTime: string, address: string, type: string): this;
 }

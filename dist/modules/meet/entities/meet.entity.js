@@ -15,7 +15,7 @@ const typeorm_1 = require("typeorm");
 const abstract_entity_1 = require("../../../shared/entities/abstract.entity");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
 let Meet = Meet_1 = class Meet extends abstract_entity_1.AbstarctEntity {
-    static createMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address, type) {
+    static createMeet(status, long, lat, requestedId, requestingId, link, scheduleTime, address, type) {
         const meetObj = new Meet_1();
         meetObj.status = status;
         meetObj.scheduleTime = scheduleTime;
@@ -28,7 +28,7 @@ let Meet = Meet_1 = class Meet extends abstract_entity_1.AbstarctEntity {
         meetObj.type = type;
         return meetObj;
     }
-    updateMeet(lat, status, long, requestedId, requestingId, link, scheduleTime, address, type) {
+    updateMeet(status, long, lat, requestedId, requestingId, link, scheduleTime, address, type) {
         this.status = status;
         this.scheduleTime = scheduleTime;
         this.requestedId = requestedId;
