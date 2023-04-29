@@ -32,9 +32,9 @@ export class Meet extends AbstarctEntity {
   address: string;
 
   static createMeet(
-    lat: number,
     status: UserMeetStatus,
     long: number,
+    lat: number,
     requestedId: string,
     requestingId: string,
     link: string,
@@ -56,9 +56,9 @@ export class Meet extends AbstarctEntity {
   }
 
   updateMeet(
-    lat: number,
     status: UserMeetStatus,
     long: number,
+    lat: number,
     requestedId: string,
     requestingId: string,
     link: string,
