@@ -18,12 +18,17 @@ const swagger_1 = require("@nestjs/swagger");
 const auth_service_1 = require("./auth.service");
 const create_otp_dto_1 = require("./dtos/create-otp.dto");
 const user_login_dto_1 = require("./dtos/user-login.dto");
+const social_login_dto_1 = require("./dtos/social-login.dto");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
     async login(userLoginDto) {
         const result = await this.authService.validateUser(userLoginDto.email, userLoginDto.password, userLoginDto.fireBaseToken);
+        return { data: result, message: 'User logged in successfully.' };
+    }
+    async socialLogin(userSocialLoginDto) {
+        const result = await this.authService.validateSocialUser(userSocialLoginDto.email, userSocialLoginDto.socialProviderId, userSocialLoginDto.socailAccessToken, userSocialLoginDto.fireBaseToken);
         return { data: result, message: 'User logged in successfully.' };
     }
     async sendOtp(createOtpDto) {
@@ -52,6 +57,13 @@ __decorate([
     __metadata("design:paramtypes", [user_login_dto_1.UserLoginDto]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
+__decorate([
+    common_1.Post('soical-login'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [social_login_dto_1.SocialLoginDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "socialLogin", null);
 __decorate([
     common_1.Post('sendOtp'),
     __param(0, common_1.Body()),

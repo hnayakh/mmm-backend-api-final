@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, IsNumber, IsPhoneNumber } from 'class-validator';
-import { Gender, Relationship } from 'src/shared/enums/user-profile.enum';
+import { AccountType, Gender, Relationship } from 'src/shared/enums/user-profile.enum';
 
 export class CreateUserBasicDto {
   @IsNotEmpty({ message: 'Relationship can not be empty.' })
@@ -28,9 +28,16 @@ export class CreateUserBasicDto {
   @ApiProperty({ example: '9853461442' })
   phoneNumber: string;
 
+  @ApiProperty({ example: 'User@123' })
+  password: string | null | undefined;
+
   @IsNotEmpty({ message: 'Phone number code can not be empty.' })
   @ApiProperty({ example: 'User@123' })
-  password: string;
+  socialProvider: AccountType | null | undefined;
+
+  @IsNotEmpty({ message: 'Phone number code can not be empty.' })
+  @ApiProperty({ example: 'User@123' })
+  providerId: string | null | undefined;
 
   // @ApiProperty({ example: ActivationStatus.Pending })
   // activationStatus: ActivationStatus;

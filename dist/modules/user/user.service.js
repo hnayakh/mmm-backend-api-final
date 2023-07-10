@@ -60,7 +60,7 @@ let UserService = class UserService {
         });
     }
     async createUserBasic(fireBaseToken, createUserBasicDto) {
-        const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.fireBaseToken);
+        const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.socialProvider, createUserBasicDto.providerId, createUserBasicDto.fireBaseToken);
         let userBasicDetails = await this.userRepo.createUserBasic(userBasic);
         const payload = {
             username: userBasicDetails.email,

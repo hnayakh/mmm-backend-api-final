@@ -47,9 +47,18 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserBasicDto.prototype, "phoneNumber", void 0);
 __decorate([
-    class_validator_1.IsNotEmpty({ message: 'Phone number code can not be empty.' }),
     swagger_1.ApiProperty({ example: 'User@123' }),
     __metadata("design:type", String)
 ], CreateUserBasicDto.prototype, "password", void 0);
+__decorate([
+    class_validator_1.IsNotEmpty({ message: 'Phone number code can not be empty.' }),
+    swagger_1.ApiProperty({ example: 'User@123' }),
+    __metadata("design:type", Number)
+], CreateUserBasicDto.prototype, "socialProvider", void 0);
+__decorate([
+    class_validator_1.IsNotEmpty({ message: 'Phone number code can not be empty.' }),
+    swagger_1.ApiProperty({ example: 'User@123' }),
+    __metadata("design:type", String)
+], CreateUserBasicDto.prototype, "providerId", void 0);
 exports.CreateUserBasicDto = CreateUserBasicDto;
 //# sourceMappingURL=create-user-basic.dto.js.map

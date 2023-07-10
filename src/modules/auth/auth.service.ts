@@ -50,6 +50,35 @@ export class AuthService {
     return await this.login(user, requiredLoginDetails, fireBaseToken);
   }
 
+  async validateSocialUser(
+    email: string,
+    providerId: string,
+    socialAccessToken: string,
+    fireBaseToken: string
+  ): Promise<any> {
+    const user = await this.userService.getUserBasicByEmail(
+      email.toLowerCase(),
+    );
+
+    if (user == null || user == undefined) {
+      throw new HttpException(
+        'Invalid email or password.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (!user.isActive) {
+      throw new HttpException(
+        'User is blocked. Please contact admin.',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    const requiredLoginDetails = await this.userService.getRequiredLoginDetails(
+      user.id,
+    );
+    return await this.login(user, requiredLoginDetails, fireBaseToken);
+  }
+
   private async login(
     user: UserBasic,
     requiredLoginDetails: any,

@@ -82,6 +82,8 @@ export class UserService {
       createUserBasicDto.phoneNumber,
       createUserBasicDto.password,
       createUserBasicDto.relationship,
+      createUserBasicDto.socialProvider,
+      createUserBasicDto.providerId,
       createUserBasicDto.fireBaseToken,
     );
     let userBasicDetails = await this.userRepo.createUserBasic(userBasic);

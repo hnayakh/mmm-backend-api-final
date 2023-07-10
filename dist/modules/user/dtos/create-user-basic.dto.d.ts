@@ -1,4 +1,4 @@
-import { Gender, Relationship } from 'src/shared/enums/user-profile.enum';
+import { AccountType, Gender, Relationship } from 'src/shared/enums/user-profile.enum';
 export declare class CreateUserBasicDto {
     relationship: Relationship;
     email: string;
@@ -6,5 +6,7 @@ export declare class CreateUserBasicDto {
     countryCode: string;
     fireBaseToken: string;
     phoneNumber: string;
-    password: string;
+    password: string | null | undefined;
+    socialProvider: AccountType | null | undefined;
+    providerId: string | null | undefined;
 }

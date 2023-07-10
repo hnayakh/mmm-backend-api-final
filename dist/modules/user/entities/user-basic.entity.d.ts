@@ -1,5 +1,5 @@
 import { AbstarctEntity } from 'src/shared/entities/abstract.entity';
-import { Gender, Relationship } from 'src/shared/enums/user-profile.enum';
+import { AccountType, Gender, Relationship } from 'src/shared/enums/user-profile.enum';
 import { UserBio } from './user-bio.entity';
 import { UserAbout } from './user-about.entity';
 import { UserHabit } from './user-habit.entity';
@@ -25,6 +25,8 @@ export declare class UserBasic extends AbstarctEntity {
     countryCode: string;
     phoneNumber: string;
     password: string;
+    accountType: AccountType;
+    socialProviderId: string;
     displayId: string;
     activationStatus: ActivationStatus;
     lifecycleStatus: LifecycleStatus;
@@ -50,7 +52,7 @@ export declare class UserBasic extends AbstarctEntity {
     userPreferences: UserPreference[];
     userLogins: UserLogin[];
     hashPassword(): Promise<void>;
-    static createUserBasic(email: string, gender: Gender, countryCode: string, phoneNumber: string, password: string, relationship: Relationship, fireBaseToken: string): UserBasic;
+    static createUserBasic(email: string, gender: Gender, countryCode: string, phoneNumber: string, password: string | null | undefined, relationship: Relationship, accountType: AccountType | null | undefined, providerId: string | null | undefined, fireBaseToken: string): UserBasic;
     updateRegistrationStep(registrationStep: RegistrationSteps): this;
     updateStatus(activationStatus: ActivationStatus, registrationSteps: RegistrationSteps): this;
 }
