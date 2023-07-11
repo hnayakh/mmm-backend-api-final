@@ -39,13 +39,18 @@ let UserBasic = UserBasic_1 = class UserBasic extends abstract_entity_1.Abstarct
     async hashPassword() {
         this.password = await bcrypt.hash(this.password == null ? 'User@123' : this.password, 8);
     }
-    static createUserBasic(email, gender, countryCode, phoneNumber, password, relationship, fireBaseToken) {
+    static createUserBasic(email, gender, countryCode, phoneNumber, password, relationship, accountType, providerId, fireBaseToken) {
+        if (accountType) {
+            accountType = user_profile_enum_1.AccountType.Email;
+        }
         const userBasic = new UserBasic_1();
         userBasic.email = email;
         userBasic.gender = gender;
         userBasic.countryCode = countryCode;
         userBasic.phoneNumber = phoneNumber;
         userBasic.password = password;
+        userBasic.accountType = accountType;
+        userBasic.socialProviderId = providerId;
         userBasic.fireBaseToken = fireBaseToken;
         userBasic.activationStatus = miscellaneous_enum_1.ActivationStatus.Pending;
         userBasic.lifecycleStatus = miscellaneous_enum_1.LifecycleStatus.Active;
@@ -86,9 +91,17 @@ __decorate([
     __metadata("design:type", String)
 ], UserBasic.prototype, "phoneNumber", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], UserBasic.prototype, "password", void 0);
+__decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", Number)
+], UserBasic.prototype, "accountType", void 0);
+__decorate([
+    typeorm_1.Column({ nullable: true }),
+    __metadata("design:type", String)
+], UserBasic.prototype, "socialProviderId", void 0);
 __decorate([
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)

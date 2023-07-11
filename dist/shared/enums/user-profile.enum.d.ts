@@ -3,6 +3,11 @@ export declare enum Gender {
     Female = 1,
     Other = 2
 }
+export declare enum AccountType {
+    Google = 0,
+    Facebook = 1,
+    Email = 2
+}
 export declare enum Relationship {
     Self = 0,
     Son = 1,

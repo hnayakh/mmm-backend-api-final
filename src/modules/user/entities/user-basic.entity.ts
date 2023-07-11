@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import { BeforeInsert, Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AbstarctEntity } from 'src/shared/entities/abstract.entity';
-import { Gender, Relationship } from 'src/shared/enums/user-profile.enum';
+import { AccountType, Gender, Relationship } from 'src/shared/enums/user-profile.enum';
 import { UserBio } from './user-bio.entity';
 import { UserAbout } from './user-about.entity';
 import { UserHabit } from './user-habit.entity';
@@ -45,8 +45,14 @@ export class UserBasic extends AbstarctEntity {
   @Column({ unique: true })
   phoneNumber: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
+
+  @Column({ nullable: true })
+  accountType: AccountType;
+
+  @Column({ nullable: true })
+  socialProviderId: string;
 
   @Column({ nullable: true })
   displayId: string;
@@ -148,16 +154,23 @@ export class UserBasic extends AbstarctEntity {
     gender: Gender,
     countryCode: string,
     phoneNumber: string,
-    password: string,
+    password: string | null | undefined,
     relationship: Relationship,
+    accountType: AccountType | null | undefined,
+    providerId: string | null | undefined,
     fireBaseToken:string
   ) {
+    if(accountType){
+      accountType = AccountType.Email;
+    }
     const userBasic = new UserBasic();
     userBasic.email = email;
     userBasic.gender = gender;
     userBasic.countryCode = countryCode;
     userBasic.phoneNumber = phoneNumber;
     userBasic.password = password;
+    userBasic.accountType = accountType
+    userBasic.socialProviderId = providerId;
     userBasic.fireBaseToken=fireBaseToken;
     userBasic.activationStatus = ActivationStatus.Pending;
     userBasic.lifecycleStatus = LifecycleStatus.Active;

@@ -1,10 +1,15 @@
 import { AuthService } from './auth.service';
 import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
 import { UserLoginDto } from './dtos/user-login.dto';
+import { SocialLoginDto } from './dtos/social-login.dto';
 export declare class AuthController {
     private authService;
     constructor(authService: AuthService);
     login(userLoginDto: UserLoginDto): Promise<{
+        data: any;
+        message: string;
+    }>;
+    socialLogin(userSocialLoginDto: SocialLoginDto): Promise<{
         data: any;
         message: string;
     }>;

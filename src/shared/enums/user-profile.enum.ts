@@ -4,6 +4,12 @@ export enum Gender {
   Other = 2,
 }
 
+export enum AccountType {
+  Google = 0,
+  Facebook = 1,
+  Email = 2,
+}
+
 export enum Relationship {
   Self = 0,
   Son = 1,

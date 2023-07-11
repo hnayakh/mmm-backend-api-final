@@ -7,6 +7,7 @@ export declare class AuthService {
     private jwtService;
     constructor(userService: UserService, jwtService: JwtService);
     validateUser(email: string, loginPassword: string, fireBaseToken: string): Promise<any>;
+    validateSocialUser(email: string, providerId: string, socialAccessToken: string, fireBaseToken: string): Promise<any>;
     private login;
     decodeToken(authToken: string): Promise<string | {
         [key: string]: any;

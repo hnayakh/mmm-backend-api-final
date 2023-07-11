@@ -3,6 +3,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
 import { UserLoginDto } from './dtos/user-login.dto';
+import { SocialLoginDto } from './dtos/social-login.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -16,6 +17,17 @@ export class AuthController {
       userLoginDto.email,
       userLoginDto.password,
       userLoginDto.fireBaseToken,
+    );
+    return { data: result, message: 'User logged in successfully.' };
+  }
+
+  @Post('soical-login')
+  async socialLogin(@Body() userSocialLoginDto: SocialLoginDto) {
+    const result = await this.authService.validateSocialUser(
+      userSocialLoginDto.email,
+      userSocialLoginDto.socialProviderId,
+      userSocialLoginDto.socailAccessToken,
+      userSocialLoginDto.fireBaseToken,
     );
     return { data: result, message: 'User logged in successfully.' };
   }

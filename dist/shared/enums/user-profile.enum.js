@@ -1,12 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AnualIncome = exports.NumberOfChildren = exports.Manglik = exports.MotherOccupation = exports.FatherOccupation = exports.FamilyAfluenceLevel = exports.FamilyValues = exports.FamilyType = exports.DrinkingHabit = exports.SmokingHabit = exports.NotificationStatus = exports.LifestyleOptions = exports.EatingHabit = exports.ChildrenStatus = exports.AbilityStatus = exports.MaritalStatus = exports.Relationship = exports.Gender = void 0;
+exports.AnualIncome = exports.NumberOfChildren = exports.Manglik = exports.MotherOccupation = exports.FatherOccupation = exports.FamilyAfluenceLevel = exports.FamilyValues = exports.FamilyType = exports.DrinkingHabit = exports.SmokingHabit = exports.NotificationStatus = exports.LifestyleOptions = exports.EatingHabit = exports.ChildrenStatus = exports.AbilityStatus = exports.MaritalStatus = exports.Relationship = exports.AccountType = exports.Gender = void 0;
 var Gender;
 (function (Gender) {
     Gender[Gender["Male"] = 0] = "Male";
     Gender[Gender["Female"] = 1] = "Female";
     Gender[Gender["Other"] = 2] = "Other";
 })(Gender = exports.Gender || (exports.Gender = {}));
+var AccountType;
+(function (AccountType) {
+    AccountType[AccountType["Google"] = 0] = "Google";
+    AccountType[AccountType["Facebook"] = 1] = "Facebook";
+    AccountType[AccountType["Email"] = 2] = "Email";
+})(AccountType = exports.AccountType || (exports.AccountType = {}));
 var Relationship;
 (function (Relationship) {
     Relationship[Relationship["Self"] = 0] = "Self";

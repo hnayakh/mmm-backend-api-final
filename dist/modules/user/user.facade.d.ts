@@ -33,6 +33,8 @@ export declare class UserFacade {
         countryCode: string;
         phoneNumber: string;
         password: string;
+        accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        socialProviderId: string;
         displayId: string;
         activationStatus: ActivationStatus;
         lifecycleStatus: import("src/shared/enums/miscellaneous.enum").LifecycleStatus;
@@ -102,6 +104,8 @@ export declare class UserFacade {
         countryCode: string;
         phoneNumber: string;
         password: string;
+        accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        socialProviderId: string;
         displayId: string;
         activationStatus: ActivationStatus;
         lifecycleStatus: import("src/shared/enums/miscellaneous.enum").LifecycleStatus;

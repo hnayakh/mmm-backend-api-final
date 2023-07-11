@@ -35,6 +35,17 @@ let AuthService = class AuthService {
         const requiredLoginDetails = await this.userService.getRequiredLoginDetails(user.id);
         return await this.login(user, requiredLoginDetails, fireBaseToken);
     }
+    async validateSocialUser(email, providerId, socialAccessToken, fireBaseToken) {
+        const user = await this.userService.getUserBasicByEmail(email.toLowerCase());
+        if (user == null || user == undefined) {
+            throw new common_1.HttpException('Invalid email or password.', common_1.HttpStatus.UNAUTHORIZED);
+        }
+        if (!user.isActive) {
+            throw new common_1.HttpException('User is blocked. Please contact admin.', common_1.HttpStatus.UNAUTHORIZED);
+        }
+        const requiredLoginDetails = await this.userService.getRequiredLoginDetails(user.id);
+        return await this.login(user, requiredLoginDetails, fireBaseToken);
+    }
     async login(user, requiredLoginDetails, fireBaseToken) {
         const payload = { username: user.email, sub: user.id };
         let authToken = this.jwtService.sign(payload);

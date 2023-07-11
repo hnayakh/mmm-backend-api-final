@@ -37,6 +37,8 @@ export declare class UserController {
             countryCode: string;
             phoneNumber: string;
             password: string;
+            accountType: import("../../shared/enums/user-profile.enum").AccountType;
+            socialProviderId: string;
             displayId: string;
             activationStatus: import("../../shared/enums/miscellaneous.enum").ActivationStatus;
             lifecycleStatus: import("../../shared/enums/miscellaneous.enum").LifecycleStatus;
@@ -202,6 +204,8 @@ export declare class UserController {
             countryCode: string;
             phoneNumber: string;
             password: string;
+            accountType: import("../../shared/enums/user-profile.enum").AccountType;
+            socialProviderId: string;
             displayId: string;
             activationStatus: import("../../shared/enums/miscellaneous.enum").ActivationStatus;
             lifecycleStatus: import("../../shared/enums/miscellaneous.enum").LifecycleStatus;

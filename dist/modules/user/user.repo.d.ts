@@ -54,6 +54,8 @@ export declare class UserRepo {
         countryCode: string;
         phoneNumber: string;
         password: string;
+        accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        socialProviderId: string;
         displayId: string;
         activationStatus: import("src/shared/enums/miscellaneous.enum").ActivationStatus;
         lifecycleStatus: import("src/shared/enums/miscellaneous.enum").LifecycleStatus;
