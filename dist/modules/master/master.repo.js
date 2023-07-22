@@ -92,10 +92,18 @@ let MasterRepo = class MasterRepo {
         return await this.referralRepo.find();
     }
     async getConnects() {
-        return await this.connectRepo.find();
+        return await this.connectRepo.find({
+            order: {
+                createdAt: 'DESC'
+            }
+        });
     }
     async getCoupons() {
-        return await this.couponRepo.find();
+        return await this.couponRepo.find({
+            where: {
+                isActive: 1
+            }
+        });
     }
     async getCoupon(couponCode) {
         return await this.couponRepo.findOne({ where: { couponCode: couponCode } });
