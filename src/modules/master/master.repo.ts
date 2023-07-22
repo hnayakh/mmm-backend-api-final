@@ -98,11 +98,21 @@ export class MasterRepo {
   }
 
   async getConnects() {
-    return await this.connectRepo.find();
+    return await this.connectRepo.find({
+      order: {
+        createdAt: 'DESC'
+      }
+    });
   }
 
   async getCoupons() {
-    return await this.couponRepo.find();
+    return await this.couponRepo.find(
+      {
+        where: {
+          isActive: 1
+        }
+      }
+    );
   }
 
   async getCoupon(couponCode: string) {

@@ -35,7 +35,6 @@ export class CreateUserBasicDto {
   @ApiProperty({ example: 'User@123' })
   socialProvider: AccountType | null | undefined;
 
-  @IsNotEmpty({ message: 'Phone number code can not be empty.' })
   @ApiProperty({ example: 'User@123' })
   providerId: string | null | undefined;
 
