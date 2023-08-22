@@ -2,10 +2,14 @@ import { JwtService } from '@nestjs/jwt';
 import { UserBasic } from '../user/entities/user-basic.entity';
 import { UserService } from '../user/user.service';
 import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
+import { AxiosService } from 'src/shared/services/axios.service';
 export declare class AuthService {
     private userService;
     private jwtService;
-    constructor(userService: UserService, jwtService: JwtService);
+    private axiosService;
+    constructor(userService: UserService, jwtService: JwtService, axiosService: AxiosService);
+    sendVerificationEmail(email: string, userId: string): Promise<void>;
+    verifyEmail(token: string): Promise<void>;
     validateUser(email: string, loginPassword: string, fireBaseToken: string): Promise<any>;
     validateSocialUser(email: string, providerId: string, socialAccessToken: string, fireBaseToken: string): Promise<any>;
     private login;

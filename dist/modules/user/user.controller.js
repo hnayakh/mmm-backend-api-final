@@ -32,9 +32,11 @@ const create_user_preference_dto_1 = require("./dtos/create-user-preference.dto"
 const user_filter_dto_1 = require("./dtos/user-filter.dto");
 const admin_user_entity_1 = require("./entities/admin-user.entity");
 const user_facade_1 = require("./user.facade");
+const auth_service_1 = require("../auth/auth.service");
 let UserController = class UserController {
-    constructor(userFacade) {
+    constructor(userFacade, authService) {
         this.userFacade = userFacade;
+        this.authService = authService;
     }
     async getAllUsers(skip, take, isVerified) {
         const users = await this.userFacade.getAllUsers(skip, take, isVerified);
@@ -42,6 +44,7 @@ let UserController = class UserController {
     }
     async createUserBasic(createUserBasicDto, fireBaseToken) {
         const userBasic = await this.userFacade.createUserBasic(fireBaseToken, createUserBasicDto);
+        this.authService.sendVerificationEmail(createUserBasicDto.email, userBasic.id);
         return { data: userBasic, message: 'User basic registration successful.' };
     }
     async getUserDeatailById(userBasicId, myBasicId) {
@@ -678,7 +681,8 @@ __decorate([
 UserController = __decorate([
     swagger_1.ApiTags('User'),
     common_1.Controller('users'),
-    __metadata("design:paramtypes", [user_facade_1.UserFacade])
+    __metadata("design:paramtypes", [user_facade_1.UserFacade,
+        auth_service_1.AuthService])
 ], UserController);
 exports.UserController = UserController;
 //# sourceMappingURL=user.controller.js.map

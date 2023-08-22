@@ -59,6 +59,9 @@ let UserService = class UserService {
             order: { createdAt: 'DESC' },
         });
     }
+    async markEmailVerified(email, userId) {
+        return await this.userRepo.markEmailVerified(email, userId);
+    }
     async createUserBasic(fireBaseToken, createUserBasicDto) {
         const userBasic = user_basic_entity_1.UserBasic.createUserBasic(createUserBasicDto.email, createUserBasicDto.gender, createUserBasicDto.countryCode, createUserBasicDto.phoneNumber, createUserBasicDto.password, createUserBasicDto.relationship, createUserBasicDto.socialProvider, createUserBasicDto.providerId, createUserBasicDto.fireBaseToken);
         let userBasicDetails = await this.userRepo.createUserBasic(userBasic);

@@ -32,11 +32,14 @@ import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { AdminUser } from './entities/admin-user.entity';
 import { UserFacade } from './user.facade';
+import { AuthService } from '../auth/auth.service';
 
 @ApiTags('User')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userFacade: UserFacade) {}
+  constructor(private readonly userFacade: UserFacade,
+    private readonly authService: AuthService
+    ) {}
 
   @ApiQuery({ name: 'skip', required: false })
   @ApiQuery({ name: 'take', required: false })
@@ -60,6 +63,7 @@ export class UserController {
       fireBaseToken,
       createUserBasicDto,
     );
+    this.authService.sendVerificationEmail(createUserBasicDto.email, userBasic.id);
     return { data: userBasic, message: 'User basic registration successful.' };
   }
 

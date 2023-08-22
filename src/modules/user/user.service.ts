@@ -49,6 +49,7 @@ import { UserHobbies } from './entities/user-hobbies.entity';
 import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class UserService {
+
   constructor(
     private readonly userRepo: UserRepo,
     private jwtService: JwtService,
@@ -71,6 +72,11 @@ export class UserService {
       order: { createdAt: 'DESC' },
     });
   }
+
+  async markEmailVerified(email: string, userId: string) {
+    return await this.userRepo.markEmailVerified(email, userId);
+  }
+
   async createUserBasic(
     fireBaseToken: any,
     createUserBasicDto: CreateUserBasicDto,

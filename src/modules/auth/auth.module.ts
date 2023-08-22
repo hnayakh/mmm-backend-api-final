@@ -6,10 +6,12 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { NotificationService } from './notification/notification.service';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
+    forwardRef(() => SharedModule),
     PassportModule,
     JwtModule.register({
       secret: 'process.env.JWT_SECRET_KEY',
@@ -18,5 +20,6 @@ import { NotificationService } from './notification/notification.service';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, NotificationService],
+  exports: [AuthService]
 })
 export class AuthModule {}

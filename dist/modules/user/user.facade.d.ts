@@ -34,6 +34,7 @@ export declare class UserFacade {
         phoneNumber: string;
         password: string;
         accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        isEmailVerified: boolean;
         socialProviderId: string;
         displayId: string;
         activationStatus: ActivationStatus;
@@ -105,6 +106,7 @@ export declare class UserFacade {
         phoneNumber: string;
         password: string;
         accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        isEmailVerified: boolean;
         socialProviderId: string;
         displayId: string;
         activationStatus: ActivationStatus;

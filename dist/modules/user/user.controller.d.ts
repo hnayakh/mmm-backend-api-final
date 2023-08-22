@@ -13,9 +13,11 @@ import { CreateUserPreferenceDto } from './dtos/create-user-preference.dto';
 import { UserFilterDto } from './dtos/user-filter.dto';
 import { AdminUser } from './entities/admin-user.entity';
 import { UserFacade } from './user.facade';
+import { AuthService } from '../auth/auth.service';
 export declare class UserController {
     private readonly userFacade;
-    constructor(userFacade: UserFacade);
+    private readonly authService;
+    constructor(userFacade: UserFacade, authService: AuthService);
     getAllUsers(skip: string, take: string, isVerified: string): Promise<{
         data: import("./entities/user-basic.entity").UserBasic[];
         message: string;
@@ -38,6 +40,7 @@ export declare class UserController {
             phoneNumber: string;
             password: string;
             accountType: import("../../shared/enums/user-profile.enum").AccountType;
+            isEmailVerified: boolean;
             socialProviderId: string;
             displayId: string;
             activationStatus: import("../../shared/enums/miscellaneous.enum").ActivationStatus;
@@ -205,6 +208,7 @@ export declare class UserController {
             phoneNumber: string;
             password: string;
             accountType: import("../../shared/enums/user-profile.enum").AccountType;
+            isEmailVerified: boolean;
             socialProviderId: string;
             displayId: string;
             activationStatus: import("../../shared/enums/miscellaneous.enum").ActivationStatus;

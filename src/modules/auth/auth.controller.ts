@@ -1,7 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
+import { CreateOtpDto, SendEmailVerificationDto, VerifyOtpDto } from './dtos/create-otp.dto';
 import { UserLoginDto } from './dtos/user-login.dto';
 import { SocialLoginDto } from './dtos/social-login.dto';
 
@@ -45,6 +45,20 @@ export class AuthController {
       fireBaseToken,
     );
     return { data: result, message: 'Otp verified successfully.' };
+  }
+
+  @Post('sendEmailVerificationLink')
+  async sendEmailVerificationEmail(@Body() sendEmailVerificationEmail: SendEmailVerificationDto)  {
+    console.log(sendEmailVerificationEmail);
+    const result = await this.authService.sendVerificationEmail(sendEmailVerificationEmail.email, sendEmailVerificationEmail.id);
+    return { data: result, message: 'Email sent successfully.' };
+  }
+
+  @Get('verify_email')
+  async verifyEmail(@Query('token') token: string)  {
+    console.log(token);
+    const result = await this.authService.verifyEmail(token);
+    return { data: result, message: 'Email Verified successfully.' };
   }
 
   @Post('admin/login')

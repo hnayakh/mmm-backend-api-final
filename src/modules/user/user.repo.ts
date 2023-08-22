@@ -128,6 +128,16 @@ export class UserRepo {
     return faqUpdate;
   }
 
+  async markEmailVerified(email: string, userId : string) {
+
+    const entityManager = getManager();
+    const rawQuery = `UPDATE user_basics SET 
+     isEmailVerified = 1
+     WHERE (id = '${userId}');`;
+    const faqUpdate = await entityManager.query(rawQuery);
+    return faqUpdate;
+  }
+
   async getUserBasicById(userBasicId: string) {
     return await this.userBasicRepo.findOne(userBasicId, {
       relations: [
@@ -904,6 +914,7 @@ export class UserRepo {
                       uv.name,
                       uv.dateOfBirth,
                       uv.height,
+                      uv.isEmailVerified,
                       uv.maritalStatus,
                       uv.careerCountry,
                       uv.careerCountryId,

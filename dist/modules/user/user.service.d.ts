@@ -39,6 +39,7 @@ export declare class UserService {
     getAllUsers(skip: string, take: string): Promise<UserBasic[]>;
     getUsersByIds(userBasicIds: string[]): Promise<any>;
     getAllNotification(userBasicId: string): Promise<Notification[]>;
+    markEmailVerified(email: string, userId: string): Promise<any>;
     createUserBasic(fireBaseToken: any, createUserBasicDto: CreateUserBasicDto): Promise<UserBasic>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
     createUserAbout(userBasic: UserBasic, createUserAboutDto: CreateUserAboutDto): Promise<any>;
@@ -78,6 +79,7 @@ export declare class UserService {
         phoneNumber: string;
         password: string;
         accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        isEmailVerified: boolean;
         socialProviderId: string;
         displayId: string;
         activationStatus: import("src/shared/enums/miscellaneous.enum").ActivationStatus;
