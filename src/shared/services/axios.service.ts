@@ -4,12 +4,12 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AxiosService {
   constructor(private readonly httpService: HttpService) {}
-
-  post(url: any, data: any): Promise<any> {
+  
+  post(url: any, data: any, headers: any): Promise<any> {
     return new Promise((resolve, reject) => {
       try {
         this.httpService
-          .post(url, JSON.stringify(data))
+          .post(url, JSON.stringify(data), {headers: headers})
           .subscribe((response) => {
             resolve(response.data);
           });

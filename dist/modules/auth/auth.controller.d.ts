@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
+import { CreateOtpDto, SendEmailVerificationDto, VerifyOtpDto } from './dtos/create-otp.dto';
 import { UserLoginDto } from './dtos/user-login.dto';
 import { SocialLoginDto } from './dtos/social-login.dto';
 export declare class AuthController {
@@ -32,6 +32,14 @@ export declare class AuthController {
             access_token: any;
             userBasic: any;
         };
+        message: string;
+    }>;
+    sendEmailVerificationEmail(sendEmailVerificationEmail: SendEmailVerificationDto): Promise<{
+        data: void;
+        message: string;
+    }>;
+    verifyEmail(token: string): Promise<{
+        data: void;
         message: string;
     }>;
     adminLogin(userLoginDto: UserLoginDto): Promise<{

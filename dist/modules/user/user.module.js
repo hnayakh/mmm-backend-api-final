@@ -45,6 +45,7 @@ const user_controller_1 = require("./user.controller");
 const user_facade_1 = require("./user.facade");
 const user_repo_1 = require("./user.repo");
 const user_service_1 = require("./user.service");
+const auth_module_1 = require("../auth/auth.module");
 let UserModule = class UserModule {
 };
 UserModule = __decorate([
@@ -53,6 +54,7 @@ UserModule = __decorate([
             common_1.forwardRef(() => master_module_1.MasterModule),
             common_1.forwardRef(() => shared_module_1.SharedModule),
             common_1.forwardRef(() => connect_module_1.ConnectModule),
+            common_1.forwardRef(() => auth_module_1.AuthModule),
             jwt_1.JwtModule.register({
                 secret: 'MakeyMyMarry123####',
                 signOptions: { expiresIn: '1800s' },

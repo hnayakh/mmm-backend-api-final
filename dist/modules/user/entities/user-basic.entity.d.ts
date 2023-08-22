@@ -26,6 +26,7 @@ export declare class UserBasic extends AbstarctEntity {
     phoneNumber: string;
     password: string;
     accountType: AccountType;
+    isEmailVerified: boolean;
     socialProviderId: string;
     displayId: string;
     activationStatus: ActivationStatus;

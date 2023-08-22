@@ -6,14 +6,69 @@ import { AdminUser } from '../user/entities/admin-user.entity';
 import { UserBasic } from '../user/entities/user-basic.entity';
 import { UserService } from '../user/user.service';
 import { CreateOtpDto, VerifyOtpDto } from './dtos/create-otp.dto';
+import { AxiosService } from 'src/shared/services/axios.service';
+const sdk = require('api')('@msg91api/v5.0#6n91xmlhu4pcnz');
 
 @Injectable()
 export class AuthService {
+
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
-  ) {}
+    private axiosService: AxiosService,
+  ) { }
 
+  async sendVerificationEmail(email: string, userId: string) {
+    try {
+      if(!email){
+        throw new HttpException(
+          'Please Provide Email',
+          HttpStatus.EXPECTATION_FAILED,
+        );
+      }
+      const payload = { username: email, sub: userId };
+      let emailVerifyToken = this.jwtService.sign(payload);
+      this.axiosService.post('https://control.msg91.com/api/v5/email/send', {
+        "recipients": [
+          {
+            "to": [
+              {
+                "email": email
+              }
+            ],
+            "variables": {
+              "user": "",
+              "link": `http://localhost:3000/api/auth/verify_email?token=${emailVerifyToken}`
+            }
+          }
+        ],
+        "from": {
+          "email": "no-reply@ifky13.mailer91.com"
+        },
+        "template_id": "Test2"
+      },
+        { "authkey": '376173AfLKCeOLqx2f626781e0P1' })
+        .then(({ data }) => console.log(data))
+        .catch((err: any) => {
+          console.error(err.message);
+        });
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  async verifyEmail(token: string) {
+    try{
+      var decodedToken = this.jwtService.verify(token);
+      const user = await this.userService.markEmailVerified(
+        decodedToken.username, decodedToken.sub
+      );
+    }catch(e){
+      console.log(e);
+      throw(e)
+    }
+  }
   async validateUser(
     email: string,
     loginPassword: string,

@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VerifyOtpDto = exports.CreateOtpDto = void 0;
+exports.SendEmailVerificationDto = exports.VerifyOtpDto = exports.CreateOtpDto = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 const miscellaneous_enum_1 = require("../../../shared/enums/miscellaneous.enum");
@@ -58,4 +58,15 @@ __decorate([
     __metadata("design:type", String)
 ], VerifyOtpDto.prototype, "otp", void 0);
 exports.VerifyOtpDto = VerifyOtpDto;
+class SendEmailVerificationDto {
+}
+__decorate([
+    swagger_1.ApiProperty({ example: 'test@mai.com' }),
+    __metadata("design:type", String)
+], SendEmailVerificationDto.prototype, "email", void 0);
+__decorate([
+    swagger_1.ApiProperty({ example: 'sbfhbsdhjfbdjsbfjkdsnvkdnbkd' }),
+    __metadata("design:type", String)
+], SendEmailVerificationDto.prototype, "id", void 0);
+exports.SendEmailVerificationDto = SendEmailVerificationDto;
 //# sourceMappingURL=create-otp.dto.js.map

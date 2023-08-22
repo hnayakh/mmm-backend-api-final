@@ -51,6 +51,9 @@ export class UserBasic extends AbstarctEntity {
   @Column({ nullable: true })
   accountType: AccountType;
 
+  @Column({ nullable: false, default: false })
+  isEmailVerified: boolean;
+
   @Column({ nullable: true })
   socialProviderId: string;
 

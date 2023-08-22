@@ -35,3 +35,11 @@ export class VerifyOtpDto {
   @IsNotEmpty()
   otp: string;
 }
+
+export class SendEmailVerificationDto {
+  @ApiProperty({ example: 'test@mai.com' })
+  email: string;
+
+  @ApiProperty({ example: 'sbfhbsdhjfbdjsbfjkdsnvkdnbkd' })
+  id: string;
+}

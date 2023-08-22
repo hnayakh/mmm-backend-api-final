@@ -36,12 +36,14 @@ import { UserController } from './user.controller';
 import { UserFacade } from './user.facade';
 import { UserRepo } from './user.repo';
 import { UserService } from './user.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
     forwardRef(() => MasterModule),
     forwardRef(() => SharedModule),
     forwardRef(() => ConnectModule),
+    forwardRef(() => AuthModule),
     JwtModule.register({
       secret: 'MakeyMyMarry123####',
       signOptions: { expiresIn: '1800s' },

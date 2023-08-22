@@ -99,6 +99,10 @@ __decorate([
     __metadata("design:type", Number)
 ], UserBasic.prototype, "accountType", void 0);
 __decorate([
+    typeorm_1.Column({ nullable: false, default: false }),
+    __metadata("design:type", Boolean)
+], UserBasic.prototype, "isEmailVerified", void 0);
+__decorate([
     typeorm_1.Column({ nullable: true }),
     __metadata("design:type", String)
 ], UserBasic.prototype, "socialProviderId", void 0);

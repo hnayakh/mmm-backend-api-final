@@ -15,12 +15,14 @@ const auth_controller_1 = require("./auth.controller");
 const auth_service_1 = require("./auth.service");
 const jwt_strategy_1 = require("./jwt.strategy");
 const notification_service_1 = require("./notification/notification.service");
+const shared_module_1 = require("../../shared/shared.module");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     common_1.Module({
         imports: [
             common_1.forwardRef(() => user_module_1.UserModule),
+            common_1.forwardRef(() => shared_module_1.SharedModule),
             passport_1.PassportModule,
             jwt_1.JwtModule.register({
                 secret: 'process.env.JWT_SECRET_KEY',
@@ -29,6 +31,7 @@ AuthModule = __decorate([
         ],
         controllers: [auth_controller_1.AuthController],
         providers: [auth_service_1.AuthService, jwt_strategy_1.JwtStrategy, notification_service_1.NotificationService],
+        exports: [auth_service_1.AuthService]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

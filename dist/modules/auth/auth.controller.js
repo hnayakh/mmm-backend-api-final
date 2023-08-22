@@ -39,6 +39,16 @@ let AuthController = class AuthController {
         const result = await this.authService.verifyOtp(verifyOtpDto, fireBaseToken);
         return { data: result, message: 'Otp verified successfully.' };
     }
+    async sendEmailVerificationEmail(sendEmailVerificationEmail) {
+        console.log(sendEmailVerificationEmail);
+        const result = await this.authService.sendVerificationEmail(sendEmailVerificationEmail.email, sendEmailVerificationEmail.id);
+        return { data: result, message: 'Email sent successfully.' };
+    }
+    async verifyEmail(token) {
+        console.log(token);
+        const result = await this.authService.verifyEmail(token);
+        return { data: result, message: 'Email Verified successfully.' };
+    }
     async adminLogin(userLoginDto) {
         const result = await this.authService.validateAdminUser(userLoginDto.email, userLoginDto.password);
         return { data: result, message: 'User logged in successfully.' };
@@ -78,6 +88,20 @@ __decorate([
     __metadata("design:paramtypes", [create_otp_dto_1.VerifyOtpDto, String]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "verifyOtp", null);
+__decorate([
+    common_1.Post('sendEmailVerificationLink'),
+    __param(0, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_otp_dto_1.SendEmailVerificationDto]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "sendEmailVerificationEmail", null);
+__decorate([
+    common_1.Get('verify_email'),
+    __param(0, common_1.Query('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "verifyEmail", null);
 __decorate([
     common_1.Post('admin/login'),
     __param(0, common_1.Body()),

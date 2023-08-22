@@ -16,11 +16,11 @@ let AxiosService = class AxiosService {
     constructor(httpService) {
         this.httpService = httpService;
     }
-    post(url, data) {
+    post(url, data, headers) {
         return new Promise((resolve, reject) => {
             try {
                 this.httpService
-                    .post(url, JSON.stringify(data))
+                    .post(url, JSON.stringify(data), { headers: headers })
                     .subscribe((response) => {
                     resolve(response.data);
                 });

@@ -15,10 +15,59 @@ const jwt_1 = require("@nestjs/jwt");
 const bcrypt = require("bcrypt");
 const miscellaneous_enum_1 = require("../../shared/enums/miscellaneous.enum");
 const user_service_1 = require("../user/user.service");
+const axios_service_1 = require("../../shared/services/axios.service");
+const sdk = require('api')('@msg91api/v5.0#6n91xmlhu4pcnz');
 let AuthService = class AuthService {
-    constructor(userService, jwtService) {
+    constructor(userService, jwtService, axiosService) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.axiosService = axiosService;
+    }
+    async sendVerificationEmail(email, userId) {
+        try {
+            if (!email) {
+                throw new common_1.HttpException('Please Provide Email', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
+            const payload = { username: email, sub: userId };
+            let emailVerifyToken = this.jwtService.sign(payload);
+            this.axiosService.post('https://control.msg91.com/api/v5/email/send', {
+                "recipients": [
+                    {
+                        "to": [
+                            {
+                                "email": email
+                            }
+                        ],
+                        "variables": {
+                            "user": "",
+                            "link": `http://localhost:3000/api/auth/verify_email?token=${emailVerifyToken}`
+                        }
+                    }
+                ],
+                "from": {
+                    "email": "no-reply@ifky13.mailer91.com"
+                },
+                "template_id": "Test2"
+            }, { "authkey": '376173AfLKCeOLqx2f626781e0P1' })
+                .then(({ data }) => console.log(data))
+                .catch((err) => {
+                console.error(err.message);
+            });
+        }
+        catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
+    async verifyEmail(token) {
+        try {
+            var decodedToken = this.jwtService.verify(token);
+            const user = await this.userService.markEmailVerified(decodedToken.username, decodedToken.sub);
+        }
+        catch (e) {
+            console.log(e);
+            throw (e);
+        }
     }
     async validateUser(email, loginPassword, fireBaseToken) {
         const user = await this.userService.getUserBasicByEmail(email.toLowerCase());
@@ -192,7 +241,8 @@ let AuthService = class AuthService {
 AuthService = __decorate([
     common_1.Injectable(),
     __metadata("design:paramtypes", [user_service_1.UserService,
-        jwt_1.JwtService])
+        jwt_1.JwtService,
+        axios_service_1.AxiosService])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

@@ -12,3 +12,7 @@ export declare class VerifyOtpDto {
     email?: string;
     otp: string;
 }
+export declare class SendEmailVerificationDto {
+    email: string;
+    id: string;
+}

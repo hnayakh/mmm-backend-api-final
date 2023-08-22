@@ -99,6 +99,14 @@ let UserRepo = class UserRepo {
         const faqUpdate = await entityManager.query(rawQuery);
         return faqUpdate;
     }
+    async markEmailVerified(email, userId) {
+        const entityManager = typeorm_2.getManager();
+        const rawQuery = `UPDATE user_basics SET 
+     isEmailVerified = 1
+     WHERE (id = '${userId}');`;
+        const faqUpdate = await entityManager.query(rawQuery);
+        return faqUpdate;
+    }
     async getUserBasicById(userBasicId) {
         return await this.userBasicRepo.findOne(userBasicId, {
             relations: [
@@ -640,6 +648,7 @@ let UserRepo = class UserRepo {
                       uv.name,
                       uv.dateOfBirth,
                       uv.height,
+                      uv.isEmailVerified,
                       uv.maritalStatus,
                       uv.careerCountry,
                       uv.careerCountryId,

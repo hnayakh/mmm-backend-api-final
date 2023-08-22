@@ -55,6 +55,7 @@ export declare class UserRepo {
         phoneNumber: string;
         password: string;
         accountType: import("../../shared/enums/user-profile.enum").AccountType;
+        isEmailVerified: boolean;
         socialProviderId: string;
         displayId: string;
         activationStatus: import("src/shared/enums/miscellaneous.enum").ActivationStatus;
@@ -88,6 +89,7 @@ export declare class UserRepo {
         isActive: boolean;
     } & UserBasic>;
     updateToken(fireBaseToken: any, id: any): Promise<any>;
+    markEmailVerified(email: string, userId: string): Promise<any>;
     getUserBasicById(userBasicId: string): Promise<UserBasic>;
     getUserAboutyId(userBasicId: string): Promise<UserAbout>;
     createUserAbout(userAbout: UserAbout): Promise<any>;
