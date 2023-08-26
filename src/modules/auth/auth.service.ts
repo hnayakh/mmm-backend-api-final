@@ -43,8 +43,9 @@ export class AuthService {
           }
         ],
         "from": {
-          "email": "no-reply@ifky13.mailer91.com"
+          "email": "info@makemymarry.com"
         },
+         "domain": "mail.makemymarry.com",
         "template_id": "Test2"
       },
         { "authkey": '376173AfLKCeOLqx2f626781e0P1' })
@@ -53,7 +54,6 @@ export class AuthService {
           console.error(err.message);
         });
     } catch (e) {
-      console.log(e);
       throw e;
     }
   }
@@ -65,7 +65,6 @@ export class AuthService {
         decodedToken.username, decodedToken.sub
       );
     }catch(e){
-      console.log(e);
       throw(e)
     }
   }

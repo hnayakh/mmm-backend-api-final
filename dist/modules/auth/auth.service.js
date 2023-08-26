@@ -45,8 +45,9 @@ let AuthService = class AuthService {
                     }
                 ],
                 "from": {
-                    "email": "no-reply@ifky13.mailer91.com"
+                    "email": "info@makemymarry.com"
                 },
+                "domain": "mail.makemymarry.com",
                 "template_id": "Test2"
             }, { "authkey": '376173AfLKCeOLqx2f626781e0P1' })
                 .then(({ data }) => console.log(data))
@@ -55,7 +56,6 @@ let AuthService = class AuthService {
             });
         }
         catch (e) {
-            console.log(e);
             throw e;
         }
     }
@@ -65,7 +65,6 @@ let AuthService = class AuthService {
             const user = await this.userService.markEmailVerified(decodedToken.username, decodedToken.sub);
         }
         catch (e) {
-            console.log(e);
             throw (e);
         }
     }
