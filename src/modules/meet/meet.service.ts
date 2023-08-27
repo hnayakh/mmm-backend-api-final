@@ -16,9 +16,9 @@ export class MeetService {
 
   async createMeet(meeObject) {
     const meetData = Meet.createMeet(
-      meeObject.lat,
       meeObject.status,
       meeObject.long,
+      meeObject.lat,
       meeObject.requestedId,
       meeObject.requestingId,
       meeObject.link,
@@ -32,8 +32,8 @@ export class MeetService {
   async updateMeet(meetId, meetData) {
     let meetResult = await this.meet.findOne({ id: meetId });
     meetResult.updateMeet(
-      meetData.lat,
       meetData.status,
+      meetData.lat,
       meetData.long,
       meetData.requestedId,
       meetData.requestingId,

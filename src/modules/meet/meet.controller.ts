@@ -9,6 +9,8 @@ export class MeetController {
 
   @Post('create')
   async createMeet(@Body() meetData: object) {
+    console.log("======================== MeetData ==============================");
+    console.log(meetData);
     const result = await this.meetFacade.createMeet(meetData);
     return { data: result, message: 'Meet created' };
   }

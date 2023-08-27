@@ -21,6 +21,8 @@ let MeetController = class MeetController {
         this.meetFacade = meetFacade;
     }
     async createMeet(meetData) {
+        console.log("======================== MeetData ==============================");
+        console.log(meetData);
         const result = await this.meetFacade.createMeet(meetData);
         return { data: result, message: 'Meet created' };
     }
