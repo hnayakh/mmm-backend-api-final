@@ -38,7 +38,7 @@ export class AuthService {
             ],
             "variables": {
               "user": "",
-              "link": `http://localhost:3000/api/auth/verify_email?token=${emailVerifyToken}`
+              "link": `http://15.206.67.212:3000/api/auth/verify_email?token=${emailVerifyToken}`
             }
           }
         ],
