@@ -168,7 +168,7 @@ export class AuthService {
   }
 
   async sendOtp(createOtpDto: CreateOtpDto) {
-    const otp = '123456'; //Math.floor(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     if (createOtpDto.type == OtpType.Registration) {
       const userBasicByEmail = await this.userService.getUserBasicByEmail(
         createOtpDto.email,
@@ -193,6 +193,7 @@ export class AuthService {
         createOtpDto.phoneNumber,
         otp,
       );
+      await  this.sendOtpThroughGateWay(createOtpDto.phoneNumber,otp);
       return {
         otp: otp,
         phoneNumber: createOtpDto.phoneNumber,
@@ -213,6 +214,7 @@ export class AuthService {
         createOtpDto.phoneNumber,
         otp,
       );
+      await  this.sendOtpThroughGateWay(createOtpDto.phoneNumber,otp);
       return {
         otp: otp,
         phoneNumber: createOtpDto.phoneNumber,
@@ -228,19 +230,28 @@ export class AuthService {
           HttpStatus.EXPECTATION_FAILED,
         );
       }
+     await  this.sendOtpThroughGateWay(createOtpDto.phoneNumber,otp);
       await this.userService.createOtp(
         createOtpDto.email,
         createOtpDto.phoneNumber,
         otp,
       );
-      return {
+   
+    return {
         otp: otp,
         phoneNumber: createOtpDto.phoneNumber,
         email: createOtpDto.email,
       };
     }
   }
-
+ async sendOtpThroughGateWay(phoneNumber:string,otp:string){
+  try{
+    const otpSentResult=await this.axiosService.get(`http://sms.par-ken.com/api/smsapi?key=${process.env.SMS_API_KEY}&route=1&sender=IRNAGE&number=${phoneNumber}&sms=Dear user, Your Ironage login OTP is:${otp}. Please do not share this OTP with anyone.&templateid=1707169435000585330`)
+      }
+      catch(error:any) {
+        console.log("error from sms gateway", error);
+      }
+ }
   async verifyOtp(verifyOtpDto: VerifyOtpDto, fireBaseToken) {
     if (verifyOtpDto.type == OtpType.Registration) {
       const sentOtp = await this.userService.getOtpForVerification(
